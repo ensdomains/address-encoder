@@ -15,16 +15,28 @@
   "files": [
     "lib/**/*"
   ],
-  "keywords": ["blockchain", "cryptocurrency", "bitcoin", "ethereum", "encoding"],
+  "keywords": [
+    "blockchain",
+    "cryptocurrency",
+    "bitcoin",
+    "ethereum",
+    "encoding"
+  ],
   "author": "Nick Johnson <nick@ens.domains>",
   "license": "BSD",
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.12",
     "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "ts-jest": "^24.1.0",
     "tslint": "^5.20.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "bs58check": "^2.1.2",
+    "eip55": "^1.0.3",
+    "safe-buffer": "^5.2.0"
   }
 }
