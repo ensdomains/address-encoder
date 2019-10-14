@@ -1,0 +1,30 @@
+{
+  "name": "address-encoder",
+  "version": "0.1.0",
+  "description": "Encodes and decodes address formats for various cryptocurrencies",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test && npm run lint",
+    "test": "jest --config jestconfig.json"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "keywords": ["blockchain", "cryptocurrency", "bitcoin", "ethereum", "encoding"],
+  "author": "Nick Johnson <nick@ens.domains>",
+  "license": "BSD",
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.6.4"
+  }
+}
