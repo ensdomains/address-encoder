@@ -126,6 +126,20 @@ const formats: Array<Format> = [
   hexChecksumChain('ETC', 61),
   hexChecksumChain('RSK', 137),
   base58Chain('BCH', 145),
+  {
+    name: 'BNB',
+    coinType: 714,
+    encoder: (data: Buffer) => {
+      return bech32.encode('bnb', bech32.toWords(data));
+    },
+    decoder: (data: string) => {
+      const { prefix, words } = bech32.decode(data);
+      if(prefix != 'bnb') {
+        throw Error("Unrecognised address format");
+      }
+      return Buffer.from(bech32.fromWords(words));
+    },
+  }
 ];
 
 export const formatsByName: {[key: string]: Format} = Object.assign({}, ...formats.map((x) => ({[x.name]: x})));

@@ -49,6 +49,13 @@ const vectors: Array<TestVector> = [
         {text: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', hex: '76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac'},
       ],
     },
+    {
+      name: 'BNB',
+      coinType: 714,
+      passingVectors: [
+        {text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6'},
+      ],
+    },
 ];
 
 vectors.forEach((vector: TestVector) => {
