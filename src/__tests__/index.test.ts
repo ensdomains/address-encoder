@@ -1,11 +1,10 @@
-import { Buffer } from 'safe-buffer';
-
 import { formatsByName, formatsByCoinType } from '../index';
 
 interface TestVector {
   name: string;
   coinType: number;
   passingVectors: Array<{text: string, hex: string}>;
+  failingVectors?: Array<string>;
 }
 
 const vectors: Array<TestVector> = [
@@ -13,21 +12,12 @@ const vectors: Array<TestVector> = [
       name: 'BTC',
       coinType: 0,
       passingVectors: [
-        {text: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', hex: '0062e907b15cbf27d5425399ebf6f0fb50ebb88f18'},
-      ],
-    },
-    {
-      name: 'LTC',
-      coinType: 2,
-      passingVectors: [
-        {text: 'MV5rN5EcX1imDS2gEh5jPJXeiW5QN8YrK3', hex: '32e8604d28ef5d2a7caafe8741e5dd4816b7cb19ea'},
-      ],
-    },
-    {
-      name: 'MONA',
-      coinType: 22,
-      passingVectors: [
-        {text: 'MV5rN5EcX1imDS2gEh5jPJXeiW5QN8YrK3', hex: '32e8604d28ef5d2a7caafe8741e5dd4816b7cb19ea'},
+        {text: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', hex: '76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac'},
+        {text: '3Ai1JZ8pdJb2ksieUV8FsxSNVJCpoPi8W6', hex: 'a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1887'},
+        {text: 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4', hex: '0014751e76e8199196d454941c45d1b3a323f1433bd6'},
+        {text: 'bc1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7k7grplx', hex: '5128751e76e8199196d454941c45d1b3a323f1433bd6751e76e8199196d454941c45d1b3a323f1433bd6'},
+        {text: 'bc1sw50qa3jx3s', hex: '6002751e'},
+        {text: 'bc1zw508d6qejxtdg4y5r3zarvaryvg6kdaj', hex: '5210751e76e8199196d454941c45d1b3a323'},
       ],
     },
     {
@@ -55,20 +45,27 @@ const vectors: Array<TestVector> = [
       name: 'BCH',
       coinType: 145,
       passingVectors: [
-        {text: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', hex: '0062e907b15cbf27d5425399ebf6f0fb50ebb88f18'},
+        {text: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', hex: '76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac'},
       ],
     },
 ];
 
-for(var vector of vectors) {
+vectors.forEach((vector: TestVector) => {
   test(vector.name, () => {
     const format = formatsByName[vector.name];
     expect(formatsByCoinType[vector.coinType]).toBe(format);
+
     for(var example of vector.passingVectors) {
       const decoded = format.decoder(example.text);
       expect(decoded.toString('hex')).toBe(example.hex);
       const reencoded = format.encoder(decoded);
       expect(reencoded).toBe(example.text);
     }
+
+    // if(vector.failingVectors !== undefined) {
+    //   for(var example of vector.failingVectors) {
+    //     expect(()=>)
+    //   }
+    // }
   });
-}
+});
