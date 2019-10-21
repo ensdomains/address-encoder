@@ -5,7 +5,7 @@ declare module 'bech32' {
    *
    * @throws Throws on error
    */
-  export function decode(str: string, limit?: number): { prefix: string, words: number[] };
+  export function decode(str: string, limit?: number): { prefix: string; words: number[] };
 
   /**
    * Takes a bech32 encoded string and returns the human readable part ("prefix") and
@@ -13,7 +13,7 @@ declare module 'bech32' {
    *
    * @returns undefined when there was an error
    */
-  export function decodeUnsafe(str: string, limit?: number): ({ prefix: string, words: number[] }) | undefined;
+  export function decodeUnsafe(str: string, limit?: number): ({ prefix: string; words: number[] }) | undefined;
 
   /**
    * Takes a human readable part ("prefix") and a list of character positions in the
