@@ -1,5 +1,6 @@
 import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
+import * as cashaddr from 'cashaddrjs';
 import * as eip55 from 'eip55';
 
 interface IFormat {
@@ -121,6 +122,46 @@ const bitcoinChain = (
   name,
 });
 
+function encodeCashAddr(data: Buffer): string {
+  switch (data.readUInt8(0)) {
+    case 0x76: // P2PKH: OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
+      if (
+        data.readUInt8(1) !== 0xa9 ||
+        data.readUInt8(data.length - 2) !== 0x88 ||
+        data.readUInt8(data.length - 1) !== 0xac
+      ) {
+        throw Error('Unrecognised address format');
+      }
+      return cashaddr.encode('bitcoincash', 'P2PKH', data.slice(3, 3 + data.readUInt8(2)));
+    case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
+      if (data.readUInt8(data.length - 1) !== 0x87) {
+        throw Error('Unrecognised address format');
+      }
+      return cashaddr.encode('bitcoincash', 'P2SH', data.slice(2, 2 + data.readUInt8(1)));
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
+function decodeCashAddr(data: string): Buffer {
+  const { prefix, type, hash } = cashaddr.decode(data);
+  if (type === 'P2PKH') {
+    return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), hash, Buffer.from([0x88, 0xac])]);
+  } else if (type === 'P2SH') {
+    return Buffer.concat([Buffer.from([0xa9, 0x14]), hash, Buffer.from([0x87])]);
+  }
+  throw Error('Unrecognised address format');
+}
+
+function decodeBitcoinCash(data: string): Buffer {
+  const decodeBase58Check = makeBase58CheckDecoder([0x00], [0x05]);
+  try {
+    return decodeBase58Check(data);
+  } catch {
+    return decodeCashAddr(data);
+  }
+}
+
 function encodeChecksummedHex(data: Buffer): string {
   return eip55.encode('0x' + data.toString('hex'));
 }
@@ -142,7 +183,12 @@ const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   hexChecksumChain('RSK', 137),
-  base58Chain('BCH', 145, [0x00], [0x05]),
+  {
+    coinType: 145,
+    decoder: decodeBitcoinCash,
+    encoder: encodeCashAddr,
+    name: 'BCH',
+  },
   {
     coinType: 714,
     decoder: (data: string) => {

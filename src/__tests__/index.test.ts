@@ -3,7 +3,7 @@ import { formatsByName, formatsByCoinType } from '../index';
 interface TestVector {
   name: string;
   coinType: number;
-  passingVectors: Array<{ text: string; hex: string }>;
+  passingVectors: Array<{ text: string; hex: string; canonical?: string }>;
   failingVectors?: Array<string>;
 }
 
@@ -61,7 +61,36 @@ const vectors: Array<TestVector> = [
     name: 'BCH',
     coinType: 145,
     passingVectors: [
-      { text: '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', hex: '76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac' },
+      {
+        text: '1BpEi6DfDAUFd7GtittLSdBeYJvcoaVggu',
+        hex: '76a91476a04053bda0a88bda5177b86a15c3b29f55987388ac',
+        canonical: 'bitcoincash:qpm2qsznhks23z7629mms6s4cwef74vcwvy22gdx6a',
+      },
+      {
+        text: '1KXrWXciRDZUpQwQmuM1DbwsKDLYAYsVLR',
+        hex: '76a914cb481232299cd5743151ac4b2d63ae198e7bb0a988ac',
+        canonical: 'bitcoincash:qr95sy3j9xwd2ap32xkykttr4cvcu7as4y0qverfuy',
+      },
+      {
+        text: '16w1D5WRVKJuZUsSRzdLp9w3YGcgoxDXb',
+        hex: '76a914011f28e473c95f4013d7d53ec5fbc3b42df8ed1088ac',
+        canonical: 'bitcoincash:qqq3728yw0y47sqn6l2na30mcw6zm78dzqre909m2r',
+      },
+      {
+        text: '3CWFddi6m4ndiGyKqzYvsFYagqDLPVMTzC',
+        hex: 'a91476a04053bda0a88bda5177b86a15c3b29f55987387',
+        canonical: 'bitcoincash:ppm2qsznhks23z7629mms6s4cwef74vcwvn0h829pq',
+      },
+      {
+        text: '3LDsS579y7sruadqu11beEJoTjdFiFCdX4',
+        hex: 'a914cb481232299cd5743151ac4b2d63ae198e7bb0a987',
+        canonical: 'bitcoincash:pr95sy3j9xwd2ap32xkykttr4cvcu7as4yc93ky28e',
+      },
+      {
+        text: '31nwvkZwyPdgzjBJZXfDmSWsC4ZLKpYyUw',
+        hex: 'a914011f28e473c95f4013d7d53ec5fbc3b42df8ed1087',
+        canonical: 'bitcoincash:pqq3728yw0y47sqn6l2na30mcw6zm78dzq5ucqzc37',
+      },
     ],
   },
   {
@@ -82,7 +111,11 @@ vectors.forEach((vector: TestVector) => {
       const decoded = format.decoder(example.text);
       expect(decoded.toString('hex')).toBe(example.hex);
       const reencoded = format.encoder(decoded);
-      expect(reencoded).toBe(example.text);
+      expect(reencoded).toBe(example.canonical || example.text);
+      if (example.canonical !== undefined) {
+        // Check we didn't lose anything
+        expect(format.decoder(reencoded).toString('hex')).toBe(example.hex);
+      }
     }
 
     // if(vector.failingVectors !== undefined) {
