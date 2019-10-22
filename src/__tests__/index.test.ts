@@ -45,6 +45,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'MONA',
+    coinType: 22,
+    passingVectors: [
+      { text: 'MHxgS2XMXjeJ4if2PRRbWYcdwZPWfdwaDT', hex: '76a9146e5bb7226a337fe8307b4192ae5c3fab9fa9edf588ac' },
+    ],
+  },
+  {
     name: 'ETH',
     coinType: 60,
     passingVectors: [

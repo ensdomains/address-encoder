@@ -31,6 +31,7 @@ This library currently supports the following cryptocurrencies and address forma
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
  - DOGE (base58check P2PKH and P2SH)
+ - MONA (base58check P2PKH and P2SH)
  - ETH (checksummed-hex)
  - ETC (checksummed-hex)
  - RSK (checksummed-hex)
