@@ -66,6 +66,17 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'XRP',
+    coinType: 144,
+    passingVectors: [
+      { text: 'rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn', hex: '004b4e9c06f24296074f7bc48f92a97916c6dc5ea9' },
+      {
+        text: 'X7qvLs7gSnNoKvZzNWUT2e8st17QPY64PPe7zriLNuJszeg',
+        hex: '05444b4e9c06f24296074f7bc48f92a97916c6dc5ea9000000000000000000',
+      },
+    ],
+  },
+  {
     name: 'BCH',
     coinType: 145,
     passingVectors: [

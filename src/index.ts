@@ -2,6 +2,7 @@ import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
 import * as eip55 from 'eip55';
+import * as ripple from 'ripple-address-codec';
 
 interface IFormat {
   coinType: number;
@@ -184,6 +185,12 @@ const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   hexChecksumChain('RSK', 137),
+  {
+    coinType: 144,
+    decoder: (data: string) => ripple.codec.decodeChecked(data),
+    encoder: (data: Buffer) => ripple.codec.encodeChecked(data),
+    name: 'XRP',
+  },
   {
     coinType: 145,
     decoder: decodeBitcoinCash,
