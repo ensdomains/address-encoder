@@ -147,9 +147,9 @@ function encodeCashAddr(data: Buffer): string {
 function decodeCashAddr(data: string): Buffer {
   const { prefix, type, hash } = cashaddr.decode(data);
   if (type === 'P2PKH') {
-    return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), hash, Buffer.from([0x88, 0xac])]);
+    return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), Buffer.from(hash), Buffer.from([0x88, 0xac])]);
   } else if (type === 'P2SH') {
-    return Buffer.concat([Buffer.from([0xa9, 0x14]), hash, Buffer.from([0x87])]);
+    return Buffer.concat([Buffer.from([0xa9, 0x14]), Buffer.from(hash), Buffer.from([0x87])]);
   }
   throw Error('Unrecognised address format');
 }
