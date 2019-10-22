@@ -5,7 +5,7 @@ install:
  - npm install
 jobs:
   include:
-    - stage: Test
+    - name: Test
       script: npm run test
-    - stage: Lint
+    - name: Lint
       script: npm run lint
