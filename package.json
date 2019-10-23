@@ -1,6 +1,6 @@
 {
-  "name": "address-encoder",
-  "version": "0.1.0",
+  "name": "@ensdomains/address-encoder",
+  "version": "0.1.1",
   "description": "Encodes and decodes address formats for various cryptocurrencies",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -9,7 +9,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run test && npm run lint",
+    "prepublishOnly": "npm run test",
     "test": "jest --config jestconfig.json"
   },
   "files": [
