@@ -1,8 +1,8 @@
 import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
-import * as eip55 from 'eip55';
 import * as ripple from 'ripple-address-codec';
+import * as rsk from 'rskjs-util';
 
 interface IFormat {
   coinType: number;
@@ -163,18 +163,28 @@ function decodeBitcoinCash(data: string): Buffer {
   }
 }
 
-function encodeChecksummedHex(data: Buffer): string {
-  return eip55.encode('0x' + data.toString('hex'));
+function makeChecksummedHexEncoder(chainId?: number) {
+  return (data: Buffer) => rsk.toChecksumAddress(data.toString('hex'), chainId || null);
 }
 
-function decodeChecksummedHex(data: string): Buffer {
-  return Buffer.from(data.slice(2), 'hex');
+function makeChecksummedHexDecoder(chainId?: number) {
+  return (data: string) => {
+    const stripped = rsk.stripHexPrefix(data);
+    if (
+      !rsk.isValidChecksumAddress(data, chainId || null) &&
+      stripped !== stripped.toLowerCase() &&
+      stripped !== stripped.toUpperCase()
+    ) {
+      throw Error('Invalid address checksum');
+    }
+    return Buffer.from(rsk.stripHexPrefix(data), 'hex');
+  };
 }
 
-const hexChecksumChain = (name: string, coinType: number) => ({
+const hexChecksumChain = (name: string, coinType: number, chainId?: number) => ({
   coinType,
-  decoder: decodeChecksummedHex,
-  encoder: encodeChecksummedHex,
+  decoder: makeChecksummedHexDecoder(chainId),
+  encoder: makeChecksummedHexEncoder(chainId),
   name,
 });
 
@@ -185,7 +195,7 @@ const formats: IFormat[] = [
   base58Chain('MONA', 22, [0x32], [0x05]),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
-  hexChecksumChain('RSK', 137),
+  hexChecksumChain('RSK', 137, 30),
   {
     coinType: 144,
     decoder: (data: string) => ripple.codec.decodeChecked(data),
