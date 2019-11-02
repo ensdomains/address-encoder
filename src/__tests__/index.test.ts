@@ -136,6 +136,13 @@ const vectors: Array<TestVector> = [
       { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
     ],
   },
+  {
+    name: 'XLM',
+    coinType: 148,
+    passingVectors: [
+      { text: 'GAI3GJ2Q3B35AOZJ36C4ANE3HSS4NK7WI6DNO4ZSHRAX6NG7BMX6VJER', hex: '11b32750d877d03b29df85c0349b3ca5c6abf64786d773323c417f34df0b2fea' },
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {
