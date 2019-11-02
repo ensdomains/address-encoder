@@ -143,6 +143,13 @@ const vectors: Array<TestVector> = [
       { text: 'GAI3GJ2Q3B35AOZJ36C4ANE3HSS4NK7WI6DNO4ZSHRAX6NG7BMX6VJER', hex: '11b32750d877d03b29df85c0349b3ca5c6abf64786d773323c417f34df0b2fea' },
     ],
   },
+  {
+    name: 'ATOM',
+    coinType: 118,
+    passingVectors: [
+      { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {

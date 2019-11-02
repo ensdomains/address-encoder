@@ -229,6 +229,20 @@ const formats: IFormat[] = [
     encoder: stellar.StrKey.encodeEd25519PublicKey,
     name: 'XLM',
   },
+  {
+    coinType: 118,
+    decoder: (data: string) => {
+      const { prefix, words } = bech32.decode(data);
+      if (prefix !== 'cosmos') {
+        throw Error('Unrecognised address format');
+      }
+      return Buffer.from(bech32.fromWords(words));
+    },
+    encoder: (data: Buffer) => {
+      return bech32.encode('cosmos', bech32.toWords(data));
+    },
+    name: 'ATOM',
+  },
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
