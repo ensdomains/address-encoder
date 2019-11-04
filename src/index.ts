@@ -217,6 +217,7 @@ const formats: IFormat[] = [
   base58Chain('MONA', 22, [0x32], [0x05]),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
+  bech32Chain('ATOM', 118, 'cosmos'),
   hexChecksumChain('RSK', 137, 30),
   {
     coinType: 144,
@@ -237,7 +238,6 @@ const formats: IFormat[] = [
     name: 'XLM',
   },
   bech32Chain('BNB', 714, 'bnb'),
-  bech32Chain('ATOM', 118, 'cosmos'),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
