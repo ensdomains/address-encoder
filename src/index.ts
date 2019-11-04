@@ -3,6 +3,7 @@ import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
+import * as stellar from 'stellar-base';
 
 interface IFormat {
   coinType: number;
@@ -221,6 +222,12 @@ const formats: IFormat[] = [
       return bech32.encode('bnb', bech32.toWords(data));
     },
     name: 'BNB',
+  },
+  {
+    coinType: 148,
+    decoder: stellar.StrKey.decodeEd25519PublicKey,
+    encoder: stellar.StrKey.encodeEd25519PublicKey,
+    name: 'XLM',
   },
 ];
 

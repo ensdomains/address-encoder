@@ -41,6 +41,7 @@
     "cashaddrjs": "^0.3.8",
     "ripple-address-codec": "^4.0.0",
     "rskjs-util": "^1.0.3",
-    "safe-buffer": "^5.2.0"
+    "safe-buffer": "^5.2.0",
+    "stellar-base": "^2.1.2"
   }
 }
