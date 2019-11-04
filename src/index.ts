@@ -189,6 +189,27 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
   name,
 });
 
+function makeBech32Encoder(prefix: string) {
+  return (data: Buffer) => bech32.encode(prefix, bech32.toWords(data));
+}
+
+function makeBech32Decoder(_prefix: string) {
+  return (data: string) => {
+    const { prefix, words } = bech32.decode(data);
+    if (prefix !== _prefix) {
+      throw Error('Unrecognised address format');
+    }
+    return Buffer.from(bech32.fromWords(words));
+  }
+}
+
+const bech32Chain = (name: string, coinType: number, prefix: string) => ({
+  coinType,
+  decoder: makeBech32Decoder(prefix),
+  encoder: makeBech32Encoder(prefix),
+  name,
+});
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -210,39 +231,13 @@ const formats: IFormat[] = [
     name: 'BCH',
   },
   {
-    coinType: 714,
-    decoder: (data: string) => {
-      const { prefix, words } = bech32.decode(data);
-      if (prefix !== 'bnb') {
-        throw Error('Unrecognised address format');
-      }
-      return Buffer.from(bech32.fromWords(words));
-    },
-    encoder: (data: Buffer) => {
-      return bech32.encode('bnb', bech32.toWords(data));
-    },
-    name: 'BNB',
-  },
-  {
     coinType: 148,
     decoder: stellar.StrKey.decodeEd25519PublicKey,
     encoder: stellar.StrKey.encodeEd25519PublicKey,
     name: 'XLM',
   },
-  {
-    coinType: 118,
-    decoder: (data: string) => {
-      const { prefix, words } = bech32.decode(data);
-      if (prefix !== 'cosmos') {
-        throw Error('Unrecognised address format');
-      }
-      return Buffer.from(bech32.fromWords(words));
-    },
-    encoder: (data: Buffer) => {
-      return bech32.encode('cosmos', bech32.toWords(data));
-    },
-    name: 'ATOM',
-  },
+  bech32Chain('BNB', 714, 'bnb'),
+  bech32Chain('ATOM', 118, 'cosmos'),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
