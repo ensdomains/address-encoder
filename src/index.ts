@@ -194,6 +194,7 @@ const formats: IFormat[] = [
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
   base58Chain('DOGE', 3, [0x1e], [0x16]),
   base58Chain('MONA', 22, [0x32], [0x05]),
+  base58Chain('DASH', 5, [0x4c], [0x10]),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   hexChecksumChain('RSK', 137, 30),
