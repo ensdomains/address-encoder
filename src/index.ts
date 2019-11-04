@@ -193,10 +193,10 @@ function makeBech32Encoder(prefix: string) {
   return (data: Buffer) => bech32.encode(prefix, bech32.toWords(data));
 }
 
-function makeBech32Decoder(_prefix: string) {
+function makeBech32Decoder(currentPrefix: string) {
   return (data: string) => {
     const { prefix, words } = bech32.decode(data);
-    if (prefix !== _prefix) {
+    if (prefix !== currentPrefix) {
       throw Error('Unrecognised address format');
     }
     return Buffer.from(bech32.fromWords(words));
