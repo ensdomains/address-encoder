@@ -4,6 +4,7 @@ import * as cashaddr from 'cashaddrjs';
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
+import * as tronweb from 'tronweb';
 
 interface IFormat {
   coinType: number;
@@ -229,6 +230,12 @@ const formats: IFormat[] = [
     decoder: stellar.StrKey.decodeEd25519PublicKey,
     encoder: stellar.StrKey.encodeEd25519PublicKey,
     name: 'XLM',
+  },
+  {
+    coinType: 195,
+    decoder: tronweb.address.toHex,
+    encoder: tronweb.address.fromHex,
+    name: 'TRX',
   },
 ];
 

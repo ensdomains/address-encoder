@@ -151,6 +151,13 @@ const vectors: Array<TestVector> = [
       { text: 'GAI3GJ2Q3B35AOZJ36C4ANE3HSS4NK7WI6DNO4ZSHRAX6NG7BMX6VJER', hex: '11b32750d877d03b29df85c0349b3ca5c6abf64786d773323c417f34df0b2fea' },
     ],
   },
+  {
+    name: 'TRX',
+    coinType: 195,
+    passingVectors: [
+      { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1'},
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {
