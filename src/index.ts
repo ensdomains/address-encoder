@@ -230,6 +230,7 @@ const formats: IFormat[] = [
     encoder: stellar.StrKey.encodeEd25519PublicKey,
     name: 'XLM',
   },
+  hexChecksumChain('XDAI', 700),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
