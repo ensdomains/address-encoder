@@ -138,13 +138,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'BNB',
-    coinType: 714,
-    passingVectors: [
-      { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
-    ],
-  },
-  {
     name: 'XLM',
     coinType: 148,
     passingVectors: [
@@ -157,6 +150,20 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1'},
       { text: 'TJCnKsPa7y5okkXvQAidZBzqx3QyQ6sxMW', hex: '415a523b449890854c8fc460ab602df9f31fe4293f'},
+    ],
+  },
+  {
+    name: 'BNB',
+    coinType: 714,
+    passingVectors: [
+      { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
+    ],
+  },
+  {
+    name: 'XDAI',
+    coinType: 700,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
     ],
   },
 ];

@@ -212,6 +212,18 @@ const formats: IFormat[] = [
     name: 'BCH',
   },
   {
+    coinType: 148,
+    decoder: stellar.StrKey.decodeEd25519PublicKey,
+    encoder: stellar.StrKey.encodeEd25519PublicKey,
+    name: 'XLM',
+  },
+  {
+    coinType: 195,
+    decoder: tronweb.address.toHex,
+    encoder: tronweb.address.fromHex,
+    name: 'TRX',
+  },
+  {
     coinType: 714,
     decoder: (data: string) => {
       const { prefix, words } = bech32.decode(data);
@@ -225,18 +237,7 @@ const formats: IFormat[] = [
     },
     name: 'BNB',
   },
-  {
-    coinType: 148,
-    decoder: stellar.StrKey.decodeEd25519PublicKey,
-    encoder: stellar.StrKey.encodeEd25519PublicKey,
-    name: 'XLM',
-  },
-  {
-    coinType: 195,
-    decoder: tronweb.address.toHex,
-    encoder: tronweb.address.fromHex,
-    name: 'TRX',
-  },
+  hexChecksumChain('XDAI', 700),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
