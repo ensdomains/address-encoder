@@ -190,6 +190,27 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
   name,
 });
 
+function makeBech32Encoder(prefix: string) {
+  return (data: Buffer) => bech32.encode(prefix, bech32.toWords(data));
+}
+
+function makeBech32Decoder(currentPrefix: string) {
+  return (data: string) => {
+    const { prefix, words } = bech32.decode(data);
+    if (prefix !== currentPrefix) {
+      throw Error('Unrecognised address format');
+    }
+    return Buffer.from(bech32.fromWords(words));
+  }
+}
+
+const bech32Chain = (name: string, coinType: number, prefix: string) => ({
+  coinType,
+  decoder: makeBech32Decoder(prefix),
+  encoder: makeBech32Encoder(prefix),
+  name,
+});
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -198,6 +219,7 @@ const formats: IFormat[] = [
   base58Chain('DASH', 5, [0x4c], [0x10]),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
+  bech32Chain('ATOM', 118, 'cosmos'),
   hexChecksumChain('RSK', 137, 30),
   {
     coinType: 144,
@@ -238,6 +260,7 @@ const formats: IFormat[] = [
     name: 'BNB',
   },
   hexChecksumChain('XDAI', 700),
+  bech32Chain('BNB', 714, 'bnb'),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
