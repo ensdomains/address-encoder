@@ -151,6 +151,13 @@ const vectors: Array<TestVector> = [
       { text: 'GAI3GJ2Q3B35AOZJ36C4ANE3HSS4NK7WI6DNO4ZSHRAX6NG7BMX6VJER', hex: '11b32750d877d03b29df85c0349b3ca5c6abf64786d773323c417f34df0b2fea' },
     ],
   },
+  {
+    name: 'XDAI',
+    coinType: 700,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {
