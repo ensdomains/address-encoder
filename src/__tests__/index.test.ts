@@ -138,17 +138,25 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'BNB',
-    coinType: 714,
-    passingVectors: [
-      { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
-    ],
-  },
-  {
     name: 'XLM',
     coinType: 148,
     passingVectors: [
       { text: 'GAI3GJ2Q3B35AOZJ36C4ANE3HSS4NK7WI6DNO4ZSHRAX6NG7BMX6VJER', hex: '11b32750d877d03b29df85c0349b3ca5c6abf64786d773323c417f34df0b2fea' },
+    ],
+  },
+  {
+    name: 'TRX',
+    coinType: 195,
+    passingVectors: [
+      { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1'},
+      { text: 'TJCnKsPa7y5okkXvQAidZBzqx3QyQ6sxMW', hex: '415a523b449890854c8fc460ab602df9f31fe4293f'},
+    ],
+  },
+  {
+    name: 'BNB',
+    coinType: 714,
+    passingVectors: [
+      { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
     ],
   },
   {
