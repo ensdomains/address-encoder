@@ -4,6 +4,7 @@ import * as cashaddr from 'cashaddrjs';
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
+import * as tronweb from 'tronweb';
 
 interface IFormat {
   coinType: number;
@@ -215,6 +216,7 @@ const formats: IFormat[] = [
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
   base58Chain('DOGE', 3, [0x1e], [0x16]),
   base58Chain('MONA', 22, [0x32], [0x05]),
+  base58Chain('DASH', 5, [0x4c], [0x10]),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
@@ -237,6 +239,27 @@ const formats: IFormat[] = [
     encoder: stellar.StrKey.encodeEd25519PublicKey,
     name: 'XLM',
   },
+  {
+    coinType: 195,
+    decoder: tronweb.address.toHex,
+    encoder: tronweb.address.fromHex,
+    name: 'TRX',
+  },
+  {
+    coinType: 714,
+    decoder: (data: string) => {
+      const { prefix, words } = bech32.decode(data);
+      if (prefix !== 'bnb') {
+        throw Error('Unrecognised address format');
+      }
+      return Buffer.from(bech32.fromWords(words));
+    },
+    encoder: (data: Buffer) => {
+      return bech32.encode('bnb', bech32.toWords(data));
+    },
+    name: 'BNB',
+  },
+  hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
 ];
 

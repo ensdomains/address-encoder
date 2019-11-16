@@ -32,13 +32,16 @@ This library currently supports the following cryptocurrencies and address forma
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
  - DOGE (base58check P2PKH and P2SH)
  - MONA (base58check P2PKH and P2SH)
+ - DASH (base58check P2PKH and P2SH)
  - ETH (checksummed-hex)
  - ETC (checksummed-hex)
  - RSK (checksummed-hex)
+ - XDAI (checksummed-hex)
  - XRP (base58check-ripple)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
  - XLM (ed25519 public key)
  - ATOM (bech32)
+ - TRX (base58check)
 
 PRs to add additional chains and address types are welcome.
