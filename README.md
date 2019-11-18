@@ -43,5 +43,6 @@ This library currently supports the following cryptocurrencies and address forma
  - XLM (ed25519 public key)
  - ATOM (bech32)
  - TRX (base58check)
+ - ZEC (base58check P2PKH and P2SH)
 
 PRs to add additional chains and address types are welcome.
