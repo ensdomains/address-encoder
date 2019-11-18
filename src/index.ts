@@ -192,9 +192,9 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
-  bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
   base58Chain('DOGE', 3, [0x1e], [0x16]),
   base58Chain('DASH', 5, [0x4c], [0x10]),
+  bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   hexChecksumChain('RSK', 137, 30),
