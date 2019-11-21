@@ -13,7 +13,7 @@ interface IFormat {
   decoder: (data: string) => Buffer;
 }
 
-function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+function makeBase58CheckEncoder(p2pkhVersion: number[], p2shVersion: number[]): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -25,52 +25,16 @@ function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (dat
         ) {
           throw Error('Unrecognised address format');
         }
-        addr = Buffer.concat([Buffer.from([p2pkhVersion]), data.slice(3, 3 + data.readUInt8(2))]);
+        addr = Buffer.concat([Buffer.from(p2pkhVersion), data.slice(3, 3 + data.readUInt8(2))]);
         return bs58check.encode(addr);
       case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
         if (data.readUInt8(data.length - 1) !== 0x87) {
           throw Error('Unrecognised address format');
+        } else if (p2pkhVersion.length === 2) {
+          addr = Buffer.concat([Buffer.from(p2shVersion), data.slice(2, 2 + data.readUInt8(1))]);
+          return bs58check.encode(addr);
         }
-        addr = Buffer.concat([Buffer.from([p2shVersion]), data.slice(2, 2 + data.readUInt8(1))]);
-        return bs58check.encode(addr);
-      default:
-        throw Error('Unrecognised address format');
-    }
-  };
-}
-
-function decodeZecAddr(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
-  return (data: string) => {
-    const addr = bs58check.decode(data);
-    const version = addr[1];
-    if (p2pkhVersions[1] === version) {
-      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
-    } else if (p2shVersions[1] === version) {
-      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(1), Buffer.from([0x87])]);
-    }
-    throw Error('Unrecognised address format');
-  };
-}
-
-function encodeZecAddr(p2pkhVersion: number[], p2shVersion: number[]): (data: Buffer) => string {
-  return (data: Buffer) => {
-    let addr: Buffer;
-    switch (data.readUInt8(0)) {
-      case 0x76: // P2PKH: OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
-        if (
-          data.readUInt8(1) !== 0xa9 ||
-          data.readUInt8(data.length - 2) !== 0x88 ||
-          data.readUInt8(data.length - 1) !== 0xac
-        ) {
-          throw Error('Unrecognised address format');
-        }
-        addr = Buffer.concat([Buffer.from(p2pkhVersion), data.slice(4, 4 + data.readUInt8(2))]);
-        return bs58check.encode(addr);
-      case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
-        if (data.readUInt8(data.length - 1) !== 0x87) {
-          throw Error('Unrecognised address format');
-        }
-        addr = Buffer.concat([Buffer.from(p2shVersion), data.slice(3, 3 + data.readUInt8(1))]);
+        addr = Buffer.concat([Buffer.from(p2shVersion.slice(0, 1)), data.slice(2, 2 + data.readUInt8(1))]);
         return bs58check.encode(addr);
       default:
         throw Error('Unrecognised address format');
@@ -81,10 +45,16 @@ function encodeZecAddr(p2pkhVersion: number[], p2shVersion: number[]): (data: Bu
 function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58check.decode(data);
-    const version = addr.readUInt8(0);
-    if (p2pkhVersions.includes(version)) {
+    const version = addr.length === 21 ? addr.slice(0, 1) : addr.slice(0, 2);
+    if (Buffer.from(p2pkhVersions).includes(version)) {
+      if (version.length === 2) {
+        return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(2), Buffer.from([0x88, 0xac])]);
+      }
       return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
-    } else if (p2shVersions.includes(version)) {
+    } else if (Buffer.from(p2shVersions).includes(version)) {
+      if (version.length === 2) {
+        return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(2), Buffer.from([0x87])]);
+      }
       return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(1), Buffer.from([0x87])]);
     }
     throw Error('Unrecognised address format');
@@ -93,12 +63,8 @@ function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[])
 
 const base58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
   coinType,
-  decoder:
-    name === 'ZEC' ? decodeZecAddr(p2pkhVersions, p2shVersions) : makeBase58CheckDecoder(p2pkhVersions, p2shVersions),
-  encoder:
-    name === 'ZEC'
-      ? encodeZecAddr(p2pkhVersions, p2shVersions)
-      : makeBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
+  decoder: makeBase58CheckDecoder(p2pkhVersions, p2shVersions),
+  encoder: makeBase58CheckEncoder(p2pkhVersions, p2shVersions),
   name,
 });
 
@@ -131,7 +97,7 @@ function makeBech32SegwitDecoder(hrp: string): (data: string) => Buffer {
   };
 }
 
-function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+function makeBitcoinEncoder(hrp: string, p2pkhVersion: number[], p2shVersion: number[]): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
   const encodeBase58Check = makeBase58CheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
@@ -164,7 +130,7 @@ const bitcoinChain = (
 ) => ({
   coinType,
   decoder: makeBitcoinDecoder(hrp, p2pkhVersions, p2shVersions),
-  encoder: makeBitcoinEncoder(hrp, p2pkhVersions[0], p2shVersions[0]),
+  encoder: makeBitcoinEncoder(hrp, p2pkhVersions, p2shVersions),
   name,
 });
 
