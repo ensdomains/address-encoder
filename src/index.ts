@@ -1,6 +1,7 @@
 import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
+import * as nemSdk from 'nem-sdk'
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
@@ -211,6 +212,18 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
   name,
 });
 
+function b32encodeXemAddr(data: Buffer): string {
+  return nemSdk.default.model.address.b32encode(nemSdk.default.utils.convert.hex2a(data));
+}
+
+function b32decodeXemAddr(data: string): Buffer {
+  if(!nemSdk.default.model.address.isValid(data)) {
+    throw Error('Unrecofnised address format');
+  }
+  const address = data.toString().toUpperCase().replace(/-/g, '');
+  return nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address));
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -244,6 +257,12 @@ const formats: IFormat[] = [
     decoder: tronweb.address.toHex,
     encoder: tronweb.address.fromHex,
     name: 'TRX',
+  },
+  {
+    coinType: 43,
+    decoder: b32decodeXemAddr,
+    encoder: b32encodeXemAddr,
+    name: 'XEM',
   },
   {
     coinType: 714,
