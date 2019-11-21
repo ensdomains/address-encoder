@@ -79,8 +79,8 @@ const vectors: Array<TestVector> = [
     name: 'ZEC',
     coinType: 133,
     passingVectors: [
-      { text: 't1RytpPXoGvevVECv5NsRVD2BTrz78xeiDQ', hex: '76a914b858f1890edd7291c6eb7bfe981a87a1f8cb3a843988ac' },
-      { text: 't3QRZXHDPh2hwU46iQs2776kRuuWfwFp4dV', hex: 'a914bd404a954619f431f1f4c6c1e8156caa13c5d3d03c87' },
+      { text: 't1PfSxffVRWPdXZvzWSbfM7v67RWBLSF1Qd', hex: '76a9143f8436419adcdf607c1064ae68e835c9bd85b2f288ac' },
+      { text: 't3dLtjVGwp8jPGfunXWuJSAiNaQ7SPsvGhS', hex: 'a914ce022cb186ab80926622859721c8f411b03ed5b887' },
     ],
   },
   {
