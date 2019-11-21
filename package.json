@@ -43,6 +43,7 @@
     "rskjs-util": "^1.0.3",
     "safe-buffer": "^5.2.0",
     "stellar-base": "^2.1.2",
-    "tronweb": "^2.8.0"
+    "tronweb": "^2.8.0",
+    "nem-sdk": "^1.6.7"
   }
 }
