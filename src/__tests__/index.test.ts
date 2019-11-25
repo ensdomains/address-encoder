@@ -182,7 +182,15 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
-  },  
+  },
+  {
+    name: 'ONT',
+    coinType: 1024,
+    passingVectors: [
+      { text: 'ALvmTSEjNREwcRNJiLcTkxCnsXBfbZEUFK', hex: '3887346ea0b83129ff21f1ef3e6008a80373d1b3' },
+      { text: 'AavjHwiNfkr7xKGHBpNEQYSL5QiKgRjZf1', hex: 'd21728df85b2b457908bd33def8ff493d47f184a' },
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {

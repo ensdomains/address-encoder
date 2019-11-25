@@ -2,6 +2,7 @@ import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
 import * as nemSdk from 'nem-sdk'
+import * as ontSdk from 'ontology-ts-sdk';
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
@@ -224,6 +225,16 @@ function b32decodeXemAddr(data: string): Buffer {
   return nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address));
 }
 
+function ontHexToBase58(data: Buffer): string {
+  const hexAddress = new ontSdk.Crypto.Address(data.toString('hex'));
+  return hexAddress.toBase58();
+}
+
+function ontBase58ToHex(data: string): Buffer {
+  const strAddress = new ontSdk.Crypto.Address(data);
+  return new Buffer(strAddress.serialize(),'hex');
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -280,6 +291,12 @@ const formats: IFormat[] = [
   },
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  {
+    coinType: 1024,
+    decoder: ontBase58ToHex,
+    encoder: ontHexToBase58,
+    name: 'ONT',
+  },
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
