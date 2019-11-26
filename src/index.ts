@@ -2,7 +2,6 @@ import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
 import * as nemSdk from 'nem-sdk'
-import * as ontSdk from 'ontology-ts-sdk';
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
@@ -225,14 +224,26 @@ function b32decodeXemAddr(data: string): Buffer {
   return nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address));
 }
 
-function ontHexToBase58(data: Buffer): string {
-  const hexAddress = new ontSdk.Crypto.Address(data.toString('hex'));
-  return hexAddress.toBase58();
+function ontHexToBase58(hexEncoded: Buffer): string {
+  let addr: Buffer;
+  const ADDR_VERSION = '17';
+  if(hexEncoded.toString('hex').length !== 40) {
+    throw Error('Unrecognised address format');
+  }
+  addr = Buffer.concat([new Buffer(ADDR_VERSION,'hex'), hexEncoded]);
+  return bs58check.encode(addr);
 }
 
-function ontBase58ToHex(data: string): Buffer {
-  const strAddress = new ontSdk.Crypto.Address(data);
-  return new Buffer(strAddress.serialize(),'hex');
+function ontBase58ToHex(base58Encoded: string): Buffer {
+  let hexEncoded: Buffer;
+  if(base58Encoded.length !== 34) {
+    throw Error('Unrecognised address format');
+  }
+  hexEncoded = bs58check.decode(base58Encoded).slice(1,40);
+  if(base58Encoded !== ontHexToBase58(hexEncoded)) {
+        throw new Error('[addressToU160] decode encoded verify failed');
+  }
+  return hexEncoded;
 }
 
 const formats: IFormat[] = [
