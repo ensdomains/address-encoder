@@ -13,7 +13,10 @@ interface IFormat {
   decoder: (data: string) => Buffer;
 }
 
-function makeBase58CheckEncoder(p2pkhVersion: number[], p2shVersion: number[]): (data: Buffer) => string {
+function makeBase58CheckEncoder(
+  p2pkhVersion: (number | number[])[],
+  p2shVersion: (number | number[])[],
+): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -25,16 +28,21 @@ function makeBase58CheckEncoder(p2pkhVersion: number[], p2shVersion: number[]): 
         ) {
           throw Error('Unrecognised address format');
         }
-        addr = Buffer.concat([Buffer.from(p2pkhVersion), data.slice(3, 3 + data.readUInt8(2))]);
+        if (p2pkhVersion[0] instanceof Array) {
+          addr = Buffer.concat([Buffer.from(p2pkhVersion[0]), data.slice(3, 3 + data.readUInt8(2))]);
+          return bs58check.encode(addr);
+        }
+        addr = Buffer.concat([Buffer.from([p2pkhVersion[0]]), data.slice(3, 3 + data.readUInt8(2))]);
         return bs58check.encode(addr);
       case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
         if (data.readUInt8(data.length - 1) !== 0x87) {
           throw Error('Unrecognised address format');
-        } else if (p2pkhVersion.length === 2) {
-          addr = Buffer.concat([Buffer.from(p2shVersion), data.slice(2, 2 + data.readUInt8(1))]);
+        }
+        if (p2shVersion[0] instanceof Array) {
+          addr = Buffer.concat([Buffer.from(p2shVersion[0].slice(0, 2)), data.slice(2, 2 + data.readUInt8(1))]);
           return bs58check.encode(addr);
         }
-        addr = Buffer.concat([Buffer.from(p2shVersion.slice(0, 1)), data.slice(2, 2 + data.readUInt8(1))]);
+        addr = Buffer.concat([Buffer.from([p2shVersion[0]]), data.slice(2, 2 + data.readUInt8(1))]);
         return bs58check.encode(addr);
       default:
         throw Error('Unrecognised address format');
@@ -42,20 +50,17 @@ function makeBase58CheckEncoder(p2pkhVersion: number[], p2shVersion: number[]): 
   };
 }
 
-function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+function makeBase58CheckDecoder(p2pkhVersions: any[], p2shVersions: any[]): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58check.decode(data);
-    const version = addr.length === 21 ? addr.slice(0, 1) : addr.slice(0, 2);
-    if (Buffer.from(p2pkhVersions).includes(version)) {
-      if (version.length === 2) {
-        return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(2), Buffer.from([0x88, 0xac])]);
-      }
-      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
-    } else if (Buffer.from(p2shVersions).includes(version)) {
-      if (version.length === 2) {
-        return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(2), Buffer.from([0x87])]);
-      }
-      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(1), Buffer.from([0x87])]);
+    const version = Buffer.from(addr.filter(b => addr.slice(-20).indexOf(b) === -1));
+    if (Buffer.from(p2pkhVersions).includes(version) || p2pkhVersions.some(b => version.every((v, i) => v === b[i]))) {
+      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(version.length), Buffer.from([0x88, 0xac])]);
+    } else if (
+      Buffer.from(p2shVersions).includes(version) ||
+      p2shVersions.some(b => version.every((v, i) => v === b[i]))
+    ) {
+      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(version.length), Buffer.from([0x87])]);
     }
     throw Error('Unrecognised address format');
   };
@@ -229,7 +234,7 @@ const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
-  base58Chain('ZEC', 133, [0x1c, 0xb8], [0x1c, 0xbd]),
+  base58Chain('ZEC', 133, [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   hexChecksumChain('RSK', 137, 30),
   {
     coinType: 144,
