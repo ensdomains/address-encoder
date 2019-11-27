@@ -248,7 +248,7 @@ function ontBase58CheckDecoder(addrVersion: number): (data: string) => Buffer {
     }
     addr = bs58check.decode(data);
     const version = addr.readUInt8(0);
-    if(version == addrVersion) {
+    if(version === addrVersion) {
       return addr.slice(1);
     }
     throw Error('Unrecognised address format');
