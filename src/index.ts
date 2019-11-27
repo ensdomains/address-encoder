@@ -224,27 +224,44 @@ function b32decodeXemAddr(data: string): Buffer {
   return nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address));
 }
 
-function ontHexToBase58(hexEncoded: Buffer): string {
-  let addr: Buffer;
-  const ADDR_VERSION = '17';
-  if(hexEncoded.toString('hex').length !== 40) {
-    throw Error('Unrecognised address format');
-  }
-  addr = Buffer.concat([new Buffer(ADDR_VERSION,'hex'), hexEncoded]);
-  return bs58check.encode(addr);
+function ontBase58CheckEncoder(addrVersion: number): (data: Buffer) => string {
+  return (data: Buffer) => {
+   let addr: Buffer;
+   switch(addrVersion) {
+     case 0x17: // Ontology ADDR_VERSION
+       if(data.length !== 20) {
+         throw Error('Unrecognised address format');
+       }
+       addr = Buffer.concat([Buffer.from([addrVersion]), data]);
+       return bs58check.encode(addr);
+     default:
+        throw Error('Unrecognised address format');
+   }
+ };
 }
 
-function ontBase58ToHex(base58Encoded: string): Buffer {
-  let hexEncoded: Buffer;
-  if(base58Encoded.length !== 34) {
+function ontBase58CheckDecoder(addrVersion: number): (data: string) => Buffer {
+  return (data: string) => {
+    let addr: Buffer;
+    if(data.length !== 34) {
+      throw Error('Unrecognised address format');
+    }
+    addr = bs58check.decode(data);
+    const version = addr.readUInt8(0);
+    if(version == addrVersion) {
+      return addr.slice(1);
+    }
     throw Error('Unrecognised address format');
-  }
-  hexEncoded = bs58check.decode(base58Encoded).slice(1,40);
-  if(base58Encoded !== ontHexToBase58(hexEncoded)) {
-        throw new Error('[addressToU160] decode encoded verify failed');
-  }
-  return hexEncoded;
+  };
 }
+
+const ontBase58Chain = (name: string, coinType: number, addrVersion: number) => ({
+  coinType,
+  decoder: ontBase58CheckDecoder(addrVersion),
+  encoder: ontBase58CheckEncoder(addrVersion),
+  name,
+});
+
 
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
@@ -285,7 +302,7 @@ const formats: IFormat[] = [
     decoder: tronweb.address.toHex,
     encoder: tronweb.address.fromHex,
     name: 'TRX',
-  },  
+  },
   {
     coinType: 714,
     decoder: (data: string) => {
@@ -302,12 +319,13 @@ const formats: IFormat[] = [
   },
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
-  {
+  ontBase58Chain('ONT', 1024, 0x17),
+/*  {
     coinType: 1024,
-    decoder: ontBase58ToHex,
-    encoder: ontHexToBase58,
+    decoder: ontBase58CheckDecoder(0x17),
+    encoder: ontBase58CheckEncoder(0x17),
     name: 'ONT',
-  },
+  },*/
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
