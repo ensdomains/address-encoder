@@ -50,23 +50,28 @@ function makeBase58CheckEncoder(
   };
 }
 
-function makeBase58CheckDecoder(p2pkhVersions: any[], p2shVersions: any[]): (data: string) => Buffer {
+function makeBase58CheckDecoder(
+  p2pkhVersions: (number | number[])[],
+  p2shVersions: (number | number[])[],
+): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58check.decode(data);
-    const version = Buffer.from(addr.filter(b => addr.slice(-20).indexOf(b) === -1));
-    if (Buffer.from(p2pkhVersions).includes(version) || p2pkhVersions.some(b => version.every((v, i) => v === b[i]))) {
+    const version = addr.filter(b => addr.slice(-20).indexOf(b) === -1);
+    if (p2pkhVersions.some(b => (b instanceof Array) ? version.every((v, i) => v === b[i]) : version.includes(b))) {
       return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(version.length), Buffer.from([0x88, 0xac])]);
-    } else if (
-      Buffer.from(p2shVersions).includes(version) ||
-      p2shVersions.some(b => version.every((v, i) => v === b[i]))
-    ) {
+    } else if (p2shVersions.some(b => (b instanceof Array) ? version.every((v, i) => v === b[i]) : version.includes(b))) {
       return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(version.length), Buffer.from([0x87])]);
     }
     throw Error('Unrecognised address format');
   };
 }
 
-const base58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
+const base58Chain = (
+  name: string,
+  coinType: number,
+  p2pkhVersions: number[] | number[][],
+  p2shVersions: number[] | number[][],
+) => ({
   coinType,
   decoder: makeBase58CheckDecoder(p2pkhVersions, p2shVersions),
   encoder: makeBase58CheckEncoder(p2pkhVersions, p2shVersions),
@@ -102,7 +107,11 @@ function makeBech32SegwitDecoder(hrp: string): (data: string) => Buffer {
   };
 }
 
-function makeBitcoinEncoder(hrp: string, p2pkhVersion: number[], p2shVersion: number[]): (data: Buffer) => string {
+function makeBitcoinEncoder(
+  hrp: string,
+  p2pkhVersion: (number | number[])[],
+  p2shVersion: (number | number[])[],
+): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
   const encodeBase58Check = makeBase58CheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
@@ -114,7 +123,11 @@ function makeBitcoinEncoder(hrp: string, p2pkhVersion: number[], p2shVersion: nu
   };
 }
 
-function makeBitcoinDecoder(hrp: string, p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+function makeBitcoinDecoder(
+  hrp: string,
+  p2pkhVersions: (number | number[])[],
+  p2shVersions: (number | number[])[],
+): (data: string) => Buffer {
   const decodeBech32 = makeBech32SegwitDecoder(hrp);
   const decodeBase58Check = makeBase58CheckDecoder(p2pkhVersions, p2shVersions);
   return (data: string) => {
@@ -130,8 +143,8 @@ const bitcoinChain = (
   name: string,
   coinType: number,
   hrp: string,
-  p2pkhVersions: number[],
-  p2shVersions: number[],
+  p2pkhVersions: (number | number[])[],
+  p2shVersions: (number | number[])[],
 ) => ({
   coinType,
   decoder: makeBitcoinDecoder(hrp, p2pkhVersions, p2shVersions),
