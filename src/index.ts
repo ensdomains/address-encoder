@@ -320,12 +320,6 @@ const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
   ontBase58Chain('ONT', 1024, 0x17),
-/*  {
-    coinType: 1024,
-    decoder: ontBase58CheckDecoder(0x17),
-    encoder: ontBase58CheckEncoder(0x17),
-    name: 'ONT',
-  },*/
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
