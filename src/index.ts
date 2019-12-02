@@ -1,7 +1,7 @@
 import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
-import * as ecc from 'eosjs-ecc';
+import * as eos from 'eosjs-ecc';
 import * as nemSdk from 'nem-sdk'
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
@@ -226,17 +226,17 @@ function b32decodeXemAddr(data: string): Buffer {
 }
 
 function eosAddrEncoder(data: Buffer): string {
- if(!ecc.PublicKey.isValid(data)) {
+ if(!eos.PublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
-  return ecc.PublicKey.fromHex(data).toString();
+  return eos.PublicKey.fromHex(data).toString();
 }
 
 function eosAddrDecoder(data: string): Buffer {
-if(!ecc.PublicKey.isValid(data)) {
+if(!eos.PublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
-  return ecc.PublicKey(data).toBuffer();
+  return eos.PublicKey(data).toBuffer();
 }
 
 const formats: IFormat[] = [
