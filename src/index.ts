@@ -1,6 +1,7 @@
 import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
+import * as eos from 'eosjs-ecc';
 import * as nemSdk from 'nem-sdk'
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
@@ -224,6 +225,20 @@ function b32decodeXemAddr(data: string): Buffer {
   return nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address));
 }
 
+function eosAddrEncoder(data: Buffer): string {
+ if(!eos.PublicKey.isValid(data)) {
+    throw Error('Unrecognised address format');
+  }
+  return eos.PublicKey.fromHex(data).toString();
+}
+
+function eosAddrDecoder(data: string): Buffer {
+if(!eos.PublicKey.isValid(data)) {
+    throw Error('Unrecognised address format');
+  }
+  return eos.PublicKey(data).toBuffer();
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -257,6 +272,12 @@ const formats: IFormat[] = [
     decoder: stellar.StrKey.decodeEd25519PublicKey,
     encoder: stellar.StrKey.encodeEd25519PublicKey,
     name: 'XLM',
+  },
+  {
+    coinType: 194,
+    decoder: eosAddrDecoder,
+    encoder: eosAddrEncoder,
+    name: 'EOS',             
   },
   {
     coinType: 195,
