@@ -190,7 +190,15 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
-  },  
+  },
+  {
+    name: 'IOTA',
+    coinType: 4218,
+    passingVectors: [
+      { text: 'REXGRKQCBK9TNGLIADRTZIXYCXZZQWIAAZFSLGAKWEWUPHYSBQBBWQUFUYVSWAWIURTF9DZWADFPFXZTCFIBIUAPQZ', hex: '9999a4e3ac63367d6e240cba1a9a23f0f2d424a53e6467639e4597c5dd9938e7c2579eb23245c0481424a15637b2eabca5bd5130d2ef'},
+      { text: 'DSZRO9TCIJIKZOKUPVNOJFKVAHFCKL9YMLPVZUAEVZPOFXLIUWLPRQWBMVVSFTKGMGPPHXCYE9MIZEVBXQNFYKYUA9', hex: '1f508d360b5d3f4f68d2e58bac7210aaab6fbd2994ee922dee323b691cd6c9d9d46e94b23c7477c4d3dac01175e16219f02be3c89200'},
+    ]
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {

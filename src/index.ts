@@ -1,12 +1,14 @@
+import * as iotaValidators from '@iota/validators';
 import * as bech32 from 'bech32';
 import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
 import * as eos from 'eosjs-ecc';
-import * as nemSdk from 'nem-sdk'
+import * as nemSdk from 'nem-sdk';
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
 import * as tronweb from 'tronweb';
+import * as iotaTrytes from 'trytes';
 
 interface IFormat {
   coinType: number;
@@ -239,6 +241,21 @@ if(!eos.PublicKey.isValid(data)) {
   return eos.PublicKey(data).toBuffer();
 }
 
+function iotaAddrEncoder(data: Buffer): string {
+ const addr = iotaTrytes.decodeTryteStringFromBytes(data);
+ if(!iotaValidators.isAddress(addr)) {
+    throw Error('Unrecognised address format');
+  }
+  return addr;
+}
+
+function iotaAddrDecoder(data: string): Buffer {
+if(!iotaValidators.isAddress(data)) {
+    throw Error('Unrecognised address format');
+  }
+  return Buffer.from(iotaTrytes.encodeTryteStringAsBytes(data));
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -277,7 +294,7 @@ const formats: IFormat[] = [
     coinType: 194,
     decoder: eosAddrDecoder,
     encoder: eosAddrEncoder,
-    name: 'EOS',             
+    name: 'EOS',
   },
   {
     coinType: 195,
@@ -301,6 +318,12 @@ const formats: IFormat[] = [
   },
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  {
+    coinType: 4218,
+    decoder: iotaAddrDecoder,
+    encoder: iotaAddrEncoder,
+    name: 'IOTA',
+  },
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
