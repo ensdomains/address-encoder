@@ -239,6 +239,46 @@ if(!eos.PublicKey.isValid(data)) {
   return eos.PublicKey(data).toBuffer();
 }
 
+function tezosAddressEncoder(data: Buffer): string {
+  if (data.length !== 22 && data.length !== 21) { throw Error('Unrecognised address format'); }
+
+  let prefix: Buffer;
+  switch (data.readUInt8(0)) {
+    case 0x00:
+      if (data.readUInt8(1) === 0x00) {
+          prefix = Buffer.from([0x06, 0xa1, 0x9f]); // prefix tz1 equal 06a19f
+      } else if (data.readUInt8(1) === 0x01) {
+          prefix = Buffer.from([0x06, 0xa1, 0xa1]); // prefix tz2 equal 06a1a1
+      } else if (data.readUInt8(1) === 0x02) {
+          prefix = Buffer.from([0x06, 0xa1, 0xa4]); // prefix tz3 equal 06a1a4
+      } else {
+          throw Error('Unrecognised address format');
+      }
+      return bs58check.encode(Buffer.concat([prefix, data.slice(2)]));
+    case 0x01:
+      prefix = Buffer.from([0x02, 0x5a, 0x79]); // prefix KT1 equal 025a79
+      return bs58check.encode(Buffer.concat([prefix, data.slice(1, 21)]));
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
+function tezosAddressDecoder(data: string): Buffer {
+  const address = bs58check.decode(data).slice(3);
+  switch (data.substring(0,3)) {
+    case "tz1": 
+      return Buffer.concat([Buffer.from([0x00,0x00]), address]);
+    case "tz2":
+      return Buffer.concat([Buffer.from([0x00,0x01]), address]);
+    case "tz3":
+      return Buffer.concat([Buffer.from([0x00,0x02]), address]);
+    case "KT1":
+      return Buffer.concat([Buffer.from([0x01]), address, Buffer.from([0x00])]);
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -301,6 +341,12 @@ const formats: IFormat[] = [
   },
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  {
+    coinType: 1729,
+    decoder: tezosAddressDecoder,
+    encoder: tezosAddressEncoder,
+    name: 'XTZ',
+  },
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
