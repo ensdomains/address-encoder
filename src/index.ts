@@ -286,20 +286,6 @@ const formats: IFormat[] = [
     name: 'TRX',
   },
   hexChecksumChain('XDAI', 700),
-  {
-    coinType: 714,
-    decoder: (data: string) => {
-      const { prefix, words } = bech32.decode(data);
-      if (prefix !== 'bnb') {
-        throw Error('Unrecognised address format');
-      }
-      return Buffer.from(bech32.fromWords(words));
-    },
-    encoder: (data: Buffer) => {
-      return bech32.encode('bnb', bech32.toWords(data));
-    },
-    name: 'BNB',
-  },
   bech32Chain('BNB', 714, 'bnb'),
 ];
 
