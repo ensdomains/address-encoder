@@ -190,7 +190,15 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
-  },  
+  },
+  {
+    name: 'VET',
+    coinType: 818,
+    passingVectors: [
+      { text: '0xd0D9CD5aa98efCaEEe2e065dDb8538fA977bC8eb', hex: 'd0d9cd5aa98efcaeee2e065ddb8538fa977bc8eb' },
+      { text: '0x17638D68Db1aE2592d3CC6566ADAD6E9C9f7a3A8', hex: '17638d68db1ae2592d3cc6566adad6e9c9f7a3a8' }
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {
