@@ -277,14 +277,15 @@ const formats: IFormat[] = [
     coinType: 194,
     decoder: eosAddrDecoder,
     encoder: eosAddrEncoder,
-    name: 'EOS',             
+    name: 'EOS',
   },
   {
     coinType: 195,
     decoder: tronweb.address.toHex,
     encoder: tronweb.address.fromHex,
     name: 'TRX',
-  },  
+  },
+  hexChecksumChain('XDAI', 700),
   {
     coinType: 714,
     decoder: (data: string) => {
@@ -299,7 +300,6 @@ const formats: IFormat[] = [
     },
     name: 'BNB',
   },
-  hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
 ];
 
