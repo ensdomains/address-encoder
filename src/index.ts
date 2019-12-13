@@ -239,6 +239,25 @@ if(!eos.PublicKey.isValid(data)) {
   return eos.PublicKey(data).toBuffer();
 }
 
+function ontAddressEncoder(data: Buffer): string {
+   if(data.length !== 20) {
+      throw Error('Unrecognised address format');
+   }
+   return bs58check.encode(Buffer.concat([Buffer.from([0x17]), data]));
+}
+
+function ontAddressDecoder(data: string): Buffer {
+   let addr: Buffer;
+   if(data.length !== 34) {
+     throw Error('Unrecognised address format');
+   }
+   addr = bs58check.decode(data);
+   if(addr.readUInt8(0) !== 0x17) {
+     throw Error('Unrecognised address format');
+   }
+   return addr.slice(1);
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -301,6 +320,12 @@ const formats: IFormat[] = [
   },
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  {
+    coinType: 1024,
+    decoder: ontAddressDecoder,
+    encoder: ontAddressEncoder,
+    name: 'ONT',
+  },
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
