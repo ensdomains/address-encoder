@@ -250,7 +250,7 @@ function iotaAddrEncoder(data: Buffer): string {
 }
 
 function iotaAddrDecoder(data: string): Buffer {
-if(!iotaValidators.isAddress(data)) {
+  if(!iotaValidators.isAddress(data)) {
     throw Error('Unrecognised address format');
   }
   return Buffer.from(iotaTrytes.encodeTryteStringAsBytes(data));
