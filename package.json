@@ -35,7 +35,6 @@
     "typescript": "^3.6.4"
   },
   "dependencies": {
-    "@iota/core": "^1.0.0-beta.23",
     "@iota/validators": "^1.0.0-beta.23",
     "@types/bluebird": "^3.5.29",
     "@types/cashaddrjs": "^0.3.0",
