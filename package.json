@@ -39,6 +39,7 @@
     "@types/bluebird": "^3.5.29",
     "@types/cashaddrjs": "^0.3.0",
     "bech32": "^1.1.3",
+    "bluebird": "^3.7.2",
     "bs58check": "^2.1.2",
     "cashaddrjs": "^0.3.8",
     "eosjs-ecc": "^4.0.7",
