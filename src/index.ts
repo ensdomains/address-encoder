@@ -1,4 +1,5 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
+import { decode as bs58grscheckDecode, encode as bs58grscheckEncode } from 'bs58grscheck';
 // @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
 
@@ -250,6 +251,82 @@ function strEncoder(data: Buffer): string {
   return encodeEd25519PublicKey('ed25519PublicKey', data)
 }
 
+function makeBase58GrsCheckEncoder(p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+  return (data: Buffer) => {
+    let addr: Buffer;
+    switch (data.readUInt8(0)) {
+      case 0x76: // P2PKH: OP_DUP OP_HASH160 <pubKeyHash> OP_EQUALVERIFY OP_CHECKSIG
+        if (
+          data.readUInt8(1) !== 0xa9 ||
+          data.readUInt8(data.length - 2) !== 0x88 ||
+          data.readUInt8(data.length - 1) !== 0xac
+        ) {
+          throw Error('Unrecognised address format');
+        }
+        addr = Buffer.concat([Buffer.from([p2pkhVersion]), data.slice(3, 3 + data.readUInt8(2))]);
+        return bs58grscheckEncode(addr);
+      case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
+        if (data.readUInt8(data.length - 1) !== 0x87) {
+          throw Error('Unrecognised address format');
+        }
+        addr = Buffer.concat([Buffer.from([p2shVersion]), data.slice(2, 2 + data.readUInt8(1))]);
+        return bs58grscheckEncode(addr);
+      default:
+        throw Error('Unrecognised address format');
+    }
+  };
+}
+
+function makeBase58GrsCheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+  return (data: string) => {
+    const addr = bs58grscheckDecode(data);
+    const version = addr.readUInt8(0);
+    if (p2pkhVersions.includes(version)) {
+      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
+    } else if (p2shVersions.includes(version)) {
+      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(1), Buffer.from([0x87])]);
+    }
+    throw Error('Unrecognised address format');
+  };
+}
+
+function makeGroestlcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+  const encodeBech32 = makeBech32SegwitEncoder(hrp);
+  const encodeBase58Check = makeBase58GrsCheckEncoder(p2pkhVersion, p2shVersion);
+  return (data: Buffer) => {
+    try {
+      return encodeBase58Check(data);
+    } catch {
+      return encodeBech32(data);
+    }
+  };
+}
+
+function makeGroestlcoinDecoder(hrp: string, p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+  const decodeBech32 = makeBech32SegwitDecoder(hrp);
+  const decodeBase58Check = makeBase58GrsCheckDecoder(p2pkhVersions, p2shVersions);
+  return (data: string) => {
+    if (data.toLowerCase().startsWith(hrp + '1')) {
+      return decodeBech32(data);
+    } else {
+      return decodeBase58Check(data);
+    }
+  };
+}
+
+const groestlcoinChain = (
+  name: string,
+  coinType: number,
+  hrp: string,
+  p2pkhVersions: number[],
+  p2shVersions: number[],
+) => ({
+  coinType,
+  decoder: makeGroestlcoinDecoder(hrp, p2pkhVersions, p2shVersions),
+  encoder: makeGroestlcoinEncoder(hrp, p2pkhVersions[0], p2shVersions[0]),
+  name,
+});
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -318,6 +395,7 @@ const formats: IFormat[] = [
   },
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  groestlcoinChain('GRS', 17, 'grs', [0x24], [0x05]),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

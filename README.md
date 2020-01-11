@@ -45,7 +45,8 @@ This library currently supports the following cryptocurrencies and address forma
  - TRX (base58check)
  - NEM (base32)
  - EOS
- - KSM (ss58)
+ - KSM (ss58) 
+ - GRS (base58check P2PKH and P2SH, and bech32 segwit)
 
 
 PRs to add additional chains and address types are welcome.
