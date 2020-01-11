@@ -43,6 +43,7 @@ This library currently supports the following cryptocurrencies and address forma
  - EOS
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
+ - GRS (base58check P2PKH and P2SH, and bech32 segwit)
  - HBAR
  - HIVE (base58+ripemd160-checksum)
  - HNS
