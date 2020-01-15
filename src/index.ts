@@ -289,16 +289,16 @@ const formats: IFormat[] = [
     name: 'EOS',             
   },
   {
-    coinType: 434,
-    decoder: ksmAddrDecoder,
-    encoder: ksmAddrEncoder,
-    name: 'KSM'
-  },
-  {
     coinType: 195,
     decoder: tronweb.address.toHex,
     encoder: tronweb.address.fromHex,
     name: 'TRX',
+  },
+  {
+    coinType: 434,
+    decoder: ksmAddrDecoder,
+    encoder: ksmAddrEncoder,
+    name: 'KSM'
   },  
   {
     coinType: 714,
