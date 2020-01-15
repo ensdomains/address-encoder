@@ -3,10 +3,11 @@ import * as bs58check from 'bs58check';
 import * as cashaddr from 'cashaddrjs';
 import * as eos from 'eosjs-ecc';
 import * as nemSdk from 'nem-sdk'
+import * as polkadot from '@polkadot/keyring';
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
-import * as polkadot from '@polkadot/keyring';
+
 const { address: tronaddress } = require('tronweb');
 
 interface IFormat {
