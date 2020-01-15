@@ -44,7 +44,8 @@ This library currently supports the following cryptocurrencies and address forma
  - ATOM (bech32)
  - TRX (base58check)
  - NEM (base32)
- - EOS 
+ - EOS
+ - KSM (ss58)
 
 
 PRs to add additional chains and address types are welcome.
