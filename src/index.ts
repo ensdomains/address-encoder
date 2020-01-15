@@ -6,8 +6,8 @@ import * as nemSdk from 'nem-sdk'
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
-import * as tronweb from 'tronweb';
 import * as polkadot from '@polkadot/keyring';
+const { address: tronaddress } = require('tronweb');
 
 interface IFormat {
   coinType: number;
@@ -290,8 +290,8 @@ const formats: IFormat[] = [
   },
   {
     coinType: 195,
-    decoder: tronweb.address.toHex,
-    encoder: tronweb.address.fromHex,
+    decoder: tronaddress.toHex,
+    encoder: tronaddress.fromHex,
     name: 'TRX',
   },
   {
