@@ -7,8 +7,7 @@ import * as polkadot from '@polkadot/keyring';
 import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
-
-const { address: tronaddress } = require('tronweb');
+import {address as tronaddress} from 'tronweb';
 
 interface IFormat {
   coinType: number;
