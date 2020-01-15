@@ -7,6 +7,7 @@ import * as ripple from 'ripple-address-codec';
 import * as rsk from 'rskjs-util';
 import * as stellar from 'stellar-base';
 import * as tronweb from 'tronweb';
+import * as polkadot from '@polkadot/keyring';
 
 interface IFormat {
   coinType: number;
@@ -239,6 +240,14 @@ if(!eos.PublicKey.isValid(data)) {
   return eos.PublicKey(data).toBuffer();
 }
 
+function ksmAddrEncoder(data: Buffer): string {
+  return polkadot.encodeAddress(data, 2);
+}
+
+function ksmAddrDecoder(data: string): Buffer {
+  return new Buffer(polkadot.decodeAddress(data));
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -278,6 +287,12 @@ const formats: IFormat[] = [
     decoder: eosAddrDecoder,
     encoder: eosAddrEncoder,
     name: 'EOS',             
+  },
+  {
+    coinType: 434,
+    decoder: ksmAddrDecoder,
+    encoder: ksmAddrEncoder,
+    name: 'KSM'
   },
   {
     coinType: 195,
