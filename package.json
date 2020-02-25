@@ -50,6 +50,7 @@
     "safe-buffer": "^5.2.0",
     "stellar-base": "^2.1.2",
     "tronweb": "^2.8.0",
-    "tsify": "^4.0.1"
+    "tsify": "^4.0.1",
+    "tslib": "^1.11.0"
   }
 }
