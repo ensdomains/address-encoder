@@ -8,7 +8,6 @@ import { PublicKey as eosPublicKey } from 'eosjs-ecc';
 import { b32decode, b32encode, isValid   } from 'nem-sdk/build/model/address'
 // @ts-ignore
 import { hex2a, ua2hex  } from 'nem-sdk/build/utils/convert.js';
-// import * as nemSdk from 'nem-sdk'
 import * as ripple from 'ripple-address-codec';
 import {
   isValidChecksumAddress as rskIsValidChecksumAddress, stripHexPrefix as rskStripHexPrefix,
