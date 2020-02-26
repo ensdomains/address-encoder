@@ -1,15 +1,15 @@
-import {decodeAddress, encodeAddress} from '@polkadot/util-crypto/address'
+import { decodeAddress as polkadotDecode, encodeAddress as polkadotEncode } from '@polkadot/util-crypto/address'
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 import { decode as bs58checkDecode, encode as bs58checkEncode } from 'bs58check';
 // tslint:disable-next-line:no-var-requires
 import { decode as cashaddrDecode, encode as cashaddrEncode } from 'cashaddrjs';
 // @ts-ignore
-import PublicKey from 'eosjs-ecc/lib/key_public';
+import eosPublicKey from 'eosjs-ecc/lib/key_public';
 // @ts-ignore
 import { b32decode, b32encode, isValid   } from 'nem-sdk/build/model/address';
 // @ts-ignore
 import { hex2a, ua2hex  } from 'nem-sdk/build/utils/convert';
-import { codec } from 'ripple-address-codec/dist/xrp-codec';
+import { codec as xrpCodec } from 'ripple-address-codec/dist/xrp-codec';
 import {
   isValidChecksumAddress as rskIsValidChecksumAddress, stripHexPrefix as rskStripHexPrefix,
   toChecksumAddress as rskToChecksumAddress } from 'rskjs-util';
@@ -234,28 +234,25 @@ function b32decodeXemAddr(data: string): Buffer {
 }
 
 function eosAddrEncoder(data: Buffer): string {
- if(!PublicKey.isValid(data)) {
+ if(!eosPublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
-  return PublicKey.fromHex(data).toString();
+  return eosPublicKey.fromHex(data).toString();
 }
 
 function eosAddrDecoder(data: string): Buffer {
-if(!PublicKey.isValid(data)) {
+if(!eosPublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
-  return PublicKey(data).toBuffer();
+  return eosPublicKey(data).toBuffer();
 }
 
 function ksmAddrEncoder(data: Buffer): string {
-  return encodeAddress(data, 2)
-  // return encodeAddress(data, 2);
+  return polkadotEncode(data, 2)
 }
 
 function ksmAddrDecoder(data: string): Buffer {
-
-  return new Buffer(decodeAddress(data))
-  // return new Buffer(decodeAddress(data));
+  return new Buffer(polkadotDecode(data))
 }
 
 const formats: IFormat[] = [
@@ -276,8 +273,8 @@ const formats: IFormat[] = [
   hexChecksumChain('RSK', 137, 30),
   {
     coinType: 144,
-    decoder: (data: string) => codec.decodeChecked(data),
-    encoder: (data: Buffer) => codec.encodeChecked(data),
+    decoder: (data: string) => xrpCodec.decodeChecked(data),
+    encoder: (data: Buffer) => xrpCodec.encodeChecked(data),
     name: 'XRP',
   },
   {
