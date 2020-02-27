@@ -1,4 +1,4 @@
-declare module 'tronweb' {
+declare module 'hextronweb' {
 
   export namespace address {
 
@@ -6,5 +6,5 @@ declare module 'tronweb' {
     export function toHex(e: any): any;
 
   }
-  
+
 }
