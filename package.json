@@ -44,12 +44,13 @@
     "bs58check": "^2.1.2",
     "cashaddrjs": "^0.3.8",
     "eosjs-ecc": "^4.0.7",
+    "hextronweb": "^1.0.0",
+    "js-sha256": "^0.9.0",
     "nem-sdk": "^1.6.7",
     "ripple-address-codec": "^4.0.0",
     "rskjs-util": "^1.0.3",
     "safe-buffer": "^5.2.0",
     "stellar-base": "^2.1.2",
-    "tronweb": "^2.8.0",
     "tsify": "^4.0.1",
     "tslib": "^1.11.0"
   }

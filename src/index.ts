@@ -14,7 +14,7 @@ import {
   toChecksumAddress as rskToChecksumAddress } from 'rskjs-util';
 // @ts-ignore
 import { StrKey } from 'stellar-base/lib/strkey';
-import {address as tronaddress} from 'tronweb';
+import {address as tronaddress} from 'hextronweb';
 
 interface IFormat {
   coinType: number;
@@ -293,7 +293,7 @@ const formats: IFormat[] = [
     coinType: 194,
     decoder: eosAddrDecoder,
     encoder: eosAddrEncoder,
-    name: 'EOS',             
+    name: 'EOS',
   },
   {
     coinType: 195,
@@ -306,7 +306,7 @@ const formats: IFormat[] = [
     decoder: ksmAddrDecoder,
     encoder: ksmAddrEncoder,
     name: 'KSM'
-  },  
+  },
   {
     coinType: 714,
     decoder: (data: string) => {
