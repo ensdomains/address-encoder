@@ -1,4 +1,3 @@
-import { decodeAddress as polkadotDecode, encodeAddress as polkadotEncode } from '@polkadot/util-crypto/address'
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 import { decode as bs58checkDecode, encode as bs58checkEncode } from 'bs58check';
 // tslint:disable-next-line:no-var-requires
@@ -15,6 +14,7 @@ import {
   toChecksumAddress as rskToChecksumAddress } from 'rskjs-util';
 // @ts-ignore
 import { StrKey } from 'stellar-base/lib/strkey';
+import { ss58Decode, ss58Encode } from './ss58';
 
 interface IFormat {
   coinType: number;
@@ -248,11 +248,11 @@ if(!eosPublicKey.isValid(data)) {
 }
 
 function ksmAddrEncoder(data: Buffer): string {
-  return polkadotEncode(data, 2)
+  return ss58Encode(Uint8Array.from(data), 2)
 }
 
 function ksmAddrDecoder(data: string): Buffer {
-  return new Buffer(polkadotDecode(data))
+  return new Buffer(ss58Decode(data))
 }
 
 const formats: IFormat[] = [
