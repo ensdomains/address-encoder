@@ -24,6 +24,7 @@ function stringToBytes(s) {
 	return data;
 }
 
+/* tslint:disable:no-bitwise */
 function toLE(val, bytes) {
 	let flip = false;
 	if (val < 0) {
@@ -82,6 +83,7 @@ function ss58Encode(a, type = defaultType, checksumLength = null, length = null,
 	let complete = new Uint8Array([type, ...payload, ...hash.slice(0, checksumLength)])
 	return bs58.encode(Buffer.from(complete))
 }
+/* tslint:enable:no-bitwise */
 
 function ss58Decode(ss58, lookupIndex=0) {
 	let a
@@ -112,7 +114,7 @@ function ss58Decode(ss58, lookupIndex=0) {
 		: 32
 	let checksumLength = a.length - 1 - length
 
-	let payload = a.slice(0, 1 + length + checksumLength)
+	let payload = a.slice(1, 1 + length)
 	let checksum = a.slice(1 + a.length)
 
 	let accountId
