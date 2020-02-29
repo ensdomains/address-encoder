@@ -1,19 +1,20 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
-import { decode as bs58checkDecode, encode as bs58checkEncode } from 'bs58check';
-// tslint:disable-next-line:no-var-requires
 import { decode as cashaddrDecode, encode as cashaddrEncode } from 'cashaddrjs';
 // @ts-ignore
-import eosPublicKey from 'eosjs-ecc/lib/key_public';
-// @ts-ignore
-import { b32decode, b32encode, isValid   } from 'nem-sdk/build/model/address';
-// @ts-ignore
-import { hex2a, ua2hex  } from 'nem-sdk/build/utils/convert';
-import { codec as xrpCodec } from 'ripple-address-codec/dist/xrp-codec';
 import {
-  isValidChecksumAddress as rskIsValidChecksumAddress, stripHexPrefix as rskStripHexPrefix,
-  toChecksumAddress as rskToChecksumAddress } from 'rskjs-util';
+  b32decode,
+  b32encode,
+  codec as xrpCodec,
+  eosPublicKey,
+  hex2a,
+  isValidChecksumAddress as rskIsValidChecksumAddress,
+  stripHexPrefix as rskStripHexPrefix,
+  toChecksumAddress as rskToChecksumAddress,
+  ua2hex,
+} from 'crypto-addr-codec';
 // @ts-ignore
 import { StrKey } from 'stellar-base/lib/strkey';
+import { decode as bs58checkDecode, encode as bs58checkEncode } from './bs58';
 import { ss58Decode, ss58Encode } from './ss58';
 
 interface IFormat {
@@ -176,6 +177,7 @@ function decodeBitcoinCash(data: string): Buffer {
 }
 
 function makeChecksummedHexEncoder(chainId?: number) {
+  // @ts-ignore
   return (data: Buffer) => rskToChecksumAddress(data.toString('hex'), chainId || null);
 }
 
@@ -183,7 +185,8 @@ function makeChecksummedHexDecoder(chainId?: number) {
   return (data: string) => {
     const stripped = rskStripHexPrefix(data);
     if (
-      !rskIsValidChecksumAddress(data, chainId || null) &&
+        // @ts-ignore
+    !rskIsValidChecksumAddress(data, chainId || null) &&
       stripped !== stripped.toLowerCase() &&
       stripped !== stripped.toUpperCase()
     ) {
@@ -226,11 +229,10 @@ function b32encodeXemAddr(data: Buffer): string {
 }
 
 function b32decodeXemAddr(data: string): Buffer {
-  if(!isValid(data)) {
-    throw Error('Unrecognised address format');
-  }
   const address = data.toString().toUpperCase().replace(/-/g, '');
-  return ua2hex(b32decode(address));
+
+  // @ts-ignore
+  return ua2hex(b32decode(address))
 }
 
 function eosAddrEncoder(data: Buffer): string {
@@ -293,7 +295,7 @@ const formats: IFormat[] = [
     coinType: 194,
     decoder: eosAddrDecoder,
     encoder: eosAddrEncoder,
-    name: 'EOS',             
+    name: 'EOS',
   },
   {
     coinType: 195,
@@ -306,7 +308,7 @@ const formats: IFormat[] = [
     decoder: ksmAddrDecoder,
     encoder: ksmAddrEncoder,
     name: 'KSM'
-  },  
+  },
   {
     coinType: 714,
     decoder: (data: string) => {
