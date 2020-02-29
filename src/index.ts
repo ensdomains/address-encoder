@@ -4,16 +4,17 @@ import { decode as cashaddrDecode, encode as cashaddrEncode } from 'cashaddrjs';
 import {
   b32decode,
   b32encode,
+  calculateChecksum,
   codec as xrpCodec,
+  decodeCheck as decodeEd25519PublicKey,
+  encodeCheck as encodeEd25519PublicKey,
   eosPublicKey,
   hex2a,
   isValidChecksumAddress as rskIsValidChecksumAddress,
   stripHexPrefix as rskStripHexPrefix,
   toChecksumAddress as rskToChecksumAddress,
-  ua2hex,
+  ua2hex
 } from 'crypto-addr-codec';
-// @ts-ignore
-import { StrKey } from 'stellar-base/lib/strkey';
 import { decode as bs58checkDecode, encode as bs58checkEncode } from './bs58';
 import { ss58Decode, ss58Encode } from './ss58';
 
@@ -257,6 +258,14 @@ function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data))
 }
 
+function strDecoder(data: string): Buffer {
+  return decodeEd25519PublicKey('ed25519PublicKey', data)
+}
+
+function strEncoder(data: Buffer): string {
+  return encodeEd25519PublicKey('ed25519PublicKey', data)
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
@@ -287,8 +296,8 @@ const formats: IFormat[] = [
   },
   {
     coinType: 148,
-    decoder: StrKey.decodeEd25519PublicKey,
-    encoder: StrKey.encodeEd25519PublicKey,
+    decoder: strDecoder,
+    encoder: strEncoder,
     name: 'XLM',
   },
   {

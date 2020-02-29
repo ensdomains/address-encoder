@@ -3,6 +3,9 @@ declare module 'crypto-addr-codec' {
         export function b32decode(data: string): Buffer;
         export function hex2a(data: any): any;
         export function codec(data: any): any;
+        export function encodeCheck(type: string, data: Buffer): string;
+        export function decodeCheck(type: string, data: string): Buffer;
+        export function calculateChecksum(data: any): any;
 
         // export function xrpCodex(data: any): any;
         export function ua2hex(data: any): any;
