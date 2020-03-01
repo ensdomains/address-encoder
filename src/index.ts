@@ -1,5 +1,4 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
-import { decode as cashaddrDecode, encode as cashaddrEncode } from 'cashaddrjs';
 // @ts-ignore
 import {
   b32decode,
@@ -16,6 +15,7 @@ import {
   ua2hex
 } from 'crypto-addr-codec';
 import { decode as bs58checkDecode, encode as bs58checkEncode } from './bs58';
+import { decode as cashaddrDecode, encode as cashaddrEncode } from './cashaddr';
 import { ss58Decode, ss58Encode } from './ss58';
 
 interface IFormat {
@@ -147,22 +147,23 @@ function encodeCashAddr(data: Buffer): string {
       ) {
         throw Error('Unrecognised address format');
       }
-      return cashaddrEncode('bitcoincash', 'P2PKH', data.slice(3, 3 + data.readUInt8(2)));
+      return cashaddrEncode('bitcoincash', 0, data.slice(3, 3 + data.readUInt8(2)));
     case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
       if (data.readUInt8(data.length - 1) !== 0x87) {
         throw Error('Unrecognised address format');
       }
-      return cashaddrEncode('bitcoincash', 'P2SH', data.slice(2, 2 + data.readUInt8(1)));
+      return cashaddrEncode('bitcoincash', 1, data.slice(2, 2 + data.readUInt8(1)));
     default:
       throw Error('Unrecognised address format');
   }
 }
 
 function decodeCashAddr(data: string): Buffer {
+  // @ts-ignore
   const { prefix, type, hash } = cashaddrDecode(data);
-  if (type === 'P2PKH') {
+  if (type === 0) {
     return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), Buffer.from(hash), Buffer.from([0x88, 0xac])]);
-  } else if (type === 'P2SH') {
+  } else if (type === 1) {
     return Buffer.concat([Buffer.from([0xa9, 0x14]), Buffer.from(hash), Buffer.from([0x87])]);
   }
   throw Error('Unrecognised address format');
