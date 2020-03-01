@@ -141,4 +141,4 @@ function ss58Decode(ss58, lookupIndex=0) {
 	return result
 }
 
-module.exports = { ss58Decode, ss58Encode }
+module.exports = { ss58Decode, ss58Encode };
