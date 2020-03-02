@@ -1,9 +1,7 @@
 const assert = require('assert');
 const ecurve = require('ecurve');
-const BigInteger = require('bigi');
 const secp256k1 = ecurve.getCurveByName('secp256k1');
 
-const sha256 = require('js-sha256');
 const keyUtils = require('./key_utils');
 
 var G = secp256k1.G
@@ -58,31 +56,6 @@ function PublicKey(Q, pubkey_prefix = 'EOS') {
         var buf = Q.getEncoded(false);
         var point = ecurve.Point.decodeFrom(secp256k1, buf);
         return PublicKey.fromPoint(point);
-    }
-
-    /** @deprecated */
-    function child(offset) {
-        console.error('Deprecated warning: PublicKey.child')
-
-        assert(Buffer.isBuffer(offset), "Buffer required: offset")
-        assert.equal(offset.length, 32, "offset length")
-
-        offset = Buffer.concat([toBuffer(), offset])
-        offset = sha256(offset)
-
-        let c = BigInteger.fromBuffer(offset)
-
-        if (c.compareTo(n) >= 0)
-            throw new Error("Child offset went out of bounds, try again")
-
-
-        let cG = G.multiply(c)
-        let Qprime = Q.add(cG)
-
-        if (secp256k1.isInfinity(Qprime))
-            throw new Error("Child offset derived to an invalid key, try again")
-
-        return PublicKey.fromPoint(Qprime)
     }
 
     function toHex() {

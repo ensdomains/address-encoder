@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js';
+var cryptoUtils = require('./utils');
 
 // NEM - sdk
 // https://github.com/QuantumMechanics/NEM-sdk/blob/master/src/utils/convert.js
@@ -45,7 +45,7 @@ const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 *
 * @param {string} s - A string
 *
-* @return {string} - The encoded string
+* @return {Uint8Array} - The encoded string
 */
 let b32encode = function (s) {
     let parts = [];
@@ -82,14 +82,7 @@ let b32encode = function (s) {
     return parts.join("");
 }
 
-/**
-* Decode a base32 string.
-* This is made specifically for our use, deals only with proper strings
-*
-* @param {string} s - A base32 string
-*
-* @return {Uint8Array} - The decoded string
-*/
+
 let b32decode = function (s) {
     let r = new ArrayBuffer(s.length * 5 / 8);
     let b = new Uint8Array(r);
@@ -108,6 +101,9 @@ let b32decode = function (s) {
     return b;
 }
 
+
+// https://github.com/christsim/multicoin-address-validator/blob/master/src/nem_validator.js
+
 /**
 * Check if an address is valid
 *
@@ -115,17 +111,13 @@ let b32decode = function (s) {
 *
 * @return {boolean} - True if address is valid, false otherwise
 */
-let isValid = function (_address) {
-    let address = _address.toString().toUpperCase().replace(/-/g, '');
+var isValid = function (_address) {
+    var address = _address.toString().toUpperCase().replace(/-/g, '');
     if (!address || address.length !== 40) {
         return false;
     }
-    let decoded = ua2hex(b32decode(address));
-    let versionPrefixedRipemd160Hash = CryptoJS.enc.Hex.parse(decoded.slice(0, 42));
-    let tempHash = CryptoJS.SHA3(versionPrefixedRipemd160Hash, {
-        outputLength: 256
-    });
-    let stepThreeChecksum = CryptoJS.enc.Hex.stringify(tempHash).substr(0, 8);
+    var decoded = cryptoUtils.toHex(cryptoUtils.base32.b32decode(address));
+    var stepThreeChecksum = cryptoUtils.keccak256Checksum(Buffer.from(decoded.slice(0, 42), 'hex'));
 
     return stepThreeChecksum === decoded.slice(42);
 };

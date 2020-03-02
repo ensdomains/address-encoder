@@ -1,10 +1,15 @@
 const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
 const base58 = require('./base-x')(ALPHABET)
-
-const sha256 = require('js-sha256');
-
-
 const RIPEMD160 = require('ripemd160')
+const { SHA3 } = require('sha3');
+
+
+function sha256(data, resultEncoding) {
+    return new SHA3(256).update(data).digest(resultEncoding);
+}
+
+
+
 
 function ripemd160(data) {
     return new RIPEMD160().update(data).digest('hex')

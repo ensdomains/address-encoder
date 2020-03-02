@@ -11,6 +11,7 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm run test",
     "size": "browserify src/index.ts -p [tsify --noImplicitAny] | wc -c",
+    "analyse": "browserify src/index.ts > lib/bundle.js --full-paths -p [tsify --noImplicitAny] && discify lib/bundle.js > lib/disc.html",
     "test": "jest --config jestconfig.json"
   },
   "files": [
@@ -41,15 +42,12 @@
     "@types/cashaddrjs": "^0.3.0",
     "assert": "^2.0.0",
     "base32.js": "^0.1.0",
-    "bigi": "^1.4.2",
     "blakejs": "^1.1.0",
     "cashaddrjs": "^0.3.8",
-    "crypto-js": "^4.0.0",
     "ecurve": "^1.0.6",
-    "js-sha256": "^0.9.0",
     "ripemd160": "^2.0.2",
     "ripple-address-codec": "^4.0.0",
-    "rskjs-util": "^1.0.3",
+    "sha3": "^2.1.1",
     "stream": "0.0.2",
     "tsify": "^4.0.1",
     "tslib": "^1.11.0"
