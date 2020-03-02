@@ -1,19 +1,21 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from './encoders/bech32';
-import { decode as bs58checkDecode, encode as bs58checkEncode } from './encoders/bs85check';
-// tslint:disable-next-line:no-var-requires
-import { decode as cashaddrDecode, encode as cashaddrEncode } from 'cashaddrjs';//see comments on cashaddr.js
+import { decode as cashaddrDecode, encode as cashaddrEncode } from './encoders/cashaddr';
+
 // @ts-ignore
-import eosPublicKey from './encoders/key_public';
-// @ts-ignore
-import { b32decode, b32encode, isValid } from './encoders/nem-address';
-// @ts-ignore
-import { hex2a, ua2hex } from './encoders/nem-address';
-import { codec as xrpCodec } from 'ripple-address-codec/dist/xrp-codec';
 import {
-  isValidChecksumAddress as rskIsValidChecksumAddress, stripHexPrefix as rskStripHexPrefix,
-  toChecksumAddress as rskToChecksumAddress } from './encoders/rskj';
-// @ts-ignore
-import { StrKey } from './encoders/strkey';
+  b32decode,
+  b32encode,
+  codec as xrpCodec,
+  decodeCheck as decodeEd25519PublicKey,
+  encodeCheck as encodeEd25519PublicKey,
+  eosPublicKey,
+  hex2a,
+  isValidChecksumAddress as rskIsValidChecksumAddress,
+  stripHexPrefix as rskStripHexPrefix,
+  toChecksumAddress as rskToChecksumAddress,
+  ua2hex
+} from 'crypto-addr-codec';
+import { decode as bs58checkDecode, encode as bs58checkEncode } from './encoders/bs85check';
 import { ss58Decode, ss58Encode } from './encoders/ss58';
 
 interface IFormat {
@@ -145,22 +147,23 @@ function encodeCashAddr(data: Buffer): string {
       ) {
         throw Error('Unrecognised address format');
       }
-      return cashaddrEncode('bitcoincash', 'P2PKH', data.slice(3, 3 + data.readUInt8(2)));
+      return cashaddrEncode('bitcoincash', 0, data.slice(3, 3 + data.readUInt8(2)));
     case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
       if (data.readUInt8(data.length - 1) !== 0x87) {
         throw Error('Unrecognised address format');
       }
-      return cashaddrEncode('bitcoincash', 'P2SH', data.slice(2, 2 + data.readUInt8(1)));
+      return cashaddrEncode('bitcoincash', 1, data.slice(2, 2 + data.readUInt8(1)));
     default:
       throw Error('Unrecognised address format');
   }
 }
 
 function decodeCashAddr(data: string): Buffer {
+  // @ts-ignore
   const { prefix, type, hash } = cashaddrDecode(data);
-  if (type === 'P2PKH') {
+  if (type === 0) {
     return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), Buffer.from(hash), Buffer.from([0x88, 0xac])]);
-  } else if (type === 'P2SH') {
+  } else if (type === 1) {
     return Buffer.concat([Buffer.from([0xa9, 0x14]), Buffer.from(hash), Buffer.from([0x87])]);
   }
   throw Error('Unrecognised address format');
@@ -176,17 +179,16 @@ function decodeBitcoinCash(data: string): Buffer {
 }
 
 function makeChecksummedHexEncoder(chainId?: number) {
+  // @ts-ignore
   return (data: Buffer) => rskToChecksumAddress(data.toString('hex'), chainId || null);
 }
 
 function makeChecksummedHexDecoder(chainId?: number) {
-  if(!chainId){
-    throw Error("chainId number is required")
-  }
   return (data: string) => {
     const stripped = rskStripHexPrefix(data);
     if (
-      !rskIsValidChecksumAddress(data, chainId) &&
+      // @ts-ignore
+      !rskIsValidChecksumAddress(data, chainId || null) &&
       stripped !== stripped.toLowerCase() &&
       stripped !== stripped.toUpperCase()
     ) {
@@ -225,28 +227,25 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
 });
 
 function b32encodeXemAddr(data: Buffer): string {
-  // @ts-ignore
   return b32encode(hex2a(data));
 }
 
 function b32decodeXemAddr(data: string): Buffer {
-  if(!isValid(data)) {
-    throw Error('Unrecognised address format');
-  }
   const address = data.toString().toUpperCase().replace(/-/g, '');
+
   // @ts-ignore
-  return ua2hex(b32decode(address));
+  return ua2hex(b32decode(address))
 }
 
 function eosAddrEncoder(data: Buffer): string {
- if(!eosPublicKey.isValid(data)) {
+  if (!eosPublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
   return eosPublicKey.fromHex(data).toString();
 }
 
 function eosAddrDecoder(data: string): Buffer {
-if(!eosPublicKey.isValid(data)) {
+  if (!eosPublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
   return eosPublicKey(data).toBuffer();
@@ -258,6 +257,14 @@ function ksmAddrEncoder(data: Buffer): string {
 
 function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data))
+}
+
+function strDecoder(data: string): Buffer {
+  return decodeEd25519PublicKey('ed25519PublicKey', data)
+}
+
+function strEncoder(data: Buffer): string {
+  return encodeEd25519PublicKey('ed25519PublicKey', data)
 }
 
 const formats: IFormat[] = [
@@ -290,8 +297,8 @@ const formats: IFormat[] = [
   },
   {
     coinType: 148,
-    decoder: StrKey.decodeEd25519PublicKey,
-    encoder: StrKey.encodeEd25519PublicKey,
+    decoder: strDecoder,
+    encoder: strEncoder,
     name: 'XLM',
   },
   {

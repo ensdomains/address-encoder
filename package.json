@@ -12,6 +12,7 @@
     "prepublishOnly": "npm run test",
     "size": "browserify src/index.ts -p [tsify --noImplicitAny] | wc -c",
     "analyse": "browserify src/index.ts > lib/bundle.js --full-paths -p [tsify --noImplicitAny] && discify lib/bundle.js > lib/disc.html",
+    "analyse2": "browserify src/index.ts > lib/bundle.js --debug --full-paths -p [tsify --noImplicitAny]",
     "test": "jest --config jestconfig.json"
   },
   "files": [
@@ -39,17 +40,9 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
-    "@types/cashaddrjs": "^0.3.0",
-    "assert": "^2.0.0",
-    "base32.js": "^0.1.0",
-    "blakejs": "^1.1.0",
-    "cashaddrjs": "^0.3.8",
-    "ecurve": "^1.0.6",
-    "ripemd160": "^2.0.2",
-    "ripple-address-codec": "^4.0.0",
     "sha3": "^2.1.1",
-    "stream": "0.0.2",
-    "tsify": "^4.0.1",
-    "tslib": "^1.11.0"
+    "blakejs": "^1.1.0",
+    "crypto-addr-codec": "^0.1.1",
+    "tsify": "^4.0.1"
   }
 }
