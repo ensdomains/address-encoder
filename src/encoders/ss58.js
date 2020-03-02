@@ -2,8 +2,10 @@
 // to make it work with kusama addresses and compacted it a bit by only using what its needed
 // credits to parity tech for original code
 //
-const bs58 = require('bs58')
 const { blake2b } = require('blakejs')
+const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+const bs58 = require('./base-x')(ALPHABET)
+
 
 let defaultType = 42
 const KNOWN_TYPES = [0, 1, 2, 42, 43, 68, 69]
