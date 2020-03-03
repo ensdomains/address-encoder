@@ -42,7 +42,7 @@
     "bech32": "^1.1.3",
     "blakejs": "^1.1.0",
     "cashaddrjs": "^0.3.8",
-    "crypto-addr-codec": "0.1.2",
+    "crypto-addr-codec": "0.1.3",
     "tsify": "^4.0.1"
   }
 }

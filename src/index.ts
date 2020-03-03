@@ -1,6 +1,6 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 import { decode as cashaddrDecode, encode as cashaddrEncode } from 'cashaddrjs';
-// @ts-ignore
+
 import {
   b32decode,
   b32encode,
@@ -10,6 +10,7 @@ import {
   encodeCheck as encodeEd25519PublicKey,
   eosPublicKey,
   hex2a,
+  isValid as isValidXemAddress,
   isValidChecksumAddress as rskIsValidChecksumAddress,
   ss58Decode,
   ss58Encode,
@@ -17,6 +18,7 @@ import {
   toChecksumAddress as rskToChecksumAddress,
   ua2hex
 } from 'crypto-addr-codec';
+
 import { decode as bs58Decode, encode as bs58Encode } from './bs58';
 
 interface IFormat {
@@ -230,6 +232,9 @@ function b32encodeXemAddr(data: Buffer): string {
 }
 
 function b32decodeXemAddr(data: string): Buffer {
+  if (!isValidXemAddress(data)) {
+    throw Error('Unrecognised address format');
+  }
   const address = data.toString().toUpperCase().replace(/-/g, '');
   return ua2hex(b32decode(address))
 }
