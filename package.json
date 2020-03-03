@@ -39,13 +39,10 @@
   },
   "dependencies": {
     "@types/cashaddrjs": "^0.3.0",
-    "base32.js": "^0.1.0",
     "bech32": "^1.1.3",
     "blakejs": "^1.1.0",
     "cashaddrjs": "^0.3.8",
-    "crc": "^3.8.0",
-    "crypto-addr-codec": "^0.1.1",
-    "lodash": "^4.17.15",
+    "crypto-addr-codec": "0.1.2",
     "tsify": "^4.0.1"
   }
 }

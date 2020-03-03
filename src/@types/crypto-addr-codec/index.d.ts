@@ -24,4 +24,8 @@ declare module 'crypto-addr-codec' {
                 function decodeChecked(data: string): Buffer;
                 function encodeChecked(data: Buffer): string;
         }
+
+        export function ss58Encode(data: Uint8Array, format: number): string;
+        export function ss58Decode(data: string): Buffer;
+
 }
