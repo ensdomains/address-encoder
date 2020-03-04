@@ -1,20 +1,25 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
-import { decode as bs58checkDecode, encode as bs58checkEncode } from 'bs58check';
-// tslint:disable-next-line:no-var-requires
 import { decode as cashaddrDecode, encode as cashaddrEncode } from 'cashaddrjs';
-// @ts-ignore
-import eosPublicKey from 'eosjs-ecc/lib/key_public';
-// @ts-ignore
-import { b32decode, b32encode, isValid   } from 'nem-sdk/build/model/address';
-// @ts-ignore
-import { hex2a, ua2hex  } from 'nem-sdk/build/utils/convert';
-import { codec as xrpCodec } from 'ripple-address-codec/dist/xrp-codec';
+
 import {
-  isValidChecksumAddress as rskIsValidChecksumAddress, stripHexPrefix as rskStripHexPrefix,
-  toChecksumAddress as rskToChecksumAddress } from 'rskjs-util';
-// @ts-ignore
-import { StrKey } from 'stellar-base/lib/strkey';
-import { ss58Decode, ss58Encode } from './ss58';
+  b32decode,
+  b32encode,
+  calculateChecksum,
+  codec as xrpCodec,
+  decodeCheck as decodeEd25519PublicKey,
+  encodeCheck as encodeEd25519PublicKey,
+  eosPublicKey,
+  hex2a,
+  isValid as isValidXemAddress,
+  isValidChecksumAddress as rskIsValidChecksumAddress,
+  ss58Decode,
+  ss58Encode,
+  stripHexPrefix as rskStripHexPrefix,
+  toChecksumAddress as rskToChecksumAddress,
+  ua2hex
+} from 'crypto-addr-codec';
+
+import { decode as bs58Decode, encode as bs58Encode } from './bs58';
 
 interface IFormat {
   coinType: number;
@@ -36,13 +41,14 @@ function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (dat
           throw Error('Unrecognised address format');
         }
         addr = Buffer.concat([Buffer.from([p2pkhVersion]), data.slice(3, 3 + data.readUInt8(2))]);
-        return bs58checkEncode(addr);
+        // @ts-ignore
+        return bs58Encode(addr);
       case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
         if (data.readUInt8(data.length - 1) !== 0x87) {
           throw Error('Unrecognised address format');
         }
         addr = Buffer.concat([Buffer.from([p2shVersion]), data.slice(2, 2 + data.readUInt8(1))]);
-        return bs58checkEncode(addr);
+        return bs58Encode(addr);
       default:
         throw Error('Unrecognised address format');
     }
@@ -51,7 +57,7 @@ function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (dat
 
 function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
   return (data: string) => {
-    const addr = bs58checkDecode(data);
+    const addr = bs58Decode(data);
     const version = addr.readUInt8(0);
     if (p2pkhVersions.includes(version)) {
       return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
@@ -183,7 +189,7 @@ function makeChecksummedHexDecoder(chainId?: number) {
   return (data: string) => {
     const stripped = rskStripHexPrefix(data);
     if (
-      !rskIsValidChecksumAddress(data, chainId || null) &&
+    !rskIsValidChecksumAddress(data, chainId || null) &&
       stripped !== stripped.toLowerCase() &&
       stripped !== stripped.toUpperCase()
     ) {
@@ -226,11 +232,11 @@ function b32encodeXemAddr(data: Buffer): string {
 }
 
 function b32decodeXemAddr(data: string): Buffer {
-  if(!isValid(data)) {
+  if (!isValidXemAddress(data)) {
     throw Error('Unrecognised address format');
   }
   const address = data.toString().toUpperCase().replace(/-/g, '');
-  return ua2hex(b32decode(address));
+  return ua2hex(b32decode(address))
 }
 
 function eosAddrEncoder(data: Buffer): string {
@@ -253,6 +259,14 @@ function ksmAddrEncoder(data: Buffer): string {
 
 function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data))
+}
+
+function strDecoder(data: string): Buffer {
+  return decodeEd25519PublicKey('ed25519PublicKey', data)
+}
+
+function strEncoder(data: Buffer): string {
+  return encodeEd25519PublicKey('ed25519PublicKey', data)
 }
 
 const formats: IFormat[] = [
@@ -285,20 +299,20 @@ const formats: IFormat[] = [
   },
   {
     coinType: 148,
-    decoder: StrKey.decodeEd25519PublicKey,
-    encoder: StrKey.encodeEd25519PublicKey,
+    decoder: strDecoder,
+    encoder: strEncoder,
     name: 'XLM',
   },
   {
     coinType: 194,
     decoder: eosAddrDecoder,
     encoder: eosAddrEncoder,
-    name: 'EOS',             
+    name: 'EOS',
   },
   {
     coinType: 195,
-    decoder: bs58checkDecode,
-    encoder: bs58checkEncode,
+    decoder: bs58Decode,
+    encoder: bs58Encode,
     name: 'TRX',
   },
   {
@@ -306,7 +320,7 @@ const formats: IFormat[] = [
     decoder: ksmAddrDecoder,
     encoder: ksmAddrEncoder,
     name: 'KSM'
-  },  
+  },
   {
     coinType: 714,
     decoder: (data: string) => {
