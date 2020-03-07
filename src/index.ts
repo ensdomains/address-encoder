@@ -1,26 +1,6 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 // @ts-ignore
-import {
-  b32decode,
-  b32encode,
-  bs58Decode,
-  bs58Encode,
-  calculateChecksum,
-  cashaddrDecode,
-  cashaddrEncode,
-  codec as xrpCodec,
-  decodeCheck as decodeEd25519PublicKey,
-  encodeCheck as encodeEd25519PublicKey,
-  eosPublicKey,
-  hex2a,
-  isValid as isValidXemAddress,
-  isValidChecksumAddress as rskIsValidChecksumAddress,
-  ss58Decode,
-  ss58Encode,
-  stripHexPrefix as rskStripHexPrefix,
-  toChecksumAddress as rskToChecksumAddress,
-  ua2hex
-} from 'crypto-addr-codec';
+import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
 
 interface IFormat {
   coinType: number;
@@ -190,7 +170,7 @@ function makeChecksummedHexDecoder(chainId?: number) {
   return (data: string) => {
     const stripped = rskStripHexPrefix(data);
     if (
-    !rskIsValidChecksumAddress(data, chainId || null) &&
+      !rskIsValidChecksumAddress(data, chainId || null) &&
       stripped !== stripped.toLowerCase() &&
       stripped !== stripped.toUpperCase()
     ) {
@@ -241,14 +221,14 @@ function b32decodeXemAddr(data: string): Buffer {
 }
 
 function eosAddrEncoder(data: Buffer): string {
- if(!eosPublicKey.isValid(data)) {
+  if (!eosPublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
   return eosPublicKey.fromHex(data).toString();
 }
 
 function eosAddrDecoder(data: string): Buffer {
-if(!eosPublicKey.isValid(data)) {
+  if (!eosPublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
   return eosPublicKey(data).toBuffer();
@@ -345,3 +325,4 @@ export const formatsByCoinType: { [key: number]: IFormat } = Object.assign(
   {},
   ...formats.map(x => ({ [x.coinType]: x })),
 );
+
