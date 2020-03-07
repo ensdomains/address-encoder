@@ -4,7 +4,6 @@ import { decode as cashaddrDecode, encode as cashaddrEncode } from 'cashaddrjs';
 import {
   b32decode,
   b32encode,
-  calculateChecksum,
   codec as xrpCodec,
   decodeCheck as decodeEd25519PublicKey,
   encodeCheck as encodeEd25519PublicKey,
@@ -320,20 +319,6 @@ const formats: IFormat[] = [
     decoder: ksmAddrDecoder,
     encoder: ksmAddrEncoder,
     name: 'KSM'
-  },
-  {
-    coinType: 714,
-    decoder: (data: string) => {
-      const { prefix, words } = bech32Decode(data);
-      if (prefix !== 'bnb') {
-        throw Error('Unrecognised address format');
-      }
-      return Buffer.from(bech32FromWords(words));
-    },
-    encoder: (data: Buffer) => {
-      return bech32Encode('bnb', bech32ToWords(data));
-    },
-    name: 'BNB',
   },
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
