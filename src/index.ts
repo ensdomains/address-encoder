@@ -2,6 +2,9 @@ import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32From
 // @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
 
+type EnCoder = (data: Buffer) => string
+type DeCoder = (data: string) => Buffer
+
 interface IFormat {
   coinType: number;
   name: string;
@@ -279,9 +282,9 @@ const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
 ];
+
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
 export const formatsByCoinType: { [key: number]: IFormat } = Object.assign(
   {},
   ...formats.map(x => ({ [x.coinType]: x })),
 );
-
