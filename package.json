@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "bech32": "^1.1.3",
-    "crypto-addr-codec": "^0.1.5"
+    "crypto-addr-codec": "^0.1.6"
   }
 }
