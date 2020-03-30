@@ -215,7 +215,7 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
 });
 
 function b32encodeXemAddr(data: Buffer): string {
-  return nemSdk.default.model.address.b32encode(nemSdk.default.utils.convert.hex2a(data));
+  return nemSdk.default.model.address.b32encode(nemSdk.default.utils.convert.hex2a(data.toString('hex')));
 }
 
 function b32decodeXemAddr(data: string): Buffer {
@@ -223,7 +223,8 @@ function b32decodeXemAddr(data: string): Buffer {
     throw Error('Unrecognised address format');
   }
   const address = data.toString().toUpperCase().replace(/-/g, '');
-  return nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address));
+  let decoded =  nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address))
+  return Buffer.from(tronaddress.toHex(decoded), 'hex')
 }
 
 function eosAddrEncoder(data: Buffer): string {
@@ -290,8 +291,12 @@ const formats: IFormat[] = [
   },
   {
     coinType: 195,
-    decoder: tronaddress.toHex,
-    encoder: tronaddress.fromHex,
+    decoder: (data: string) => {
+      return Buffer.from(tronaddress.toHex(data), 'hex')
+    },
+    encoder: (data: Buffer) => {
+      return tronaddress.fromHex(data.toString('hex'))
+    },
     name: 'TRX',
   },
   {
