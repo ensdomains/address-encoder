@@ -223,7 +223,7 @@ function b32decodeXemAddr(data: string): Buffer {
     throw Error('Unrecognised address format');
   }
   const address = data.toString().toUpperCase().replace(/-/g, '');
-  let decoded =  nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address))
+  const decoded =  nemSdk.default.utils.convert.ua2hex(nemSdk.default.model.address.b32decode(address))
   return Buffer.from(tronaddress.toHex(decoded), 'hex')
 }
 
