@@ -209,6 +209,7 @@ vectors.forEach((vector: TestVector) => {
 
     for (var example of vector.passingVectors) {
       const decoded = format.decoder(example.text);
+      expect(decoded).toBeInstanceOf(Buffer);
       expect(decoded.toString('hex')).toBe(example.hex);
       const reencoded = format.encoder(decoded);
       expect(reencoded).toBe(example.canonical || example.text);
