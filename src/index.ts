@@ -209,7 +209,7 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
 });
 
 function b32encodeXemAddr(data: Buffer): string {
-  return b32encode(hex2a(data));
+  return b32encode(hex2a(data.toString('hex')));
 }
 
 function b32decodeXemAddr(data: string): Buffer {
@@ -217,7 +217,7 @@ function b32decodeXemAddr(data: string): Buffer {
     throw Error('Unrecognised address format');
   }
   const address = data.toString().toUpperCase().replace(/-/g, '');
-  return ua2hex(b32decode(address))
+  return b32decode(address)
 }
 
 function eosAddrEncoder(data: Buffer): string {
