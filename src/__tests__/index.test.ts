@@ -199,6 +199,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
+  },
+  {
+    name: 'NANO',
+    coinType: 44,
+    passingVectors: [
+      { text: 'nano_1qgkdadcbwn65sp95gr144fuc99tm5tn6gx9y8ow9bgaam6r5ixgtx19tw93', hex: '5dd25a16a4f2841e6c71bb00109bb51cfa98f5423ba7f1abc3a5c844c981c3ae' }
+    ],
   }
 ];
 

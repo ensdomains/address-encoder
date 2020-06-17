@@ -1,6 +1,8 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 // @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
+// @ts-ignore
+import { blake2b } from 'blakejs'
 
 interface IFormat {
   coinType: number;
@@ -220,6 +222,79 @@ function b32decodeXemAddr(data: string): Buffer {
   return b32decode(address)
 }
 
+const nanoAlphabet = '13456789abcdefghijkmnopqrstuwxyz'
+
+function nanobase32(buffer: Uint8Array): string {
+  const length = buffer.length
+  const leftover = (length * 8) % 5
+  const offset = leftover === 0 ? 0 : 5 - leftover
+  let value = 0
+  let output = ''
+  let bits = 0
+  for (var i = 0; i < length; i++) {
+    value = (value << 8) | buffer[i]
+    bits += 8
+    while (bits >= 5) {
+      output += nanoAlphabet[(value >>> (bits + offset - 5)) & 31]
+      bits -= 5
+    }
+  }
+  if (bits > 0) {
+    output += nanoAlphabet[(value << (5 - (bits + offset))) & 31]
+  }
+  return output
+}
+
+function encodeNanoAddr(data: Buffer): string {
+  const hex = data.toString('hex');
+  const length = (hex.length / 2) | 0;
+  const uint8 = new Uint8Array(length);
+  for (let i = 0; i < length; i++) uint8[i] = parseInt(hex.substr(i * 2, 2), 16);
+  const address = nanobase32(uint8);
+  const checksumbytes = blake2b(uint8, null, 5).reverse();
+  const checksum = nanobase32(checksumbytes);
+  return 'nano_' + address + checksum
+}
+
+function decodeNanoAddr(account: string): Buffer {
+  if (
+  ((account.startsWith('nano_1') || account.startsWith('nano_3')) && (account.length == 65))   ||
+  ((account.startsWith('xrb_1') || account.startsWith('xrb_3')) && (account.length == 64))
+  ) {
+    const account_crop = account.slice(-60);
+    const isValid = /^[13456789abcdefghijkmnopqrstuwxyz]+$/.test(account_crop);
+    if (isValid) {
+      const input = account_crop.substring(0, 52);
+      const length = input.length
+      const leftover = (length * 5) % 8
+      const offset = leftover === 0 ? 0 : 8 - leftover
+      let bits = 0
+      let value = 0
+      let index = 0
+      let output = new Uint8Array(Math.ceil(length * 5 / 8))
+      for (var i = 0; i < length; i++) {
+        value = (value << 5) | nanoAlphabet.indexOf(input[i])
+        bits += 5
+        if (bits >= 8) {
+          output[index++] = (value >>> (bits + offset - 8)) & 255
+          bits -= 8
+        }
+      }
+      if (bits > 0) {
+        output[index++] = (value << (bits + offset - 8)) & 255
+      }
+      if (leftover !== 0) {
+        output = output.slice(1)
+      }
+      return Buffer.from(output);
+    } else {
+      throw "Illegal characters found.";
+    }
+  } else {
+    throw "Invalid account.";
+  }
+}
+
 function eosAddrEncoder(data: Buffer): string {
   if (!eosPublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
@@ -318,6 +393,12 @@ const formats: IFormat[] = [
   },
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  {
+    coinType: 44,
+    decoder: decodeNanoAddr,
+    encoder: encodeNanoAddr,
+    name: 'NANO',
+  },
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
