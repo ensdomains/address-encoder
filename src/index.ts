@@ -292,7 +292,7 @@ const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
-  base58Chain('ZEC', 133, [0x1c, 0xb8], [0x1c, 0xbd]),
+  base58Chain('ZEC', 133, [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   hexChecksumChain('RSK', 137, 30),
   {
     coinType: 144,
