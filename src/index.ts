@@ -9,7 +9,10 @@ interface IFormat {
   decoder: (data: string) => Buffer;
 }
 
-function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+function makeBase58CheckEncoder(
+  p2pkhVersion: (number | number[])[],
+  p2shVersion: (number | number[])[],
+): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -21,14 +24,22 @@ function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (dat
         ) {
           throw Error('Unrecognised address format');
         }
-        addr = Buffer.concat([Buffer.from([p2pkhVersion]), data.slice(3, 3 + data.readUInt8(2))]);
+        if (p2pkhVersion[0] instanceof Array) {
+          addr = Buffer.concat([Buffer.from(p2pkhVersion[0]), data.slice(3, 3 + data.readUInt8(2))]);
+          return bs58Encode(addr);
+        }
+        addr = Buffer.concat([Buffer.from([p2pkhVersion[0]]), data.slice(3, 3 + data.readUInt8(2))]);
         // @ts-ignore
         return bs58Encode(addr);
       case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
         if (data.readUInt8(data.length - 1) !== 0x87) {
           throw Error('Unrecognised address format');
         }
-        addr = Buffer.concat([Buffer.from([p2shVersion]), data.slice(2, 2 + data.readUInt8(1))]);
+        if (p2shVersion[0] instanceof Array) {
+          addr = Buffer.concat([Buffer.from(p2shVersion[0].slice(0, 2)), data.slice(2, 2 + data.readUInt8(1))]);
+          return bs58Encode(addr);
+        }
+        addr = Buffer.concat([Buffer.from([p2shVersion[0]]), data.slice(2, 2 + data.readUInt8(1))]);
         return bs58Encode(addr);
       default:
         throw Error('Unrecognised address format');
@@ -42,7 +53,7 @@ function makeBase58CheckDecoder(
 ): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58Decode(data);
-    const version = addr.filter((b: any) => addr.slice(-20).indexOf(b) === -1);
+    const version = addr.filter((b:any) => addr.slice(-20).indexOf(b) === -1);
     if (p2pkhVersions.some(b => (b instanceof Array) ? version.every((v:any, i:any) => v === b[i]) : version.includes(b))) {
       return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(version.length), Buffer.from([0x88, 0xac])]);
     } else if (p2shVersions.some(b => (b instanceof Array) ? version.every((v:any, i:any) => v === b[i]) : version.includes(b))) {
@@ -134,7 +145,7 @@ const bitcoinChain = (
 ) => ({
   coinType,
   decoder: makeBitcoinDecoder(hrp, p2pkhVersions, p2shVersions),
-  encoder: makeBitcoinEncoder(hrp, p2pkhVersions[0], p2shVersions[0]),
+  encoder: makeBitcoinEncoder(hrp, p2pkhVersions, p2shVersions),
   name,
 });
 
