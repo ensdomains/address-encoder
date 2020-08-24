@@ -265,17 +265,17 @@ function tezosAddressEncoder(data: Buffer): string {
       } else {
           throw Error('Unrecognised address format');
       }
-      return bs58check.encode(Buffer.concat([prefix, data.slice(2)]));
+      return bs58Encode(Buffer.concat([prefix, data.slice(2)]));
     case 0x01:
       prefix = Buffer.from([0x02, 0x5a, 0x79]); // prefix KT1 equal 025a79
-      return bs58check.encode(Buffer.concat([prefix, data.slice(1, 21)]));
+      return bs58Encode(Buffer.concat([prefix, data.slice(1, 21)]));
     default:
       throw Error('Unrecognised address format');
   }
 }
 
 function tezosAddressDecoder(data: string): Buffer {
-  const address = bs58check.decode(data).slice(3);
+  const address = bs58Decode(data).slice(3);
   switch (data.substring(0,3)) {
     case "tz1": 
       return Buffer.concat([Buffer.from([0x00,0x00]), address]);
