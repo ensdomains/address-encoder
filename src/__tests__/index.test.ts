@@ -171,6 +171,15 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'KSM',
+    coinType: 434,
+    passingVectors: [
+      { text: 'CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafgp', hex: '0aff6865635ae11013a83835c019d44ec3f865145943f487ae82a8e7bed3a66b' },
+      { text: 'DDioZ6gLeKMc5xUCeSXRHZ5U43MH1Tsrmh8T3Gcg9Vxr6DY', hex: '1c86776eda34405584e710a7363650afd1f2b38ef72836317b11ef1303a0ae72' },
+      { text: 'EDNfVHuNHrXsVTLMMNbp6Con5zESZJa3fkRc93AgahuMm99', hex: '487ee7e677203b4209af2ffaec0f5068033c870c97fee18b31b4aee524089943' }
+    ],
+  },  
+  {
     name: 'BNB',
     coinType: 714,
     passingVectors: [
@@ -200,7 +209,7 @@ const vectors: Array<TestVector> = [
       { text: 'tz2Cfwk4ortcaqAGcVJKSxLiAdcFxXBLBoyY', hex: '00012fcb1d9307f0b1f94c048ff586c09f46614c7e90' },
       { text: 'tz3NdTPb3Ax2rVW2Kq9QEdzfYFkRwhrQRPhX', hex: '0002193b2b3f6b8f8e1e6b39b4d442fc2b432f6427a8' },
     ],
-  },
+  }
 ];
 
 vectors.forEach((vector: TestVector) => {
@@ -210,6 +219,7 @@ vectors.forEach((vector: TestVector) => {
 
     for (var example of vector.passingVectors) {
       const decoded = format.decoder(example.text);
+      expect(decoded).toBeInstanceOf(Buffer);
       expect(decoded.toString('hex')).toBe(example.hex);
       const reencoded = format.encoder(decoded);
       expect(reencoded).toBe(example.canonical || example.text);
