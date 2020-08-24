@@ -41,11 +41,11 @@ function makeBase58CheckDecoder(
   p2shVersions: (number | number[])[],
 ): (data: string) => Buffer {
   return (data: string) => {
-    const addr = bs58check.decode(data);
-    const version = addr.filter(b => addr.slice(-20).indexOf(b) === -1);
-    if (p2pkhVersions.some(b => (b instanceof Array) ? version.every((v, i) => v === b[i]) : version.includes(b))) {
+    const addr = bs58Decode(data);
+    const version = addr.filter((b: any) => addr.slice(-20).indexOf(b) === -1);
+    if (p2pkhVersions.some(b => (b instanceof Array) ? version.every((v:any, i:any) => v === b[i]) : version.includes(b))) {
       return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(version.length), Buffer.from([0x88, 0xac])]);
-    } else if (p2shVersions.some(b => (b instanceof Array) ? version.every((v, i) => v === b[i]) : version.includes(b))) {
+    } else if (p2shVersions.some(b => (b instanceof Array) ? version.every((v:any, i:any) => v === b[i]) : version.includes(b))) {
       return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(version.length), Buffer.from([0x87])]);
     }
     throw Error('Unrecognised address format');
