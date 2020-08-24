@@ -9,7 +9,7 @@ interface IFormat {
   decoder: (data: string) => Buffer;
 }
 
-function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+function makeBitcoinBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -36,7 +36,7 @@ function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (dat
   };
 }
 
-function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+function makeBitcoinBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58Decode(data);
     const version = addr.readUInt8(0);
@@ -51,8 +51,8 @@ function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[])
 
 const base58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
   coinType,
-  decoder: makeBase58CheckDecoder(p2pkhVersions, p2shVersions),
-  encoder: makeBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
+  decoder: makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions),
+  encoder: makeBitcoinBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
   name,
 });
 
@@ -87,7 +87,7 @@ function makeBech32SegwitDecoder(hrp: string): (data: string) => Buffer {
 
 function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
-  const encodeBase58Check = makeBase58CheckEncoder(p2pkhVersion, p2shVersion);
+  const encodeBase58Check = makeBitcoinBase58CheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
     try {
       return encodeBase58Check(data);
@@ -99,7 +99,7 @@ function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: numb
 
 function makeBitcoinDecoder(hrp: string, p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
   const decodeBech32 = makeBech32SegwitDecoder(hrp);
-  const decodeBase58Check = makeBase58CheckDecoder(p2pkhVersions, p2shVersions);
+  const decodeBase58Check = makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions);
   return (data: string) => {
     if (data.toLowerCase().startsWith(hrp + '1')) {
       return decodeBech32(data);
@@ -154,7 +154,7 @@ function decodeCashAddr(data: string): Buffer {
 }
 
 function decodeBitcoinCash(data: string): Buffer {
-  const decodeBase58Check = makeBase58CheckDecoder([0x00], [0x05]);
+  const decodeBase58Check = makeBitcoinBase58CheckDecoder([0x00], [0x05]);
   try {
     return decodeBase58Check(data);
   } catch {
