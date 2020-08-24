@@ -46,6 +46,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NEM (base32)
  - EOS
  - KSM (ss58)
+ - ZEC (base58check P2PKH and P2SH)
 
 
 PRs to add additional chains and address types are welcome.
