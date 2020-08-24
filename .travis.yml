@@ -9,3 +9,5 @@ jobs:
       script: npm run test
     - name: Lint
       script: npm run lint
+    - name: Size
+      script: npm run size
