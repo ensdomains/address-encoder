@@ -238,6 +238,10 @@ function ksmAddrEncoder(data: Buffer): string {
   return ss58Encode(Uint8Array.from(data), 2)
 }
 
+function dotAddrEncoder(data: Buffer): string {
+  return ss58Encode(Uint8Array.from(data), 0)
+}
+
 function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data))
 }
@@ -295,6 +299,12 @@ const formats: IFormat[] = [
     decoder: bs58Decode,
     encoder: bs58Encode,
     name: 'TRX',
+  },
+  {
+    coinType: 354,
+    decoder: ksmAddrDecoder,
+    encoder: dotAddrEncoder,
+    name: 'DOT'
   },
   {
     coinType: 434,
