@@ -241,6 +241,10 @@ function ksmAddrEncoder(data: Buffer): string {
   return ss58Encode(Uint8Array.from(data), 2)
 }
 
+function dotAddrEncoder(data: Buffer): string {
+  return ss58Encode(Uint8Array.from(data), 0)
+}
+
 function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data))
 }
@@ -278,6 +282,7 @@ const formats: IFormat[] = [
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
