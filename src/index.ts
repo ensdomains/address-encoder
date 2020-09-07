@@ -13,8 +13,8 @@ interface IFormat {
 }
 
 function makeBase58CheckEncoder(
-  p2pkhVersion: (number | number[])[],
-  p2shVersion: (number | number[])[],
+  p2pkhVersion: Array<(number | number[])>,
+  p2shVersion: Array<(number | number[])>,
 ): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
@@ -51,8 +51,8 @@ function makeBase58CheckEncoder(
 }
 
 function makeBase58CheckDecoder(
-  p2pkhVersions: (number | number[])[],
-  p2shVersions: (number | number[])[],
+  p2pkhVersions: Array<(number | number[])>,
+  p2shVersions: Array<(number | number[])>,
 ): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58Decode(data);
@@ -109,8 +109,8 @@ function makeBech32SegwitDecoder(hrp: string): (data: string) => Buffer {
 
 function makeBitcoinEncoder(
   hrp: string,
-  p2pkhVersion: (number | number[])[],
-  p2shVersion: (number | number[])[],
+  p2pkhVersion: Array<(number | number[])>,
+  p2shVersion: Array<(number | number[])>,
 ): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
   const encodeBase58Check = makeBase58CheckEncoder(p2pkhVersion, p2shVersion);
@@ -125,8 +125,8 @@ function makeBitcoinEncoder(
 
 function makeBitcoinDecoder(
   hrp: string,
-  p2pkhVersions: (number | number[])[],
-  p2shVersions: (number | number[])[],
+  p2pkhVersions: Array<(number | number[])>,
+  p2shVersions: Array<(number | number[])>,
 ): (data: string) => Buffer {
   const decodeBech32 = makeBech32SegwitDecoder(hrp);
   const decodeBase58Check = makeBase58CheckDecoder(p2pkhVersions, p2shVersions);
@@ -143,8 +143,8 @@ const bitcoinChain = (
   name: string,
   coinType: number,
   hrp: string,
-  p2pkhVersions: (number | number[])[],
-  p2shVersions: (number | number[])[],
+  p2pkhVersions: Array<(number | number[])>,
+  p2shVersions: Array<(number | number[])>,
 ) => ({
   coinType,
   decoder: makeBitcoinDecoder(hrp, p2pkhVersions, p2shVersions),
