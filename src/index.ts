@@ -2,6 +2,8 @@ import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32From
 // @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
 
+import { cnBase58 as b58 } from '@xmr-core/xmr-b58';
+
 type EnCoder = (data: Buffer) => string
 type DeCoder = (data: string) => Buffer
 
@@ -211,6 +213,35 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
   name,
 });
 
+/**
+ * Decodes XMR address in base58 encoding used on XMR platform, different from Bitcoin's.
+ * @param   {string}    strAddress    String of XMR address encoded in XMR version of base58.
+ * @returns {Buffer}                  Buffer byte data after decoding.
+ */
+const decodeBase58xmr = (strAddress: string) => {
+  // using xmr library for this that takes base58xmr and returns hex
+  // first we get the hex of data
+  const hexData = b58.decode(strAddress);
+  // then convert hex to binary data in buffer we can embed into tx
+  const bufferData = Buffer.from(hexData, 'hex');
+  return bufferData;
+};
+
+/**
+ * Encodes binary Buffer data into XMR address in base58 xmr style encoding.
+ * @param   {Buffer}    bufferAddress     Buffer byte data of address.
+ * @returns {string}                      String of XMR address encoded in XMR version of base58.
+ */
+const encodeBase58xmr = (bufferAddress: Buffer) => {
+  // using xmr library for this that takes hex and returns base58xmr
+  // so first we convert binary buffer into hex
+  const hexData = bufferAddress.toString('hex');
+  // convert hex to binary data in buffer we can embed into tx
+  const base58Data = b58.encode(hexData);
+  return base58Data;
+};
+
+
 function b32encodeXemAddr(data: Buffer): string {
   return b32encode(hex2a(data.toString('hex')));
 }
@@ -249,6 +280,19 @@ function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data))
 }
 
+
+
+function xmrAddrEncoder(data: Buffer): string {
+  return encodeBase58xmr(data);
+}
+
+
+function xmrAddrDecoder(data: string): Buffer {
+  return new Buffer(decodeBase58xmr(data));
+}
+
+
+
 function strDecoder(data: string): Buffer {
   return decodeEd25519PublicKey('ed25519PublicKey', data)
 }
@@ -280,6 +324,7 @@ const formats: IFormat[] = [
   getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
+  getConfig('XMR', 128, xmrAddrEncoder, xmrAddrDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),

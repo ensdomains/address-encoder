@@ -41,6 +41,7 @@ This library currently supports the following cryptocurrencies and address forma
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
  - XLM (ed25519 public key)
+ - XMR (base58xmr public key)
  - ATOM (bech32)
  - TRX (base58check)
  - NEM (base32)
