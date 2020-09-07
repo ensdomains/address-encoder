@@ -250,6 +250,9 @@ function strEncoder(data: Buffer): string {
   return encodeEd25519PublicKey('ed25519PublicKey', data)
 }
 
+// Referenced from the followings
+// https://tezos.stackexchange.com/questions/183/base58-encoding-decoding-of-addresses-in-micheline
+// https://tezos.gitlab.io/api/p2p.html?highlight=contract_id#contract-id-22-bytes-8-bit-tag
 function tezosAddressEncoder(data: Buffer): string {
   if (data.length !== 22 && data.length !== 21) { throw Error('Unrecognised address format'); }
 
