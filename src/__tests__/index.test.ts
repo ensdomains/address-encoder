@@ -206,6 +206,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
+  },
+  {
+    name: 'FLOW',
+    coinType: 701,
+    passingVectors: [
+      { text: '0xF12E70Eb5bd116461907d8C451636a9AA90DD0C2', hex: 'f12e70eb5bd116461907d8c451636a9aa90dd0c2' }
+    ],
   }
 ];
 

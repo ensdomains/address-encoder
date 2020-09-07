@@ -284,7 +284,9 @@ const formats: IFormat[] = [
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  hexChecksumChain('SOL', 435),
   hexChecksumChain('XDAI', 700),
+  hexChecksumChain('FLOW', 701),
   bech32Chain('BNB', 714, 'bnb'),
 ];
 

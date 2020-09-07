@@ -35,6 +35,7 @@ This library currently supports the following cryptocurrencies and address forma
  - DASH (base58check P2PKH and P2SH)
  - ETH (checksummed-hex)
  - ETC (checksummed-hex)
+ - FLOW (checksummed-hex)
  - RSK (checksummed-hex)
  - XDAI (checksummed-hex)
  - XRP (base58check-ripple)
