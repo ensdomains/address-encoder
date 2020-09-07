@@ -2,6 +2,9 @@ import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32From
 // @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
 
+type EnCoder = (data: Buffer) => string
+type DeCoder = (data: string) => Buffer
+
 interface IFormat {
   coinType: number;
   name: string;
@@ -265,6 +268,10 @@ function ksmAddrEncoder(data: Buffer): string {
   return ss58Encode(Uint8Array.from(data), 2)
 }
 
+function dotAddrEncoder(data: Buffer): string {
+  return ss58Encode(Uint8Array.from(data), 0)
+}
+
 function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data))
 }
@@ -277,73 +284,34 @@ function strEncoder(data: Buffer): string {
   return encodeEd25519PublicKey('ed25519PublicKey', data)
 }
 
+const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
+  return {
+    coinType,
+    decoder,
+    encoder,
+    name,
+  }
+}
+
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
   base58Chain('DOGE', 3, [0x1e], [0x16]),
   base58Chain('DASH', 5, [0x4c], [0x10]),
   bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
-  {
-    coinType: 43,
-    decoder: b32decodeXemAddr,
-    encoder: b32encodeXemAddr,
-    name: 'XEM',
-  },
+  getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
   base58Chain('ZEC', 133, [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   hexChecksumChain('RSK', 137, 30),
-  {
-    coinType: 144,
-    decoder: (data: string) => xrpCodec.decodeChecked(data),
-    encoder: (data: Buffer) => xrpCodec.encodeChecked(data),
-    name: 'XRP',
-  },
-  {
-    coinType: 145,
-    decoder: decodeBitcoinCash,
-    encoder: encodeCashAddr,
-    name: 'BCH',
-  },
-  {
-    coinType: 148,
-    decoder: strDecoder,
-    encoder: strEncoder,
-    name: 'XLM',
-  },
-  {
-    coinType: 194,
-    decoder: eosAddrDecoder,
-    encoder: eosAddrEncoder,
-    name: 'EOS',
-  },
-  {
-    coinType: 195,
-    decoder: bs58Decode,
-    encoder: bs58Encode,
-    name: 'TRX',
-  },
-  {
-    coinType: 434,
-    decoder: ksmAddrDecoder,
-    encoder: ksmAddrEncoder,
-    name: 'KSM'
-  },
-  {
-    coinType: 714,
-    decoder: (data: string) => {
-      const { prefix, words } = bech32Decode(data);
-      if (prefix !== 'bnb') {
-        throw Error('Unrecognised address format');
-      }
-      return Buffer.from(bech32FromWords(words));
-    },
-    encoder: (data: Buffer) => {
-      return bech32Encode('bnb', bech32ToWords(data));
-    },
-    name: 'BNB',
-  },
+  getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
+  getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
+  getConfig('XLM', 148, strEncoder, strDecoder),
+  getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
+  getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
+  getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
 ];
@@ -353,4 +321,3 @@ export const formatsByCoinType: { [key: number]: IFormat } = Object.assign(
   {},
   ...formats.map(x => ({ [x.coinType]: x })),
 );
-
