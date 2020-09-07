@@ -206,6 +206,14 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
+  },
+  {
+    name: 'XTZ',
+    coinType: 1729,
+    passingVectors: [
+      { text: 'KT1BDEn6wobs7tDReKkGheXAhoq278TGaNn5', hex: '011cd5f135e80fd8ebb6e43335b24ca6116edeba6900' },
+      { text: 'tz1XfAjZyaLdceHnZxbMYop7g7kWKPut4PR7', hex: '000083d8a3817c080d85c79c1143943e81d9393c066e' }
+    ],
   }
 ];
 

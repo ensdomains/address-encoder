@@ -33,6 +33,20 @@ function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (dat
         }
         addr = Buffer.concat([Buffer.from([p2shVersion]), data.slice(2, 2 + data.readUInt8(1))]);
         return bs58Encode(addr);
+      case 0x00:
+          if (data.readUInt8(1) === 0x00) {
+            addr = Buffer.concat([Buffer.from([0x06, 0xa1, 0x9f]), data.slice(2)]);}
+          else if (data.readUInt8(1) === 0x01) {
+            addr = Buffer.concat([Buffer.from([0x06, 0xa1, 0xa1]), data.slice(2)]);
+          } else if (data.readUInt8(1) === 0x02) {
+            addr = Buffer.concat([Buffer.from([0x06, 0xa1, 0xa4]), data.slice(1,21)]);
+          }
+          else {
+            throw Error('Unrecognised address format');
+          }  
+       return bs58Encode(addr); 
+      case 0x01:
+        return bs58Encode(Buffer.concat([Buffer.from([0x02, 0x5a, 0x79]), data.slice(1,21)]));
       default:
         throw Error('Unrecognised address format');
     }
@@ -43,10 +57,18 @@ function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[])
   return (data: string) => {
     const addr = bs58Decode(data);
     const version = addr.readUInt8(0);
+    var count = (parseInt(data.substring(2,3))-1).toString();
+    
     if (p2pkhVersions.includes(version)) {
       return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
     } else if (p2shVersions.includes(version)) {
       return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(1), Buffer.from([0x87])]);
+    }
+    else if (data.substring(0,2)=="tz") {
+      return Buffer.concat([Buffer.from([0x00,parseInt("0x0"+count)]), addr.slice(3)]);
+    }
+    else if (data.substring(0,2)=="KT") {
+      return Buffer.concat([Buffer.from([0x01]), addr.slice(3), Buffer.from([0x00])]);
     }
     throw Error('Unrecognised address format');
   };
@@ -286,6 +308,7 @@ const formats: IFormat[] = [
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  base58Chain('XTZ', 1729,[],[])
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
