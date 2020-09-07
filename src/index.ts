@@ -57,7 +57,7 @@ function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[])
   return (data: string) => {
     const addr = bs58Decode(data);
     const version = addr.readUInt8(0);
-    const count = (parseInt(data.substring(2,3))-1).toString();
+    const count = (parseInt(data.substring(2,3),16)-1).toString();
 
     if (p2pkhVersions.includes(version)) {
       return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
@@ -65,7 +65,7 @@ function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[])
       return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(1), Buffer.from([0x87])]);
     }
     else if (data.substring(0,2)==="tz") {
-      return Buffer.concat([Buffer.from([0x00,parseInt("0x0"+count)]), addr.slice(3)]);
+      return Buffer.concat([Buffer.from([0x00,parseInt("0x0"+count,16)]), addr.slice(3)]);
     }
     else if (data.substring(0,2)==="KT") {
       return Buffer.concat([Buffer.from([0x01]), addr.slice(3), Buffer.from([0x00])]);
