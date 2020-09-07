@@ -49,7 +49,7 @@ function makeBitcoinBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: nu
   };
 }
 
-const base58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
+const bitcoinBase58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
   coinType,
   decoder: makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions),
   encoder: makeBitcoinBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
@@ -293,8 +293,8 @@ function tezosAddressDecoder(data: string): Buffer {
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
-  base58Chain('DOGE', 3, [0x1e], [0x16]),
-  base58Chain('DASH', 5, [0x4c], [0x10]),
+  bitcoinBase58Chain('DOGE', 3, [0x1e], [0x16]),
+  bitcoinBase58Chain('DASH', 5, [0x4c], [0x10]),
   bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
   {
     coinType: 43,
