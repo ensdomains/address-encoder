@@ -201,6 +201,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'VET',
+    coinType: 703,
+    passingVectors: [
+      { text: '0x9760b32C0A515F6C8c4E6B7B89AF8964DDaCB985', hex: '9760b32c0a515f6c8c4e6b7b89af8964ddacb985' },
+    ],
+  },
+  {
     name: 'ATOM',
     coinType: 118,
     passingVectors: [
