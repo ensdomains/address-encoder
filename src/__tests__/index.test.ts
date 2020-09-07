@@ -206,6 +206,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
+  },
+  {
+    name: 'ZIL',
+    coinType: 119,
+    passingVectors: [
+      { text: 'zil139tkqvc8rw92e6jrs40gawwc3mmdmmauv3x3yz', hex: '89576033071b8aacea43855e8eb9d88ef6ddefbc' }
+    ],
   }
 ];
 
