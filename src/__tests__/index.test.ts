@@ -206,6 +206,14 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
+  },
+  ,
+  {
+    name: 'ALGO',
+    coinType: 283,
+    passingVectors: [
+      { text: '526d96fffdbfe787b2f00586298538f9a019e97f6587964dc6', hex: 'bc1zjmllm0l8s7e0qpvx9xzn37dqr85h7ev8jexuv0mw47k' }
+    ],
   }
 ];
 
