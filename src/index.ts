@@ -283,6 +283,7 @@ const formats: IFormat[] = [
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
+  getConfig('SOL', 501, bs58Encode, bs58Decode),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),

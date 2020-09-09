@@ -178,6 +178,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'SOL',
+    coinType: 501,
+    passingVectors: [
+      { text: '7v91N7iZ9mNicL8WfG6cgSCKyRXydQjLh6UYBWwm6y1Q', hex: 'E9873D79C6D87DC0FB6A5778633389F4453213303DA61F20BD67FC233AA33262' },
+    ],
+  },
+  {
     name: 'KSM',
     coinType: 434,
     passingVectors: [
