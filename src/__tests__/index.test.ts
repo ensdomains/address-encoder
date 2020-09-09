@@ -181,7 +181,8 @@ const vectors: Array<TestVector> = [
     name: 'SOL',
     coinType: 501,
     passingVectors: [
-      { text: '7v91N7iZ9mNicL8WfG6cgSCKyRXydQjLh6UYBWwm6y1Q', hex: 'E9873D79C6D87DC0FB6A5778633389F4453213303DA61F20BD67FC233AA33262' },
+      { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1'},
+      { text: 'TJCnKsPa7y5okkXvQAidZBzqx3QyQ6sxMW', hex: '415a523b449890854c8fc460ab602df9f31fe4293f'},
     ],
   },
   {
