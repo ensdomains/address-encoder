@@ -206,6 +206,18 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
+  },
+  {
+    name: 'ALGO',
+    coinType: 283,
+    passingVectors: [
+      { text: 'SGVsbG8=', hex: '48656c6c6f' },
+      { text: 'ZGFua29nYWk=', hex: '64616e6b6f676169' },
+      { text: 'wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=', hex: 'c061c4d8fc1dbdded2d7604be4568e3f6d041987ac37bde4b620b5ab39248adf' },
+      { text: 'LCSUSBOLNVT6BND6DWWGM4DLVUYJN3PGBT4T7LTCMDMKS7TR7FZA', hex: '2c249448138b3554fa04d0fa0d65863380cb5546093773c6053e13ecb4c230330a4bb4d1ec5640' },
+      { text: 'UCE2U2JC4O4ZR6W763GUQCG57HQCDZEUJY4J5I6VYY4HQZUJDF7A', hex: '502136536242e0ee1947a5bbeb71944021b9ec74020d9114258e09e48e95618e074195090c5ec0' },
+
+    ],
   }
 ];
 
