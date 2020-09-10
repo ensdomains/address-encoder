@@ -206,6 +206,20 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
+  },
+  {
+    name: 'ADA',
+    coinType: 1815,
+    passingVectors: [
+      { text: 'addr1gqtnpvdhqrtpd4g424fcaq7k0ufuzyadt7djygf8qdyzevuph3wczvf2dwyx5u', hex: '401730b1b700d616d51555538e83d67f13c113ad5f9b22212703482cb381bc5d81312a' },
+    ],
+  },
+  {
+    name: 'ADA_TEST',
+    coinType: 1816,
+    passingVectors: [
+      { text: 'addr_test1vqrlltfahghjxl5sy5h5mvfrrlt6me5fqphhwjqvj5jd88cccqcek', hex: '6007ffad3dba2f237e90252f4db1231fd7ade689006f77480c9524d39f'},
+    ],
   }
 ];
 
