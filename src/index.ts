@@ -290,12 +290,12 @@ const formats: IFormat[] = [
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('ALGO', 283,algoAddrEncoder,algoAddrDecoder),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
-  bech32Chain('BNB', 714, 'bnb'),
-  getConfig('ALGO', 283,algoAddrEncoder,algoAddrDecoder),
-
+  bech32Chain('BNB', 714, 'bnb')
+ 
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
