@@ -185,7 +185,7 @@ const vectors: Array<TestVector> = [
       { text: 'DDioZ6gLeKMc5xUCeSXRHZ5U43MH1Tsrmh8T3Gcg9Vxr6DY', hex: '1c86776eda34405584e710a7363650afd1f2b38ef72836317b11ef1303a0ae72' },
       { text: 'EDNfVHuNHrXsVTLMMNbp6Con5zESZJa3fkRc93AgahuMm99', hex: '487ee7e677203b4209af2ffaec0f5068033c870c97fee18b31b4aee524089943' }
     ],
-  },  
+  },
   {
     name: 'BNB',
     coinType: 714,
@@ -205,6 +205,13 @@ const vectors: Array<TestVector> = [
     coinType: 118,
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
+    ],
+  },
+  {
+    name: 'PPC',
+    coinType: 6,
+    passingVectors: [
+      { text: 'PRL8bojUujzDGA6HRapzprXWFxMyhpS7Za', hex: '76a914b7a1c4349e794ee3484b8f433a7063eb614dfdc788ac' }
     ],
   }
 ];
