@@ -286,6 +286,7 @@ const formats: IFormat[] = [
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  hexChecksumChain('CELO', 52752),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

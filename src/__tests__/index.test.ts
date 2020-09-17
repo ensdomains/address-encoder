@@ -206,6 +206,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
     ],
+  },
+  {
+    name: 'CELO',
+    coinType: 52752,
+    passingVectors: [
+      { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
+    ],
   }
 ];
 
