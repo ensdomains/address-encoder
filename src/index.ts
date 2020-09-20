@@ -337,6 +337,7 @@ const formats: IFormat[] = [
     encoder: tezosAddressEncoder,
     name: 'XTZ',
   },
+  hexChecksumChain('CELO', 52752)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
