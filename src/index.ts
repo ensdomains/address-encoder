@@ -12,7 +12,7 @@ interface IFormat {
   decoder: (data: string) => Buffer;
 }
 
-function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+function makeBitcoinBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -39,7 +39,7 @@ function makeBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (dat
   };
 }
 
-function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+function makeBitcoinBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58Decode(data);
     const version = addr.readUInt8(0);
@@ -52,10 +52,10 @@ function makeBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[])
   };
 }
 
-const base58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
+const bitcoinBase58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
   coinType,
-  decoder: makeBase58CheckDecoder(p2pkhVersions, p2shVersions),
-  encoder: makeBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
+  decoder: makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions),
+  encoder: makeBitcoinBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
   name,
 });
 
@@ -90,7 +90,7 @@ function makeBech32SegwitDecoder(hrp: string): (data: string) => Buffer {
 
 function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
-  const encodeBase58Check = makeBase58CheckEncoder(p2pkhVersion, p2shVersion);
+  const encodeBase58Check = makeBitcoinBase58CheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
     try {
       return encodeBase58Check(data);
@@ -102,7 +102,7 @@ function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: numb
 
 function makeBitcoinDecoder(hrp: string, p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
   const decodeBech32 = makeBech32SegwitDecoder(hrp);
-  const decodeBase58Check = makeBase58CheckDecoder(p2pkhVersions, p2shVersions);
+  const decodeBase58Check = makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions);
   return (data: string) => {
     if (data.toLowerCase().startsWith(hrp + '1')) {
       return decodeBech32(data);
@@ -157,7 +157,7 @@ function decodeCashAddr(data: string): Buffer {
 }
 
 function decodeBitcoinCash(data: string): Buffer {
-  const decodeBase58Check = makeBase58CheckDecoder([0x00], [0x05]);
+  const decodeBase58Check = makeBitcoinBase58CheckDecoder([0x00], [0x05]);
   try {
     return decodeBase58Check(data);
   } catch {
@@ -257,6 +257,49 @@ function strEncoder(data: Buffer): string {
   return encodeEd25519PublicKey('ed25519PublicKey', data)
 }
 
+// Referenced from the followings
+// https://tezos.stackexchange.com/questions/183/base58-encoding-decoding-of-addresses-in-micheline
+// https://tezos.gitlab.io/api/p2p.html?highlight=contract_id#contract-id-22-bytes-8-bit-tag
+function tezosAddressEncoder(data: Buffer): string {
+  if (data.length !== 22 && data.length !== 21) { throw Error('Unrecognised address format'); }
+
+  let prefix: Buffer;
+  switch (data.readUInt8(0)) {
+    case 0x00:
+      if (data.readUInt8(1) === 0x00) {
+          prefix = Buffer.from([0x06, 0xa1, 0x9f]); // prefix tz1 equal 06a19f
+      } else if (data.readUInt8(1) === 0x01) {
+          prefix = Buffer.from([0x06, 0xa1, 0xa1]); // prefix tz2 equal 06a1a1
+      } else if (data.readUInt8(1) === 0x02) {
+          prefix = Buffer.from([0x06, 0xa1, 0xa4]); // prefix tz3 equal 06a1a4
+      } else {
+          throw Error('Unrecognised address format');
+      }
+      return bs58Encode(Buffer.concat([prefix, data.slice(2)]));
+    case 0x01:
+      prefix = Buffer.from([0x02, 0x5a, 0x79]); // prefix KT1 equal 025a79
+      return bs58Encode(Buffer.concat([prefix, data.slice(1, 21)]));
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
+function tezosAddressDecoder(data: string): Buffer {
+  const address = bs58Decode(data).slice(3);
+  switch (data.substring(0,3)) {
+    case "tz1": 
+      return Buffer.concat([Buffer.from([0x00,0x00]), address]);
+    case "tz2":
+      return Buffer.concat([Buffer.from([0x00,0x01]), address]);
+    case "tz3":
+      return Buffer.concat([Buffer.from([0x00,0x02]), address]);
+    case "KT1":
+      return Buffer.concat([Buffer.from([0x01]), address, Buffer.from([0x00])]);
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -269,24 +312,32 @@ const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: De
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
   bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
-  base58Chain('DOGE', 3, [0x1e], [0x16]),
-  base58Chain('DASH', 5, [0x4c], [0x10]),
+  bitcoinBase58Chain('DOGE', 3, [0x1e], [0x16]),
+  bitcoinBase58Chain('DASH', 5, [0x4c], [0x10]),
   bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
+  bech32Chain('ZIL', 119, 'zil'),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
-  hexChecksumChain('CELO', 52752),
+  {
+    coinType: 1729,
+    decoder: tezosAddressDecoder,
+    encoder: tezosAddressEncoder,
+    name: 'XTZ',
+  },
+  hexChecksumChain('CELO', 52752)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
