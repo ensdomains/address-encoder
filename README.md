@@ -46,6 +46,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NEM (base32)
  - NEO (base58check)
  - EOS
+ - XTZ (base58check)
  - KSM (ss58)
 
 
