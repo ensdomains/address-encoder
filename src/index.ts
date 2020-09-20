@@ -330,6 +330,7 @@ const formats: IFormat[] = [
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
+  hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   {
     coinType: 1729,

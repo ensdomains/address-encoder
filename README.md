@@ -37,6 +37,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ETC (checksummed-hex)
  - RSK (checksummed-hex)
  - XDAI (checksummed-hex)
+ - VET (checksummed-hex)
  - XRP (base58check-ripple)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
