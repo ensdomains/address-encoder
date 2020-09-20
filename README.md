@@ -37,15 +37,22 @@ This library currently supports the following cryptocurrencies and address forma
  - ETC (checksummed-hex)
  - RSK (checksummed-hex)
  - XDAI (checksummed-hex)
+ - VET (checksummed-hex)
  - XRP (base58check-ripple)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
  - XLM (ed25519 public key)
  - ATOM (bech32)
+ - ZIL (bech32)
  - TRX (base58check)
  - NEM (base32)
+ - NEO (base58check)
  - EOS
+ - XTZ (base58check)
  - KSM (ss58)
  - PPC (base58check P2PKH and P2SH)
+ - SOL (base58check)
+ - ADA (bech32)
+ - CELO (checksummed-hex)
 
 PRs to add additional chains and address types are welcome.

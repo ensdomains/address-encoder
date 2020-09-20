@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "bech32": "^1.1.3",
-    "crypto-addr-codec": "^0.1.7"
+    "crypto-addr-codec": "^0.1.7",
+    "eztz-lib": "^0.1.2"
   }
 }
