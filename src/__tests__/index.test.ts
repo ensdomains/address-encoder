@@ -246,6 +246,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
+  },
+  {
+    name: 'ADA',
+    coinType: 1815,
+    passingVectors: [
+      { text: 'addr1gqtnpvdhqrtpd4g424fcaq7k0ufuzyadt7djygf8qdyzevuph3wczvf2dwyx5u', hex: '401730b1b700d616d51555538e83d67f13c113ad5f9b22212703482cb381bc5d81312a' }
+    ],
   }
 ];
 

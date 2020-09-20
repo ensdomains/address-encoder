@@ -338,6 +338,7 @@ const formats: IFormat[] = [
     encoder: tezosAddressEncoder,
     name: 'XTZ',
   },
+  bech32Chain('ADA', 1815, 'addr'),
   hexChecksumChain('CELO', 52752)
 ];
 
