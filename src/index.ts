@@ -276,8 +276,6 @@ const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
-  bech32Chain('ADA', 1815, 'addr'),
-  bech32Chain('ADA_TEST', 1816, 'addr_test'),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
@@ -288,6 +286,8 @@ const formats: IFormat[] = [
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
   bech32Chain('BNB', 714, 'bnb'),
+  bech32Chain('ADA', 1815, 'addr'),
+  bech32Chain('ADA_TEST', 1816, 'addr_test'),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
