@@ -84,6 +84,20 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'ATOM',
+    coinType: 118,
+    passingVectors: [
+      { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
+    ],
+  },
+  {
+    name: 'ZIL',
+    coinType: 119,
+    passingVectors: [
+      { text: 'zil139tkqvc8rw92e6jrs40gawwc3mmdmmauv3x3yz', hex: '89576033071b8aacea43855e8eb9d88ef6ddefbc' }
+    ],
+  },
+  {
     name: 'RSK',
     coinType: 137,
     passingVectors: [
@@ -171,6 +185,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'NEO',
+    coinType: 239,
+    passingVectors: [
+      { text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }
+    ],
+  },
+  {
     name: 'DOT',
     coinType: 354,
     passingVectors: [
@@ -195,13 +216,6 @@ const vectors: Array<TestVector> = [
     ],
   },  
   {
-    name: 'BNB',
-    coinType: 714,
-    passingVectors: [
-      { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
-    ],
-  },
-  {
     name: 'XDAI',
     coinType: 700,
     passingVectors: [
@@ -209,10 +223,43 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'ATOM',
-    coinType: 118,
+    name: 'VET',
+    coinType: 703,
     passingVectors: [
-      { text: 'cosmos1depk54cuajgkzea6zpgkq36tnjwdzv4afc3d27', hex: '6e436a571cec916167ba105160474b9c9cd132bd' }
+      { text: '0x9760b32C0A515F6C8c4E6B7B89AF8964DDaCB985', hex: '9760b32c0a515f6c8c4e6b7b89af8964ddacb985' },
+    ],
+  },
+  {
+    name: 'BNB',
+    coinType: 714,
+    passingVectors: [
+      { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
+    ],
+  },
+  {
+    name: 'XTZ',
+    coinType: 1729,
+    passingVectors: [
+      { text: 'KT1BDEn6wobs7tDReKkGheXAhoq278TGaNn5', hex: '011cd5f135e80fd8ebb6e43335b24ca6116edeba6900' },
+      { text: 'KT1BDEn6wobs7tDReKkGheXAhoq278TGaNn5', hex: '011cd5f135e80fd8ebb6e43335b24ca6116edeba6900' },
+
+      { text: 'tz1XdRrrqrMfsFKA8iuw53xHzug9ipr6MuHq', hex: '000083846eddd5d3c5ed96e962506253958649c84a74' },
+      { text: 'tz2Cfwk4ortcaqAGcVJKSxLiAdcFxXBLBoyY', hex: '00012fcb1d9307f0b1f94c048ff586c09f46614c7e90' },
+      { text: 'tz3NdTPb3Ax2rVW2Kq9QEdzfYFkRwhrQRPhX', hex: '0002193b2b3f6b8f8e1e6b39b4d442fc2b432f6427a8' },
+    ],
+  },
+  {
+    name: 'CELO',
+    coinType: 52752,
+    passingVectors: [
+      { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
+    ],
+  },
+  {
+    name: 'ADA',
+    coinType: 1815,
+    passingVectors: [
+      { text: 'addr1gqtnpvdhqrtpd4g424fcaq7k0ufuzyadt7djygf8qdyzevuph3wczvf2dwyx5u', hex: '401730b1b700d616d51555538e83d67f13c113ad5f9b22212703482cb381bc5d81312a' }
     ],
   }
 ];
