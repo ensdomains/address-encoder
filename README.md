@@ -42,6 +42,7 @@ This library currently supports the following cryptocurrencies and address forma
  - BNB (bech32)
  - XLM (ed25519 public key)
  - ATOM (bech32)
+ - ZIL (bech32)
  - TRX (base58check)
  - NEM (base32)
  - NEO (base58check)
