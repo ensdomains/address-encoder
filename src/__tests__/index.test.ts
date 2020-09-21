@@ -214,7 +214,7 @@ const vectors: Array<TestVector> = [
       { text: 'DDioZ6gLeKMc5xUCeSXRHZ5U43MH1Tsrmh8T3Gcg9Vxr6DY', hex: '1c86776eda34405584e710a7363650afd1f2b38ef72836317b11ef1303a0ae72' },
       { text: 'EDNfVHuNHrXsVTLMMNbp6Con5zESZJa3fkRc93AgahuMm99', hex: '487ee7e677203b4209af2ffaec0f5068033c870c97fee18b31b4aee524089943' }
     ],
-  },  
+  },
   {
     name: 'XDAI',
     coinType: 700,
@@ -260,6 +260,13 @@ const vectors: Array<TestVector> = [
     coinType: 1815,
     passingVectors: [
       { text: 'addr1gqtnpvdhqrtpd4g424fcaq7k0ufuzyadt7djygf8qdyzevuph3wczvf2dwyx5u', hex: '401730b1b700d616d51555538e83d67f13c113ad5f9b22212703482cb381bc5d81312a' }
+    ],
+  },
+  {
+    name: 'PPC',
+    coinType: 6,
+    passingVectors: [
+      { text: 'PRL8bojUujzDGA6HRapzprXWFxMyhpS7Za', hex: '76a914b7a1c4349e794ee3484b8f433a7063eb614dfdc788ac' }
     ],
   }
 ];

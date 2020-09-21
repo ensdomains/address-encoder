@@ -50,9 +50,9 @@ This library currently supports the following cryptocurrencies and address forma
  - EOS
  - XTZ (base58check)
  - KSM (ss58)
+ - PPC (base58check P2PKH and P2SH)
  - SOL (base58check)
  - ADA (bech32)
  - CELO (checksummed-hex)
-
 
 PRs to add additional chains and address types are welcome.
