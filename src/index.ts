@@ -328,7 +328,6 @@ const formats: IFormat[] = [
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
-  getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
@@ -342,6 +341,7 @@ const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   hexChecksumChain('CELO', 52752)
 ];
 
