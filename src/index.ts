@@ -341,6 +341,7 @@ const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   hexChecksumChain('CELO', 52752)
 ];
 
