@@ -383,7 +383,7 @@ const formats: IFormat[] = [
     coinType: 3030,
     decoder: hederaAddressDecoder,
     encoder: hederaAddressEncoder,
-    name: 'XHB',
+    name: 'HBAR',
   },
   hexChecksumChain('CELO', 52752)
 ];

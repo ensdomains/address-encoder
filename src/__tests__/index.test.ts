@@ -263,7 +263,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'XHB',
+    name: 'HBAR',
     coinType: 3030,
     passingVectors: [
       {
