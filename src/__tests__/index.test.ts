@@ -263,6 +263,16 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'XHB',
+    coinType: 3030,
+    passingVectors: [
+      {
+        text: '255.255.1024',
+        hex: '000000ff00000000000000ff0000000000000400',
+      },
+    ],
+  },
+  {
     name: 'PPC',
     coinType: 6,
     passingVectors: [
