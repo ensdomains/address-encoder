@@ -271,7 +271,7 @@ const vectors: Array<TestVector> = [
         hex: '000000ff00000000000000ff0000000000000400',
       },
       {
-        text: `${BigInt(2**32)-BigInt(1)}.${BigInt(2**64)-BigInt(1)}.${BigInt(2**64)-BigInt(1)}`,
+        text: `${BigInt(2 ** 32) - BigInt(1)}.${BigInt(2 ** 64) - BigInt(1)}.${BigInt(2 ** 64) - BigInt(1)}`,
         hex: 'ffffffffffffffffffffffffffffffffffffffff',
       },
     ],
