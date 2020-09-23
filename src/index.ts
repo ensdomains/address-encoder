@@ -1,8 +1,8 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 // @ts-ignore
-import { encodeNanoAddr, decodeNanoAddr } from './@types/nano32/index'
-// @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
+// @ts-ignore
+import { decodeNanoAddr, encodeNanoAddr } from './@types/nano32/index';
 
 type EnCoder = (data: Buffer) => string
 type DeCoder = (data: string) => Buffer
