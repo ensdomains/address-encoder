@@ -56,5 +56,6 @@ This library currently supports the following cryptocurrencies and address forma
  - ADA (bech32)
  - CELO (checksummed-hex)
  - HBAR
+ - HNS
 
 PRs to add additional chains and address types are welcome.
