@@ -1,6 +1,9 @@
+import * as assert from 'assert';
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
+import { decode as bs58Decode, encode as bs58Encode } from 'bs58';
+import { createHash } from 'crypto';
 // @ts-ignore
-import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
+import { b32decode, b32encode, bs58Decode as bs58CheckDecode, bs58Encode as bs58CheckEncode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
 
 type EnCoder = (data: Buffer) => string
 type DeCoder = (data: string) => Buffer
@@ -26,13 +29,13 @@ function makeBitcoinBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number
         }
         addr = Buffer.concat([Buffer.from([p2pkhVersion]), data.slice(3, 3 + data.readUInt8(2))]);
         // @ts-ignore
-        return bs58Encode(addr);
+        return bs58CheckEncode(addr);
       case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
         if (data.readUInt8(data.length - 1) !== 0x87) {
           throw Error('Unrecognised address format');
         }
         addr = Buffer.concat([Buffer.from([p2shVersion]), data.slice(2, 2 + data.readUInt8(1))]);
-        return bs58Encode(addr);
+        return bs58CheckEncode(addr);
       default:
         throw Error('Unrecognised address format');
     }
@@ -41,7 +44,7 @@ function makeBitcoinBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number
 
 function makeBitcoinBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
   return (data: string) => {
-    const addr = bs58Decode(data);
+    const addr = bs58CheckDecode(data);
     const version = addr.readUInt8(0);
     if (p2pkhVersions.includes(version)) {
       return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
@@ -275,17 +278,17 @@ function tezosAddressEncoder(data: Buffer): string {
       } else {
           throw Error('Unrecognised address format');
       }
-      return bs58Encode(Buffer.concat([prefix, data.slice(2)]));
+      return bs58CheckEncode(Buffer.concat([prefix, data.slice(2)]));
     case 0x01:
       prefix = Buffer.from([0x02, 0x5a, 0x79]); // prefix KT1 equal 025a79
-      return bs58Encode(Buffer.concat([prefix, data.slice(1, 21)]));
+      return bs58CheckEncode(Buffer.concat([prefix, data.slice(1, 21)]));
     default:
       throw Error('Unrecognised address format');
   }
 }
 
 function tezosAddressDecoder(data: string): Buffer {
-  const address = bs58Decode(data).slice(3);
+  const address = bs58CheckDecode(data).slice(3);
   switch (data.substring(0,3)) {
     case "tz1": 
       return Buffer.concat([Buffer.from([0x00,0x00]), address]);
@@ -299,6 +302,37 @@ function tezosAddressDecoder(data: string): Buffer {
       throw Error('Unrecognised address format');
   }
 }
+
+
+// Referenced from the following:
+// https://github.com/steemit/steem-js/blob/c71fb595cc68f57c1e4b564c948b1d326db4fab3/src/auth/ecc/src/key_public.js#L94
+// https://github.com/steemit/steem-js/blob/c71fb595cc68f57c1e4b564c948b1d326db4fab3/src/auth/ecc/src/key_public.js#L110
+function steemAddressEncoder(data: Buffer): string {
+  const checkSum = createHash('rmd160').update(data).digest();
+  const addy = Buffer.concat([data, checkSum.slice(0, 4)]);
+  const pubData = bs58Encode(addy);
+  return "STM" + pubData;
+}
+
+function steemAddressDecoder(data: string): Buffer {
+  const prefix = data.slice(0, 3);
+  if (prefix !== "STM") {
+    throw Error('Unrecognised address format');
+  }
+
+  const address = data.slice(3);
+
+  // @ts-ignore
+  const publicKeyWithChecksum = new Buffer(bs58Decode(address), 'binary');
+  const checksum = publicKeyWithChecksum.slice(-4);
+  const publicKey = publicKeyWithChecksum.slice(0, -4);
+  const newChecksum = createHash('rmd160').update(publicKey).digest().slice(0, 4);
+
+  assert.deepEqual(checksum, newChecksum, 'Invalid checksum')
+
+  return Buffer.from(publicKey);
+}
+
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
@@ -321,15 +355,16 @@ const formats: IFormat[] = [
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
+  getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
-  getConfig('TRX', 195, bs58Encode, bs58Decode),
-  getConfig('NEO', 239, bs58Encode, bs58Decode),
+  getConfig('TRX', 195, bs58CheckEncode, bs58CheckDecode),
+  getConfig('NEO', 239, bs58CheckEncode, bs58CheckDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
-  getConfig('SOL', 501, bs58Encode, bs58Decode),
+  getConfig('SOL', 501, bs58CheckEncode, bs58CheckDecode),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
