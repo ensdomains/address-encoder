@@ -102,6 +102,7 @@ const vectors: Array<TestVector> = [
     coinType: 133,
     passingVectors: [
       { text: 't1MgWUwDTu341f2TPmUmDrGQ6DgCtSeTMj2', hex: '1cb829c750f4e855bd1da10c277a9b4cfd02a8dd612a' },
+      { text: 't3NmsNDvGXMDfEyUbZ114kjG98Mf5mcw1ge', hex: '1cbd2e318bcaced876a2c7004f251b508dd986cb77fc' },
     ],
   },
   {
