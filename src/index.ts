@@ -366,8 +366,9 @@ function hnsAddressDecoder(data: string): Buffer {
     throw Error('Bad program version');
   }
 
-  if(hash.length !== 20)
+  if(hash.length !== 20) {
     throw Error('Witness program hash is the wrong size');
+  }
 
   return Buffer.from(hash)
 }
