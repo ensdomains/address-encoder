@@ -1,6 +1,7 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 // @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
+import { decoder as zecDecoder, encoder as zecEncoder } from './zcash';
 
 type EnCoder = (data: Buffer) => string
 type DeCoder = (data: string) => Buffer
@@ -338,6 +339,7 @@ function hederaAddressDecoder(data: string): Buffer {
   return buffer;
 }
 
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -360,7 +362,8 @@ const formats: IFormat[] = [
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   hexChecksumChain('RSK', 137, 30),
-  getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
+  getConfig('ZEC', 133, zecEncoder, zecDecoder),
+  getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
@@ -385,7 +388,7 @@ const formats: IFormat[] = [
     encoder: hederaAddressEncoder,
     name: 'HBAR',
   },
-  hexChecksumChain('CELO', 52752)
+  hexChecksumChain('CELO', 52752),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
