@@ -103,6 +103,11 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 't1MgWUwDTu341f2TPmUmDrGQ6DgCtSeTMj2', hex: '1cb829c750f4e855bd1da10c277a9b4cfd02a8dd612a' },
       { text: 't3NmsNDvGXMDfEyUbZ114kjG98Mf5mcw1ge', hex: '1cbd2e318bcaced876a2c7004f251b508dd986cb77fc' },
+      {
+        text: 'zcZviziuUB45WMY4jnV5Vmx6ZKDLyXzb12QbnWyDofTqZEbeJZF49vVNi75UgiuzXFytgJ6bJoq22gUsANBS4BjUfFudBMu',
+        hex:
+          '169ac47235aa758c7fffaa12726e7c3c11b48e116db5373215dabadbaaa6a6d5cde458230f1e86b26bd34c383e7503e28a195c5f4016f4ed8020b8e642c0b36baf08',
+      },
     ],
   },
   {
