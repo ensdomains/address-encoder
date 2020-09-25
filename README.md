@@ -59,5 +59,6 @@ This library currently supports the following cryptocurrencies and address forma
  - QTUM (base58check)
  - HBAR
  - HNS
+ - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
 
 PRs to add additional chains and address types are welcome.
