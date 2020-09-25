@@ -108,6 +108,10 @@ const vectors: Array<TestVector> = [
         hex:
           '169ac47235aa758c7fffaa12726e7c3c11b48e116db5373215dabadbaaa6a6d5cde458230f1e86b26bd34c383e7503e28a195c5f4016f4ed8020b8e642c0b36baf08',
       },
+      {
+        text: 'zs103kawhns6e9xn48fjgumnp0jsprfpym2hs5ful9r26ckdlnuq6ptcf7hgjxa49ugufkxzfkvun2',
+        hex: '7c6dd75e70d64a69d4e99239b985f2804690936abc289e7ca356b166fe7c0682bc27d7448dda9788e26c61',
+      },
     ],
   },
   {
