@@ -56,5 +56,6 @@ This library currently supports the following cryptocurrencies and address forma
  - ADA (bech32)
  - CELO (checksummed-hex)
  - HBAR
+ - ZEC (base58check Transparent t1, t3, Shielded Sprout zc and Sapling zs)
 
 PRs to add additional chains and address types are welcome.
