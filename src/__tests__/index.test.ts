@@ -62,6 +62,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'DCR',
+    coinType: 42,
+    passingVectors: [
+      { text: 'DsnBFk2BdqYP3WEmChpL7TSonhpxUAi8wiA', hex: '073fe8b089c48ba23c60c64c5226d47acfb26565e313934d5d73'},
+    ],
+  },
+  {
     name: 'XEM',
     coinType: 43,
     passingVectors: [
