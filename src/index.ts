@@ -249,6 +249,14 @@ function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data))
 }
 
+function ontAddrEncoder(data: Buffer): string {
+  return bs58Encode(Buffer.concat([Buffer.from([0x17]), data]))
+}
+
+function ontAddrDecoder(data: string): Buffer {
+  return bs58Decode(data).slice(1)
+}
+
 function strDecoder(data: string): Buffer {
   return decodeEd25519PublicKey('ed25519PublicKey', data)
 }
@@ -372,6 +380,7 @@ const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
+  getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
     coinType: 1729,
     decoder: tezosAddressDecoder,
