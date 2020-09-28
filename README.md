@@ -55,6 +55,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SOL (base58check)
  - ADA (bech32)
  - CELO (checksummed-hex)
+ - QTUM (base58check)
  - HBAR
 
 PRs to add additional chains and address types are welcome.

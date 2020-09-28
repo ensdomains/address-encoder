@@ -282,6 +282,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'PRL8bojUujzDGA6HRapzprXWFxMyhpS7Za', hex: '76a914b7a1c4349e794ee3484b8f433a7063eb614dfdc788ac' }
     ],
+  },
+  {
+    name: 'QTUM',
+    coinType: 2301,
+    passingVectors: [
+      { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
+    ],
   }
 ];
 
