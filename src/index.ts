@@ -343,22 +343,20 @@ function hederaAddressDecoder(data: string): Buffer {
 // https://github.com/LiskHQ/lisk-sdk/blob/master/elements/lisk-validator/src/validation.ts#L202
 function validateLiskAddress(address: string) {
   if (address.length < 2 || address.length > 22) {
-		throw new Error('Address length does not match requirements. Expected between 2 and 22 characters.');
+    throw new Error('Address length does not match requirements. Expected between 2 and 22 characters.');
   }
 
-	if (address[address.length - 1] !== 'L') {
-		throw new Error('Address format does not match requirements. Expected "L" at the end.');
-	}
+  if (address[address.length - 1] !== 'L') {
+    throw new Error('Address format does not match requirements. Expected "L" at the end.');
+  }
 
-	if (address.includes('.')) {
-		throw new Error('Address format does not match requirements. Address includes invalid character: `.`.');
-	}
+  if (address.includes('.')) {
+    throw new Error('Address format does not match requirements. Address includes invalid character: `.`.');
+  }
 }
 
 function liskAddressEncoder(data: Buffer): string {
   const address = `${bigInt(data.toString('hex'), 16).toString(10)}L`;
-
-  validateLiskAddress(address);
 
   return address;
 }
@@ -366,7 +364,7 @@ function liskAddressEncoder(data: Buffer): string {
 function liskAddressDecoder(data: string): Buffer {
   validateLiskAddress(data);
 
-	return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
+  return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
 }
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
