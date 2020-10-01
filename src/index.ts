@@ -15,7 +15,7 @@ interface IFormat {
 }
 
 // Support version field of more than one byte (e.g. Zcash)
-function makeBitcoinBase58CheckEncoder(p2pkhVersion: number[], p2shVersion: number[]): (data: Buffer) => string {
+function makeBitcoinBase58CheckEncoder(p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -42,23 +42,28 @@ function makeBitcoinBase58CheckEncoder(p2pkhVersion: number[], p2shVersion: numb
   };
 }
 
-function makeBitcoinBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+// Supports version field of more than one byte
+// NOTE: Assumes all versions in p2pkhVersions[] or p2shVersions[] will have the same length
+function makeBitcoinBase58CheckDecoder(p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58Decode(data);
-    const version = addr.readUInt8(0);
-    if (p2pkhVersions.includes(version)) {
-      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
-    } else if (p2shVersions.includes(version)) {
-      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(1), Buffer.from([0x87])]);
+    // Checks if the first addr bytes are exactly equal to provided version field
+    const checkVersion = (version: base58CheckVersion) => {
+      return version.every((value: number, index: number) => index < addr.length && value === addr.readUInt8(index))
+    }
+    if (p2pkhVersions.some(checkVersion)) {
+      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(p2pkhVersions[0].length), Buffer.from([0x88, 0xac])]);
+    } else if (p2shVersions.some(checkVersion)) {
+      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(p2shVersions[0].length), Buffer.from([0x87])]);
     }
     throw Error('Unrecognised address format');
   };
 }
 
-const bitcoinBase58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
+const bitcoinBase58Chain = (name: string, coinType: number, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]) => ({
   coinType,
   decoder: makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions),
-  encoder: makeBitcoinBase58CheckEncoder([p2pkhVersions[0]], [p2shVersions[0]]),
+  encoder: makeBitcoinBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
   name,
 });
 
@@ -91,9 +96,9 @@ function makeBech32SegwitDecoder(hrp: string): (data: string) => Buffer {
   };
 }
 
-function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+function makeBitcoinEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
-  const encodeBase58Check = makeBitcoinBase58CheckEncoder([p2pkhVersion], [p2shVersion]);
+  const encodeBase58Check = makeBitcoinBase58CheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
     try {
       return encodeBase58Check(data);
@@ -103,7 +108,7 @@ function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: numb
   };
 }
 
-function makeBitcoinDecoder(hrp: string, p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+function makeBitcoinDecoder(hrp: string, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
   const decodeBech32 = makeBech32SegwitDecoder(hrp);
   const decodeBase58Check = makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions);
   return (data: string) => {
@@ -119,32 +124,14 @@ const bitcoinChain = (
   name: string,
   coinType: number,
   hrp: string,
-  p2pkhVersions: number[],
-  p2shVersions: number[],
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
 ) => ({
   coinType,
   decoder: makeBitcoinDecoder(hrp, p2pkhVersions, p2shVersions),
   encoder: makeBitcoinEncoder(hrp, p2pkhVersions[0], p2shVersions[0]),
   name,
 });
-
-// Similar to makeBitcoinBase58CheckDecoder but supports version field of more than one byte
-// NOTE: Assumes all versions in p2pkhVersions[] or p2shVersions[] will have the same length
-function makeZcashBase58CheckDecoder(p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
-  return (data: string) => {
-    const addr = bs58Decode(data);
-    // Checks if the first addr bytes are exactly equal to provided version field
-    const checkVersion = (version: base58CheckVersion) => {
-      return version.every((value: number, index: number) => addr.length>=index && value === addr.readUInt8(index))
-    }
-    if (p2pkhVersions.some(checkVersion)) {
-      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(p2pkhVersions[0].length), Buffer.from([0x88, 0xac])]);
-    } else if (p2shVersions.some(checkVersion)) {
-      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(p2shVersions[0].length), Buffer.from([0x87])]);
-    }
-    throw Error('Unrecognised address format');
-  };
-}
 
 // Similar to makeBitcoinEncoder but:
 // - Uses Bech32 without SegWit https://zips.z.cash/zip-0173
@@ -163,7 +150,7 @@ function makeZcashEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shVer
 
 // Similar to makeBitcoinDecoder but uses makeZcashBase58CheckDecoder to support version field of more than one byte
 function makeZcashDecoder(hrp: string, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
-  const decodeBase58Check = makeZcashBase58CheckDecoder(p2pkhVersions, p2shVersions);
+  const decodeBase58Check = makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions);
   const decodeBech32 = makeBech32Decoder(hrp);
   return (data: string) => {
     if (data.toLowerCase().startsWith(hrp)) {
@@ -219,7 +206,7 @@ function decodeCashAddr(data: string): Buffer {
 }
 
 function decodeBitcoinCash(data: string): Buffer {
-  const decodeBase58Check = makeBitcoinBase58CheckDecoder([0x00], [0x05]);
+  const decodeBase58Check = makeBitcoinBase58CheckDecoder([[0x00]], [[0x05]]);
   try {
     return decodeBase58Check(data);
   } catch {
@@ -445,13 +432,13 @@ const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: De
 }
 
 const formats: IFormat[] = [
-  bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
-  bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
-  bitcoinBase58Chain('DOGE', 3, [0x1e], [0x16]),
-  bitcoinBase58Chain('DASH', 5, [0x4c], [0x10]),
-  bitcoinBase58Chain('PPC', 6, [0x37], [0x75]),
+  bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
+  bitcoinChain('LTC', 2, 'ltc', [[0x30]], [[0x32], [0x05]]),
+  bitcoinBase58Chain('DOGE', 3, [[0x1e]], [[0x16]]),
+  bitcoinBase58Chain('DASH', 5, [[0x4c]], [[0x10]]),
+  bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
-  bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
+  bitcoinChain('MONA', 22, 'mona', [[0x32]], [[0x37], [0x05]]),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
