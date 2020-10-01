@@ -270,10 +270,38 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'HBAR',
+    coinType: 3030,
+    passingVectors: [
+      {
+        text: '255.255.1024',
+        hex: '000000ff00000000000000ff0000000000000400',
+      },
+      {
+        text: `${BigInt(2 ** 32) - BigInt(1)}.${BigInt(2 ** 64) - BigInt(1)}.${BigInt(2 ** 64) - BigInt(1)}`,
+        hex: 'ffffffffffffffffffffffffffffffffffffffff',
+      },
+    ],
+  },
+  {
     name: 'PPC',
     coinType: 6,
     passingVectors: [
       { text: 'PRL8bojUujzDGA6HRapzprXWFxMyhpS7Za', hex: '76a914b7a1c4349e794ee3484b8f433a7063eb614dfdc788ac' }
+    ],
+  },
+  {
+    name: 'QTUM',
+    coinType: 2301,
+    passingVectors: [
+      { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
+    ],
+  },
+  {
+    name: 'EGLD',
+    coinType: 120,
+    passingVectors: [
+      { text: 'erd1qdzvfpa7gqjsnfhdxhvcp2mlysc80uz60yjhxre3lwl00q0jd4nqgauy9q', hex: '0344c487be402509a6ed35d980ab7f243077f05a7925730f31fbbef781f26d66' }
     ],
   }
 ];

@@ -41,6 +41,7 @@ This library currently supports the following cryptocurrencies and address forma
  - XRP (base58check-ripple)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
+ - EGLD (bech32)
  - XLM (ed25519 public key)
  - ATOM (bech32)
  - ZIL (bech32)
@@ -56,5 +57,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ADA (bech32)
  - CELO (checksummed-hex)
  - STEEM (base58check)
+ - QTUM (base58check)
+ - HBAR
 
 PRs to add additional chains and address types are welcome.

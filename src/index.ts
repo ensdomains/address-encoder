@@ -303,7 +303,6 @@ function tezosAddressDecoder(data: string): Buffer {
   }
 }
 
-
 // Referenced from the following:
 // https://github.com/steemit/steem-js/blob/c71fb595cc68f57c1e4b564c948b1d326db4fab3/src/auth/ecc/src/key_public.js#L94
 // https://github.com/steemit/steem-js/blob/c71fb595cc68f57c1e4b564c948b1d326db4fab3/src/auth/ecc/src/key_public.js#L110
@@ -334,6 +333,44 @@ function steemAddressDecoder(data: string): Buffer {
 }
 
 
+// Reference from js library:
+// https://github.com/hashgraph/hedera-sdk-java/blob/120d98ac9cd167db767ed77bb52cefc844b09fc9/src/main/java/com/hedera/hashgraph/sdk/SolidityUtil.java#L26
+function hederaAddressEncoder(data: Buffer): string {
+  if (data.length !== 20) {
+    throw Error('Unrecognised address format');
+  }
+
+  const view = new DataView(data.buffer, 0);
+
+  const shard = view.getUint32(0);
+  const realm = view.getBigUint64(4);
+  const account = view.getBigUint64(12);
+
+  return [shard, realm, account].join('.');
+}
+
+// Reference from js library:
+// https://github.com/hashgraph/hedera-sdk-java/blob/120d98ac9cd167db767ed77bb52cefc844b09fc9/src/main/java/com/hedera/hashgraph/sdk/SolidityUtil.java#L26
+function hederaAddressDecoder(data: string): Buffer {
+  const buffer = Buffer.alloc(20);
+  const view = new DataView(buffer.buffer, 0, 20);
+
+  const components = data.split('.');
+  if (components.length !== 3) {
+    throw Error('Unrecognised address format');
+  }
+
+  const shard = Number(components[0]);
+  const realm = BigInt(components[1]);
+  const account = BigInt(components[2]);
+
+  view.setUint32(0, shard);
+  view.setBigUint64(4, realm);
+  view.setBigUint64(12, account);
+
+  return buffer;
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -355,6 +392,7 @@ const formats: IFormat[] = [
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
+  bech32Chain('EGLD', 120, 'erd'),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
@@ -376,6 +414,13 @@ const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('QTUM', 2301, bs58Encode, bs58Decode),
+  {
+    coinType: 3030,
+    decoder: hederaAddressDecoder,
+    encoder: hederaAddressEncoder,
+    name: 'HBAR',
+  },
   hexChecksumChain('CELO', 52752)
 ];
 
