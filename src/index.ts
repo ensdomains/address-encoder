@@ -388,6 +388,7 @@ const formats: IFormat[] = [
   bitcoinBase58Chain('DOGE', 3, [0x1e], [0x16]),
   bitcoinBase58Chain('DASH', 5, [0x4c], [0x10]),
   bitcoinBase58Chain('PPC', 6, [0x37], [0x75]),
+  getConfig('NMC', 7, bs58Encode, bs58Decode),
   bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
