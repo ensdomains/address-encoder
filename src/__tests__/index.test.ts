@@ -293,10 +293,32 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'NMC',
+    coinType: 7,
+    passingVectors: [
+      { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1' },
+      { text: 'TJCnKsPa7y5okkXvQAidZBzqx3QyQ6sxMW', hex: '415a523b449890854c8fc460ab602df9f31fe4293f' },
+    ]
+  },
+  {
+    name: 'HNS',
+    coinType: 5353,
+    passingVectors: [
+      { text: 'hs1qd42hrldu5yqee58se4uj6xctm7nk28r70e84vx', hex: '6d5571fdbca1019cd0f0cd792d1b0bdfa7651c7e' },
+    ],
+  },
+  {
     name: 'QTUM',
     coinType: 2301,
     passingVectors: [
       { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
+    ],
+  },
+  {
+    name: 'EGLD',
+    coinType: 120,
+    passingVectors: [
+      { text: 'erd1qdzvfpa7gqjsnfhdxhvcp2mlysc80uz60yjhxre3lwl00q0jd4nqgauy9q', hex: '0344c487be402509a6ed35d980ab7f243077f05a7925730f31fbbef781f26d66' }
     ],
   }
 ];
