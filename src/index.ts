@@ -394,6 +394,7 @@ const formats: IFormat[] = [
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
+  bech32Chain('EGLD', 120, 'erd'),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
@@ -414,6 +415,7 @@ const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   {
     coinType: 3030,
     decoder: hederaAddressDecoder,
