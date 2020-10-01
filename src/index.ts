@@ -441,6 +441,7 @@ const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
+  getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
   {
     coinType: 1729,
     decoder: tezosAddressDecoder,
