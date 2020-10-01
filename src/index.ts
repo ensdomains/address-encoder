@@ -387,15 +387,15 @@ function algoChecksum(pk: Buffer): string {
 }
 
 function algoDecode(data: string): Buffer {
-  let decoded = b32decode(data);
+  const decoded = b32decode(data);
 
   if (decoded.length !== ALGORAND_ADDRESS_BYTE_LENGTH) {
     throw Error('Unrecognised address format');
   }
 
-  let publicKey = decoded.slice(0, -ALGORAND_CHECKSUM_BYTE_LENGTH);
-  let checksum = decoded.slice(-ALGORAND_CHECKSUM_BYTE_LENGTH);
-  let expected_checksum = algoChecksum(publicKey);
+  const publicKey = decoded.slice(0, -ALGORAND_CHECKSUM_BYTE_LENGTH);
+  const checksum = decoded.slice(-ALGORAND_CHECKSUM_BYTE_LENGTH);
+  const expected_checksum = algoChecksum(publicKey);
 
   if (checksum.toString('hex') !== expected_checksum) {
     throw Error('Unrecognised address format');
@@ -406,7 +406,7 @@ function algoDecode(data: string): Buffer {
 
 function algoEncode(data: Buffer): string {
   // Calculate publicKey checksum
-  let checksum = algoChecksum(data);
+  const checksum = algoChecksum(data);
 
   // Append publicKey and checksum
   const addr = b32encode(hex2a(data.toString('hex').concat(checksum)));
