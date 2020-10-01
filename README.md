@@ -59,5 +59,6 @@ This library currently supports the following cryptocurrencies and address forma
  - QTUM (base58check)
  - HBAR
  - HNS
+ - ICX
 
 PRs to add additional chains and address types are welcome.
