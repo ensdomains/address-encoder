@@ -254,7 +254,15 @@ function ontAddrEncoder(data: Buffer): string {
 }
 
 function ontAddrDecoder(data: string): Buffer {
-  return bs58Decode(data).slice(1)
+  const address = bs58Decode(data)
+
+  switch (address.readUInt8(0)) {
+   case 0x17:
+     return address.slice(1);
+
+    default:
+      throw Error('Unrecognised address format');
+  }
 }
 
 function strDecoder(data: string): Buffer {
