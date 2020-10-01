@@ -338,6 +338,41 @@ function hederaAddressDecoder(data: string): Buffer {
   return buffer;
 }
 
+// Reference:
+// https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
+function hnsAddressEncoder(data: Buffer, ): string {
+  if (data.length !== 20) {
+    throw Error('P2WPKH must be 20 bytes');
+  }
+
+  const version = 0
+  const words = [version].concat(bech32ToWords(data));
+  return bech32Encode('hs', words);
+}
+
+// Reference:
+// https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L225
+function hnsAddressDecoder(data: string): Buffer {
+  const { prefix, words } = bech32Decode(data);
+
+  if (prefix !== 'hs') {
+    throw Error('Unrecognised address format');
+  }
+
+  const version = words[0]
+  const hash = bech32FromWords(words.slice(1));
+  
+  if (version !== 0) {
+    throw Error('Bad program version');
+  }
+
+  if(hash.length !== 20) {
+    throw Error('Witness program hash is the wrong size');
+  }
+
+  return Buffer.from(hash)
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -387,7 +422,8 @@ const formats: IFormat[] = [
     encoder: hederaAddressEncoder,
     name: 'HBAR',
   },
-  hexChecksumChain('CELO', 52752)
+  getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
+  hexChecksumChain('CELO', 52752),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
