@@ -1,6 +1,7 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 // @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
+import { createHash } from 'crypto';
 
 type EnCoder = (data: Buffer) => string
 type DeCoder = (data: string) => Buffer
@@ -211,6 +212,7 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
   name,
 });
 
+
 function b32encodeXemAddr(data: Buffer): string {
   return b32encode(hex2a(data.toString('hex')));
 }
@@ -373,6 +375,47 @@ function hnsAddressDecoder(data: string): Buffer {
   return Buffer.from(hash)
 }
 
+const ALGORAND_CHECKSUM_BYTE_LENGTH = 4;
+const ALGORAND_ADDRESS_BYTE_LENGTH = 36;
+
+// Returns 4 last byte (8 chars) of sha512_256(publicKey)
+function algoChecksum(pk: Buffer): string {
+  return createHash('SHA512-256')
+    .update(pk)
+    .digest('hex')
+    .substr(-ALGORAND_CHECKSUM_BYTE_LENGTH * 2);
+}
+
+function algoDecode(data: string): Buffer {
+  let decoded = b32decode(data);
+
+  if (decoded.length !== ALGORAND_ADDRESS_BYTE_LENGTH) {
+    throw Error('Unrecognised address format');
+  }
+
+  let publicKey = decoded.slice(0, -ALGORAND_CHECKSUM_BYTE_LENGTH);
+  let checksum = decoded.slice(-ALGORAND_CHECKSUM_BYTE_LENGTH);
+  let expected_checksum = algoChecksum(publicKey);
+
+  if (checksum.toString('hex') !== expected_checksum) {
+    throw Error('Unrecognised address format');
+  }
+
+  return publicKey;
+}
+
+function algoEncode(data: Buffer): string {
+  // Calculate publicKey checksum
+  let checksum = algoChecksum(data);
+
+  // Append publicKey and checksum
+  const addr = b32encode(hex2a(data.toString('hex').concat(checksum)));
+
+  // Removing the extra '='
+  const cleanAddr = addr.replace(/=/g, '');
+  return cleanAddr;
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -397,12 +440,13 @@ const formats: IFormat[] = [
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
   hexChecksumChain('RSK', 137, 30),
-  getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
+  getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
+  getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
