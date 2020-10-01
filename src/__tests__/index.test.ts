@@ -289,6 +289,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
     ],
+  },
+  {
+    name: 'EGLD',
+    coinType: 120,
+    passingVectors: [
+      { text: 'erd1qdzvfpa7gqjsnfhdxhvcp2mlysc80uz60yjhxre3lwl00q0jd4nqgauy9q', hex: '0344c487be402509a6ed35d980ab7f243077f05a7925730f31fbbef781f26d66' }
+    ],
   }
 ];
 
