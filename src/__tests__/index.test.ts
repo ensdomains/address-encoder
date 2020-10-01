@@ -290,6 +290,8 @@ const vectors: Array<TestVector> = [
       { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1' },
       { text: 'TJCnKsPa7y5okkXvQAidZBzqx3QyQ6sxMW', hex: '415a523b449890854c8fc460ab602df9f31fe4293f' },
     ]
+  },
+  {
     name: 'HNS',
     coinType: 5353,
     passingVectors: [
