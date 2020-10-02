@@ -1,4 +1,5 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
+import bigInt from 'big-integer';
 // @ts-ignore
 import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
 
@@ -354,6 +355,69 @@ function hederaAddressDecoder(data: string): Buffer {
   return buffer;
 }
 
+// Reference from Lisk validator
+// https://github.com/LiskHQ/lisk-sdk/blob/master/elements/lisk-validator/src/validation.ts#L202
+function validateLiskAddress(address: string) {
+  if (address.length < 2 || address.length > 22) {
+    throw new Error('Address length does not match requirements. Expected between 2 and 22 characters.');
+  }
+
+  if (address[address.length - 1] !== 'L') {
+    throw new Error('Address format does not match requirements. Expected "L" at the end.');
+  }
+
+  if (address.includes('.')) {
+    throw new Error('Address format does not match requirements. Address includes invalid character: `.`.');
+  }
+}
+
+function liskAddressEncoder(data: Buffer): string {
+  const address = `${bigInt(data.toString('hex'), 16).toString(10)}L`;
+
+  return address;
+}
+
+function liskAddressDecoder(data: string): Buffer {
+  validateLiskAddress(data);
+
+  return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
+}
+  
+// Reference:
+// https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
+function hnsAddressEncoder(data: Buffer, ): string {
+  if (data.length !== 20) {
+    throw Error('P2WPKH must be 20 bytes');
+  }
+
+  const version = 0
+  const words = [version].concat(bech32ToWords(data));
+  return bech32Encode('hs', words);
+}
+
+// Reference:
+// https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L225
+function hnsAddressDecoder(data: string): Buffer {
+  const { prefix, words } = bech32Decode(data);
+
+  if (prefix !== 'hs') {
+    throw Error('Unrecognised address format');
+  }
+
+  const version = words[0]
+  const hash = bech32FromWords(words.slice(1));
+  
+  if (version !== 0) {
+    throw Error('Bad program version');
+  }
+
+  if(hash.length !== 20) {
+    throw Error('Witness program hash is the wrong size');
+  }
+
+  return Buffer.from(hash)
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -369,12 +433,15 @@ const formats: IFormat[] = [
   bitcoinBase58Chain('DOGE', 3, [0x1e], [0x16]),
   bitcoinBase58Chain('DASH', 5, [0x4c], [0x10]),
   bitcoinBase58Chain('PPC', 6, [0x37], [0x75]),
+  getConfig('NMC', 7, bs58Encode, bs58Decode),
   bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
+  bech32Chain('EGLD', 120, 'erd'),
+  getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
@@ -396,13 +463,15 @@ const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   {
     coinType: 3030,
     decoder: hederaAddressDecoder,
     encoder: hederaAddressEncoder,
     name: 'HBAR',
   },
-  hexChecksumChain('CELO', 52752)
+  getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
+  hexChecksumChain('CELO', 52752),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
