@@ -424,6 +424,7 @@ const formats: IFormat[] = [
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
+  getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
@@ -455,8 +456,7 @@ const formats: IFormat[] = [
     name: 'HBAR',
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
-  hexChecksumChain('CELO', 52752),
-  getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder)
+  hexChecksumChain('CELO', 52752)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
