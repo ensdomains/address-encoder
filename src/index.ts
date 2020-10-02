@@ -413,9 +413,9 @@ function algoDecode(data: string): Buffer {
 
   const publicKey = decoded.slice(0, -AlgoChecksumByteLength);
   const checksum = decoded.slice(-AlgoChecksumByteLength);
-  const expected_checksum = algoChecksum(publicKey);
+  const expectedChecksum = algoChecksum(publicKey);
 
-  if (checksum.toString('hex') !== expected_checksum) {
+  if (checksum.toString('hex') !== expectedChecksum) {
     throw Error('Unrecognised address format');
   }
 
