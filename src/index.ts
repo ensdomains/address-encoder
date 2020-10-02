@@ -1,9 +1,34 @@
-import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
+import {
+  decode as bech32Decode,
+  encode as bech32Encode,
+  fromWords as bech32FromWords,
+  toWords as bech32ToWords,
+} from 'bech32';
+import bigInt from 'big-integer';
+import { decode as bs58DecodeNoCheck, encode as bs58EncodeNocheck } from 'bs58';
 // @ts-ignore
-import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
+import {
+  b32decode,
+  b32encode,
+  bs58Decode,
+  bs58Encode,
+  cashaddrDecode,
+  cashaddrEncode,
+  codec as xrpCodec,
+  decodeCheck as decodeEd25519PublicKey,
+  encodeCheck as encodeEd25519PublicKey,
+  eosPublicKey,
+  hex2a,
+  isValid as isValidXemAddress,
+  isValidChecksumAddress as rskIsValidChecksumAddress,
+  ss58Decode,
+  ss58Encode,
+  stripHexPrefix as rskStripHexPrefix,
+  toChecksumAddress as rskToChecksumAddress,
+} from 'crypto-addr-codec';
 
-type EnCoder = (data: Buffer) => string
-type DeCoder = (data: string) => Buffer
+type EnCoder = (data: Buffer) => string;
+type DeCoder = (data: string) => Buffer;
 
 type base58CheckVersion = number[]
 
@@ -250,7 +275,7 @@ function makeBech32Decoder(currentPrefix: string) {
       throw Error('Unrecognised address format');
     }
     return Buffer.from(bech32FromWords(words));
-  }
+  };
 }
 
 const bech32Chain = (name: string, coinType: number, prefix: string) => ({
@@ -268,8 +293,11 @@ function b32decodeXemAddr(data: string): Buffer {
   if (!isValidXemAddress(data)) {
     throw Error('Unrecognised address format');
   }
-  const address = data.toString().toUpperCase().replace(/-/g, '');
-  return b32decode(address)
+  const address = data
+    .toString()
+    .toUpperCase()
+    .replace(/-/g, '');
+  return b32decode(address);
 }
 
 function eosAddrEncoder(data: Buffer): string {
@@ -287,42 +315,60 @@ function eosAddrDecoder(data: string): Buffer {
 }
 
 function ksmAddrEncoder(data: Buffer): string {
-  return ss58Encode(Uint8Array.from(data), 2)
+  return ss58Encode(Uint8Array.from(data), 2);
 }
 
 function dotAddrEncoder(data: Buffer): string {
-  return ss58Encode(Uint8Array.from(data), 0)
+  return ss58Encode(Uint8Array.from(data), 0);
 }
 
 function ksmAddrDecoder(data: string): Buffer {
-  return new Buffer(ss58Decode(data))
+  return new Buffer(ss58Decode(data));
+}
+
+function ontAddrEncoder(data: Buffer): string {
+  return bs58Encode(Buffer.concat([Buffer.from([0x17]), data]))
+}
+
+function ontAddrDecoder(data: string): Buffer {
+  const address = bs58Decode(data)
+
+  switch (address.readUInt8(0)) {
+   case 0x17:
+     return address.slice(1);
+
+    default:
+      throw Error('Unrecognised address format');
+  }
 }
 
 function strDecoder(data: string): Buffer {
-  return decodeEd25519PublicKey('ed25519PublicKey', data)
+  return decodeEd25519PublicKey('ed25519PublicKey', data);
 }
 
 function strEncoder(data: Buffer): string {
-  return encodeEd25519PublicKey('ed25519PublicKey', data)
+  return encodeEd25519PublicKey('ed25519PublicKey', data);
 }
 
 // Referenced from the followings
 // https://tezos.stackexchange.com/questions/183/base58-encoding-decoding-of-addresses-in-micheline
 // https://tezos.gitlab.io/api/p2p.html?highlight=contract_id#contract-id-22-bytes-8-bit-tag
 function tezosAddressEncoder(data: Buffer): string {
-  if (data.length !== 22 && data.length !== 21) { throw Error('Unrecognised address format'); }
+  if (data.length !== 22 && data.length !== 21) {
+    throw Error('Unrecognised address format');
+  }
 
   let prefix: Buffer;
   switch (data.readUInt8(0)) {
     case 0x00:
       if (data.readUInt8(1) === 0x00) {
-          prefix = Buffer.from([0x06, 0xa1, 0x9f]); // prefix tz1 equal 06a19f
+        prefix = Buffer.from([0x06, 0xa1, 0x9f]); // prefix tz1 equal 06a19f
       } else if (data.readUInt8(1) === 0x01) {
-          prefix = Buffer.from([0x06, 0xa1, 0xa1]); // prefix tz2 equal 06a1a1
+        prefix = Buffer.from([0x06, 0xa1, 0xa1]); // prefix tz2 equal 06a1a1
       } else if (data.readUInt8(1) === 0x02) {
-          prefix = Buffer.from([0x06, 0xa1, 0xa4]); // prefix tz3 equal 06a1a4
+        prefix = Buffer.from([0x06, 0xa1, 0xa4]); // prefix tz3 equal 06a1a4
       } else {
-          throw Error('Unrecognised address format');
+        throw Error('Unrecognised address format');
       }
       return bs58Encode(Buffer.concat([prefix, data.slice(2)]));
     case 0x01:
@@ -335,14 +381,14 @@ function tezosAddressEncoder(data: Buffer): string {
 
 function tezosAddressDecoder(data: string): Buffer {
   const address = bs58Decode(data).slice(3);
-  switch (data.substring(0,3)) {
-    case "tz1": 
-      return Buffer.concat([Buffer.from([0x00,0x00]), address]);
-    case "tz2":
-      return Buffer.concat([Buffer.from([0x00,0x01]), address]);
-    case "tz3":
-      return Buffer.concat([Buffer.from([0x00,0x02]), address]);
-    case "KT1":
+  switch (data.substring(0, 3)) {
+    case 'tz1':
+      return Buffer.concat([Buffer.from([0x00, 0x00]), address]);
+    case 'tz2':
+      return Buffer.concat([Buffer.from([0x00, 0x01]), address]);
+    case 'tz3':
+      return Buffer.concat([Buffer.from([0x00, 0x02]), address]);
+    case 'KT1':
       return Buffer.concat([Buffer.from([0x01]), address, Buffer.from([0x00])]);
     default:
       throw Error('Unrecognised address format');
@@ -387,14 +433,42 @@ function hederaAddressDecoder(data: string): Buffer {
   return buffer;
 }
 
+// Reference from Lisk validator
+// https://github.com/LiskHQ/lisk-sdk/blob/master/elements/lisk-validator/src/validation.ts#L202
+function validateLiskAddress(address: string) {
+  if (address.length < 2 || address.length > 22) {
+    throw new Error('Address length does not match requirements. Expected between 2 and 22 characters.');
+  }
+
+  if (address[address.length - 1] !== 'L') {
+    throw new Error('Address format does not match requirements. Expected "L" at the end.');
+  }
+
+  if (address.includes('.')) {
+    throw new Error('Address format does not match requirements. Address includes invalid character: `.`.');
+  }
+}
+
+function liskAddressEncoder(data: Buffer): string {
+  const address = `${bigInt(data.toString('hex'), 16).toString(10)}L`;
+
+  return address;
+}
+
+function liskAddressDecoder(data: string): Buffer {
+  validateLiskAddress(data);
+
+  return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
+}
+  
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
-function hnsAddressEncoder(data: Buffer, ): string {
+function hnsAddressEncoder(data: Buffer): string {
   if (data.length !== 20) {
     throw Error('P2WPKH must be 20 bytes');
   }
 
-  const version = 0
+  const version = 0;
   const words = [version].concat(bech32ToWords(data));
   return bech32Encode('hs', words);
 }
@@ -408,18 +482,49 @@ function hnsAddressDecoder(data: string): Buffer {
     throw Error('Unrecognised address format');
   }
 
-  const version = words[0]
+  const version = words[0];
   const hash = bech32FromWords(words.slice(1));
-  
+
   if (version !== 0) {
     throw Error('Bad program version');
   }
 
-  if(hash.length !== 20) {
+  if (hash.length !== 20) {
     throw Error('Witness program hash is the wrong size');
   }
 
-  return Buffer.from(hash)
+  return Buffer.from(hash);
+}
+
+// Referenced from following
+// https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L219
+function icxAddressEncoder(data: Buffer): string {
+  if (data.length !== 21) {
+    throw Error('Unrecognised address format');
+  }
+  switch (data.readUInt8(0)) {
+    case 0x00:
+      return 'hx' + data.slice(1).toString('hex');
+    case 0x01:
+      return 'cx' + data.slice(1).toString('hex');
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
+// Referenced from following
+// https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L238
+function icxAddressDecoder(data: string): Buffer {
+  const prefix = data.slice(0, 2)
+  const body = data.slice(2)
+  switch (prefix) {
+    case 'hx':
+      return Buffer.concat([Buffer.from([0x00]), Buffer.from(body, 'hex')]);
+    case 'cx':
+      return Buffer.concat([Buffer.from([0x01]), Buffer.from(body, 'hex')]);
+    default:
+      throw Error('Unrecognised address format');
+  }
 }
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
@@ -428,8 +533,8 @@ const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: De
     decoder,
     encoder,
     name,
-  }
-}
+  };
+};
 
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
@@ -439,14 +544,18 @@ const formats: IFormat[] = [
   bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
   bitcoinChain('MONA', 22, 'mona', [[0x32]], [[0x37], [0x05]]),
+  getConfig('DCR', 42, bs58EncodeNocheck, bs58DecodeNoCheck),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
+  getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
+  zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
+  getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   hexChecksumChain('RSK', 137, 30),
-  getConfig('XRP', 144, (data) => xrpCodec.encodeChecked(data), (data) => xrpCodec.decodeChecked(data)),
+  getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
@@ -458,6 +567,7 @@ const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
+  getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
     coinType: 1729,
     decoder: tezosAddressDecoder,
@@ -474,7 +584,6 @@ const formats: IFormat[] = [
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('CELO', 52752),
-  zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
