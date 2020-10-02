@@ -30,6 +30,8 @@ import {
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
 
+type base58CheckVersion = number[]
+
 interface IFormat {
   coinType: number;
   name: string;
@@ -37,7 +39,8 @@ interface IFormat {
   decoder: (data: string) => Buffer;
 }
 
-function makeBitcoinBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+// Support version field of more than one byte (e.g. Zcash)
+function makeBitcoinBase58CheckEncoder(p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -49,14 +52,14 @@ function makeBitcoinBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number
         ) {
           throw Error('Unrecognised address format');
         }
-        addr = Buffer.concat([Buffer.from([p2pkhVersion]), data.slice(3, 3 + data.readUInt8(2))]);
+        addr = Buffer.concat([Buffer.from(p2pkhVersion), data.slice(3, 3 + data.readUInt8(2))]);
         // @ts-ignore
         return bs58Encode(addr);
       case 0xa9: // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
         if (data.readUInt8(data.length - 1) !== 0x87) {
           throw Error('Unrecognised address format');
         }
-        addr = Buffer.concat([Buffer.from([p2shVersion]), data.slice(2, 2 + data.readUInt8(1))]);
+        addr = Buffer.concat([Buffer.from(p2shVersion), data.slice(2, 2 + data.readUInt8(1))]);
         return bs58Encode(addr);
       default:
         throw Error('Unrecognised address format');
@@ -64,20 +67,25 @@ function makeBitcoinBase58CheckEncoder(p2pkhVersion: number, p2shVersion: number
   };
 }
 
-function makeBitcoinBase58CheckDecoder(p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+// Supports version field of more than one byte
+// NOTE: Assumes all versions in p2pkhVersions[] or p2shVersions[] will have the same length
+function makeBitcoinBase58CheckDecoder(p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58Decode(data);
-    const version = addr.readUInt8(0);
-    if (p2pkhVersions.includes(version)) {
-      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(1), Buffer.from([0x88, 0xac])]);
-    } else if (p2shVersions.includes(version)) {
-      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(1), Buffer.from([0x87])]);
+    // Checks if the first addr bytes are exactly equal to provided version field
+    const checkVersion = (version: base58CheckVersion) => {
+      return version.every((value: number, index: number) => index < addr.length && value === addr.readUInt8(index))
+    }
+    if (p2pkhVersions.some(checkVersion)) {
+      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(p2pkhVersions[0].length), Buffer.from([0x88, 0xac])]);
+    } else if (p2shVersions.some(checkVersion)) {
+      return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(p2shVersions[0].length), Buffer.from([0x87])]);
     }
     throw Error('Unrecognised address format');
   };
 }
 
-const bitcoinBase58Chain = (name: string, coinType: number, p2pkhVersions: number[], p2shVersions: number[]) => ({
+const bitcoinBase58Chain = (name: string, coinType: number, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]) => ({
   coinType,
   decoder: makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions),
   encoder: makeBitcoinBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
@@ -113,7 +121,7 @@ function makeBech32SegwitDecoder(hrp: string): (data: string) => Buffer {
   };
 }
 
-function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: number): (data: Buffer) => string {
+function makeBitcoinEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
   const encodeBase58Check = makeBitcoinBase58CheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
@@ -125,7 +133,7 @@ function makeBitcoinEncoder(hrp: string, p2pkhVersion: number, p2shVersion: numb
   };
 }
 
-function makeBitcoinDecoder(hrp: string, p2pkhVersions: number[], p2shVersions: number[]): (data: string) => Buffer {
+function makeBitcoinDecoder(hrp: string, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
   const decodeBech32 = makeBech32SegwitDecoder(hrp);
   const decodeBase58Check = makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions);
   return (data: string) => {
@@ -141,12 +149,53 @@ const bitcoinChain = (
   name: string,
   coinType: number,
   hrp: string,
-  p2pkhVersions: number[],
-  p2shVersions: number[],
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
 ) => ({
   coinType,
   decoder: makeBitcoinDecoder(hrp, p2pkhVersions, p2shVersions),
   encoder: makeBitcoinEncoder(hrp, p2pkhVersions[0], p2shVersions[0]),
+  name,
+});
+
+// Similar to makeBitcoinEncoder but:
+// - Uses Bech32 without SegWit https://zips.z.cash/zip-0173
+// - Supports version field of more than one byte
+function makeZcashEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
+  const encodeBech32 = makeBech32Encoder(hrp);
+  const encodeBase58Check = makeBitcoinBase58CheckEncoder(p2pkhVersion, p2shVersion);
+  return (data: Buffer) => {
+    try {
+      return encodeBase58Check(data);
+    } catch {
+      return encodeBech32(data);
+    }
+  };
+}
+
+// Similar to makeBitcoinDecoder but uses makeZcashBase58CheckDecoder to support version field of more than one byte
+function makeZcashDecoder(hrp: string, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
+  const decodeBase58Check = makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions);
+  const decodeBech32 = makeBech32Decoder(hrp);
+  return (data: string) => {
+    if (data.toLowerCase().startsWith(hrp)) {
+      return decodeBech32(data);
+    } else {
+      return decodeBase58Check(data);
+    }
+  };
+}
+
+const zcashChain = (
+  name: string,
+  coinType: number,
+  hrp: string,
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
+) => ({
+  coinType,
+  decoder: makeZcashDecoder(hrp, p2pkhVersions, p2shVersions),
+  encoder: makeZcashEncoder(hrp, p2pkhVersions[0], p2shVersions[0]),
   name,
 });
 
@@ -182,7 +231,7 @@ function decodeCashAddr(data: string): Buffer {
 }
 
 function decodeBitcoinCash(data: string): Buffer {
-  const decodeBase58Check = makeBitcoinBase58CheckDecoder([0x00], [0x05]);
+  const decodeBase58Check = makeBitcoinBase58CheckDecoder([[0x00]], [[0x05]]);
   try {
     return decodeBase58Check(data);
   } catch {
@@ -488,13 +537,13 @@ const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: De
 };
 
 const formats: IFormat[] = [
-  bitcoinChain('BTC', 0, 'bc', [0x00], [0x05]),
-  bitcoinChain('LTC', 2, 'ltc', [0x30], [0x32, 0x05]),
-  bitcoinBase58Chain('DOGE', 3, [0x1e], [0x16]),
-  bitcoinBase58Chain('DASH', 5, [0x4c], [0x10]),
-  bitcoinBase58Chain('PPC', 6, [0x37], [0x75]),
+  bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
+  bitcoinChain('LTC', 2, 'ltc', [[0x30]], [[0x32], [0x05]]),
+  bitcoinBase58Chain('DOGE', 3, [[0x1e]], [[0x16]]),
+  bitcoinBase58Chain('DASH', 5, [[0x4c]], [[0x10]]),
+  bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
-  bitcoinChain('MONA', 22, 'mona', [0x32], [0x37, 0x05]),
+  bitcoinChain('MONA', 22, 'mona', [[0x32]], [[0x37], [0x05]]),
   getConfig('DCR', 42, bs58EncodeNocheck, bs58DecodeNoCheck),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
@@ -503,6 +552,7 @@ const formats: IFormat[] = [
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
+  zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
@@ -533,7 +583,7 @@ const formats: IFormat[] = [
     name: 'HBAR',
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
-  hexChecksumChain('CELO', 52752)
+  hexChecksumChain('CELO', 52752),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
