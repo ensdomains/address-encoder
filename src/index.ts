@@ -7,6 +7,7 @@ import {
 import bigInt from 'big-integer';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
+import { createHash } from 'crypto';
 import {
   b32decode,
   b32encode,
@@ -285,6 +286,7 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
   name,
 });
 
+
 function b32encodeXemAddr(data: Buffer): string {
   return b32encode(hex2a(data.toString('hex')));
 }
@@ -557,6 +559,47 @@ function steemAddressDecoder(data: string): Buffer {
   return Buffer.from(key);
 }
 
+const AlgoChecksumByteLength = 4;
+const AlgoAddressByteLength = 36;
+
+// Returns 4 last byte (8 chars) of sha512_256(publicKey)
+function algoChecksum(pk: Buffer): string {
+  return createHash('SHA512-256')
+    .update(pk)
+    .digest('hex')
+    .substr(-AlgoChecksumByteLength * 2);
+}
+
+function algoDecode(data: string): Buffer {
+  const decoded = b32decode(data);
+
+  if (decoded.length !== AlgoAddressByteLength) {
+    throw Error('Unrecognised address format');
+  }
+
+  const publicKey = decoded.slice(0, -AlgoChecksumByteLength);
+  const checksum = decoded.slice(-AlgoChecksumByteLength);
+  const expectedChecksum = algoChecksum(publicKey);
+
+  if (checksum.toString('hex') !== expectedChecksum) {
+    throw Error('Unrecognised address format');
+  }
+
+  return publicKey;
+}
+
+function algoEncode(data: Buffer): string {
+  // Calculate publicKey checksum
+  const checksum = algoChecksum(data);
+
+  // Append publicKey and checksum
+  const addr = b32encode(hex2a(data.toString('hex').concat(checksum)));
+
+  // Removing the extra '='
+  const cleanAddr = addr.replace(/=/g, '');
+  return cleanAddr;
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -592,6 +635,7 @@ const formats: IFormat[] = [
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
+  getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
