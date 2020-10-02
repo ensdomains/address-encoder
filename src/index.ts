@@ -574,7 +574,7 @@ const formats: IFormat[] = [
   bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
   bitcoinChain('MONA', 22, 'mona', [[0x32]], [[0x37], [0x05]]),
-  getConfig('DCR', 42, bs58EncodeNocheck, bs58DecodeNoCheck),
+  getConfig('DCR', 42, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
