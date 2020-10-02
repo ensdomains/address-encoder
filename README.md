@@ -60,5 +60,6 @@ This library currently supports the following cryptocurrencies and address forma
  - HBAR
  - ONT (base58check)
  - HNS
+ - ICX
 
 PRs to add additional chains and address types are welcome.

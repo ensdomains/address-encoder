@@ -304,7 +304,7 @@ function tezosAddressEncoder(data: Buffer): string {
 function tezosAddressDecoder(data: string): Buffer {
   const address = bs58Decode(data).slice(3);
   switch (data.substring(0,3)) {
-    case "tz1": 
+    case "tz1":
       return Buffer.concat([Buffer.from([0x00,0x00]), address]);
     case "tz2":
       return Buffer.concat([Buffer.from([0x00,0x01]), address]);
@@ -406,7 +406,7 @@ function hnsAddressDecoder(data: string): Buffer {
 
   const version = words[0]
   const hash = bech32FromWords(words.slice(1));
-  
+
   if (version !== 0) {
     throw Error('Bad program version');
   }
@@ -416,6 +416,37 @@ function hnsAddressDecoder(data: string): Buffer {
   }
 
   return Buffer.from(hash)
+}
+
+// Referenced from following
+// https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L219
+function icxAddressEncoder(data: Buffer): string {
+  if (data.length !== 21) {
+    throw Error('Unrecognised address format');
+  }
+  switch (data.readUInt8(0)) {
+    case 0x00:
+      return 'hx' + data.slice(1).toString('hex');
+    case 0x01:
+      return 'cx' + data.slice(1).toString('hex');
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
+// Referenced from following
+// https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L238
+function icxAddressDecoder(data: string): Buffer {
+  const prefix = data.slice(0, 2)
+  const body = data.slice(2)
+  switch (prefix) {
+    case 'hx':
+      return Buffer.concat([Buffer.from([0x00]), Buffer.from(body, 'hex')]);
+    case 'cx':
+      return Buffer.concat([Buffer.from([0x01]), Buffer.from(body, 'hex')]);
+    default:
+      throw Error('Unrecognised address format');
+  }
 }
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
@@ -438,6 +469,7 @@ const formats: IFormat[] = [
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
+  getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
@@ -471,7 +503,7 @@ const formats: IFormat[] = [
     name: 'HBAR',
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
-  hexChecksumChain('CELO', 52752),
+  hexChecksumChain('CELO', 52752)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

@@ -329,6 +329,14 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'erd1qdzvfpa7gqjsnfhdxhvcp2mlysc80uz60yjhxre3lwl00q0jd4nqgauy9q', hex: '0344c487be402509a6ed35d980ab7f243077f05a7925730f31fbbef781f26d66' }
     ],
+  },
+  {
+    name: 'ICX',
+    coinType: 74,
+    passingVectors: [
+      { text: 'hx6b38701ddc411e6f4e84a04f6abade7661a207e2', hex: '006b38701ddc411e6f4e84a04f6abade7661a207e2' },
+      { text: 'cxa4524257b3511fb9574009785c1f1e73cf4097e7', hex: '01a4524257b3511fb9574009785c1f1e73cf4097e7' },
+    ],
   }
 ];
 
