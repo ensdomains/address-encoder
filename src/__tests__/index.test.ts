@@ -62,6 +62,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'DCR',
+    coinType: 42,
+    passingVectors: [
+      { text: 'DsnBFk2BdqYP3WEmChpL7TSonhpxUAi8wiA', hex: '073fe8b089c48ba23c60c64c5226d47acfb26565e313934d5d73'},
+    ],
+  },
+  {
     name: 'XEM',
     coinType: 43,
     passingVectors: [
@@ -95,6 +102,22 @@ const vectors: Array<TestVector> = [
     coinType: 119,
     passingVectors: [
       { text: 'zil139tkqvc8rw92e6jrs40gawwc3mmdmmauv3x3yz', hex: '89576033071b8aacea43855e8eb9d88ef6ddefbc' },
+    ],
+  },
+  {
+    name: 'LSK',
+    coinType: 134,
+    passingVectors: [
+      { text: '5506432865724830000L', hex: '4c6ac7845d109130' },
+      { text: '10588416556841527004L', hex: '92f19cc2346766dc' },
+      { text: '4980451641598555896L', hex: '451e1e61667e36f8' },
+    ],
+  },
+  {
+    name: 'STEEM',
+    coinType: 135,
+    passingVectors: [
+      { text: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K', hex: '03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8' },
     ],
   },
   {
@@ -270,6 +293,22 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'HIVE',
+    coinType: 825,
+    passingVectors: [
+      { text: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K', hex: '03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8' },
+    ],
+  },
+  {
+    name: 'ONT',
+    coinType: 1024,
+    passingVectors: [
+      { text: 'ALvmTSEjNREwcRNJiLcTkxCnsXBfbZEUFK', hex: '3887346ea0b83129ff21f1ef3e6008a80373d1b3' },
+      { text: 'AavjHwiNfkr7xKGHBpNEQYSL5QiKgRjZf1', hex: 'd21728df85b2b457908bd33def8ff493d47f184a' },
+      { text: 'AGmV3oHqzfAs3VFiqmn6cecxCXVNyg6tNh', hex: '0ae542fee226c044dc19b036db7cec939777596f' },
+    ],
+  },
+  {
     name: 'XTZ',
     coinType: 1729,
     passingVectors: [
@@ -337,7 +376,30 @@ const vectors: Array<TestVector> = [
   {
     name: 'QTUM',
     coinType: 2301,
-    passingVectors: [{ text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' }],
+    passingVectors: [
+      { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
+    ]
+  },
+  {
+    name: 'ZEC',
+    coinType: 133,
+    passingVectors: [
+      {
+        // P2PKH Transparent Address
+        text: 't1b2ArRwLq6KbdJFzJVYPxgUVT1d9QuBzTf',
+        hex: '76a914bc18e286d40706de62928155d6167bf30719857888ac'
+      },
+      {
+        // P2SH Transparent Address
+        text: 't3Vz22vK5z2LcKEdg16Yv4FFneEL1zg9ojd',
+        hex: 'a9147d46a730d31f97b1930d3368a967c309bd4d136a87'
+      },
+      {
+        // Sapling Payment Address (shielded address)
+        text: 'zs1wkejr23wqa9ptpvv73ch3wr96lh8gnyx3689skmyttljy4nyfj69eyclukwkxrhr3rrkgxvnur0',
+        hex: '75b321aa2e074a15858cf47178b865d7ee744c868e8e585b645aff2256644cb45c931fe59d630ee388c764'
+      }
+    ],
   },
   {
     name: 'EGLD',
@@ -349,6 +411,14 @@ const vectors: Array<TestVector> = [
       },
     ],
   },
+  {
+    name: 'ICX',
+    coinType: 74,
+    passingVectors: [
+      { text: 'hx6b38701ddc411e6f4e84a04f6abade7661a207e2', hex: '006b38701ddc411e6f4e84a04f6abade7661a207e2' },
+      { text: 'cxa4524257b3511fb9574009785c1f1e73cf4097e7', hex: '01a4524257b3511fb9574009785c1f1e73cf4097e7' },
+    ],
+  }
 ];
 
 vectors.forEach((vector: TestVector) => {
