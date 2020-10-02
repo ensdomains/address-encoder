@@ -1,7 +1,25 @@
 import { decode as bech32Decode, encode as bech32Encode, fromWords as bech32FromWords, toWords as bech32ToWords } from 'bech32';
 // @ts-ignore
-import { b32decode, b32encode, bs58Decode, bs58Encode, cashaddrDecode, cashaddrEncode, codec as xrpCodec, decodeCheck as decodeEd25519PublicKey, encodeCheck as encodeEd25519PublicKey, eosPublicKey, hex2a, isValid as isValidXemAddress, isValidChecksumAddress as rskIsValidChecksumAddress, ss58Decode, ss58Encode, stripHexPrefix as rskStripHexPrefix, toChecksumAddress as rskToChecksumAddress, ua2hex } from 'crypto-addr-codec';
 import { createHash } from 'crypto';
+import {
+  b32decode,
+  b32encode,
+  bs58Decode,
+  bs58Encode,
+  cashaddrDecode,
+  cashaddrEncode,
+  codec as xrpCodec,
+  decodeCheck as decodeEd25519PublicKey,
+  encodeCheck as encodeEd25519PublicKey,
+  eosPublicKey,
+  hex2a,
+  isValid as isValidXemAddress,
+  isValidChecksumAddress as rskIsValidChecksumAddress,
+  ss58Decode,
+  ss58Encode,
+  stripHexPrefix as rskStripHexPrefix,
+  toChecksumAddress as rskToChecksumAddress,
+} from 'crypto-addr-codec';
 
 type EnCoder = (data: Buffer) => string
 type DeCoder = (data: string) => Buffer
@@ -375,26 +393,26 @@ function hnsAddressDecoder(data: string): Buffer {
   return Buffer.from(hash)
 }
 
-const ALGORAND_CHECKSUM_BYTE_LENGTH = 4;
-const ALGORAND_ADDRESS_BYTE_LENGTH = 36;
+const AlgoChecksumByteLength = 4;
+const AlgoAddressByteLength = 36;
 
 // Returns 4 last byte (8 chars) of sha512_256(publicKey)
 function algoChecksum(pk: Buffer): string {
   return createHash('SHA512-256')
     .update(pk)
     .digest('hex')
-    .substr(-ALGORAND_CHECKSUM_BYTE_LENGTH * 2);
+    .substr(-AlgoChecksumByteLength * 2);
 }
 
 function algoDecode(data: string): Buffer {
   const decoded = b32decode(data);
 
-  if (decoded.length !== ALGORAND_ADDRESS_BYTE_LENGTH) {
+  if (decoded.length !== AlgoAddressByteLength) {
     throw Error('Unrecognised address format');
   }
 
-  const publicKey = decoded.slice(0, -ALGORAND_CHECKSUM_BYTE_LENGTH);
-  const checksum = decoded.slice(-ALGORAND_CHECKSUM_BYTE_LENGTH);
+  const publicKey = decoded.slice(0, -AlgoChecksumByteLength);
+  const checksum = decoded.slice(-AlgoChecksumByteLength);
   const expected_checksum = algoChecksum(publicKey);
 
   if (checksum.toString('hex') !== expected_checksum) {
