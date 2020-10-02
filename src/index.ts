@@ -609,6 +609,7 @@ const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: De
   };
 };
 
+// Ordered by coinType
 const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
   bitcoinChain('LTC', 2, 'ltc', [[0x30]], [[0x32], [0x05]]),
@@ -637,8 +638,8 @@ const formats: IFormat[] = [
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
-  getConfig('SOL', 501, bs58Encode, bs58Decode),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  getConfig('SOL', 501, bs58Encode, bs58Decode),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
