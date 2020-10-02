@@ -5,7 +5,7 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import bigInt from 'big-integer';
-import { decode as bs58DecodeNoCheck, encode as bs58EncodeNocheck } from 'bs58';
+import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import {
   b32decode,
@@ -527,6 +527,36 @@ function icxAddressDecoder(data: string): Buffer {
   }
 }
 
+function steemAddressEncoder(data: Buffer): string {  
+  const RIPEMD160 = require('ripemd160');
+
+  const checksum = new RIPEMD160().update(data).digest();
+
+  return 'STM' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
+}
+
+function steemAddressDecoder(data: string): Buffer {
+  const RIPEMD160 = require('ripemd160');
+
+  const prefix = data.slice(0, 3);
+  if (prefix !== 'STM') {
+    throw Error('Unrecognised address format');
+  }
+
+  data = data.slice(3);
+
+  const buffer: Buffer = bs58DecodeNoCheck(data);
+  const checksum = buffer.slice(-4);
+  const key = buffer.slice(0, -4);
+  const checksumVerify = new RIPEMD160().update(key).digest().slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return Buffer.from(key);
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -544,7 +574,7 @@ const formats: IFormat[] = [
   bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
   bitcoinChain('MONA', 22, 'mona', [[0x32]], [[0x37], [0x05]]),
-  getConfig('DCR', 42, bs58EncodeNocheck, bs58DecodeNoCheck),
+  getConfig('DCR', 42, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
@@ -554,6 +584,7 @@ const formats: IFormat[] = [
   bech32Chain('EGLD', 120, 'erd'),
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
+  getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
@@ -567,6 +598,7 @@ const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
+  getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
     coinType: 1729,

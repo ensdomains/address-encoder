@@ -114,6 +114,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'STEEM',
+    coinType: 135,
+    passingVectors: [
+      { text: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K', hex: '03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8' },
+    ],
+  },
+  {
     name: 'RSK',
     coinType: 137,
     passingVectors: [
@@ -250,6 +257,13 @@ const vectors: Array<TestVector> = [
     coinType: 714,
     passingVectors: [
       { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
+    ],
+  },
+  {
+    name: 'HIVE',
+    coinType: 825,
+    passingVectors: [
+      { text: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K', hex: '03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8' },
     ],
   },
   {
