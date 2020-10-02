@@ -5,6 +5,7 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNocheck } from 'bs58';
+import bigInt from 'big-integer';
 // @ts-ignore
 import {
   b32decode,
@@ -276,6 +277,22 @@ function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data));
 }
 
+function ontAddrEncoder(data: Buffer): string {
+  return bs58Encode(Buffer.concat([Buffer.from([0x17]), data]))
+}
+
+function ontAddrDecoder(data: string): Buffer {
+  const address = bs58Decode(data)
+
+  switch (address.readUInt8(0)) {
+   case 0x17:
+     return address.slice(1);
+
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
 function strDecoder(data: string): Buffer {
   return decodeEd25519PublicKey('ed25519PublicKey', data);
 }
@@ -367,6 +384,34 @@ function hederaAddressDecoder(data: string): Buffer {
   return buffer;
 }
 
+// Reference from Lisk validator
+// https://github.com/LiskHQ/lisk-sdk/blob/master/elements/lisk-validator/src/validation.ts#L202
+function validateLiskAddress(address: string) {
+  if (address.length < 2 || address.length > 22) {
+    throw new Error('Address length does not match requirements. Expected between 2 and 22 characters.');
+  }
+
+  if (address[address.length - 1] !== 'L') {
+    throw new Error('Address format does not match requirements. Expected "L" at the end.');
+  }
+
+  if (address.includes('.')) {
+    throw new Error('Address format does not match requirements. Address includes invalid character: `.`.');
+  }
+}
+
+function liskAddressEncoder(data: Buffer): string {
+  const address = `${bigInt(data.toString('hex'), 16).toString(10)}L`;
+
+  return address;
+}
+
+function liskAddressDecoder(data: string): Buffer {
+  validateLiskAddress(data);
+
+  return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
+}
+  
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
 function hnsAddressEncoder(data: Buffer): string {
@@ -402,6 +447,37 @@ function hnsAddressDecoder(data: string): Buffer {
   return Buffer.from(hash);
 }
 
+// Referenced from following
+// https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L219
+function icxAddressEncoder(data: Buffer): string {
+  if (data.length !== 21) {
+    throw Error('Unrecognised address format');
+  }
+  switch (data.readUInt8(0)) {
+    case 0x00:
+      return 'hx' + data.slice(1).toString('hex');
+    case 0x01:
+      return 'cx' + data.slice(1).toString('hex');
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
+// Referenced from following
+// https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L238
+function icxAddressDecoder(data: string): Buffer {
+  const prefix = data.slice(0, 2)
+  const body = data.slice(2)
+  switch (prefix) {
+    case 'hx':
+      return Buffer.concat([Buffer.from([0x00]), Buffer.from(body, 'hex')]);
+    case 'cx':
+      return Buffer.concat([Buffer.from([0x01]), Buffer.from(body, 'hex')]);
+    default:
+      throw Error('Unrecognised address format');
+  }
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -423,9 +499,11 @@ const formats: IFormat[] = [
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
+  getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
+  getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
@@ -439,6 +517,7 @@ const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
+  getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
     coinType: 1729,
     decoder: tezosAddressDecoder,
@@ -454,7 +533,7 @@ const formats: IFormat[] = [
     name: 'HBAR',
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
-  hexChecksumChain('CELO', 52752),
+  hexChecksumChain('CELO', 52752)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

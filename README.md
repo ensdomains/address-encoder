@@ -58,8 +58,9 @@ This library currently supports the following cryptocurrencies and address forma
  - CELO (checksummed-hex)
  - QTUM (base58check)
  - HBAR
+ - ONT (base58check)
  - HNS
  - DCR (base58, no check)
-
+ - ICX
 
 PRs to add additional chains and address types are welcome.
