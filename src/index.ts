@@ -5,7 +5,7 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import bigInt from 'big-integer';
-import { decode as bs58DecodeNoCheck, encode as bs58EncodeNocheck } from 'bs58';
+import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import {
   b32decode,
