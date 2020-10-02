@@ -26,45 +26,45 @@ console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 
 ## Supported cryptocurrencies
 
-This library currently supports the following cryptocurrencies and address formats:
+This library currently supports the following cryptocurrencies and address formats (ordered alphabetically):
 
- - BTC (base58check P2PKH and P2SH, and bech32 segwit)
- - LTC (base58check P2PHK and P2SH, and bech32 segwit)
- - DOGE (base58check P2PKH and P2SH)
- - MONA (base58check P2PKH and P2SH, and bech32 segwit)
- - DASH (base58check P2PKH and P2SH)
- - ETH (checksummed-hex)
- - ETC (checksummed-hex)
- - RSK (checksummed-hex)
- - XDAI (checksummed-hex)
- - VET (checksummed-hex)
- - XRP (base58check-ripple)
+ - ADA (bech32)
+ - ALGO (checksummed-base32)
+ - ATOM (bech32)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
+ - BTC (base58check P2PKH and P2SH, and bech32 segwit)
+ - CELO (checksummed-hex)
+ - DASH (base58check P2PKH and P2SH)
+ - DCR (base58, no check)
+ - DOGE (base58check P2PKH and P2SH)
+ - DOT (ss58)
  - EGLD (bech32)
- - XLM (ed25519 public key)
- - ATOM (bech32)
- - ZIL (bech32)
- - TRX (base58check)
+ - EOS
+ - ETC (checksummed-hex)
+ - ETH (checksummed-hex)
+ - HBAR
+ - HIVE (base58+ripemd160-checksum)
+ - HNS
+ - ICX
+ - KSM (ss58)
+ - LTC (base58check P2PHK and P2SH, and bech32 segwit)
+ - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NEM (base32)
  - NEO (base58check)
- - EOS
- - XTZ (base58check)
- - KSM (ss58)
- - DOT (ss58)
- - PPC (base58check P2PKH and P2SH)
- - SOL (base58check)
- - ADA (bech32)
- - CELO (checksummed-hex)
- - QTUM (base58check)
- - HBAR
  - ONT (base58check)
- - HNS
- - ALGO (checksummed-base32)
+ - PPC (base58check P2PKH and P2SH)
+ - TRX (base58check)
+ - QTUM (base58check)
+ - RSK (checksummed-hex)
+ - SOL (base58check)
  - STEEM (base58+ripemd160-checksum)
- - HIVE (base58+ripemd160-checksum)
+ - VET (checksummed-hex)
+ - XDAI (checksummed-hex)
+ - XLM (ed25519 public key)
+ - XRP (base58check-ripple)
+ - XTZ (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
- - DCR (base58, no check)
- - ICX
+ - ZIL (bech32)
 
 PRs to add additional chains and address types are welcome.
