@@ -420,6 +420,13 @@ const vectors: Array<TestVector> = [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
   },
+  {
+    name: 'BTM',
+    coinType: 63,
+    passingVectors: [
+      { text: '0x930386Ea6C8A46FCE38443E58F4Cf5F27cFE6Ff0', hex: '930386ea6c8a46fce38443e58f4cf5f27cfe6ff0' },
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {
