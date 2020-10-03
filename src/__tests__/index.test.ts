@@ -355,6 +355,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BCD',
+    coinType: 999,
+    passingVectors: [
+      { text: '1E9YKwqJrxw9Fb7KxykoRtvM8UfiZksBes', hex: '76a91490371cf0d07ebfb175d47f1524fcaca7bd5fc37288ac' },
+      { text: '3Ai1JZ8pdJb2ksieUV8FsxSNVJCpoPi8W6', hex: 'a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1887' },
+    ],
+  },
+  {
     name: 'ONT',
     coinType: 1024,
     passingVectors: [
