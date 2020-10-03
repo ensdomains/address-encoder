@@ -661,6 +661,7 @@ const formats: IFormat[] = [
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('CELO', 52752),
+  getConfig('WAVES', 5741564, bs58EncodeNoCheck, bs58DecodeNoCheck),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

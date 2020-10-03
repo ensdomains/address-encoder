@@ -420,6 +420,13 @@ const vectors: Array<TestVector> = [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
   },
+  {
+    name: 'WAVES',
+    coinType: 5741564,
+    passingVectors: [
+      { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
+    ],
+  }
 ];
 
 vectors.forEach((vector: TestVector) => {
