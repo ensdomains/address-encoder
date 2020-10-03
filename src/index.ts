@@ -462,7 +462,7 @@ function liskAddressDecoder(data: string): Buffer {
 
   return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
 }
-  
+
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
 function hnsAddressEncoder(data: Buffer): string {
@@ -529,7 +529,7 @@ function icxAddressDecoder(data: string): Buffer {
   }
 }
 
-function steemAddressEncoder(data: Buffer): string {  
+function steemAddressEncoder(data: Buffer): string {
   const RIPEMD160 = require('ripemd160');
 
   const checksum = new RIPEMD160().update(data).digest();
@@ -622,6 +622,7 @@ const formats: IFormat[] = [
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
+  hexChecksumChain('EWT', 246),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
