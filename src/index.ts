@@ -633,6 +633,7 @@ export const formats: IFormat[] = [
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
+  bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
