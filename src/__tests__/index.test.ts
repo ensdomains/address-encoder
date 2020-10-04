@@ -422,7 +422,7 @@ const vectors: Array<TestVector> = [
   },
   {
     name: 'BTM',
-    coinType: 63,
+    coinType: 153,
     passingVectors: [
       { text: '0x930386Ea6C8A46FCE38443E58F4Cf5F27cFE6Ff0', hex: '930386ea6c8a46fce38443e58f4cf5f27cfe6ff0' },
     ],
