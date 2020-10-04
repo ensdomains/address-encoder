@@ -59,6 +59,7 @@ This library currently supports the following cryptocurrencies and address forma
  - RSK (checksummed-hex)
  - SOL (base58check)
  - STEEM (base58+ripemd160-checksum)
+ - THETA (checksummed-hex)
  - VET (checksummed-hex)
  - XDAI (checksummed-hex)
  - XLM (ed25519 public key)
@@ -66,6 +67,5 @@ This library currently supports the following cryptocurrencies and address forma
  - XTZ (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZIL (bech32)
- - THETA (checksummed-hex)
 
 PRs to add additional chains and address types are welcome.
