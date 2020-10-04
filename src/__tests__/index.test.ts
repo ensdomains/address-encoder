@@ -422,7 +422,7 @@ const vectors: Array<TestVector> = [
   },
   {
     name: 'DGB',
-    coinType: 444,
+    coinType: 20,
     passingVectors: [
       { text: 'D8qVBRefveJxqeTxLo3MAEH9qx5dwmP2g6', hex: '76a914288bea59496873936fc9bd94250aafca9d9d881b88ac' },
       { text: 'DEbc2Su1jqVavbjAaqP1wXFo15fHY7dbuJ', hex: '76a91467bc8f8d12aab2d2184dcc8a4635effc165f79f188ac' },
