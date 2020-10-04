@@ -327,6 +327,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'AVA',
+    coinType: 645,
+    passingVectors: [
+      { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
+    ],
+  },
+  {
     name: 'XDAI',
     coinType: 700,
     passingVectors: [
