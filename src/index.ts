@@ -678,7 +678,7 @@ const formats: IFormat[] = [
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('CELO', 52752),
-  getConfig('ABBC', 1994, abbcAddrEncoder, abbcAddrDecoder),
+  getConfig('ABBC', 367, abbcAddrEncoder, abbcAddrDecoder),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

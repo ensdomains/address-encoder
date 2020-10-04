@@ -422,7 +422,7 @@ const vectors: Array<TestVector> = [
   },
   {
     name: 'ABBC',
-    coinType: 1994,
+    coinType: 367,
     passingVectors: [
       {
         text: 'ABBC5i3zbGsuyexJc6NaHv81yPh2WeaqrtYMMVaEqcYLz9guAAV74A',
