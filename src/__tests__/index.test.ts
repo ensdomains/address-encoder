@@ -420,6 +420,20 @@ const vectors: Array<TestVector> = [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
   },
+  {
+    name: 'ABBC',
+    coinType: 1994,
+    passingVectors: [
+      {
+        text: 'ABBC5i3zbGsuyexJc6NaHv81yPh2WeaqrtYMMVaEqcYLz9guAAV74A',
+        hex: '026bff3fc4dc3cde1dcb2068bef16624a260c6f0e330addb54f894bce7fa353de6',
+      },
+      {
+        text: 'ABBC5YHjRRgNzzVvoybaGZw27SexsmUQER95ytut542vumLG94vRwS',
+        hex: '0255d424babcc10b6b594780c52ae719cada2ffc6e8d9927690f816ab1f3d2e4fe',
+      },
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {

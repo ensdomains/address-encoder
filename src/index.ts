@@ -316,6 +316,23 @@ function eosAddrDecoder(data: string): Buffer {
   return eosPublicKey(data).toBuffer();
 }
 
+function abbcAddrEncoder(data: Buffer): string {
+  if (!eosPublicKey.isValid(data)) {
+    throw Error('Unrecognised address format');
+  }
+  let res = eosPublicKey.fromHex(data).toString();
+  res = res.replace("EOS", "ABBC");
+  return res;
+}
+  
+function abbcAddrDecoder(data: string): Buffer {
+  if (!eosPublicKey.isValid(data)) {
+    throw Error('Unrecognised address format');
+  }
+  let res = data.replace("ABBC", "EOS");
+  return eosPublicKey(res).toBuffer();
+}
+
 function ksmAddrEncoder(data: Buffer): string {
   return ss58Encode(Uint8Array.from(data), 2);
 }
@@ -661,6 +678,7 @@ const formats: IFormat[] = [
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('CELO', 52752),
+  getConfig('ABBC', 1994, abbcAddrEncoder, abbcAddrDecoder),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
