@@ -420,6 +420,14 @@ const vectors: Array<TestVector> = [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
   },
+  {
+    name: 'DGB',
+    coinType: 444,
+    passingVectors: [
+      { text: 'D8qVBRefveJxqeTxLo3MAEH9qx5dwmP2g6', hex: '76a914288bea59496873936fc9bd94250aafca9d9d881b88ac' },
+      { text: 'DEbc2Su1jqVavbjAaqP1wXFo15fHY7dbuJ', hex: '76a91467bc8f8d12aab2d2184dcc8a4635effc165f79f188ac' },
+    ],
+  },
 ];
 
 vectors.forEach((vector: TestVector) => {
