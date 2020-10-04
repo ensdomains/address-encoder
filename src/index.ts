@@ -329,7 +329,7 @@ function abbcAddrDecoder(data: string): Buffer {
   if (!eosPublicKey.isValid(data)) {
     throw Error('Unrecognised address format');
   }
-  let res = data.replace("ABBC", "EOS");
+  const res = data.replace("ABBC", "EOS");
   return eosPublicKey(res).toBuffer();
 }
 
