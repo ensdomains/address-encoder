@@ -59,6 +59,7 @@ This library currently supports the following cryptocurrencies and address forma
  - QTUM (base58check)
  - RSK (checksummed-hex)
  - SOL (base58check)
+ - SIA (checksummed-hex)
  - STEEM (base58+ripemd160-checksum)
  - VET (checksummed-hex)
  - XDAI (checksummed-hex)

@@ -400,6 +400,15 @@ const vectors: Array<TestVector> = [
     ]
   },
   {
+    name: 'SIA',
+    coinType: 1991,
+    passingVectors: [
+      { text: '0x3293d787b39b85d5084ef48bf37bf924da1ae0d44679237fd16fa687d1f06ab155789e7120a5', hex: '3293d787b39b85d5084ef48bf37bf924da1ae0d44679237fd16fa687d1f06ab155789e7120a5' },
+      { text: '0xc1e42e0f49f00053de8aee727efda7cd58b1d90296597cba50e1f502fc989efb88538a9fe4c4', hex: 'c1e42e0f49f00053de8aee727efda7cd58b1d90296597cba50e1f502fc989efb88538a9fe4c4' },
+      { text: '0x6c2ad85ce797f2f67d3850e54e836ab0a7619524561f2ae40294da8538c6f2476b6ef50302b8', hex: '6c2ad85ce797f2f67d3850e54e836ab0a7619524561f2ae40294da8538c6f2476b6ef50302b8' },
+    ],
+  },
+  {
     name: 'HBAR',
     coinType: 3030,
     passingVectors: [
