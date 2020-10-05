@@ -643,7 +643,6 @@ const formats: IFormat[] = [
   hexChecksumChain('SIA', 1991),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
-  bech32Chain('AVA', 645, 'ava'),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),

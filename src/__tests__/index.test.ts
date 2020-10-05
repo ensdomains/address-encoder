@@ -327,13 +327,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'AVA',
-    coinType: 645,
-    passingVectors: [
-      { text: 'ava1depk54cuajgkzea6zpgkq36tnjwdzv4a5rkw42', hex: '6e436a571cec916167ba105160474b9c9cd132bd' },
-    ],
-  },
-  {
     name: 'XDAI',
     coinType: 700,
     passingVectors: [
@@ -403,9 +396,7 @@ const vectors: Array<TestVector> = [
     name: 'SIA',
     coinType: 1991,
     passingVectors: [
-      { text: '0x3293d787b39b85d5084ef48bf37bf924da1ae0d44679237fd16fa687d1f06ab155789e7120a5', hex: '3293D787b39b85d5084EF48bf37Bf924dA1Ae0d44679237fd16fA687D1F06Ab155789e7120a5' },
-      { text: '0xc1e42e0f49f00053de8aee727efda7cd58b1d90296597cba50e1f502fc989efb88538a9fe4c4', hex: 'c1e42e0f49f00053de8aee727efda7cd58b1d90296597cba50e1f502fc989efb88538a9fe4c4' },
-      { text: '0x6c2ad85ce797f2f67d3850e54e836ab0a7619524561f2ae40294da8538c6f2476b6ef50302b8', hex: '6c2ad85ce797f2f67d3850e54e836ab0a7619524561f2ae40294da8538c6f2476b6ef50302b8' },
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b314159265dD8dbb310642f98f50C066173C1', hex: '314159265dd8dbb310642f98f50c066173c1259b314159265dd8dbb310642f98f50c066173c1' },
     ],
   },
   {
