@@ -640,7 +640,6 @@ const formats: IFormat[] = [
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
-  hexChecksumChain('SIA', 1991),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
@@ -661,6 +660,7 @@ const formats: IFormat[] = [
     name: 'HBAR',
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
+  bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('CELO', 52752),
 ];
 

@@ -392,13 +392,7 @@ const vectors: Array<TestVector> = [
       { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
     ]
   },
-  {
-    name: 'SIA',
-    coinType: 1991,
-    passingVectors: [
-      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
-    ],
-  },
+
   {
     name: 'HBAR',
     coinType: 3030,
@@ -411,6 +405,13 @@ const vectors: Array<TestVector> = [
         text: `${BigInt(2 ** 32) - BigInt(1)}.${BigInt(2 ** 64) - BigInt(1)}.${BigInt(2 ** 64) - BigInt(1)}`,
         hex: 'ffffffffffffffffffffffffffffffffffffffff',
       },
+    ],
+  },
+  {
+    name: 'AVAX',
+    coinType: 9000,
+    passingVectors: [
+      { text: 'avax1a5h6v9weng8guuah6aamagea0xhsd04mvs2zun', hex: 'ed2fa615d99a0e8e73b7d77bbea33d79af06bebb' },
     ],
   },
   {
