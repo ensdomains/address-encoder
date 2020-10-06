@@ -600,6 +600,24 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function hntAddresEncoder(data: Buffer): string {
+  const buf = Buffer.concat([Buffer.from([0]), data]);
+
+  return bs58Encode(buf);
+}
+
+function hntAddressDecoder(data: string): Buffer {
+  const buf = bs58Decode(data);
+
+  const version = buf[0];
+  if(version !== 0x00){
+    throw Error('Invalid version byte');
+  }
+
+  return buf.slice(1);
+}
+
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -635,6 +653,7 @@ const formats: IFormat[] = [
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('HNT', 226, hntAddresEncoder, hntAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
