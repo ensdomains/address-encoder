@@ -600,6 +600,17 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function aionDecoder(data: string): Buffer {
+  if (!data.startsWith('0x')) {
+    throw Error('Unrecognised address format');
+  }
+  return Buffer.from(data.slice(2), 'hex');
+}
+
+function aionEncoder(data: Buffer): string {
+  return '0x'.concat(data.toString('hex'));
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -639,6 +650,7 @@ const formats: IFormat[] = [
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
