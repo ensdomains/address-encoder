@@ -638,6 +638,7 @@ const formats: IFormat[] = [
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
+  getConfig('ETN', 415, bs58Encode, bs58Decode),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   hexChecksumChain('XDAI', 700),
