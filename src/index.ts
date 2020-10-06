@@ -660,7 +660,7 @@ const formats: IFormat[] = [
     encoder: hederaAddressEncoder,
     name: 'HBAR',
   },
-  getConfig('IOTA', 4218, bs58Encode, bs58Decode),
+  getConfig('MIOTA', 4218, bs58Encode, bs58Decode),
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('CELO', 52752),
 ];
