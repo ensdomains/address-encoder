@@ -626,6 +626,7 @@ const formats: IFormat[] = [
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
+  getConfig('XMR', 128, bs58Encode, bs58Decode),
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
