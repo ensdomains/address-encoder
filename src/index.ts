@@ -559,6 +559,36 @@ function steemAddressDecoder(data: string): Buffer {
   return Buffer.from(key);
 }
 
+function btsAddressEncoder(data: Buffer): string {  
+  const RIPEMD160 = require('ripemd160');
+
+  const checksum = new RIPEMD160().update(data).digest();
+
+  return 'BTS' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
+}
+
+function btsAddressDecoder(data: string): Buffer {
+  const RIPEMD160 = require('ripemd160');
+
+  const prefix = data.slice(0, 3);
+  if (prefix !== 'BTS') {
+    throw Error('Unrecognised address format');
+  }
+
+  data = data.slice(3);
+
+  const buffer: Buffer = bs58DecodeNoCheck(data);
+  const checksum = buffer.slice(-4);
+  const key = buffer.slice(0, -4);
+  const checksumVerify = new RIPEMD160().update(key).digest().slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return Buffer.from(key);
+}
+
 const AlgoChecksumByteLength = 4;
 const AlgoAddressByteLength = 36;
 
@@ -637,6 +667,7 @@ const formats: IFormat[] = [
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('ALGO', 283, algoEncode, algoDecode),
+  getConfig('BTS', 308, btsAddressEncoder, btsAddressDecoder),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
