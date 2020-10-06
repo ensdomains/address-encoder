@@ -640,6 +640,7 @@ export const formats: IFormat[] = [
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
+  bech32Chain('IRIS', 566, 'iaa'),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
