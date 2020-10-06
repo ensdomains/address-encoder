@@ -58,6 +58,7 @@ This library currently supports the following cryptocurrencies and address forma
  - RSK (checksummed-hex)
  - SOL (base58check)
  - STEEM (base58+ripemd160-checksum)
+ - TFUEL (checksummed-hex)
  - TRX (base58check)
  - VET (checksummed-hex)
  - XDAI (checksummed-hex)
