@@ -531,6 +531,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'IRIS',
+    coinType: 1818,
+    passingVectors: [
+      { text: 'iaa1k5y45px87c42ttxgk8x4y6w0y9gzgcwvvunht5', hex: 'b5095a04c7f62aa5acc8b1cd5269cf21502461cc' },
+    ],
+  },
+  {
     name: 'QTUM',
     coinType: 2301,
     passingVectors: [
