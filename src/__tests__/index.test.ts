@@ -401,7 +401,7 @@ const vectors: Array<TestVector> = [
   },
   {
     name: 'HBAR',
-    coinType: 4218,
+    coinType: 3030,
     passingVectors: [
       {
         text: '255.255.1024',
