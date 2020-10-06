@@ -324,6 +324,20 @@ function dotAddrEncoder(data: Buffer): string {
   return ss58Encode(Uint8Array.from(data), 0);
 }
 
+function arAddrEncoder(data: Buffer): string {
+  const base64String = data.toString('base64');
+  //convert to url safe RFC 3548 & remove trailing spaces
+  return base64String.replace(
+    /(\+)|(\/)|(=+$)/g,
+    (match) =>
+      Object.create({'+': '-', '/': '_', '=': ''})[match[0]]
+  )
+}
+
+function arAddrDecoder(data: string): Buffer {
+  return Buffer.from(data, 'base64');
+}
+
 function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data));
 }
@@ -640,6 +654,7 @@ const formats: IFormat[] = [
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
+  getConfig('AR', 472, arAddrEncoder, arAddrDecoder),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),

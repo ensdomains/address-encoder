@@ -327,6 +327,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'AR',
+    coinType: 472,
+    passingVectors: [
+      { text: '3oDgWphQ0m6D5lIBaN9ebDIdznwsH6J-0kT04dpBWiQ', hex: 'de80e05a9850d26e83e6520168df5e6c321dce7c2c1fa27ed244f4e1da415a24' },
+      { text: 'WxLW1MWiSWcuwxmvzokahENCbWurzvwcsukFTGrqwdw', hex: '5b12d6d4c5a249672ec319afce891a8443426d6babcefc1cb2e9054c6aeac1dc' },
+    ],
+  },
+  {
     name: 'XDAI',
     coinType: 700,
     passingVectors: [
