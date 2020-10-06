@@ -60,6 +60,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SOL (base58check)
  - STEEM (base58+ripemd160-checksum)
  - VET (checksummed-hex)
+ - WICC (base58check P2PKH and P2SH)
  - XDAI (checksummed-hex)
  - XLM (ed25519 public key)
  - XRP (base58check-ripple)

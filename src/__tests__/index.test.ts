@@ -420,6 +420,14 @@ const vectors: Array<TestVector> = [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
   },
+  {
+    name: 'WICC',
+    coinType: 99999,
+    passingVectors: [
+      { text: 'WPCCQwJafaApw6482EkDR6V84arfa47VmT', hex: '76a91405b4701f113f51576fd7f6422dfe6ab00f41739488ac' },
+      { text: 'WV116oEVxKUzrafgcRZXCNdDN7r7hjt4xV', hex: '76a91445672c77361c4f90f95b7c4c721f375a6a99766888ac' }
+    ],
+  }
 ];
 
 vectors.forEach((vector: TestVector) => {
