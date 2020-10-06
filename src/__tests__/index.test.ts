@@ -401,7 +401,7 @@ const vectors: Array<TestVector> = [
   },
   {
     name: 'HBAR',
-    coinType: 3030,
+    coinType: 4218,
     passingVectors: [
       {
         text: '255.255.1024',
@@ -412,6 +412,13 @@ const vectors: Array<TestVector> = [
         hex: 'ffffffffffffffffffffffffffffffffffffffff',
       },
     ],
+  },
+  {
+    name: 'IOTA',
+    coinType: 4218,
+    passingVectors: [
+      { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
+    ]
   },
   {
     name: 'HNS',
