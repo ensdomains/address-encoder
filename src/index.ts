@@ -600,6 +600,14 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function aeAddressEncoder(data: Buffer): string {
+  return 'ak_' + bs58Encode(data.slice(2));
+}
+
+function aeAddressDecoder(data: string): Buffer {
+  return Buffer.concat([Buffer.from('0x'), bs58Decode(data.split('_')[1])]);
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -639,6 +647,7 @@ const formats: IFormat[] = [
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
