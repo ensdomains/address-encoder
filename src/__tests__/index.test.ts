@@ -1,10 +1,10 @@
-import { formatsByName, formatsByCoinType } from '../index';
+import fs from 'fs';
+import { IFormat, formats, formatsByName, formatsByCoinType } from '../index';
 
 interface TestVector {
   name: string;
   coinType: number;
   passingVectors: Array<{ text: string; hex: string; canonical?: string }>;
-  failingVectors?: Array<string>;
 }
 
 // Ordered by coinType
@@ -422,8 +422,13 @@ const vectors: Array<TestVector> = [
   },
 ];
 
+var lastCointype = -1;
 vectors.forEach((vector: TestVector) => {
   test(vector.name, () => {
+    // Test vectors must be in order
+    expect(vector.coinType).toBeGreaterThan(lastCointype);
+    lastCointype = vector.coinType;
+
     const format = formatsByName[vector.name];
     expect(formatsByCoinType[vector.coinType]).toBe(format);
 
@@ -438,11 +443,30 @@ vectors.forEach((vector: TestVector) => {
         expect(format.decoder(reencoded).toString('hex')).toBe(example.hex);
       }
     }
-
-    // if(vector.failingVectors !== undefined) {
-    //   for(var example of vector.failingVectors) {
-    //     expect(()=>)
-    //   }
-    // }
   });
+});
+
+test("Format ordering", () => {
+  lastCointype = -1;
+  formats.forEach((format: IFormat) => {
+    // Formats must be in order
+    expect(format.coinType).toBeGreaterThan(lastCointype);
+    lastCointype = format.coinType;
+  });
+});
+
+test("README ordering", () => {
+  const lines = fs.readFileSync('README.md', {encoding: 'utf-8'}).split('\n');
+  const sectionIdx = lines.indexOf("## Supported cryptocurrencies");
+  var entries = [];
+  for(var i = sectionIdx + 1; i < lines.length; i++) {
+    if(lines[i].startsWith(' - ')) {
+      entries.push(lines[i].substr(3));
+    } else if(lines[i].startsWith('#')) {
+      break;
+    }
+  }
+
+  var sortedEntries = entries.slice(0).sort();
+  expect(entries).toEqual(sortedEntries);
 });
