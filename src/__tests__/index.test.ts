@@ -327,13 +327,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'AVA',
-    coinType: 645,
-    passingVectors: [
-      { text: 'ava1depk54cuajgkzea6zpgkq36tnjwdzv4a5rkw42', hex: '6e436a571cec916167ba105160474b9c9cd132bd' },
-    ],
-  },
-  {
     name: 'XDAI',
     coinType: 700,
     passingVectors: [
@@ -359,6 +352,13 @@ const vectors: Array<TestVector> = [
     coinType: 825,
     passingVectors: [
       { text: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K', hex: '03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8' },
+    ],
+  },
+  {
+    name: 'TOMO',
+    coinType: 889,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
     ],
   },
   {

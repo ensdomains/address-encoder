@@ -645,6 +645,7 @@ const formats: IFormat[] = [
   bech32Chain('AVA', 645, 'ava'),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  hexChecksumChain('TOMO', 889),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
     coinType: 1729,
