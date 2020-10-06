@@ -630,7 +630,7 @@ const formats: IFormat[] = [
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
   hexChecksumChain('RSK', 137, 30),
-  getConfig('KMD', 141, bs58Encode, bs58Decode),
+  bitcoinBase58Chain('KMD', 141, [[0x3C]], [[0x55]]),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),

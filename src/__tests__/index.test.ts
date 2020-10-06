@@ -195,7 +195,9 @@ const vectors: Array<TestVector> = [
   {
     name: 'KMD',
     coinType: 141,
-    passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
+    passingVectors: [
+      { text: 'RDNC9mLrN48pVGDQ5jSoPb2nRsUPJ5t2R7', hex: '76a9142cd2a4e3d1c2738ee4fce61e73ea822dcaacb9b488ac' },
+    ],
   },
   {
     name: 'XRP',
