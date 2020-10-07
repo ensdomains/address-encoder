@@ -40,6 +40,7 @@ This library currently supports the following cryptocurrencies and address forma
  - DOGE (base58check P2PKH and P2SH)
  - DOT (ss58)
  - EGLD (bech32)
+ - ELA (base58)
  - EOS
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
