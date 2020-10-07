@@ -601,12 +601,12 @@ function algoEncode(data: Buffer): string {
 }
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
-  return {
-    coinType,
-    decoder,
-    encoder,
+    return {
+        coinType,
+        decoder,
+        encoder,
     name,
-  };
+};
 };
 
 // Ordered by coinType
@@ -617,6 +617,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('DASH', 5, [[0x4c]], [[0x10]]),
   bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
+  bitcoinBase58Chain('DGB', 20, [[0x1e]], [[0x16]]),
   bitcoinChain('MONA', 22, 'mona', [[0x32]], [[0x37], [0x05]]),
   getConfig('DCR', 42, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
@@ -661,7 +662,6 @@ export const formats: IFormat[] = [
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('CELO', 52752),
-  bitcoinBase58Chain('DGB', 20, [[0x1e]], [[0x16]]),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
