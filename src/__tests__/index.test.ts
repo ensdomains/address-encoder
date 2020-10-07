@@ -376,16 +376,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'ADAX',
-    coinType: 1815,
-    passingVectors: [
-      {
-        text: 'addr1gqtnpvdhqrtpd4g424fcaq7k0ufuzyadt7djygf8qdyzevuph3wczvf2dwyx5u',
-        hex: '401730b1b700d616d51555538e83d67f13c113ad5f9b22212703482cb381bc5d81312a',
-      },
-    ],
-  },
-  {
     name: 'QTUM',
     coinType: 2301,
     passingVectors: [
