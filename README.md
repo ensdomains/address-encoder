@@ -31,6 +31,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ADA (bech32)
  - ALGO (checksummed-base32)
  - ATOM (bech32)
+ - BCD (base58check P2PKH and P2SH, and bech32 segwit)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
@@ -66,6 +67,5 @@ This library currently supports the following cryptocurrencies and address forma
  - XTZ (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZIL (bech32)
- - BCD (base58check P2PKH and P2SH, and bech32 segwit)
 
 PRs to add additional chains and address types are welcome.
