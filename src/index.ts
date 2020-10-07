@@ -629,6 +629,7 @@ export const formats: IFormat[] = [
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
+  getConfig('XZC', 136, bs58Encode, bs58Decode),
   hexChecksumChain('RSK', 137, 30),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
