@@ -56,6 +56,7 @@ This library currently supports the following cryptocurrencies and address forma
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
  - RSK (checksummed-hex)
+ - RVN (base58check P2PKH and P2SH)
  - SOL (base58check)
  - STEEM (base58+ripemd160-checksum)
  - TRX (base58check)
@@ -66,6 +67,5 @@ This library currently supports the following cryptocurrencies and address forma
  - XTZ (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZIL (bech32)
- - RVN (base58check P2PKH and P2SH)
 
 PRs to add additional chains and address types are welcome.
