@@ -33,7 +33,7 @@ type DeCoder = (data: string) => Buffer;
 
 type base58CheckVersion = number[]
 
-interface IFormat {
+export interface IFormat {
   coinType: number;
   name: string;
   encoder: (data: Buffer) => string;
@@ -610,7 +610,7 @@ const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: De
 };
 
 // Ordered by coinType
-const formats: IFormat[] = [
+export const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
   bitcoinChain('LTC', 2, 'ltc', [[0x30]], [[0x32], [0x05]]),
   bitcoinBase58Chain('DOGE', 3, [[0x1e]], [[0x16]]),
