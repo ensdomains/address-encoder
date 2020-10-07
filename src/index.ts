@@ -623,6 +623,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
+  getConfig('STRAT', 105, bs58Encode, bs58Decode),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),

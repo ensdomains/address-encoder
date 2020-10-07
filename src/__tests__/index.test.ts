@@ -115,6 +115,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'STRAT',
+    coinType: 105,
+    passingVectors: [
+      { text: 'SQWpeFyeTRsH3AaFrh8aBzijNU4QWZipCk', hex: '3f23551cbcbced7de651365f5a29f32c3856599aee' },
+      { text: 'SeXiFaaKeRyLpiF8ta8kkPGRciFUG1mvGr', hex: '3fbd11f4488d73ad9e6f6fdd679db72d064216b621' },
+    ],
+  },
+  {
     name: 'ATOM',
     coinType: 118,
     passingVectors: [
