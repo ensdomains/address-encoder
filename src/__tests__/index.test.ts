@@ -465,6 +465,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'IRIS',
+    coinType: 566,
+    passingVectors: [
+      { text: 'iaa1k5y45px87c42ttxgk8x4y6w0y9gzgcwvvunht5', hex: 'b5095a04c7f62aa5acc8b1cd5269cf21502461cc' },
+    ],
+  },
+  {
     name: 'XDAI',
     coinType: 700,
     passingVectors: [
@@ -528,13 +535,6 @@ const vectors: Array<TestVector> = [
         text: 'addr1gqtnpvdhqrtpd4g424fcaq7k0ufuzyadt7djygf8qdyzevuph3wczvf2dwyx5u',
         hex: '401730b1b700d616d51555538e83d67f13c113ad5f9b22212703482cb381bc5d81312a',
       },
-    ],
-  },
-  {
-    name: 'IRIS',
-    coinType: 1818,
-    passingVectors: [
-      { text: 'iaa1k5y45px87c42ttxgk8x4y6w0y9gzgcwvvunht5', hex: 'b5095a04c7f62aa5acc8b1cd5269cf21502461cc' },
     ],
   },
   {

@@ -679,6 +679,7 @@ export const formats: IFormat[] = [
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
+  bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
@@ -695,7 +696,6 @@ export const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
-  bech32Chain('IRIS', 1818, 'iaa'),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
   {
