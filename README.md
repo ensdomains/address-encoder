@@ -49,6 +49,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ICX
  - KSM (ss58)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
+ - LUNA (bech32)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NEM (base32)
  - NEO (base58check)
@@ -66,6 +67,5 @@ This library currently supports the following cryptocurrencies and address forma
  - XTZ (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZIL (bech32)
- - LUNA (bech32)
 
 PRs to add additional chains and address types are welcome.
