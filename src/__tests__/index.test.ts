@@ -319,19 +319,19 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'SOL',
-    coinType: 501,
-    passingVectors: [
-      { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1' },
-      { text: 'TJCnKsPa7y5okkXvQAidZBzqx3QyQ6sxMW', hex: '415a523b449890854c8fc460ab602df9f31fe4293f' },
-    ],
-  },
-  {
     name: 'AR',
     coinType: 472,
     passingVectors: [
       { text: '3oDgWphQ0m6D5lIBaN9ebDIdznwsH6J-0kT04dpBWiQ', hex: 'de80e05a9850d26e83e6520168df5e6c321dce7c2c1fa27ed244f4e1da415a24' },
       { text: 'WxLW1MWiSWcuwxmvzokahENCbWurzvwcsukFTGrqwdw', hex: '5b12d6d4c5a249672ec319afce891a8443426d6babcefc1cb2e9054c6aeac1dc' },
+    ],
+  },
+  {
+    name: 'SOL',
+    coinType: 501,
+    passingVectors: [
+      { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1' },
+      { text: 'TJCnKsPa7y5okkXvQAidZBzqx3QyQ6sxMW', hex: '415a523b449890854c8fc460ab602df9f31fe4293f' },
     ],
   },
   {
