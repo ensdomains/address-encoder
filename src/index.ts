@@ -326,7 +326,7 @@ function dotAddrEncoder(data: Buffer): string {
 
 function arAddrEncoder(data: Buffer): string {
   const base64String = data.toString('base64');
-  //convert to url safe RFC 3548 & remove trailing spaces
+  // convert to url safe RFC 3548 & remove trailing spaces
   return base64String.replace(
     /(\+)|(\/)|(=+$)/g,
     (match) =>
