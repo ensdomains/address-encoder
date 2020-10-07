@@ -376,7 +376,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'ADA',
+    name: 'ADAX',
     coinType: 1815,
     passingVectors: [
       {
@@ -408,17 +408,17 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'AVAX',
-    coinType: 9000,
-    passingVectors: [
-      { text: 'avax1a5h6v9weng8guuah6aamagea0xhsd04mvs2zun', hex: 'ed2fa615d99a0e8e73b7d77bbea33d79af06bebb' },
-    ],
-  },
-  {
     name: 'HNS',
     coinType: 5353,
     passingVectors: [
       { text: 'hs1qd42hrldu5yqee58se4uj6xctm7nk28r70e84vx', hex: '6d5571fdbca1019cd0f0cd792d1b0bdfa7651c7e' },
+    ],
+  },
+  {
+    name: 'AVAX',
+    coinType: 9000,
+    passingVectors: [
+      { text: 'avax1a5h6v9weng8guuah6aamagea0xhsd04mvs2zun', hex: 'ed2fa615d99a0e8e73b7d77bbea33d79af06bebb' },
     ],
   },
   {
