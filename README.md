@@ -49,8 +49,8 @@ This library currently supports the following cryptocurrencies and address forma
  - ICX
  - KSM (ss58)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
- - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - MIOTA (base58check)
+ - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NEM (base32)
  - NEO (base58check)
  - ONT (base58check)
