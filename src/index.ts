@@ -600,6 +600,16 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function arkAddressDecoder(data: string): Buffer {
+  const buffer = bs58Decode(data);
+
+  if (buffer[0] !== 23) {
+    throw Error('Unrecognised address format');
+  }
+
+  return buffer;
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -623,6 +633,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
+  getConfig('ARK', 111, bs58Encode, arkAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
