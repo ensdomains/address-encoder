@@ -1,3 +1,4 @@
+import { cnBase58 as bs58Xmr } from '@xmr-core/xmr-b58';
 import {
   decode as bech32Decode,
   encode as bech32Encode,
@@ -600,6 +601,14 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function xmrAddressEncoder(data: Buffer): string {
+  return bs58Xmr.encode(data.toString('hex'));
+}
+
+function xmrAddressDecoder(data: string): Buffer {
+  return Buffer.from(bs58Xmr.decode(data), 'hex');
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -626,6 +635,7 @@ export const formats: IFormat[] = [
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
+  getConfig('XMR', 128, xmrAddressEncoder, xmrAddressDecoder),
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),

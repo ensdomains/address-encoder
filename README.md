@@ -62,6 +62,7 @@ This library currently supports the following cryptocurrencies and address forma
  - VET (checksummed-hex)
  - XDAI (checksummed-hex)
  - XLM (ed25519 public key)
+ - XMR (base58xmr)
  - XRP (base58check-ripple)
  - XTZ (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)

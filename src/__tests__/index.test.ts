@@ -139,6 +139,16 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'XMR',
+    coinType: 128,
+    passingVectors: [
+      { 
+        text: '41tQrTUaj2L93qVeWLaaUG3S2PP2rkaRB2woVf23r1tq3fbyCp36LmSWeMGiaLScUk6tB8f4SonDtRozPJq22i46JS1ZmLt', 
+        hex: '1206f6702fffbd0d301f0832b37c53890e89631be265d5060ba0a5e924d51ea60fefb70ae52bcfc5b13ac9958ea0e9ad232b090cc644efdf94548c5638b626ef9a80a25291' 
+      },
+    ],
+  },
+  {
     name: 'ZEC',
     coinType: 133,
     passingVectors: [
