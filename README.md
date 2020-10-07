@@ -28,7 +28,7 @@ console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 
 This library currently supports the following cryptocurrencies and address formats (ordered alphabetically):
 
- - ABBC
+ - ABBC ()
  - ADA (bech32)
  - ALGO (checksummed-base32)
  - ATOM (bech32)
