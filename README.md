@@ -64,8 +64,9 @@ This library currently supports the following cryptocurrencies and address forma
  - XLM (ed25519 public key)
  - XRP (base58check-ripple)
  - XTZ (base58check)
+ - XVG (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZIL (bech32)
- - XVG (base58check P2PKH and P2SH)
+ 
 
 PRs to add additional chains and address types are welcome.
