@@ -589,34 +589,34 @@ function algoDecode(data: string): Buffer {
 }
 
 function algoEncode(data: Buffer): string {
-  // Calculate publicKey checksum
-  const checksum = algoChecksum(data);
-
-  // Append publicKey and checksum
-  const addr = b32encode(hex2a(data.toString('hex').concat(checksum)));
-
-  // Removing the extra '='
-  const cleanAddr = addr.replace(/=/g, '');
-  return cleanAddr;
+    // Calculate publicKey checksum
+    const checksum = algoChecksum(data);
+    
+    // Append publicKey and checksum
+    const addr = b32encode(hex2a(data.toString('hex').concat(checksum)));
+    
+    // Removing the extra '='
+    const cleanAddr = addr.replace(/=/g, '');
+    return cleanAddr;
 }
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
-  return {
-    coinType,
-    decoder,
-    encoder,
-    name,
-  };
+    return {
+        coinType,
+        decoder,
+        encoder,
+        name,
+    };
 };
 
 // Ordered by coinType
 export const formats: IFormat[] = [
-  bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
-  bitcoinChain('LTC', 2, 'ltc', [[0x30]], [[0x32], [0x05]]),
-  bitcoinBase58Chain('DOGE', 3, [[0x1e]], [[0x16]]),
-  bitcoinBase58Chain('DASH', 5, [[0x4c]], [[0x10]]),
-  bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
-  getConfig('NMC', 7, bs58Encode, bs58Decode),
+    bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
+    bitcoinChain('LTC', 2, 'ltc', [[0x30]], [[0x32], [0x05]]),
+    bitcoinBase58Chain('DOGE', 3, [[0x1e]], [[0x16]]),
+    bitcoinBase58Chain('DASH', 5, [[0x4c]], [[0x10]]),
+    bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
+    getConfig('NMC', 7, bs58Encode, bs58Decode),
   bitcoinChain('MONA', 22, 'mona', [[0x32]], [[0x37], [0x05]]),
   getConfig('DCR', 42, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
@@ -639,6 +639,7 @@ export const formats: IFormat[] = [
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  hexChecksumChain('THETA', 500),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
@@ -661,7 +662,6 @@ export const formats: IFormat[] = [
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('CELO', 52752),
-  hexChecksumChain('THETA', 500),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
