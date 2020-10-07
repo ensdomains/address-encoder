@@ -52,6 +52,7 @@ This library currently supports the following cryptocurrencies and address forma
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NEM (base32)
  - NEO (base58check)
+ - NRG (checksummed-hex)
  - ONT (base58check)
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
@@ -66,6 +67,5 @@ This library currently supports the following cryptocurrencies and address forma
  - XTZ (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZIL (bech32)
- - NRG (checksummed-hex)
  
 PRs to add additional chains and address types are welcome.
