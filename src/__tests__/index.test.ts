@@ -319,6 +319,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'CCA',
+    coinType: 489,
+    passingVectors: [
+      { text: '5jZrpsZVkNhDKEuNcYZ1kk2wNWJRbaKy22', hex: '76a914c3c95e1effb0f6ebde0ac0751d6bfd69ad98511c88ac' },
+      { text: '5mi7oAoMVL7cVJhXsmWxnTDxTUiBUkR996', hex: '76a914db49719be13e8221f6d568a01f9d14adc4f887ff88ac' },
+    ],
+  },
+  {
     name: 'SOL',
     coinType: 501,
     passingVectors: [
