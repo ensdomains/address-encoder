@@ -999,6 +999,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('TFUEL', 589),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
+  hexChecksumChain('WAN', 705),
   bech32Chain('BNB', 714, 'bnb'),
   eosioChain('HIVE', 825, 'STM'),
   hexChecksumChain('TOMO', 889),
