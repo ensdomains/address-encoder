@@ -386,18 +386,18 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'QTUM',
-    coinType: 2301,
-    passingVectors: [
-      { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
-    ]
-  },
-  {
     name: 'SIA',
     coinType: 1991,
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
     ],
+  },
+  {
+    name: 'QTUM',
+    coinType: 2301,
+    passingVectors: [
+      { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
+    ]
   },
   {
     name: 'HBAR',

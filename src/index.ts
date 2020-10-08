@@ -640,7 +640,6 @@ const formats: IFormat[] = [
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
-  hexChecksumChain('SIA', 1991),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
@@ -653,6 +652,7 @@ const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  hexChecksumChain('SIA', 1991),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   {
     coinType: 3030,
