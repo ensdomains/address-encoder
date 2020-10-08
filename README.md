@@ -60,6 +60,7 @@ This library currently supports the following cryptocurrencies and address forma
  - STEEM (base58+ripemd160-checksum)
  - TRX (base58check)
  - VET (checksummed-hex)
+ - WAXP
  - XDAI (checksummed-hex)
  - XLM (ed25519 public key)
  - XRP (base58check-ripple)
