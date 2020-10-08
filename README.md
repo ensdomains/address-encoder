@@ -29,6 +29,7 @@ console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 This library currently supports the following cryptocurrencies and address formats (ordered alphabetically):
 
  - ADA (bech32)
+ - AIB (base58check P2PKH and P2SH)
  - ALGO (checksummed-base32)
  - ATOM (bech32)
  - BCH (base58check and cashAddr; decodes to cashAddr)
