@@ -277,6 +277,11 @@ const vectors: Array<TestVector> = [
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
   },
   {
+    name: 'GRIN',
+    coinType: 250,
+    passingVectors: [{ text: '1PfJpZsjreyVrqeoAfabrRwwjQyoSQMmHH', hex: '00f8917303bfa8ef24f292e8fa1419b20460ba064d' }],
+  },
+  {
     name: 'ALGO',
     coinType: 283,
     passingVectors: [
