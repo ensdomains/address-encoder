@@ -653,7 +653,6 @@ const formats: IFormat[] = [
   getConfig('XLM', 148, strEncoder, strDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
-  getConfig('HNT', 226, hntAddresEncoder, hntAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
@@ -663,6 +662,7 @@ const formats: IFormat[] = [
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
     coinType: 1729,
