@@ -52,6 +52,7 @@ This library currently supports the following cryptocurrencies and address forma
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NEM (base32)
  - NEO (base58check)
+ - EWT (checksummed-hex)
  - ONT (base58check)
  - PPC (base58check P2PKH and P2SH)
  - TRX (base58check)
