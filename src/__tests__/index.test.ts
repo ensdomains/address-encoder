@@ -46,6 +46,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'RDD',
+    coinType: 4,
+    passingVectors: [
+      { text: 'RkQDYcqiv7mzQfNYMc8FfYv3dtQ8wuSGoM', hex: '76a914814089fb909f05918d54e530f0ad8e339a4edffe88ac' },
+      { text: '3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC', hex: 'a914f815b036d9bbbce5e9f2a00abd1bf3dc91e9551087' },
+    ],
+  },
+  {
     name: 'DASH',
     coinType: 5,
     passingVectors: [

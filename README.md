@@ -55,6 +55,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ONT (base58check)
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
+ - RDD (base58check P2PKH and P2SH)
  - RSK (checksummed-hex)
  - SOL (base58check)
  - STEEM (base58+ripemd160-checksum)
