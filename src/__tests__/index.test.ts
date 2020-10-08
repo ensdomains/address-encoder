@@ -355,6 +355,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'ONE',
+    coinType: 1023,
+    passingVectors: [
+      { text: 'one103q7qe5t2505lypvltkqtddaef5tzfxwsse4z7', hex: '7c41e0668b551f4f902cfaec05b5bdca68b124ce' },
+    ],
+  },
+  {
     name: 'ONT',
     coinType: 1024,
     passingVectors: [
