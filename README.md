@@ -32,6 +32,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ALGO (checksummed-base32)
  - ATOM (bech32)
  - BCH (base58check and cashAddr; decodes to cashAddr)
+ - BCN (base58)
  - BNB (bech32)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
  - CELO (checksummed-hex)

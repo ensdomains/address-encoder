@@ -272,6 +272,16 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BCN',
+    coinType: 204,
+    passingVectors: [
+      { 
+        text: '28YmDnpfghgVBXRhNVweWKhUKVftxJBvf9ev1JDhPJTX4Q7kufTVb7uCh28NR8frZRLCAqf5P2YfYUUtgUMHzFFTFPPvHvK', 
+        hex: '718322f47fadcea807b856329ddf79974b8023dbca171c1d63e0d785cb5fe5d78812d577df2c2841e7c8c2eefdb2d5435d2cd5f6d0ddfd6a773a937c99d4f3bf4d6c226a3c' 
+      },
+    ],
+  },
+  {
     name: 'NEO',
     coinType: 239,
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
