@@ -291,6 +291,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'IOTX',
+    coinType: 304,
+    passingVectors: [
+      { text: 'io1nyjs526mnqcsx4twa7nptkg08eclsw5c2dywp4', hex: '99250a2b5b983103556eefa615d90f3e71f83a98'},
+    ],
+  },
+  {
     name: 'DOT',
     coinType: 354,
     passingVectors: [

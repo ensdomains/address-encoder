@@ -637,6 +637,7 @@ export const formats: IFormat[] = [
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('ALGO', 283, algoEncode, algoDecode),
+  bech32Chain('IOTX', 304, 'io'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
