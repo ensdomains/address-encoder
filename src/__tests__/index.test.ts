@@ -367,6 +367,24 @@ const vectors: Array<TestVector> = [
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
   },
   {
+    name: 'SERO',
+    coinType: 252,
+    passingVectors: [
+      {
+        text: 'CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafGPAWERDF2ED3345WSYU2FBNQdSXELKZ12LK34AS9AQ',
+        hex: '0a321ec8d8963e76c9d89d52eebcf4ebd1954dcdf7f1e78cb63b1b3bca7297bd0fe63c33577fe288306c65ca385ea2ad48314167ff2f51b2b45a455c227d8619',
+      },
+      {
+        text: 'DDioZ6gLeKMc5xUCeSXRHZ5U43MH1Tsrmh8T3Gcg9VxFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafGPAWERDF',
+        hex: '0a89984fca72098e8db120269ab73be513519bf78a20c9b332c23bf28911ec5aeaa4143bc283ed31f55964379523949404167f0eb92e7db1ccabf575c4e0d69e',
+      },
+      {
+        text: 'CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafGPAWERDF2ED3345WSGTRFtTafGPAWERDF2ED3345WSkHKhZKtK7YqGTRFtTafGPAWERDF2ED3345WSGTR',
+        hex: 'e0976b0a01294ec8f8037a68a64c2fa050148453c6b532a993acca0585ab5cea6f3ef2a96be90608b3046c11ca304de6cd48aabd8290fc64399437544ece82114996bac7eafe418019ecf36c579f7c6ee5e9316b2a73d0572430c810',
+      },
+    ],
+  },
+  {
     name: 'ALGO',
     coinType: 283,
     passingVectors: [

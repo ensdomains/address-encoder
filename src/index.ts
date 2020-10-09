@@ -466,6 +466,22 @@ function liskAddressDecoder(data: string): Buffer {
 
   return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
 }
+  
+function seroAddressEncoder(data: Buffer): string {
+  const address =  bs58EncodeNoCheck(data);
+
+  return address;
+}
+
+function seroAddressDecoder(data: string): Buffer {
+  if (/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/i.test(data)) {
+    const bytes = bs58DecodeNoCheck(data);
+    if (bytes.length === 64 || bytes.length === 92) {
+      return  bytes;
+    }
+  }
+  throw Error('Unrecognised address format');
+}
 
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
@@ -974,6 +990,7 @@ export const formats: IFormat[] = [
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
+  getConfig('SERO', 252, seroAddressEncoder, seroAddressDecoder),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('IOST', 291, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
