@@ -327,6 +327,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'SRM',
+    coinType: 573,
+    passingVectors: [
+      { text: '6ZRCB7AAqGre6c72PRz3MHLC73VMYvJ8bi9KHf1HFpNk', hex: '52986010573739df4b58ba50e39cf3f335b89cc7d1cb1d32b5de04efa068c939' },
+    ],
+  },
+  {
     name: 'XDAI',
     coinType: 700,
     passingVectors: [
@@ -352,13 +359,6 @@ const vectors: Array<TestVector> = [
     coinType: 825,
     passingVectors: [
       { text: 'STM8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K', hex: '03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8' },
-    ],
-  },
-  {
-    name: 'SRM',
-    coinType: 915,
-    passingVectors: [
-      { text: '6ZRCB7AAqGre6c72PRz3MHLC73VMYvJ8bi9KHf1HFpNk', hex: '52986010573739df4b58ba50e39cf3f335b89cc7d1cb1d32b5de04efa068c939' },
     ],
   },
   {
