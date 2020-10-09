@@ -644,6 +644,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'ARDR',
+    coinType: 1200,
+    passingVectors: [
+      { text: 'ARDOR-MT4P-AHG4-A4NA-CCMM2', hex: '15021913020e0f080a1313000a08021408' },
+    ],
+  },
+  {
     name: 'XTZ',
     coinType: 1729,
     passingVectors: [
