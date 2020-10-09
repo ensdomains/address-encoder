@@ -328,7 +328,7 @@ const vectors: Array<TestVector> = [
   },
   {
     name: 'VLX',
-    coinType: 620,
+    coinType: 574,
     passingVectors: [
       { text: 'VDTHiswjSTkLFbfh2S5XFsqkLzC11HoBD6', hex: '461ea68e5e13c72abf1bd2f0bcae4650521712cdb76276f0d5' },
     ],
