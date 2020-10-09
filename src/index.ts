@@ -497,6 +497,19 @@ function seroAddressDecoder(data: string): Buffer {
  
 }
 
+function vsysAddressDecoder(data: string): Buffer {
+  const keyStringLength = 44;
+  if(data.length > keyStringLength) {
+    throw Error('Unrecognised address format');
+  }
+  return bs58DecodeNoCheck(data);
+}
+
+function vsysAddressEncoder(data: Buffer): string {
+
+  return bs58EncodeNoCheck(data);
+}
+  
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
 function hnsAddressEncoder(data: Buffer): string {
@@ -1028,6 +1041,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('NRG', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   hexChecksumChain('CELO', 52752),
+  getConfig('VSYS', 54500, vsysAddressEncoder, vsysAddressDecoder),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
 ];

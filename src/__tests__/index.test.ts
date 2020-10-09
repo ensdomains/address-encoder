@@ -881,6 +881,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'VSYS',
+    coinType: 54500,
+    passingVectors: [
+      { text: 'DsnBFk2BdqYP3WEmChpL7TSonhpxUAi8wiA', hex: '073fe8b089c48ba23c60c64c5226d47acfb26565e313934d5d73'},
+    ],
+  },
+  {
     name: 'WICC',
     coinType: 99999,
     passingVectors: [
