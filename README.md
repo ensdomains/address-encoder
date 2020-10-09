@@ -94,6 +94,7 @@ This library currently supports the following cryptocurrencies and address forma
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NANO (nano-base32)
  - NAS(base58 + sha3-256-checksum)
+ - NEAR 
  - NEM(XEM) (base32)
  - NEO (base58check)
  - NMC (base58check)
