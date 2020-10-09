@@ -50,6 +50,7 @@ This library currently supports the following cryptocurrencies and address forma
  - KSM (ss58)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
+ - MWC (base58check)
  - NEM (base32)
  - NEO (base58check)
  - ONT (base58check)

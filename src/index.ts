@@ -645,6 +645,7 @@ export const formats: IFormat[] = [
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
+  getConfig('MWC', 1088, bs58Encode, bs58Decode),
   {
     coinType: 1729,
     decoder: tezosAddressDecoder,
