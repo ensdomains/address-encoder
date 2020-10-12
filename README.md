@@ -58,6 +58,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
  - FIL (base10 + leb128 and base32 + blake2b checksum)
+ - GXC
  - HBAR
  - HIVE (base58+ripemd160-checksum)
  - HNS

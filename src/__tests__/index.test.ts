@@ -729,6 +729,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'GXC',
+    coinType: 53890,
+    passingVectors: [
+      { text: 'GXC6UKk9URcsCuGxLuRDqEuGzAqDkgKbG8AuWXFXsyzc2r9z7A1kw', hex: '02d085655f8060a79a4b12b14e442b8a554ba867bdadce3c2dc39e1a42a01827c0' },
+    ],
+  },
+  {
     name: 'WICC',
     coinType: 99999,
     passingVectors: [
@@ -742,7 +749,7 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
     ],
-  }
+  },
 ];
 
 var lastCointype = -1;
