@@ -728,13 +728,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'WAN',
-    coinType: 705,
-    passingVectors: [
-      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
-    ],
-  },
-  {
     name: 'BNB',
     coinType: 714,
     passingVectors: [
@@ -896,12 +889,20 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'WAN',
+    coinType: 5718350,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
     name: 'WAVES',
     coinType: 5741564,
     passingVectors: [
       { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
     ],
   },
+
 ];
 
 var lastCointype = -1;

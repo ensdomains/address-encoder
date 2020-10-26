@@ -999,7 +999,6 @@ export const formats: IFormat[] = [
   hexChecksumChain('TFUEL', 589),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
-  hexChecksumChain('WAN', 705),
   bech32Chain('BNB', 714, 'bnb'),
   eosioChain('HIVE', 825, 'STM'),
   hexChecksumChain('TOMO', 889),
@@ -1030,7 +1029,8 @@ export const formats: IFormat[] = [
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
-  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
+  hexChecksumChain('WAN', 5718350),
+  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),  
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
