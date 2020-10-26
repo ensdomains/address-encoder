@@ -504,6 +504,12 @@ const vectors: Array<TestVector> = [
       },
     ],
   },
+  { name: 'VSYS',
+    coinType: 360,
+    passingVectors: [
+      { text: 'DsnBFk2BdqYP3WEmChpL7TSonhpxUAi8wiA', hex: '073fe8b089c48ba23c60c64c5226d47acfb26565e313934d5d73'},
+    ],
+  },
   {
     name: 'ABBC',
     coinType: 367, 
@@ -534,7 +540,7 @@ const vectors: Array<TestVector> = [
         text: '0xa0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
         hex: 'a0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
       },
-    ],
+    ]
   },
   {
     name: 'KSM',
@@ -878,13 +884,6 @@ const vectors: Array<TestVector> = [
     coinType: 52752,
     passingVectors: [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
-    ],
-  },
-  {
-    name: 'VSYS',
-    coinType: 54500,
-    passingVectors: [
-      { text: 'DsnBFk2BdqYP3WEmChpL7TSonhpxUAi8wiA', hex: '073fe8b089c48ba23c60c64c5226d47acfb26565e313934d5d73'},
     ],
   },
   {
