@@ -291,6 +291,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'DIVI',
+    coinType: 301,
+    passingVectors: [
+      { text: 'D8gBQyHPm7A673utQQwBaQcX2Kz91wJovR', hex: '76a91426c95750c1afe443b3351ea5923d5bae09c2a74b88ac' },
+      { text: 'DSQvV5yKP5m2tR6uShpt8zmeM8UavPhwfH', hex: '76a914e958e753703fa13eb63b39a92d1f17f06abead5e88ac' },
+    ],
+  },
+  {
     name: 'DOT',
     coinType: 354,
     passingVectors: [
