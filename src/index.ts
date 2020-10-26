@@ -27,6 +27,7 @@ import {
   stripHexPrefix as rskStripHexPrefix,
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
+import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
@@ -600,6 +601,24 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function nanoAddressEncoder(data: Buffer): string {
+  const blake = require('blakejs');
+
+  const encoded = nanoBase32Encode(Uint8Array.from(data));
+  const checksum = blake.blake2b(data, null, 5).reverse();
+  const checksumEncoded = nanoBase32Encode(checksum);
+
+  const address = `nano_${encoded}${checksumEncoded}`;
+  
+  return address;
+}
+
+function nanoAddressDecoder(data: string): Buffer {
+  const decoded = nanoBase32Decode(data.slice(5));
+  
+  return Buffer.from(decoded).slice(0, -5);
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -633,6 +652,7 @@ export const formats: IFormat[] = [
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
+  getConfig('NANO', 165, nanoAddressEncoder, nanoAddressDecoder),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
