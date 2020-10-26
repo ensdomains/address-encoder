@@ -944,7 +944,6 @@ export const formats: IFormat[] = [
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
-  getConfig('ARDR', 1200, ardrAddressEncoder, ardrAddressDecoder),
   {
     coinType: 1729,
     decoder: tezosAddressDecoder,
@@ -964,6 +963,7 @@ export const formats: IFormat[] = [
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
+  getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
