@@ -677,7 +677,14 @@ const vectors: Array<TestVector> = [
     coinType: 2305,
     passingVectors: [
       { text: 'EQDZ4T6YyVkg9mb2cAuLEu8iBKbajQAywF', hex: '214d797cc92303dac242b17026e79bbea28eb642f29f0d3582' }
-    ],
+    ]
+  },
+  {
+    name: 'GXC',
+    coinType: 2303,
+    passingVectors: [
+      { text: 'GXC6UKk9URcsCuGxLuRDqEuGzAqDkgKbG8AuWXFXsyzc2r9z7A1kw', hex: '02d085655f8060a79a4b12b14e442b8a554ba867bdadce3c2dc39e1a42a01827c0' },
+    ]
   },
   {
     name: 'HBAR',
@@ -726,13 +733,6 @@ const vectors: Array<TestVector> = [
     coinType: 52752,
     passingVectors: [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
-    ],
-  },
-  {
-    name: 'GXC',
-    coinType: 53890,
-    passingVectors: [
-      { text: 'GXC6UKk9URcsCuGxLuRDqEuGzAqDkgKbG8AuWXFXsyzc2r9z7A1kw', hex: '02d085655f8060a79a4b12b14e442b8a554ba867bdadce3c2dc39e1a42a01827c0' },
     ],
   },
   {

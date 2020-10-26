@@ -885,6 +885,7 @@ export const formats: IFormat[] = [
   },
   bech32Chain('ADA', 1815, 'addr'),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
+  getConfig('GXC', 2303, gxcAddressEncoder, gxcAddressDecoder),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
   {
     coinType: 3030,
@@ -896,10 +897,9 @@ export const formats: IFormat[] = [
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
-  getConfig('GXC', 53890, gxcAddressEncoder, gxcAddressDecoder),
+  hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
-  getConfig('GXC', 53890, gxcAddressEncoder, gxcAddressDecoder),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
