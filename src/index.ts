@@ -28,6 +28,12 @@ import {
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
 
+import {
+  encode as filEncode,
+  decode as filDecode,
+} from '@glif/filecoin-address'
+
+
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
 
