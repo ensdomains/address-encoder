@@ -497,16 +497,63 @@ function seroAddressDecoder(data: string): Buffer {
  
 }
 
-function vsysAddressDecoder(data: string): Buffer {
-  const keyStringLength = 44;
-  if(data.length > keyStringLength) {
-    throw Error('Unrecognised address format');
+function calcCheckSum(withoutChecksum: Buffer): Buffer {
+  const HASH = require('thor-devkit');
+  const ChecksumLength: number = 4;
+
+  const blake2b256ed = HASH.cry.blake2b256(withoutChecksum);
+  const keccak256ed = HASH.cry.keccak256(blake2b256ed);
+  return keccak256ed.slice(0,  ChecksumLength); 
+}
+
+function isByteArrayValid(addressBytes: Buffer): boolean {
+  const AddressVersion: number = 5;
+  const AddressLength: number = 26;
+  const ChecksumLength: number = -4;
+  const version = addressBytes.readInt8(0);
+  const network = addressBytes.readInt8(1);
+  
+  if(version !== AddressVersion) {
+    return false;
   }
-  return bs58DecodeNoCheck(data);
+
+  //"M" for mainnet, "T" for test net. Just limited to mainnet
+  if(network !== "M".charCodeAt(0)) {
+    return false;
+  }
+
+  if(addressBytes.length !== AddressLength) {
+    return false;
+  }
+
+  const checkSum = addressBytes.slice(ChecksumLength);
+  const checkSumGenerated = calcCheckSum(addressBytes.slice(0 , ChecksumLength));
+
+  return checkSum.equals(checkSumGenerated);
+
+}
+//https://github.com/virtualeconomy/v-systems/blob/master/src/main/scala/vsys/account/Address.scala
+function vsysAddressDecoder(data: string): Buffer {
+  let base58String = data;
+  const AddressStringLength = 36;
+  if(data.startsWith('address:')){
+    base58String = data.substr(data.length);
+  }
+  if(base58String.length > AddressStringLength) {
+    throw new Error('Address length should not be more than 36');
+  }
+  const bytes = bs58DecodeNoCheck(base58String);
+
+  if(!isByteArrayValid(bytes)) {
+    throw new Error('VSYS failed checksum');   
+  } 
+  return bytes;
 }
 
 function vsysAddressEncoder(data: Buffer): string {
-
+  if(!isByteArrayValid(data)) {
+    throw new Error('VSYS failed checksum');
+  }
   return bs58EncodeNoCheck(data);
 }
   

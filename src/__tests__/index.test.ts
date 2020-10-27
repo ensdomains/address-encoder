@@ -507,7 +507,7 @@ const vectors: Array<TestVector> = [
   { name: 'VSYS',
     coinType: 360,
     passingVectors: [
-      { text: 'DsnBFk2BdqYP3WEmChpL7TSonhpxUAi8wiA', hex: '073fe8b089c48ba23c60c64c5226d47acfb26565e313934d5d73'},
+      { text: 'ARF12jvtjz9caUFmiwBeRe1SPRGQhUWKrtd', hex: '054d878288c4d4e2dd250560e303476b2152703557a0d3aa3396'},
     ],
   },
   {
