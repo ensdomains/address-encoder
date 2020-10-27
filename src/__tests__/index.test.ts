@@ -250,6 +250,20 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'NANO',
+    coinType: 165,
+    passingVectors: [
+      { 
+        text: 'nano_15dng9kx49xfumkm4q6qpaxneie6oynebiwpums3ktdd6t3f3dhp69nxgb38', 
+        hex: '0d7471e5d11faddce5315c97b23b464184afa8c4c396dcf219696b2682d0adf6' 
+      },
+      {
+        text: 'nano_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs',
+        hex: '2298fab7c61058e77ea554cb93edeeda0692cbfcc540ab213b2836b29029e23a'
+      },
+    ],
+  },
+  {
     name: 'EOS',
     coinType: 194,
     passingVectors: [
@@ -288,6 +302,14 @@ const vectors: Array<TestVector> = [
         text: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ',
         hex: '0000000000000000000000000000000000000000000000000000000000000000',
       },
+    ],
+  },
+  {
+    name: 'DIVI',
+    coinType: 301,
+    passingVectors: [
+      { text: 'D8gBQyHPm7A673utQQwBaQcX2Kz91wJovR', hex: '76a91426c95750c1afe443b3351ea5923d5bae09c2a74b88ac' },
+      { text: 'DSQvV5yKP5m2tR6uShpt8zmeM8UavPhwfH', hex: '76a914e958e753703fa13eb63b39a92d1f17f06abead5e88ac' },
     ],
   },
   {
@@ -332,6 +354,14 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'DM8Zwin2rJczpjy2TXY5UZbZQLkUhYBH61', hex: '76a914af687904a4e15a2f1cac37dfb6cbceb9dba8afb788ac' },
       { text: '6bNNutYQz11WrkVCrj1nUS1dBGyoVZjdEg', hex: 'a914e613c7be9b53e1a47fd4edb3ea9777cf29dce30f87' },
+    ],
+  },
+  {
+    name: 'BPS',
+    coinType: 576,
+    passingVectors: [
+      { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
+      { text: '3CMNFxN1oHBc4R1EpboAL5yzHGgE611Xou', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' },
     ],
   },
   {
