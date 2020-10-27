@@ -494,10 +494,9 @@ function seroAddressDecoder(data: string): Buffer {
     return  bytes;
   }
   throw Error('Unrecognised address format');
- 
 }
 
-// https://github.com/wanchain/go-wanchain/blob/develop/common/types.go
+//https://github.com/wanchain/go-wanchain/blob/develop/common/types.go
 function wanToChecksumAddress(data: string): string {
   const HASH = require('thor-devkit');
   const strippedData = rskStripHexPrefix(data);
