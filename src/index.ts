@@ -497,6 +497,54 @@ function seroAddressDecoder(data: string): Buffer {
  
 }
 
+// https://github.com/wanchain/go-wanchain/blob/develop/common/types.go
+function wanToChecksumAddress(data: string): string {
+  const HASH = require('thor-devkit');
+  const strippedData = rskStripHexPrefix(data);
+  const ndata = strippedData.toLowerCase();
+  
+  const hashed = HASH.cry.keccak256(ndata);
+  let  ret = '0x';
+  const len = ndata.length;
+  let hashByte;
+  for(let i = 0; i < len; i++) {
+    hashByte = hashed[Math.floor(i / 2)]; 
+
+    if (i % 2 === 0) {
+      hashByte = hashByte >> 4;
+    } else {
+      hashByte &= 0xf;
+    }
+
+    if(ndata[i] > '9' && hashByte <= 7) {
+      ret += ndata[i].toUpperCase();
+    } else {
+      ret += ndata[i];
+    }
+  }
+  return ret;
+}
+
+function isValidChecksumWanAddress(address: string ): boolean {
+  const isValid: boolean = /^0x[0-9a-fA-F]{40}$/.test(address);
+  return isValid && (wanToChecksumAddress(address) === address)
+}
+
+function wanChecksummedHexEncoder(data: Buffer): string {
+  return wanToChecksumAddress('0x'+data.toString('hex'));
+}
+
+function wanChecksummedHexDecoder(data: string): Buffer {
+  if(isValidChecksumWanAddress(data)) {
+    return Buffer.from(rskStripHexPrefix(data), 'hex');
+  
+  } else {
+    throw Error('Invalid address checksum');
+  
+  }
+
+}
+
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
 function hnsAddressEncoder(data: Buffer): string {
@@ -1029,8 +1077,9 @@ export const formats: IFormat[] = [
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
-  hexChecksumChain('WAN', 5718350),
+  getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),  
+  
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

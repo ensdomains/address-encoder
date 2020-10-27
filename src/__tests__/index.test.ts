@@ -892,7 +892,7 @@ const vectors: Array<TestVector> = [
     name: 'WAN',
     coinType: 5718350,
     passingVectors: [
-      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+      { text: '0x2eF088E183231C9bEA30d8430937D3A57b7327D4', hex: '2ef088e183231c9bea30d8430937d3a57b7327d4' },
     ],
   },
   {
