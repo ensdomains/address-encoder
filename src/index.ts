@@ -30,8 +30,8 @@ import {
 
 import {
   encode as filEncode,
-  newFromString as filNewFromString,
-  newAddress as filNewAddress
+  newAddress as filNewAddress,
+  newFromString as filNewFromString
 } from '@glif/filecoin-address'
 
 
