@@ -327,6 +327,16 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'FIL',
+    coinType: 461,
+    passingVectors: [
+      {
+        text: 'f15ihq5ibzwki2b4ep2f46avlkrqzhpqgtga7pdrq',
+        hex: 'ea0f0ea039b291a0f08fd179e0556a8c3277c0d3',
+      },
+    ],
+  },
+  {
     name: 'SOL',
     coinType: 501,
     passingVectors: [

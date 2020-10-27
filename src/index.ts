@@ -30,7 +30,8 @@ import {
 
 import {
   encode as filEncode,
-  decode as filDecode,
+  newFromString as filNewFromString,
+  newAddress as filNewAddress
 } from '@glif/filecoin-address'
 
 
@@ -332,6 +333,17 @@ function dotAddrEncoder(data: Buffer): string {
 
 function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data));
+}
+
+function filAddrEncoder(data: Buffer): string {
+  const address = filNewAddress('1', data)
+  const encoded = filEncode('f', address)
+  return encoded.toString()
+}
+
+function filAddrDecoder(data: string): Buffer {
+  const address = filNewFromString(data)
+  return address.payload()
 }
 
 function ontAddrEncoder(data: Buffer): string {
@@ -646,6 +658,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
   hexChecksumChain('XDAI', 700),

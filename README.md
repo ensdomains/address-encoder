@@ -45,6 +45,7 @@ This library currently supports the following cryptocurrencies and address forma
  - EOS
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
+ - FIL ([bls](https://spec.filecoin.io/#section-glossary.address))
  - HBAR
  - HIVE (base58+ripemd160-checksum)
  - HNS
