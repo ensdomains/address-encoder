@@ -530,6 +530,7 @@ const vectors: Array<TestVector> = [
       { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e13d6d96c2' }
     ],
   },
+  
   {
     name: 'IRIS',
     coinType: 566,
@@ -543,6 +544,24 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'DM8Zwin2rJczpjy2TXY5UZbZQLkUhYBH61', hex: '76a914af687904a4e15a2f1cac37dfb6cbceb9dba8afb788ac' },
       { text: '6bNNutYQz11WrkVCrj1nUS1dBGyoVZjdEg', hex: 'a914e613c7be9b53e1a47fd4edb3ea9777cf29dce30f87' },
+    ],
+  },
+  {
+    name: 'SERO',
+    coinType: 569,
+    passingVectors: [
+      {
+        text: 'CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafGPAWERDF2ED3345WSYU2FBNQdSXELKZ12LK34AS9AQ',
+        hex: '0a321ec8d8963e76c9d89d52eebcf4ebd1954dcdf7f1e78cb63b1b3bca7297bd0fe63c33577fe288306c65ca385ea2ad48314167ff2f51b2b45a455c227d8619',
+      },
+      {
+        text: 'DDioZ6gLeKMc5xUCeSXRHZ5U43MH1Tsrmh8T3Gcg9VxFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafGPAWERDF',
+        hex: '0a89984fca72098e8db120269ab73be513519bf78a20c9b332c23bf28911ec5aeaa4143bc283ed31f55964379523949404167f0eb92e7db1ccabf575c4e0d69e',
+      },
+      {
+        text: 'CpjsLDC1JFyrhm3ftC9Gs4QoyrkHKhZKtK7YqGTRFtTafGPAWERDF2ED3345WSGTRFtTafGPAWERDF2ED3345WSkHKhZKtK7YqGTRFtTafGPAWERDF2ED3345WSGTR',
+        hex: 'e0976b0a01294ec8f8037a68a64c2fa050148453c6b532a993acca0585ab5cea6f3ef2a96be90608b3046c11ca304de6cd48aabd8290fc64399437544ece82114996bac7eafe418019ecf36c579f7c6ee5e9316b2a73d0572430c810',
+      },
     ],
   },
   {
