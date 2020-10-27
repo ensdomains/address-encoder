@@ -10,6 +10,9 @@
 <!--- Please provide the reference link to specification. Please try to find the reference of the protocol specification , not just reference to a third party library as we cannot tell that also follows the specification -->
 
 
+## Reference to the test address.
+<!--- Please describe where you found the test address, either from the specificiation doc, test code of other repo, blockchain explorer, etc  -->
+
 
 ## List of features added/changed
 <!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
@@ -30,3 +33,4 @@ NOTE: If you are adding new coin address support, please make sure to add a refe
 <!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
 - [ ] My code follows the code style of this project.
 - [ ] My code implements all the required features.
+- [ ] I have provided the reference link to the specification I implemented.
