@@ -34,3 +34,4 @@ NOTE: If you are adding new coin address support, please make sure to add a refe
 - [ ] My code follows the code style of this project.
 - [ ] My code implements all the required features.
 - [ ] I have provided the reference link to the specification I implemented.
+- [ ] I have provided enough explanation about how I provided the test address
