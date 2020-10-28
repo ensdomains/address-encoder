@@ -358,8 +358,8 @@ const vectors: Array<TestVector> = [
     name: 'BCD',
     coinType: 999,
     passingVectors: [
-      { text: '1E9YKwqJrxw9Fb7KxykoRtvM8UfiZksBes', hex: '76a91490371cf0d07ebfb175d47f1524fcaca7bd5fc37288ac' },
-      { text: '3Ai1JZ8pdJb2ksieUV8FsxSNVJCpoPi8W6', hex: 'a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1887' },
+      { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
+      { text: '3CMNFxN1oHBc4R1EpboAL5yzHGgE611Xou', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' },
     ],
   },
   {
