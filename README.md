@@ -60,7 +60,7 @@ This library currently supports the following cryptocurrencies and address forma
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
  - RSK (checksummed-hex)
- - SOL (base58check)
+ - SOL (base58, no check)
  - STEEM (base58+ripemd160-checksum)
  - TRX (base58check)
  - VET (checksummed-hex)
