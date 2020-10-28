@@ -50,6 +50,7 @@ This library currently supports the following cryptocurrencies and address forma
  - HNS
  - ICX
  - KSM (ss58)
+ - LRG (base58check P2PKH and P2SH)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NANO (nano-base32)
