@@ -253,8 +253,8 @@ const vectors: Array<TestVector> = [
     name: 'RVN',
     coinType: 175,
     passingVectors: [
-      { text: 'R9RAWvzEgwwqxnt7muCcwAitsRAMYb5iDB', hex: '76a91401820622d16248fb4916d6939609d257c5861b7a88ac' }, // p2pk
-      { text: 'rEgfYH2ed8a3Age6qLuhXeLvSUJU4Q3sBE', hex: 'a9145caf81924b95801e57fc06aa5185bcfbaace5dac87' }, // p2sh
+      { text: 'RJYZeWxr1Ly8YgcvJU1qD5MR9jUtk14HkN', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' }, // p2pk
+      { text: 'rGtwTfEisPQ7k8KNggmT4kq2vHpbEV6evU', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' }, // p2sh
     ],
   },
   {
