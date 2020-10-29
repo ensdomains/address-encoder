@@ -51,15 +51,17 @@ This library currently supports the following cryptocurrencies and address forma
  - HNS
  - ICX
  - KSM (ss58)
+ - LRG (base58check P2PKH and P2SH)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
+ - NANO (nano-base32)
  - NEM (base32)
  - NEO (base58check)
  - ONT (base58check)
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
  - RSK (checksummed-hex)
- - SOL (base58check)
+ - SOL (base58, no check)
  - STEEM (base58+ripemd160-checksum)
  - TRX (base58check)
  - VET (checksummed-hex)
