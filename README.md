@@ -76,7 +76,8 @@ This library currently supports the following cryptocurrencies and address forma
  - GRIN (base58check)
  - GXC (base58 + ripemd160-checksum)
  - HBAR
- - HIVE (base58 + ripemd160-checksum)
+ - HC
+ - HIVE (base58+ripemd160-checksum)
  - HNS
  - HNT (base58check)
  - ICX

@@ -379,6 +379,16 @@ const vectors: Array<TestVector> = [
       {
         text: 'nano_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs',
         hex: '2298fab7c61058e77ea554cb93edeeda0692cbfcc540ab213b2836b29029e23a'
+    name: 'HC',
+    coinType: 171,
+    passingVectors: [
+      {
+        text: 'HsNfvK7wrYC6bdzZxFBbhX9xzrXAXh9iuys',
+        hex: '097f78f5e8f39e6374c9c3fc1c8ff86f87faa164de05',
+      },
+      {
+        text: 'HcYjxtg31mDJuK9YGgd83hGg2D2xciBH35f',
+        hex: '095aa02d8d5c82a45265379407d7ddf957686be7eabf',
       },
     ],
   },
