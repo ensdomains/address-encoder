@@ -30,12 +30,6 @@ import {
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import base32Encode from 'base32-encode';
 import base32Decode from 'base32-decode';
-// import {
-//   // encode as filEncode,
-//   // newAddress as filNewAddress,
-//   newFromString as filNewFromString
-// } from '@glif/filecoin-address'
-
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;

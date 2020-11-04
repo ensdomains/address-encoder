@@ -40,7 +40,6 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
-    "@glif/filecoin-address": "^1.0.0-beta.1",
     "base32-decode": "^1.0.0",
     "base32-encode": "^1.1.1",
     "bech32": "^1.1.3",
