@@ -1,7 +1,7 @@
 interface Address {
-    protocol(): string;
+    protocol(): number;
     payload(): Buffer;
-    str: string;
+    str: Buffer;
 }
 declare module '@glif/filecoin-address' {
     export function decode(str: string): { prefix: string; words: number[] };
