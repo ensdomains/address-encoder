@@ -28,6 +28,7 @@ import {
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
+import { filAddrEncoder, filAddrDecoder } from './filecoin/index';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
@@ -329,135 +330,6 @@ function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data));
 }
 
-class Address {
-  str: Buffer;
-  constructor(str: Buffer) {
-    if (!str || str.length < 1) throw new Error('Missing str in address')
-    this.str = str
-  }
-
-  protocol(): number {
-    if (this.str.length < 1) {
-      throw Error('No address found.')
-    }
-    return this.str[0]
-  }
-
-  payload(): Buffer {
-    if (this.str.length < 1) {
-      throw Error('No address found.')
-    }
-    return this.str.slice(1, this.str.length)
-  }
-}
-
-function validateChecksum (ingest:Buffer, expect:Buffer){
-  const digest = getChecksum(ingest)
-  return Buffer.compare(Buffer.from(digest), expect)
-}
-
-function getChecksum (ingest:Buffer):Buffer {
-  const blake = require('blakejs');
-
-  // const encoded = nanoBase32Encode(Uint8Array.from(data));
-  return blake.blake2b(ingest, null, 4)
-}
-
-function checkAddressString (address:string){
-  if (!address) throw Error('No bytes to validate.')
-  if (address.length < 3) throw Error('Address is too short to validate.')
-  if (address[0] !== 'f' && address[0] !== 't') {
-    throw Error('Unknown address network.')
-  }
-
-  switch (address[1]) {
-    case '0': {
-      if (address.length > 22) throw Error('Invalid ID address length.')
-      break
-    }
-    case '1': {
-      if (address.length !== 41)
-        throw Error('Invalid secp256k1 address length.')
-      break
-    }
-    case '2': {
-      if (address.length !== 41) throw Error('Invalid Actor address length.')
-      break
-    }
-    case '3': {
-      if (address.length !== 86) throw Error('Invalid BLS address length.')
-      break
-    }
-    default: {
-      throw new Error('Invalid address protocol.')
-    }
-  }
-}
-
-function filDecode (address: string) {
-  checkAddressString(address)
-
-  const network = address.slice(0, 1)
-  const protocol = address.slice(1, 2)
-  // const protocolByte = Buffer.alloc(1)
-  // protocolByte[0] = protocol
-  const protocolByte = Buffer.from([1])
-  const raw = address.substring(2, address.length)
-
-  // if (protocol === '0') {
-  //   return newAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
-  // }
-  const payloadChecksum = Buffer.from(b32decode(raw.toUpperCase()))
-  const { length } = payloadChecksum
-  const payload = payloadChecksum.slice(0, length - 4)
-  const checksum = payloadChecksum.slice(length - 4, length)
-  if (validateChecksum(Buffer.concat([protocolByte, payload]), checksum)) {
-    throw Error("Checksums don't match")
-  }
-
-  const addressObj = filNewAddress(protocol, payload)
-  if (filEncode(network, addressObj) !== address)
-    throw Error(`Did not encode this address properly: ${address}`)
-  return addressObj
-}
-
-function filEncode (network:string, address:Address) {
-  if (!address || !address.str) throw Error('Invalid address')
-  let addressString = ''
-  const payload = address.payload()
-  const protocolByte = Buffer.alloc(1)
-  protocolByte[0] = address.protocol()
-  const toChecksum = Buffer.concat([protocolByte, payload])
-  const checksum = getChecksum(toChecksum)
-  const bytes = Buffer.concat([payload, Buffer.from(checksum)])
-  const bytes2a = hex2a(bytes.toString('hex'));
-  const bytes32encoded = b32encode(bytes2a).replace(/=/g, '').toLowerCase();
-  return String(network) + String(address.protocol()) + bytes32encoded
-}
-
-function filNewAddress (protocol:string, payload:Buffer): Address {
-  const protocolByte2 = Buffer.alloc(1)
-  // protocolByte2[0] = protocol
-  const protocolByte = Buffer.from([1])
-  console.log('***fileNewAddress', protocolByte, protocolByte2)
-  const input = Buffer.concat([protocolByte, payload])
-  return new Address(input)
-}
-
-function filAddrEncoder(data: Buffer): string {
-  const address = filNewAddress('1', data)
-  const encoded = filEncode('f', address)
-  console.log('filAddrEncoder', {encoded, address, data})
-  return encoded.toString()
-}
-
-function filAddrDecoder(data: string): Buffer {
-  const address = filDecode(data)
-  
-  let r = address.payload()
-  console.log('filAddrDecoder', {address, data, r})
-  return r
-}
 
 function ontAddrEncoder(data: Buffer): string {
   return bs58Encode(Buffer.concat([Buffer.from([0x17]), data]))
