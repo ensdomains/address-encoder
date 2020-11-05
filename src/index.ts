@@ -28,8 +28,6 @@ import {
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
-import base32Encode from 'base32-encode';
-import base32Decode from 'base32-decode';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
@@ -409,7 +407,7 @@ function filDecode (address: string) {
   // if (protocol === '0') {
   //   return newAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
   // }
-  const payloadChecksum = Buffer.from(base32Decode(raw.toUpperCase(), 'RFC4648'))
+  const payloadChecksum = Buffer.from(b32decode(raw.toUpperCase()))
   const { length } = payloadChecksum
   const payload = payloadChecksum.slice(0, length - 4)
   const checksum = payloadChecksum.slice(length - 4, length)
@@ -432,10 +430,9 @@ function filEncode (network:string, address:Address) {
   const toChecksum = Buffer.concat([protocolByte, payload])
   const checksum = getChecksum(toChecksum)
   const bytes = Buffer.concat([payload, Buffer.from(checksum)])
-  const base32encoded = base32Encode(Uint8Array.from(bytes), 'RFC4648', { padding: false }).toLowerCase()
-  addressString = String(network) + String(address.protocol()) + base32encoded
-
-  return addressString
+  const bytes2a = hex2a(bytes.toString('hex'));
+  const bytes32encoded = b32encode(bytes2a).replace(/=/g, '').toLowerCase();
+  return String(network) + String(address.protocol()) + bytes32encoded
 }
 
 function filNewAddress (protocol:string, payload:Buffer): Address {

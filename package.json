@@ -40,8 +40,6 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
-    "base32-decode": "^1.0.0",
-    "base32-encode": "^1.1.1",
     "bech32": "^1.1.3",
     "blakejs": "^1.1.0",
     "bs58": "^4.0.1",
