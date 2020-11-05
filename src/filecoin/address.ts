@@ -1,12 +1,12 @@
 export class Address {
-  str: Buffer;
+  public str: Buffer;
   constructor(str: Buffer) {
-    if (!str || str.length < 1) throw new Error('Missing str in address')
+    if (!str || str.length < 1) { throw new Error('Missing str in address') }
     this.str = str
   }
 
   // https://beta.spec.filecoin.io/#appendix__address__protocol-indicator
-  protocol(): number {
+  public protocol(): number {
     if (this.str.length < 1) {
       throw Error('No address found.')
     }
@@ -14,7 +14,7 @@ export class Address {
     return this.str[0]
   }
 
-  payload(): Buffer {
+  public payload(): Buffer {
     if (this.str.length < 1) {
       throw Error('No address found.')
     }

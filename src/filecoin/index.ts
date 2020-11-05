@@ -1,14 +1,8 @@
 // Ported from https://www.npmjs.com/package/@glif/filecoin-address to reduce file size
 
 import { Address } from './address';
-import {
-    b32decode,
-    b32encode,
-    hex2a
-} from 'crypto-addr-codec';
+import { b32decode, b32encode, hex2a} from 'crypto-addr-codec';
 import leb from 'leb128';
-
-const blake = require('blakejs');
   
 function validateChecksum (ingest:Buffer, expect:Buffer){
     const digest = getChecksum(ingest)
@@ -16,36 +10,36 @@ function validateChecksum (ingest:Buffer, expect:Buffer){
 }
 
 function getChecksum (ingest:Buffer):Buffer {
+    const blake = require('blakejs');
     return blake.blake2b(ingest, null, 4)
 }
 
 function checkAddressString (address:string){
-    if (!address) throw Error('No bytes to validate.')
-    if (address.length < 3) throw Error('Address is too short to validate.')
+    if (!address){throw Error('No bytes to validate.')}
+    if (address.length < 3){throw Error('Address is too short to validate.')}
     if (address[0] !== 'f' && address[0] !== 't') {
         throw Error('Unknown address network.')
     }
 
     switch (address[1]) {
         case '0': {
-        if (address.length > 22) throw Error('Invalid ID address length.')
+        if (address.length > 22){throw Error('Invalid ID address length.')}
         break
         }
         case '1': {
-        if (address.length !== 41)
-            throw Error('Invalid secp256k1 address length.')
+        if (address.length !== 41){throw Error('Invalid secp256k1 address length.')}
         break
         }
         case '2': {
-        if (address.length !== 41) throw Error('Invalid Actor address length.')
+        if (address.length !== 41){throw Error('Invalid Actor address length.')}
         break
         }
         case '3': {
-        if (address.length !== 86) throw Error('Invalid BLS address length.')
+        if (address.length !== 86){throw Error('Invalid BLS address length.')}
         break
         }
         default: {
-        throw new Error('Invalid address protocol.')
+            throw new Error('Invalid address protocol.')
         }
     }
 }
@@ -70,13 +64,14 @@ function filDecode (address: string) {
     }
 
     const addressObj = filNewAddress(protocol, payload)
-    if (filEncode(network, addressObj) !== address)
+    if (filEncode(network, addressObj) !== address){
         throw Error(`Did not encode this address properly: ${address}`)
+    }
     return addressObj
 }
 
 function filEncode (network:string, address:Address) {
-    if (!address || !address.str) throw Error('Invalid address')
+    if (!address || !address.str){throw Error('Invalid address')}
     let addressString = ''
     const payload = address.payload()
     const protocol = address.protocol()

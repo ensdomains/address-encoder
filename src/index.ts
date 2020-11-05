@@ -28,7 +28,7 @@ import {
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
-import { filAddrEncoder, filAddrDecoder } from './filecoin/index';
+import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
