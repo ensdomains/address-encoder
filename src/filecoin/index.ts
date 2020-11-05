@@ -6,6 +6,8 @@ import {
     b32encode,
     hex2a
 } from 'crypto-addr-codec';
+import leb from 'leb128';
+
 const blake = require('blakejs');
   
 function validateChecksum (ingest:Buffer, expect:Buffer){
@@ -54,6 +56,11 @@ function filDecode (address: string) {
     const protocol:number = parseInt(address.slice(1, 2))
     const protocolByte = Buffer.from([protocol])
     const raw = address.substring(2, address.length)
+
+    if (protocol === 0) {
+      return filNewAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
+    }
+
     const payloadChecksum = Buffer.from(b32decode(raw.toUpperCase()))
     const { length } = payloadChecksum
     const payload = payloadChecksum.slice(0, length - 4)
@@ -72,14 +79,26 @@ function filEncode (network:string, address:Address) {
     if (!address || !address.str) throw Error('Invalid address')
     let addressString = ''
     const payload = address.payload()
-    const protocolByte = Buffer.alloc(1)
-    protocolByte[0] = address.protocol()
-    const toChecksum = Buffer.concat([protocolByte, payload])
-    const checksum = getChecksum(toChecksum)
-    const bytes = Buffer.concat([payload, Buffer.from(checksum)])
-    const bytes2a = hex2a(bytes.toString('hex'));
-    const bytes32encoded = b32encode(bytes2a).replace(/=/g, '').toLowerCase();
-    return String(network) + String(address.protocol()) + bytes32encoded
+    const protocol = address.protocol()
+
+    switch (protocol) {
+        case 0: {
+            const decoded = leb.unsigned.decode(payload)
+            addressString = network + String(protocol) + decoded
+            break
+        }
+        default: {
+            const protocolByte = Buffer.from([protocol])
+            const toChecksum = Buffer.concat([protocolByte, payload])
+            const checksum = getChecksum(toChecksum)
+            const bytes = Buffer.concat([payload, Buffer.from(checksum)])
+            const bytes2a = hex2a(bytes.toString('hex'));
+            const bytes32encoded = b32encode(bytes2a).replace(/=/g, '').toLowerCase();
+            addressString = String(network) + String(protocol) + bytes32encoded
+            break
+        }
+    }
+    return addressString
 }
 
 function filNewAddress (protocol:number, payload:Buffer): Address {
@@ -90,15 +109,9 @@ function filNewAddress (protocol:number, payload:Buffer): Address {
   
 export function filAddrEncoder(data: Buffer): string {
     const address = filNewAddress(data[0], data.slice(1))
-    const encoded = filEncode('f', address)
-    console.log('filAddrEncoder', {encoded, address, data})
-    return encoded.toString()
+    return filEncode('f', address).toString()
 }
     
 export function filAddrDecoder(data: string): Buffer {
-    const address = filDecode(data)
-    let str = address.str
-    let r = address.payload()
-    console.log('filAddrDecoder', {address, data, str, r})
-    return address.str
+    return filDecode(data).str
 }    
