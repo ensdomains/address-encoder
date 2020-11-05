@@ -345,9 +345,12 @@ const vectors: Array<TestVector> = [
     coinType: 461,
     passingVectors: [
       {
+        // From https://github.com/glifio/modules/blob/primary/packages/filecoin-address/test/constants.js#L50
+        // Replaced t with f
         text: 'f15ihq5ibzwki2b4ep2f46avlkrqzhpqgtga7pdrq',
         hex: '01ea0f0ea039b291a0f08fd179e0556a8c3277c0d3',
-      },
+        // Uint8Array.from(Buffer.from(hex, 'hex')) => [1,234,15,14,160,57,178,145,160,240,143,209,121,224,85,106,140,50,119,192,211]
+      }
     ],
   }
   // ,
