@@ -346,7 +346,7 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       {
         text: 'f15ihq5ibzwki2b4ep2f46avlkrqzhpqgtga7pdrq',
-        hex: 'ea0f0ea039b291a0f08fd179e0556a8c3277c0d3',
+        hex: '01ea0f0ea039b291a0f08fd179e0556a8c3277c0d3',
       },
     ],
   }
@@ -489,9 +489,11 @@ vectors.forEach((vector: TestVector) => {
 
     for (var example of vector.passingVectors) {
       const decoded = format.decoder(example.text);
+      console.log('***test1', {text:example.text, decoded})
       expect(decoded).toBeInstanceOf(Buffer);
       expect(decoded.toString('hex')).toBe(example.hex);
       const reencoded = format.encoder(decoded);
+      console.log('***test2', {decoded, reencoded})
       expect(reencoded).toBe(example.canonical || example.text);
       if (example.canonical !== undefined) {
         // Check we didn't lose anything

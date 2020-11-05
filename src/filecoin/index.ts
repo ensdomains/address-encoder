@@ -14,7 +14,6 @@ function validateChecksum (ingest:Buffer, expect:Buffer){
 }
 
 function getChecksum (ingest:Buffer):Buffer {
-    // const encoded = nanoBase32Encode(Uint8Array.from(data));
     return blake.blake2b(ingest, null, 4)
 }
 
@@ -51,17 +50,10 @@ function checkAddressString (address:string){
 
 function filDecode (address: string) {
     checkAddressString(address)
-
     const network = address.slice(0, 1)
-    const protocol = address.slice(1, 2)
-    // const protocolByte = Buffer.alloc(1)
-    // protocolByte[0] = protocol
-    const protocolByte = Buffer.from([1])
+    const protocol:number = parseInt(address.slice(1, 2))
+    const protocolByte = Buffer.from([protocol])
     const raw = address.substring(2, address.length)
-
-    // if (protocol === '0') {
-    //   return newAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
-    // }
     const payloadChecksum = Buffer.from(b32decode(raw.toUpperCase()))
     const { length } = payloadChecksum
     const payload = payloadChecksum.slice(0, length - 4)
@@ -90,17 +82,14 @@ function filEncode (network:string, address:Address) {
     return String(network) + String(address.protocol()) + bytes32encoded
 }
 
-function filNewAddress (protocol:string, payload:Buffer): Address {
-    const protocolByte2 = Buffer.alloc(1)
-    // protocolByte2[0] = protocol
-    const protocolByte = Buffer.from([1])
-    console.log('***fileNewAddress', protocolByte, protocolByte2)
+function filNewAddress (protocol:number, payload:Buffer): Address {
+    const protocolByte = Buffer.from([protocol])
     const input = Buffer.concat([protocolByte, payload])
     return new Address(input)
 }
   
 export function filAddrEncoder(data: Buffer): string {
-    const address = filNewAddress('1', data)
+    const address = filNewAddress(data[0], data.slice(1))
     const encoded = filEncode('f', address)
     console.log('filAddrEncoder', {encoded, address, data})
     return encoded.toString()
@@ -108,8 +97,8 @@ export function filAddrEncoder(data: Buffer): string {
     
 export function filAddrDecoder(data: string): Buffer {
     const address = filDecode(data)
-    
+    let str = address.str
     let r = address.payload()
-    console.log('filAddrDecoder', {address, data, r})
-    return r
+    console.log('filAddrDecoder', {address, data, str, r})
+    return address.str
 }    

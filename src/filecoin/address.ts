@@ -5,10 +5,12 @@ export class Address {
     this.str = str
   }
 
+  // https://beta.spec.filecoin.io/#appendix__address__protocol-indicator
   protocol(): number {
     if (this.str.length < 1) {
       throw Error('No address found.')
     }
+
     return this.str[0]
   }
 
