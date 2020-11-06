@@ -331,7 +331,6 @@ function ksmAddrDecoder(data: string): Buffer {
   return new Buffer(ss58Decode(data));
 }
 
-
 function ontAddrEncoder(data: Buffer): string {
   return bs58Encode(Buffer.concat([Buffer.from([0x17]), data]))
 }
