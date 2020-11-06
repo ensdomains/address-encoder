@@ -5,6 +5,7 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import bigInt from 'big-integer';
+import { blake2b } from 'blakejs'
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import { createHash } from 'crypto';
@@ -604,10 +605,8 @@ function algoEncode(data: Buffer): string {
 }
 
 function nanoAddressEncoder(data: Buffer): string {
-  const blake = require('blakejs');
-
   const encoded = nanoBase32Encode(Uint8Array.from(data));
-  const checksum = blake.blake2b(data, null, 5).reverse();
+  const checksum = blake2b(data, null, 5).reverse();
   const checksumEncoded = nanoBase32Encode(checksum);
 
   const address = `nano_${encoded}${checksumEncoded}`;

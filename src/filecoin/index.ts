@@ -1,17 +1,17 @@
 // Ported from https://www.npmjs.com/package/@glif/filecoin-address to reduce file size
 
-import { Address } from './address';
+import { blake2b } from 'blakejs'
 import { b32decode, b32encode, hex2a} from 'crypto-addr-codec';
 import leb from 'leb128';
-  
+import { Address } from './address';
+
 function validateChecksum (ingest:Buffer, expect:Buffer){
     const digest = getChecksum(ingest)
     return Buffer.compare(Buffer.from(digest), expect)
 }
 
 function getChecksum (ingest:Buffer):Buffer {
-    const blake = require('blakejs');
-    return blake.blake2b(ingest, null, 4)
+    return blake2b(ingest, null, 4)
 }
 
 function checkAddressString (address:string){
@@ -47,7 +47,7 @@ function checkAddressString (address:string){
 function filDecode (address: string) {
     checkAddressString(address)
     const network = address.slice(0, 1)
-    const protocol:number = parseInt(address.slice(1, 2))
+    const protocol = parseInt(address.slice(1, 2), 10)
     const protocolByte = Buffer.from([protocol])
     const raw = address.substring(2, address.length)
 
