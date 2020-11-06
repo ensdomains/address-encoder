@@ -46,10 +46,10 @@ function checkAddressString (address:string){
 
 function filDecode (address: string) {
     checkAddressString(address)
-    const network = address.slice(0, 1)
-    const protocol = parseInt(address.slice(1, 2), 10)
+    const network = address[0]
+    const protocol = parseInt(address[1], 10)
     const protocolByte = Buffer.from([protocol])
-    const raw = address.substring(2, address.length)
+    const raw = address.slice(2)
 
     if (protocol === 0) {
       return filNewAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
