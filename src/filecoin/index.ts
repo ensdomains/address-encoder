@@ -2,7 +2,7 @@
 
 import { blake2b } from 'blakejs'
 import { b32decode, b32encode, hex2a} from 'crypto-addr-codec';
-import leb from 'leb128';
+import { encode as lebEncode, decode as lebDecode } from '../leb128/unsigned';
 import { Address } from './address';
 
 function validateChecksum (ingest:Buffer, expect:Buffer){
@@ -52,7 +52,7 @@ function filDecode (address: string) {
     const raw = address.slice(2)
 
     if (protocol === 0) {
-      return filNewAddress(protocol, Buffer.from(leb.unsigned.encode(raw)))
+      return filNewAddress(protocol, Buffer.from(lebEncode(raw)))
     }
 
     const payloadChecksum = Buffer.from(b32decode(raw.toUpperCase()))
@@ -70,6 +70,7 @@ function filDecode (address: string) {
     return addressObj
 }
 
+
 function filEncode (network:string, address:Address) {
     if (!address || !address.str){throw Error('Invalid address')}
     let addressString = ''
@@ -78,7 +79,7 @@ function filEncode (network:string, address:Address) {
 
     switch (protocol) {
         case 0: {
-            const decoded = leb.unsigned.decode(payload)
+            const decoded = lebDecode(payload)
             addressString = network + String(protocol) + decoded
             break
         }
