@@ -2,7 +2,7 @@
 
 import { blake2b } from 'blakejs'
 import { b32decode, b32encode, hex2a} from 'crypto-addr-codec';
-import { encode as lebEncode, decode as lebDecode } from '../leb128/unsigned';
+import { decode as lebDecode, encode as lebEncode } from '../leb128/unsigned';
 import { Address } from './address';
 
 function validateChecksum (ingest:Buffer, expect:Buffer){

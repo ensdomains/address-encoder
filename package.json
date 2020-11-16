@@ -7,7 +7,7 @@
   "module": "lib/index.module.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "microbundle",
+    "build": "microbundle --external crypto",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",

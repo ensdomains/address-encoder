@@ -1,20 +1,22 @@
 // https://gitlab.com/mjbecze/leb128 was ported so that we can reuse older version of bn.js (4.0.0) instead of the one leb128 uses (5.1)
-const Bn = require('bn.js')
 
+// Could not make import work for bn.js as @types/bn.js wasn't working
+/* tslint:disable:no-var-requires */
+const Bn = require('bn.js')
 // https://gitlab.com/mjbecze/leb128/-/blob/master/stream.js
 class Stream{
   public buffer:Buffer
-  private _bytesRead:number
+  private bytesRead:number
 
   constructor (buf:Buffer = Buffer.from([])) {
     this.buffer = buf
-    this._bytesRead = 0
+    this.bytesRead = 0
   }
 
   public read (size:number) {
     const data = this.buffer.slice(0, size)
     this.buffer = this.buffer.slice(size)
-    this._bytesRead += size
+    this.bytesRead += size
     return data
   }
 
@@ -34,6 +36,7 @@ function readBn (stream: Stream) {
   let byt
   while (true) {
     byt = stream.read(1)[0]
+    /* tslint:disable:no-bitwise */
     num.ior(new Bn(byt & 0x7f).shln(shift))
     if (byt >> 7 === 0) {
       break
@@ -44,12 +47,12 @@ function readBn (stream: Stream) {
   return num
 }
 
-function write (number:string | number, stream: Stream) {
-  const num = new Bn(number)
+function write (num:string | number, stream: Stream) {
+  const bigNum = new Bn(num)
   while (true) {
-    const i = num.maskn(7).toNumber()
-    num.ishrn(7)
-    if (num.isZero()) {
+    const i = bigNum.maskn(7).toNumber()
+    bigNum.ishrn(7)
+    if (bigNum.isZero()) {
       stream.write([i])
       break
     } else {
