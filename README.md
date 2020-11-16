@@ -45,6 +45,7 @@ This library currently supports the following cryptocurrencies and address forma
  - EOS
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
+ - FIL (base10 + leb128 and base32 + blake2b checksum)
  - HBAR
  - HIVE (base58+ripemd160-checksum)
  - HNS
@@ -54,7 +55,7 @@ This library currently supports the following cryptocurrencies and address forma
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NANO (nano-base32)
- - NEM (base32)
+ - NEM(XEM) (base32)
  - NEO (base58check)
  - ONT (base58check)
  - PPC (base58check P2PKH and P2SH)

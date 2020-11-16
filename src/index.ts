@@ -5,6 +5,7 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import bigInt from 'big-integer';
+import { blake2b } from 'blakejs'
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import { createHash } from 'crypto';
@@ -28,6 +29,7 @@ import {
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
+import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
@@ -602,10 +604,8 @@ function algoEncode(data: Buffer): string {
 }
 
 function nanoAddressEncoder(data: Buffer): string {
-  const blake = require('blakejs');
-
   const encoded = nanoBase32Encode(Uint8Array.from(data));
-  const checksum = blake.blake2b(data, null, 5).reverse();
+  const checksum = blake2b(data, null, 5).reverse();
   const checksumEncoded = nanoBase32Encode(checksum);
 
   const address = `nano_${encoded}${checksumEncoded}`;
@@ -660,6 +660,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
