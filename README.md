@@ -37,6 +37,7 @@ This library currently supports the following cryptocurrencies and address forma
  - BNB (bech32)
  - BPS (base58check P2PKH and P2SH)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
+ - CCA (base58check P2PKH and P2SH)
  - CCXX (base58check P2PKH and P2SH, and bech32 segwit)
  - CELO (checksummed-hex)
  - DASH (base58check P2PKH and P2SH)

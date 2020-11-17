@@ -675,6 +675,7 @@ export const formats: IFormat[] = [
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
+  bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),

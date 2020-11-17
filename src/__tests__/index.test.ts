@@ -398,8 +398,15 @@ const vectors: Array<TestVector> = [
         hex: '03ad58df696e2d4e91ea86c881e938ba4ea81b395e12797b84b9cf314b9546705e839c7a99d606b247ddb4f9ac7a3414dd'
       }
     ],
-  }
-  ,
+  },
+  {
+    name: 'CCA',
+    coinType: 489,
+    passingVectors: [
+      { text: '5jZrpsZVkNhDKEuNcYZ1kk2wNWJRbaKy22', hex: '76a914c3c95e1effb0f6ebde0ac0751d6bfd69ad98511c88ac' },
+      { text: '5mi7oAoMVL7cVJhXsmWxnTDxTUiBUkR996', hex: '76a914db49719be13e8221f6d568a01f9d14adc4f887ff88ac' },
+    ],
+  },
   {
     name: 'SOL',
     coinType: 501,
