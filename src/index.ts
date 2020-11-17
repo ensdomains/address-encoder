@@ -671,6 +671,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
     coinType: 1729,

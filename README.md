@@ -59,6 +59,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NANO (nano-base32)
  - NEM(XEM) (base32)
  - NEO (base58check)
+ - ONE (bech32)
  - ONT (base58check)
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
