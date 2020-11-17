@@ -651,6 +651,7 @@ export const formats: IFormat[] = [
   getConfig('DCR', 42, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XEM', 43, b32encodeXemAddr, b32decodeXemAddr),
   bitcoinBase58Chain('AIB', 55, [[0x17]], [[0x05]]),
+  bitcoinChain('SYS', 57, 'sys', [[0x3f]], [[0x05]]),
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
