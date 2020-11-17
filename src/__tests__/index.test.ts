@@ -320,11 +320,18 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'DIVI',
+  name: 'DIVI',
     coinType: 301,
     passingVectors: [
       { text: 'D8gBQyHPm7A673utQQwBaQcX2Kz91wJovR', hex: '76a91426c95750c1afe443b3351ea5923d5bae09c2a74b88ac' },
       { text: 'DSQvV5yKP5m2tR6uShpt8zmeM8UavPhwfH', hex: '76a914e958e753703fa13eb63b39a92d1f17f06abead5e88ac' },
+    ],
+  },
+  {
+    name: 'IOTX',
+    coinType: 304,
+    passingVectors: [
+      { text: 'io1nyjs526mnqcsx4twa7nptkg08eclsw5c2dywp4', hex: '99250a2b5b983103556eefa615d90f3e71f83a98'},
     ],
   },
   {

@@ -51,6 +51,7 @@ This library currently supports the following cryptocurrencies and address forma
  - HIVE (base58+ripemd160-checksum)
  - HNS
  - ICX
+ - IOTX (bech32)
  - KSM (ss58)
  - LRG (base58check P2PKH and P2SH)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
