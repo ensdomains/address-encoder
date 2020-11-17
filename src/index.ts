@@ -633,6 +633,7 @@ export const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
   bitcoinChain('LTC', 2, 'ltc', [[0x30]], [[0x32], [0x05]]),
   bitcoinBase58Chain('DOGE', 3, [[0x1e]], [[0x16]]),
+  bitcoinBase58Chain('RDD', 4, [[0x3d]], [[0x05]]),
   bitcoinBase58Chain('DASH', 5, [[0x4c]], [[0x10]]),
   bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
