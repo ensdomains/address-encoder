@@ -93,6 +93,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'AIB',
+    coinType: 55,
+    passingVectors: [
+      { text: 'AJc4bPnvyvdUhFqaGLB8hhiAPyJdcZvs4Z', hex: '76a9141f0d5afac97c916cdaccc0dd1c41cb03fde8452f88ac' },
+    ],
+  },
+  {
     name: 'ETH',
     coinType: 60,
     passingVectors: [
@@ -250,6 +257,20 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'NANO',
+    coinType: 165,
+    passingVectors: [
+      { 
+        text: 'nano_15dng9kx49xfumkm4q6qpaxneie6oynebiwpums3ktdd6t3f3dhp69nxgb38', 
+        hex: '0d7471e5d11faddce5315c97b23b464184afa8c4c396dcf219696b2682d0adf6' 
+      },
+      {
+        text: 'nano_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs',
+        hex: '2298fab7c61058e77ea554cb93edeeda0692cbfcc540ab213b2836b29029e23a'
+      },
+    ],
+  },
+  {
     name: 'EOS',
     coinType: 194,
     passingVectors: [
@@ -291,6 +312,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'DIVI',
+    coinType: 301,
+    passingVectors: [
+      { text: 'D8gBQyHPm7A673utQQwBaQcX2Kz91wJovR', hex: '76a91426c95750c1afe443b3351ea5923d5bae09c2a74b88ac' },
+      { text: 'DSQvV5yKP5m2tR6uShpt8zmeM8UavPhwfH', hex: '76a914e958e753703fa13eb63b39a92d1f17f06abead5e88ac' },
+    ],
+  },
+  {
     name: 'DOT',
     coinType: 354,
     passingVectors: [
@@ -319,11 +348,64 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'FIL',
+    coinType: 461,
+    passingVectors: [
+      { // Protocol 0: ID
+        // https://github.com/glifio/modules/blob/primary/packages/filecoin-address/test/constants.js#L15
+        text: 'f0150',
+        // Buffer.from(Uint8Array.of(0, 150, 1)).toString('hex')
+        hex: '009601',
+      },
+      { // Protocol 1: Secp256k1 Addresses
+        // https://github.com/glifio/modules/blob/primary/packages/filecoin-address/test/constants.js#L50
+        text: 'f15ihq5ibzwki2b4ep2f46avlkrqzhpqgtga7pdrq',
+        // Buffer.from(Uint8Array.of(1,234,15,14,160,57,178,145,160,240,143,209,121,224,85,106,140,50,119,192,211)).toString('hex')
+        hex: '01ea0f0ea039b291a0f08fd179e0556a8c3277c0d3',
+      },
+      { // Protocol 2: Actor address
+        // https://github.com/glifio/modules/blob/primary/packages/filecoin-address/test/constants.js#L183
+        text: 'f24vg6ut43yw2h2jqydgbg2xq7x6f4kub3bg6as6i',
+        // Buffer.from(Uint8Array.of(2,229,77,234,79,155,197,180,125,38,24,25,130,109,94,31,191,139,197,80,59)).toString('hex')
+        hex: '02e54dea4f9bc5b47d261819826d5e1fbf8bc5503b'
+      },
+      { // Protocol 3: BLSAddresses
+        // https://github.com/glifio/modules/blob/primary/packages/filecoin-address/test/constants.js#L183
+        text: 'f3vvmn62lofvhjd2ugzca6sof2j2ubwok6cj4xxbfzz4yuxfkgobpihhd2thlanmsh3w2ptld2gqkn2jvlss4a',
+        // Buffer.from(Uint8Array.of(3,173,88,223,105,110,45,78,145,234,134,200,129,233,56,186,78,168,27,57,94,18,121,123,132,185,207,49,75,149,70,112,94,131,156,122,153,214,6,178,71,221,180,249,172,122,52,20,221)).toString('hex')
+        hex: '03ad58df696e2d4e91ea86c881e938ba4ea81b395e12797b84b9cf314b9546705e839c7a99d606b247ddb4f9ac7a3414dd'
+      }
+    ],
+  }
+  ,
+  {
     name: 'SOL',
     coinType: 501,
     passingVectors: [
-      { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e1' },
-      { text: 'TJCnKsPa7y5okkXvQAidZBzqx3QyQ6sxMW', hex: '415a523b449890854c8fc460ab602df9f31fe4293f' },
+      // The address reportetd by Trust Wallet team that it is having problem.
+      { text: 'AHy6YZA8BsHgQfVkk7MbwpAN94iyN7Nf1zN4nPqUN32Q', hex: '8a11e71b96cabbe3216e3153b09694f39fc85022cbc076f79846a3ab4d8c1991' },
+      // https://github.com/trustwallet/wallet-core/blob/8d3100f61e36d1e928ed1dea60ff7554bba0db16/tests/Solana/AddressTests.cpp#L26
+      { text: '2gVkYWexTHR5Hb2aLeQN3tnngvWzisFKXDUPrgMHpdST', hex: '18f9d8d877393bbbe8d697a8a2e52879cc7e84f467656d1cce6bab5a8d2637ec'},
+      // https://explorer.solana.com/address/CNR8RPMxjY28VsPA6KFq3B8PUdZnrTSC5HSFwKPBR29Z
+      { text: 'CNR8RPMxjY28VsPA6KFq3B8PUdZnrTSC5HSFwKPBR29Z', hex: 'a8ed08e3e8fe204de45e7295cc1ad53db096621b878f8c546e5c09f5e48f70b4' },
+      // The old test case (same as TRON and NMC), only keep it for reference purpose.
+      { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e13d6d96c2' }
+    ],
+  },
+  {
+    name: 'LRG',
+    coinType: 568,
+    passingVectors: [
+      { text: 'DM8Zwin2rJczpjy2TXY5UZbZQLkUhYBH61', hex: '76a914af687904a4e15a2f1cac37dfb6cbceb9dba8afb788ac' },
+      { text: '6bNNutYQz11WrkVCrj1nUS1dBGyoVZjdEg', hex: 'a914e613c7be9b53e1a47fd4edb3ea9777cf29dce30f87' },
+    ],
+  },
+  {
+    name: 'BPS',
+    coinType: 576,
+    passingVectors: [
+      { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
+      { text: '3CMNFxN1oHBc4R1EpboAL5yzHGgE611Xou', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' },
     ],
   },
   {
