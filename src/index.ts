@@ -603,6 +603,16 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function arkAddressDecoder(data: string): Buffer {
+  const buffer = bs58Decode(data);
+
+  if (buffer[0] !== 23) {
+    throw Error('Unrecognised address format');
+  }
+
+  return buffer;
+}
+
 function nanoAddressEncoder(data: Buffer): string {
   const encoded = nanoBase32Encode(Uint8Array.from(data));
   const checksum = blake2b(data, null, 5).reverse();
@@ -633,6 +643,7 @@ export const formats: IFormat[] = [
   bitcoinChain('BTC', 0, 'bc', [[0x00]], [[0x05]]),
   bitcoinChain('LTC', 2, 'ltc', [[0x30]], [[0x32], [0x05]]),
   bitcoinBase58Chain('DOGE', 3, [[0x1e]], [[0x16]]),
+  bitcoinBase58Chain('RDD', 4, [[0x3d]], [[0x05]]),
   bitcoinBase58Chain('DASH', 5, [[0x4c]], [[0x10]]),
   bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
@@ -643,6 +654,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
+  getConfig('ARK', 111, bs58Encode, arkAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
@@ -659,17 +671,20 @@ export const formats: IFormat[] = [
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
+  bech32Chain('IOTX', 304, 'io'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
+  bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
     coinType: 1729,
@@ -679,6 +694,7 @@ export const formats: IFormat[] = [
   },
   bech32Chain('ADA', 1815, 'addr'),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
+  getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
   {
     coinType: 3030,
     decoder: hederaAddressDecoder,
