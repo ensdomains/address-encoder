@@ -40,6 +40,7 @@
     "typescript": "^3.8.2"
   },
   "dependencies": {
+    "@types/ripemd160": "^2.0.0",
     "bech32": "^1.1.3",
     "blakejs": "^1.1.0",
     "bn.js": "^4.11.8",
