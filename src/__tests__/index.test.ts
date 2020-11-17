@@ -93,6 +93,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'AIB',
+    coinType: 55,
+    passingVectors: [
+      { text: 'AJc4bPnvyvdUhFqaGLB8hhiAPyJdcZvs4Z', hex: '76a9141f0d5afac97c916cdaccc0dd1c41cb03fde8452f88ac' },
+    ],
+  },
+  {
     name: 'ETH',
     coinType: 60,
     passingVectors: [
