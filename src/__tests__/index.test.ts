@@ -389,6 +389,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'AE',
+    coinType: 457,
+    passingVectors: [
+      { text: 'ak_Gd6iMVsoonGuTF8LeswwDDN2NF5wYHAoTRtzwdEcfS32LWoxm', hex: '30782378f892b7cc82c2d2739e994ec9953aa36461f1eb5a4a49a5b0de17b3d23ae8' },
+    ],
+  },
+  {
     name: 'FIL',
     coinType: 461,
     passingVectors: [
