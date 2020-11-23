@@ -703,6 +703,7 @@ export const formats: IFormat[] = [
     name: 'HBAR',
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
+  hexChecksumChain('NRG', 9797),
   hexChecksumChain('CELO', 52752),
 ];
 
