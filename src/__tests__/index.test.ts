@@ -389,6 +389,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'AE',
+    coinType: 457,
+    passingVectors: [
+      { text: 'ak_Gd6iMVsoonGuTF8LeswwDDN2NF5wYHAoTRtzwdEcfS32LWoxm', hex: '30782378f892b7cc82c2d2739e994ec9953aa36461f1eb5a4a49a5b0de17b3d23ae8' },
+    ],
+  },
+  {
     name: 'FIL',
     coinType: 461,
     passingVectors: [
@@ -586,6 +593,14 @@ const vectors: Array<TestVector> = [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
   },
+  {
+    name: 'WICC',
+    coinType: 99999,
+    passingVectors: [
+      { text: 'WPCCQwJafaApw6482EkDR6V84arfa47VmT', hex: '76a91405b4701f113f51576fd7f6422dfe6ab00f41739488ac' },
+      { text: 'WV116oEVxKUzrafgcRZXCNdDN7r7hjt4xV', hex: '76a91445672c77361c4f90f95b7c4c721f375a6a99766888ac' }
+    ],
+  }
 ];
 
 var lastCointype = -1;
