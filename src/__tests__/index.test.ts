@@ -374,6 +374,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'CKB',
+    coinType: 309,
+    passingVectors: [
+      { text: 'ckb1qyqt8xaupvm8837nv3gtc9x0ekkj64vud3jqfwyw5v', hex: '0100b39bbc0b3673c7d36450bc14cfcdad2d559c6c64' },
+    ],
+  },
+  {
     name: 'DOT',
     coinType: 354,
     passingVectors: [

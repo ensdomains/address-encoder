@@ -683,6 +683,7 @@ export const formats: IFormat[] = [
   // getConfig('ALGO', 283, algoEncode, algoDecode),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   bech32Chain('IOTX', 304, 'io'),
+  bech32Chain('CKB', 309, 'ckb'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
