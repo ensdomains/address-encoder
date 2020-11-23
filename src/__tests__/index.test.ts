@@ -441,6 +441,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'IRIS',
+    coinType: 566,
+    passingVectors: [
+      { text: 'iaa1k5y45px87c42ttxgk8x4y6w0y9gzgcwvvunht5', hex: 'b5095a04c7f62aa5acc8b1cd5269cf21502461cc' },
+    ],
+  },
+  {
     name: 'LRG',
     coinType: 568,
     passingVectors: [
@@ -462,13 +469,6 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
       { text: '3CMNFxN1oHBc4R1EpboAL5yzHGgE611Xou', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' },
-    ],
-  },
-  {
-    name: 'IRIS',
-    coinType: 566,
-    passingVectors: [
-      { text: 'iaa1k5y45px87c42ttxgk8x4y6w0y9gzgcwvvunht5', hex: 'b5095a04c7f62aa5acc8b1cd5269cf21502461cc' },
     ],
   },
   {
