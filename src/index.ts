@@ -624,6 +624,14 @@ function bsvAddressDecoder(data: string): Buffer {
   return buf.slice(1);
 }
 
+function aeAddressEncoder(data: Buffer): string {
+  return 'ak_' + bs58Encode(data.slice(2));
+}
+
+function aeAddressDecoder(data: string): Buffer {
+  return Buffer.concat([Buffer.from('0x'), bs58Decode(data.split('_')[1])]);
+}
+
 function arkAddressDecoder(data: string): Buffer {
   const buffer = bs58Decode(data);
 
@@ -698,6 +706,7 @@ export const formats: IFormat[] = [
   bech32Chain('IOTX', 304, 'io'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
@@ -728,6 +737,7 @@ export const formats: IFormat[] = [
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('NRG', 9797),
   hexChecksumChain('CELO', 52752),
+  bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
