@@ -641,7 +641,7 @@ function aionDecoder(data: string): Buffer {
   }
 
   if (address.startsWith('a0')) {
-    if (address.length != 64 || !address.substring(2).match('^[0-9A-Fa-f]+$')) {
+    if (address.length !== 64 || !address.substring(2).match('^[0-9A-Fa-f]+$')) {
       throw Error('Unrecognised address format');
     }
   }
