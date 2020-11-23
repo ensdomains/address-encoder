@@ -296,6 +296,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'RVN',
+    coinType: 175,
+    passingVectors: [
+      { text: 'RJYZeWxr1Ly8YgcvJU1qD5MR9jUtk14HkN', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' }, // p2pk
+      { text: 'rGtwTfEisPQ7k8KNggmT4kq2vHpbEV6evU', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' }, // p2sh
+    ],
+  },
+  {
     name: 'EOS',
     coinType: 194,
     passingVectors: [

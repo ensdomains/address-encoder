@@ -69,6 +69,7 @@ This library currently supports the following cryptocurrencies and address forma
  - QTUM (base58check)
  - RDD (base58check P2PKH and P2SH)
  - RSK (checksummed-hex)
+ - RVN (base58check P2PKH and P2SH)
  - SOL (base58, no check)
  - STEEM (base58+ripemd160-checksum)
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
