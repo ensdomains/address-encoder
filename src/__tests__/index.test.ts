@@ -648,6 +648,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'FLOW',
+    coinType: 539,
+    passingVectors: [
+      { text: '0x436164656E636521', hex: '436164656e636521' },
+      { text: '0x006164656E636521', hex: '6164656e636521' },
+    ],
+  },
+  {
     name: 'IRIS',
     coinType: 566,
     passingVectors: [

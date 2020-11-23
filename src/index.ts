@@ -1007,6 +1007,26 @@ function aionEncoder(data: Buffer): string {
   return '0x'.concat(data.toString('hex'));
 }
 
+// Remove staring zeros from buffer
+function flowDecode(data: string): Buffer {
+  return Buffer.from(rskStripHexPrefix(data).replace(/^0+/, ''), 'hex');
+}
+
+// https://github.com/onflow/flow-go/blob/master/model/flow/address.go#L51
+// If b is larger than 8, b will be cropped from the left.
+// If b is smaller than 8, b will be appended by zeroes at the front.
+function flowEncode(data: Buffer): string {
+  const AddressLength = 8;
+  let addrBytes = Buffer.alloc(AddressLength, 0x00);
+
+  if (data.length > 8) {
+    addrBytes = data.slice(-8);
+  }
+  data.copy(addrBytes, AddressLength - data.length);
+
+  return '0x' + addrBytes.toString('hex').toUpperCase();
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -1081,6 +1101,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XHV', 535, xmrAddressEncoder, xmrAddressDecoder),
+  getConfig('FLOW', 539, flowEncode, flowDecode),
   bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   getConfig('SERO', 569, seroAddressEncoder, seroAddressDecoder),
