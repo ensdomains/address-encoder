@@ -36,6 +36,7 @@ This library currently supports the following cryptocurrencies and address forma
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
  - BPS (base58check P2PKH and P2SH)
+ - BSV (base58check)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
  - BTG (base58check P2PKH and P2SH, and bech32 segwit)
  - CCA (base58check P2PKH and P2SH)

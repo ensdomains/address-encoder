@@ -339,6 +339,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BSV',
+    coinType: 236,
+    passingVectors: [
+      { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '65a16059864a2fdbc7c99a4723a8395bc6f188eb' },
+      { text: '1Ax4gZtb7gAit2TivwejZHYtNNLT18PUXJ', hex: '6d23156cbbdcc82a5a47eee4c2c7c583c18b6bf4' },
+    ],
+  },
+  {
     name: 'NEO',
     coinType: 239,
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],

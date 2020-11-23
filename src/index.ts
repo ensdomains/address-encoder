@@ -603,6 +603,27 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function bsvAddresEncoder(data: Buffer): string {
+  const buf = Buffer.concat([Buffer.from([0]), data]);
+
+  return bs58Encode(buf);
+}
+
+function bsvAddressDecoder(data: string): Buffer {
+  const buf = bs58Decode(data);
+
+  if(buf.length !== 21) {
+    throw Error('Unrecognised address format');
+  }
+
+  const version = buf[0];
+  if(version !== 0x00){
+    throw Error('Invalid version byte');
+  }
+
+  return buf.slice(1);
+}
+
 function aeAddressEncoder(data: Buffer): string {
   return 'ak_' + bs58Encode(data.slice(2));
 }
@@ -679,6 +700,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   // getConfig('ALGO', 283, algoEncode, algoDecode),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
