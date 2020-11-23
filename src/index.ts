@@ -658,6 +658,30 @@ function nanoAddressDecoder(data: string): Buffer {
   return Buffer.from(decoded).slice(0, -5);
 }
 
+function aionDecoder(data: string): Buffer {
+  let address = data;
+
+  if (address == null || address.length === 0 || address.length < 64) {
+    throw Error('Unrecognised address format');
+  }
+
+  if (address.startsWith('0x')) {
+    address = address.slice(2);
+  }
+
+  if (address.startsWith('a0')) {
+    if (address.length !== 64 || !address.substring(2).match('^[0-9A-Fa-f]+$')) {
+      throw Error('Unrecognised address format');
+    }
+  }
+
+  return Buffer.from(address, 'hex');
+}
+
+function aionEncoder(data: Buffer): string {
+  return '0x'.concat(data.toString('hex'));
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -707,6 +731,7 @@ export const formats: IFormat[] = [
   bech32Chain('IOTX', 304, 'io'),
   bech32Chain('CKB', 309, 'ckb'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
+  getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
