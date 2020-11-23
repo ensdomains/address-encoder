@@ -553,6 +553,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BCD',
+    coinType: 999,
+    passingVectors: [
+      { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
+      { text: '3CMNFxN1oHBc4R1EpboAL5yzHGgE611Xou', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' },
+    ],
+  },
+  {
     name: 'ONE',
     coinType: 1023,
     passingVectors: [
