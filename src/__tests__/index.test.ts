@@ -290,6 +290,19 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BTG',
+    coinType: 156,
+    passingVectors: [
+      { text: 'GT7Hz8QWPNmrZ9Z1mEgpYKN7Jdp97eoQjN', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
+      { text : 'AQRA16uKrFpxzR17yidYtJDn2t287dc1XY', hex: 'a9145ece0cadddc415b1980f001785947120acdb36fc87' },
+      { text : 'btg1zw508d6qejxtdg4y5r3zarvaryv2eet8g', hex: '5210751e76e8199196d454941c45d1b3a323' },
+      { 
+        text : 'btg1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kc36v4c', 
+        hex: '5128751e76e8199196d454941c45d1b3a323f1433bd6751e76e8199196d454941c45d1b3a323f1433bd6' 
+      },
+    ],
+  },
+  {
     name: 'NANO',
     coinType: 165,
     passingVectors: [
@@ -334,6 +347,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BSV',
+    coinType: 236,
+    passingVectors: [
+      { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '65a16059864a2fdbc7c99a4723a8395bc6f188eb' },
+      { text: '1Ax4gZtb7gAit2TivwejZHYtNNLT18PUXJ', hex: '6d23156cbbdcc82a5a47eee4c2c7c583c18b6bf4' },
+    ],
+  },
+  {
     name: 'NEO',
     coinType: 239,
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
@@ -369,12 +390,29 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'CKB',
+    coinType: 309,
+    passingVectors: [
+      { text: 'ckb1qyqt8xaupvm8837nv3gtc9x0ekkj64vud3jqfwyw5v', hex: '0100b39bbc0b3673c7d36450bc14cfcdad2d559c6c64' },
+    ],
+  },
+  {
     name: 'DOT',
     coinType: 354,
     passingVectors: [
       {
         text: '1FRMM8PEiWXYax7rpS6X4XZX1aAAxSWx1CrKTyrVYhV24fg',
         hex: '0aff6865635ae11013a83835c019d44ec3f865145943f487ae82a8e7bed3a66b',
+      },
+    ],
+  },
+  {
+    name: 'AION',
+    coinType: 425,
+    passingVectors: [
+      {
+        text: '0xa0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
+        hex: 'a0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
       },
     ],
   },
@@ -394,6 +432,13 @@ const vectors: Array<TestVector> = [
         text: 'EDNfVHuNHrXsVTLMMNbp6Con5zESZJa3fkRc93AgahuMm99',
         hex: '487ee7e677203b4209af2ffaec0f5068033c870c97fee18b31b4aee524089943',
       },
+    ],
+  },
+  {
+    name: 'AE',
+    coinType: 457,
+    passingVectors: [
+      { text: 'ak_Gd6iMVsoonGuTF8LeswwDDN2NF5wYHAoTRtzwdEcfS32LWoxm', hex: '30782378f892b7cc82c2d2739e994ec9953aa36461f1eb5a4a49a5b0de17b3d23ae8' },
     ],
   },
   {
@@ -446,6 +491,13 @@ const vectors: Array<TestVector> = [
       { text: 'CNR8RPMxjY28VsPA6KFq3B8PUdZnrTSC5HSFwKPBR29Z', hex: 'a8ed08e3e8fe204de45e7295cc1ad53db096621b878f8c546e5c09f5e48f70b4' },
       // The old test case (same as TRON and NMC), only keep it for reference purpose.
       { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e13d6d96c2' }
+    ],
+  },
+  {
+    name: 'IRIS',
+    coinType: 566,
+    passingVectors: [
+      { text: 'iaa1k5y45px87c42ttxgk8x4y6w0y9gzgcwvvunht5', hex: 'b5095a04c7f62aa5acc8b1cd5269cf21502461cc' },
     ],
   },
   {
@@ -587,6 +639,14 @@ const vectors: Array<TestVector> = [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
   },
+  {
+    name: 'WICC',
+    coinType: 99999,
+    passingVectors: [
+      { text: 'WPCCQwJafaApw6482EkDR6V84arfa47VmT', hex: '76a91405b4701f113f51576fd7f6422dfe6ab00f41739488ac' },
+      { text: 'WV116oEVxKUzrafgcRZXCNdDN7r7hjt4xV', hex: '76a91445672c77361c4f90f95b7c4c721f375a6a99766888ac' }
+    ],
+  }
 ];
 
 var lastCointype = -1;
