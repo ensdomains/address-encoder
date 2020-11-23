@@ -346,6 +346,13 @@ const vectors: Array<TestVector> = [
   //   ],
   // },
   {
+    name: 'IOST',
+    coinType: 291,
+    passingVectors: [
+      { text: 'BkHuWzs6x2wUcuDwcodwQSaWUfZHiN7SfF3vBKy1U2Qg', hex: '9fabf5897177aabbd3c3d6052b351fe6c6c36d603dba257eb5bad3a17930ca39' },
+    ],
+  },
+  {
   name: 'DIVI',
     coinType: 301,
     passingVectors: [
@@ -358,13 +365,6 @@ const vectors: Array<TestVector> = [
     coinType: 304,
     passingVectors: [
       { text: 'io1nyjs526mnqcsx4twa7nptkg08eclsw5c2dywp4', hex: '99250a2b5b983103556eefa615d90f3e71f83a98'},
-    ],
-  },
-  {
-    name: 'IOST',
-    coinType: 291,
-    passingVectors: [
-      { text: 'BkHuWzs6x2wUcuDwcodwQSaWUfZHiN7SfF3vBKy1U2Qg', hex: '9fabf5897177aabbd3c3d6052b351fe6c6c36d603dba257eb5bad3a17930ca39' },
     ],
   },
   {
