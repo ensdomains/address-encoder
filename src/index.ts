@@ -658,6 +658,34 @@ function nanoAddressDecoder(data: string): Buffer {
   return Buffer.from(decoded).slice(0, -5);
 }
 
+function zenEncoder(data: Buffer): string {
+  if (
+    !data.slice(0, 2).equals(Buffer.from([0x20, 0x89])) && // zn
+    !data.slice(0, 2).equals(Buffer.from([0x1c, 0xb8])) && // t1
+    !data.slice(0, 2).equals(Buffer.from([0x20, 0x96])) && // zs
+    !data.slice(0, 2).equals(Buffer.from([0x1c, 0xbd])) && // t3
+    !data.slice(0, 2).equals(Buffer.from([0x16, 0x9a])) // zc
+  ) {
+    throw Error('Unrecognised address format');
+  }
+
+  return bs58Encode(data);
+}
+
+function zenDecoder(data: string): Buffer {
+  if (
+    !data.startsWith('zn') &&
+    !data.startsWith('zs') &&
+    !data.startsWith('zc') &&
+    !data.startsWith('t1') &&
+    !data.startsWith('t3')
+  ) {
+    throw Error('Unrecognised address format');
+  }
+
+  return bs58Decode(data);
+}
+
 function aionDecoder(data: string): Buffer {
   let address = data;
 
@@ -712,6 +740,7 @@ export const formats: IFormat[] = [
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
+  getConfig('ZEN', 121, zenEncoder, zenDecoder),
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
