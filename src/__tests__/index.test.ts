@@ -371,6 +371,16 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'AION',
+    coinType: 425,
+    passingVectors: [
+      {
+        text: '0xa0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
+        hex: 'a0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
+      },
+    ],
+  },
+  {
     name: 'KSM',
     coinType: 434,
     passingVectors: [
