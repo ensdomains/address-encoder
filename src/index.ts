@@ -532,6 +532,23 @@ function icxAddressDecoder(data: string): Buffer {
   }
 }
 
+function hntAddresEncoder(data: Buffer): string {
+  const buf = Buffer.concat([Buffer.from([0]), data]);
+
+  return bs58Encode(buf);
+}
+
+function hntAddressDecoder(data: string): Buffer {
+  const buf = bs58Decode(data);
+
+  const version = buf[0];
+  if(version !== 0x00){
+    throw Error('Invalid version byte');
+  }
+
+  return buf.slice(1);
+}
+
 function steemAddressEncoder(data: Buffer): string {  
   const RIPEMD160 = require('ripemd160');
 
@@ -777,6 +794,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
