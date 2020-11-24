@@ -8,7 +8,6 @@ import bigInt from 'big-integer';
 import { blake2b } from 'blakejs'
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
-import { sha512_256 } from 'js-sha512';
 import {
   b32decode,
   b32encode,
@@ -28,6 +27,7 @@ import {
   stripHexPrefix as rskStripHexPrefix,
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
+import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 
