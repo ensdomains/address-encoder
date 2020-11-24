@@ -171,6 +171,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'ZEN',
+    coinType: 121,
+    passingVectors: [
+      { text: 'znc3p7CFNTsz1s6CceskrTxKevQLPoDK4cK', hex: '20897843a3fcc6ab7d02d40946360c070b13cf7b9795' },
+      { text: 'zswRHzwXtwKVmP8ffKKgWz6A7TB97Fuzx7w', hex: '2096b9d286b397a019f3a41ea6495dbce88d753f28a3' },
+    ],
+  },
+  {
     name: 'ZEC',
     coinType: 133,
     passingVectors: [
@@ -282,6 +290,19 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BTG',
+    coinType: 156,
+    passingVectors: [
+      { text: 'GT7Hz8QWPNmrZ9Z1mEgpYKN7Jdp97eoQjN', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
+      { text : 'AQRA16uKrFpxzR17yidYtJDn2t287dc1XY', hex: 'a9145ece0cadddc415b1980f001785947120acdb36fc87' },
+      { text : 'btg1zw508d6qejxtdg4y5r3zarvaryv2eet8g', hex: '5210751e76e8199196d454941c45d1b3a323' },
+      { 
+        text : 'btg1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kc36v4c', 
+        hex: '5128751e76e8199196d454941c45d1b3a323f1433bd6751e76e8199196d454941c45d1b3a323f1433bd6' 
+      },
+    ],
+  },
+  {
     name: 'NANO',
     coinType: 165,
     passingVectors: [
@@ -326,6 +347,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BSV',
+    coinType: 236,
+    passingVectors: [
+      { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '65a16059864a2fdbc7c99a4723a8395bc6f188eb' },
+      { text: '1Ax4gZtb7gAit2TivwejZHYtNNLT18PUXJ', hex: '6d23156cbbdcc82a5a47eee4c2c7c583c18b6bf4' },
+    ],
+  },
+  {
     name: 'NEO',
     coinType: 239,
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
@@ -346,6 +375,13 @@ const vectors: Array<TestVector> = [
   //   ],
   // },
   {
+    name: 'IOST',
+    coinType: 291,
+    passingVectors: [
+      { text: 'BkHuWzs6x2wUcuDwcodwQSaWUfZHiN7SfF3vBKy1U2Qg', hex: '9fabf5897177aabbd3c3d6052b351fe6c6c36d603dba257eb5bad3a17930ca39' },
+    ],
+  },
+  {
   name: 'DIVI',
     coinType: 301,
     passingVectors: [
@@ -361,12 +397,29 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'CKB',
+    coinType: 309,
+    passingVectors: [
+      { text: 'ckb1qyqt8xaupvm8837nv3gtc9x0ekkj64vud3jqfwyw5v', hex: '0100b39bbc0b3673c7d36450bc14cfcdad2d559c6c64' },
+    ],
+  },
+  {
     name: 'DOT',
     coinType: 354,
     passingVectors: [
       {
         text: '1FRMM8PEiWXYax7rpS6X4XZX1aAAxSWx1CrKTyrVYhV24fg',
         hex: '0aff6865635ae11013a83835c019d44ec3f865145943f487ae82a8e7bed3a66b',
+      },
+    ],
+  },
+  {
+    name: 'AION',
+    coinType: 425,
+    passingVectors: [
+      {
+        text: '0xa0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
+        hex: 'a0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
       },
     ],
   },
@@ -448,6 +501,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'IRIS',
+    coinType: 566,
+    passingVectors: [
+      { text: 'iaa1k5y45px87c42ttxgk8x4y6w0y9gzgcwvvunht5', hex: 'b5095a04c7f62aa5acc8b1cd5269cf21502461cc' },
+    ],
+  },
+  {
     name: 'LRG',
     coinType: 568,
     passingVectors: [
@@ -461,6 +521,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'XVVxhJAGNXP32xAcfCm1mVDLs5dCeodLjL', hex: 'a914c7188637dfd328e6911d63da67cdbea52507dd3087' },
       { text: 'XKcgJ1jyjwbGCE7wT6GRMKZGjFrkNs2sLb', hex: 'a9145aac7ca95006faf9244907af1e2b873a6a58e1af87' },
+    ],
+  },
+  {
+    name: 'SRM',
+    coinType: 573,
+    passingVectors: [
+      { text: '6ZRCB7AAqGre6c72PRz3MHLC73VMYvJ8bi9KHf1HFpNk', hex: '52986010573739df4b58ba50e39cf3f335b89cc7d1cb1d32b5de04efa068c939' },
     ],
   },
   {
@@ -508,6 +575,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {  
+    name: 'BCD',
+    coinType: 999,
+    passingVectors: [
+      { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
+      { text: '3CMNFxN1oHBc4R1EpboAL5yzHGgE611Xou', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' },
+    ],
+  },
+  {
     name: 'ONE',
     coinType: 1023,
     passingVectors: [
