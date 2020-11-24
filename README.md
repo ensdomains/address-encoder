@@ -86,6 +86,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TRX (base58check)
  - VET (checksummed-hex)
+ - VLX (base58, no check)
  - WICC (base58check P2PKH and P2SH)
  - XDAI (checksummed-hex)
  - XLM (ed25519 public key)
