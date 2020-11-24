@@ -559,6 +559,20 @@ function steemAddressDecoder(data: string): Buffer {
   return Buffer.from(key);
 }
 
+function wavesAddressDecoder(data: string): Buffer {
+  const buffer = bs58DecodeNoCheck(data);
+
+  if(buffer[0] !== 1) {
+    throw Error('Bad program version');
+  }
+
+  if (buffer[1] !== 87 || buffer.length !== 26) {
+    throw Error('Unrecognised address format');
+  }
+
+  return buffer;
+}
+
 const AlgoChecksumByteLength = 4;
 const AlgoAddressByteLength = 36;
 
@@ -661,7 +675,7 @@ const formats: IFormat[] = [
   },
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('CELO', 52752),
-  getConfig('WAVES', 5741564, bs58EncodeNoCheck, bs58DecodeNoCheck),
+  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
