@@ -359,21 +359,20 @@ const vectors: Array<TestVector> = [
     coinType: 239,
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
   },
-  // Disabled for now as it was not working on the browser
-  // {
-  //   name: 'ALGO',
-  //   coinType: 283,
-  //   passingVectors: [
-  //     {
-  //       text: '7777777777777777777777777777777777777777777777777774MSJUVU',
-  //       hex: 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
-  //     },
-  //     {
-  //       text: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ',
-  //       hex: '0000000000000000000000000000000000000000000000000000000000000000',
-  //     },
-  //   ],
-  // },
+  {
+    name: 'ALGO',
+    coinType: 283,
+    passingVectors: [
+      {
+        text: '7777777777777777777777777777777777777777777777777774MSJUVU',
+        hex: 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
+      },
+      {
+        text: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ',
+        hex: '0000000000000000000000000000000000000000000000000000000000000000',
+      },
+    ],
+  },
   {
     name: 'IOST',
     coinType: 291,

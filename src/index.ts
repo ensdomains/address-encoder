@@ -8,7 +8,7 @@ import bigInt from 'big-integer';
 import { blake2b } from 'blakejs'
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
-import { createHash } from 'crypto';
+import { sha512_256 } from 'js-sha512';
 import {
   b32decode,
   b32encode,
@@ -567,9 +567,9 @@ const AlgoAddressByteLength = 36;
 
 // Returns 4 last byte (8 chars) of sha512_256(publicKey)
 function algoChecksum(pk: Buffer): string {
-  return createHash('SHA512-256')
+  return sha512_256
     .update(pk)
-    .digest('hex')
+    .hex()
     .substr(-AlgoChecksumByteLength * 2);
 }
 
@@ -755,7 +755,7 @@ export const formats: IFormat[] = [
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
-  // getConfig('ALGO', 283, algoEncode, algoDecode),
+  getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('IOST', 291, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   bech32Chain('IOTX', 304, 'io'),
