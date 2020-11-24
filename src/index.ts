@@ -603,6 +603,35 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function bsvAddresEncoder(data: Buffer): string {
+  const buf = Buffer.concat([Buffer.from([0]), data]);
+
+  return bs58Encode(buf);
+}
+
+function bsvAddressDecoder(data: string): Buffer {
+  const buf = bs58Decode(data);
+
+  if(buf.length !== 21) {
+    throw Error('Unrecognised address format');
+  }
+
+  const version = buf[0];
+  if(version !== 0x00){
+    throw Error('Invalid version byte');
+  }
+
+  return buf.slice(1);
+}
+
+function aeAddressEncoder(data: Buffer): string {
+  return 'ak_' + bs58Encode(data.slice(2));
+}
+
+function aeAddressDecoder(data: string): Buffer {
+  return Buffer.concat([Buffer.from('0x'), bs58Decode(data.split('_')[1])]);
+}
+
 function arkAddressDecoder(data: string): Buffer {
   const buffer = bs58Decode(data);
 
@@ -627,6 +656,58 @@ function nanoAddressDecoder(data: string): Buffer {
   const decoded = nanoBase32Decode(data.slice(5));
   
   return Buffer.from(decoded).slice(0, -5);
+}
+
+function zenEncoder(data: Buffer): string {
+  if (
+    !data.slice(0, 2).equals(Buffer.from([0x20, 0x89])) && // zn
+    !data.slice(0, 2).equals(Buffer.from([0x1c, 0xb8])) && // t1
+    !data.slice(0, 2).equals(Buffer.from([0x20, 0x96])) && // zs
+    !data.slice(0, 2).equals(Buffer.from([0x1c, 0xbd])) && // t3
+    !data.slice(0, 2).equals(Buffer.from([0x16, 0x9a])) // zc
+  ) {
+    throw Error('Unrecognised address format');
+  }
+
+  return bs58Encode(data);
+}
+
+function zenDecoder(data: string): Buffer {
+  if (
+    !data.startsWith('zn') &&
+    !data.startsWith('zs') &&
+    !data.startsWith('zc') &&
+    !data.startsWith('t1') &&
+    !data.startsWith('t3')
+  ) {
+    throw Error('Unrecognised address format');
+  }
+
+  return bs58Decode(data);
+}
+
+function aionDecoder(data: string): Buffer {
+  let address = data;
+
+  if (address == null || address.length === 0 || address.length < 64) {
+    throw Error('Unrecognised address format');
+  }
+
+  if (address.startsWith('0x')) {
+    address = address.slice(2);
+  }
+
+  if (address.startsWith('a0')) {
+    if (address.length !== 64 || !address.substring(2).match('^[0-9A-Fa-f]+$')) {
+      throw Error('Unrecognised address format');
+    }
+  }
+
+  return Buffer.from(address, 'hex');
+}
+
+function aionEncoder(data: Buffer): string {
+  return '0x'.concat(data.toString('hex'));
 }
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
@@ -659,6 +740,7 @@ export const formats: IFormat[] = [
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
+  getConfig('ZEN', 121, zenEncoder, zenDecoder),
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
@@ -666,19 +748,25 @@ export const formats: IFormat[] = [
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
+  bitcoinChain('BTG', 156, 'btg', [[0x26]], [[0x17]]),
   getConfig('NANO', 165, nanoAddressEncoder, nanoAddressDecoder),
   bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   // getConfig('ALGO', 283, algoEncode, algoDecode),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   bech32Chain('IOTX', 304, 'io'),
+  bech32Chain('CKB', 309, 'ckb'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
+  getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
+  bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),
   getConfig('VLX', 574, bs58EncodeNoCheck, bs58DecodeNoCheck),
@@ -687,6 +775,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
@@ -707,6 +796,7 @@ export const formats: IFormat[] = [
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('NRG', 9797),
   hexChecksumChain('CELO', 52752),
+  bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

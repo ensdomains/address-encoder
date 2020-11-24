@@ -29,16 +29,22 @@ console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 This library currently supports the following cryptocurrencies and address formats (ordered alphabetically):
 
  - ADA (bech32)
+ - AE (base58check)
  - AIB (base58check P2PKH and P2SH)
+ - AION (hex)
  - ARK (base58check)
  - ATOM (bech32)
+ - BCD (base58check P2PKH and P2SH, and bech32 segwit)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
  - BPS (base58check P2PKH and P2SH)
+ - BSV (base58check)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
+ - BTG (base58check P2PKH and P2SH, and bech32 segwit)
  - CCA (base58check P2PKH and P2SH)
  - CCXX (base58check P2PKH and P2SH, and bech32 segwit)
  - CELO (checksummed-hex)
+ - CKB (bech32)
  - DASH (base58check P2PKH and P2SH)
  - DCR (base58, no check)
  - DIVI (base58check P2PKH and P2SH)
@@ -55,6 +61,7 @@ This library currently supports the following cryptocurrencies and address forma
  - HNS
  - ICX
  - IOTX (bech32)
+ - IRIS (bech32)
  - KSM (ss58)
  - LRG (base58check P2PKH and P2SH)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
@@ -75,12 +82,14 @@ This library currently supports the following cryptocurrencies and address forma
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TRX (base58check)
  - VET (checksummed-hex)
- - VLX (base58)
+ - VLX (base58, no check)
+ - WICC (base58check P2PKH and P2SH)
  - XDAI (checksummed-hex)
  - XLM (ed25519 public key)
  - XRP (base58check-ripple)
  - XTZ (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
+ - ZEN (base58 check)
  - ZIL (bech32)
  
 PRs to add additional chains and address types are welcome.
