@@ -54,7 +54,7 @@ This library currently supports the following cryptocurrencies and address forma
  - HIVE (base58+ripemd160-checksum)
  - HNS
  - ICX
- - IOST (base58)
+ - IOST (base58, no check)
  - IOTX (bech32)
  - KSM (ss58)
  - LRG (base58check P2PKH and P2SH)
