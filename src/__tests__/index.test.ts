@@ -441,13 +441,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'TFUEL',
-    coinType: 570,
-    passingVectors: [
-      { text: '0x3599CF49e80A01BCb879A19599C8a6cd8C8d9aa6', hex: '3599cf49e80a01bcb879a19599c8a6cd8c8d9aa6' },
-    ],
-  },
-  {
     name: 'CCXX',
     coinType: 571,
     passingVectors: [
@@ -461,6 +454,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
       { text: '3CMNFxN1oHBc4R1EpboAL5yzHGgE611Xou', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' },
+    ],
+  },
+  {
+    name: 'TFUEL',
+    coinType: 589,
+    passingVectors: [
+      { text: '0x3599CF49e80A01BCb879A19599C8a6cd8C8d9aa6', hex: '3599cf49e80a01bcb879a19599c8a6cd8c8d9aa6' },
     ],
   },
   {
