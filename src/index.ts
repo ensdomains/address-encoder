@@ -769,6 +769,7 @@ export const formats: IFormat[] = [
   bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),
+  getConfig('SRM', 573, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),

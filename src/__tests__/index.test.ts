@@ -517,6 +517,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'SRM',
+    coinType: 573,
+    passingVectors: [
+      { text: '6ZRCB7AAqGre6c72PRz3MHLC73VMYvJ8bi9KHf1HFpNk', hex: '52986010573739df4b58ba50e39cf3f335b89cc7d1cb1d32b5de04efa068c939' },
+    ],
+  },
+  {
     name: 'BPS',
     coinType: 576,
     passingVectors: [
