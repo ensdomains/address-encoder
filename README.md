@@ -59,6 +59,7 @@ This library currently supports the following cryptocurrencies and address forma
  - HBAR
  - HIVE (base58+ripemd160-checksum)
  - HNS
+ - HNT (base58check)
  - ICX
  - IOST (base58, no check)
  - IOTX (bech32)
@@ -66,6 +67,7 @@ This library currently supports the following cryptocurrencies and address forma
  - KSM (ss58)
  - LRG (base58check P2PKH and P2SH)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
+ - LUNA (bech32)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NANO (nano-base32)
  - NEM(XEM) (base32)
@@ -84,6 +86,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TRX (base58check)
  - VET (checksummed-hex)
+ - VLX (base58, no check)
  - WAVES (base58)
  - WICC (base58check P2PKH and P2SH)
  - XDAI (checksummed-hex)

@@ -532,6 +532,23 @@ function icxAddressDecoder(data: string): Buffer {
   }
 }
 
+function hntAddresEncoder(data: Buffer): string {
+  const buf = Buffer.concat([Buffer.from([0]), data]);
+
+  return bs58Encode(buf);
+}
+
+function hntAddressDecoder(data: string): Buffer {
+  const buf = bs58Decode(data);
+
+  const version = buf[0];
+  if(version !== 0x00){
+    throw Error('Invalid version byte');
+  }
+
+  return buf.slice(1);
+}
+
 function steemAddressEncoder(data: Buffer): string {  
   const RIPEMD160 = require('ripemd160');
 
@@ -785,6 +802,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   bech32Chain('IOTX', 304, 'io'),
   bech32Chain('CKB', 309, 'ckb'),
+  bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
@@ -796,11 +814,13 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),
   getConfig('SRM', 573, bs58EncodeNoCheck, bs58DecodeNoCheck),
+  getConfig('VLX', 574, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
