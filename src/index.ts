@@ -560,6 +560,9 @@ function steemAddressDecoder(data: string): Buffer {
 }
 
 function wavesAddressDecoder(data: string): Buffer {
+  const blake = require('blakejs');
+  const { Keccak } = require('sha3');
+
   const buffer = bs58DecodeNoCheck(data);
 
   if(buffer[0] !== 1) {
@@ -568,6 +571,14 @@ function wavesAddressDecoder(data: string): Buffer {
 
   if (buffer[1] !== 87 || buffer.length !== 26) {
     throw Error('Unrecognised address format');
+  }
+
+  const bufferData = buffer.slice(0, 22);
+  const checksum = buffer.slice(22, 26);
+  const checksumVerify = (new Keccak(256).update(Buffer.from(blake.blake2b(bufferData, null, 32))).digest()).slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
   }
 
   return buffer;
