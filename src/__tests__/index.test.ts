@@ -375,6 +375,13 @@ const vectors: Array<TestVector> = [
   //   ],
   // },
   {
+    name: 'IOST',
+    coinType: 291,
+    passingVectors: [
+      { text: 'BkHuWzs6x2wUcuDwcodwQSaWUfZHiN7SfF3vBKy1U2Qg', hex: '9fabf5897177aabbd3c3d6052b351fe6c6c36d603dba257eb5bad3a17930ca39' },
+    ],
+  },
+  {
   name: 'DIVI',
     coinType: 301,
     passingVectors: [
@@ -394,6 +401,13 @@ const vectors: Array<TestVector> = [
     coinType: 309,
     passingVectors: [
       { text: 'ckb1qyqt8xaupvm8837nv3gtc9x0ekkj64vud3jqfwyw5v', hex: '0100b39bbc0b3673c7d36450bc14cfcdad2d559c6c64' },
+    ],
+  },
+  {
+    name: 'LUNA',
+    coinType: 330,
+    passingVectors: [
+      { text: 'terra1pdx498r0hrc2fj36sjhs8vuhrz9hd2cw0tmam9', hex: '0b4d529c6fb8f0a4ca3a84af03b397188b76ab0e' },
     ],
   },
   {
@@ -517,11 +531,18 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'SRM',
+    coinType: 573,
+    passingVectors: [
+      { text: '6ZRCB7AAqGre6c72PRz3MHLC73VMYvJ8bi9KHf1HFpNk', hex: '52986010573739df4b58ba50e39cf3f335b89cc7d1cb1d32b5de04efa068c939' },
+    ],
+  },
+  {
     name: 'VLX',
     coinType: 574,
     passingVectors: [
       { text: 'VDTHiswjSTkLFbfh2S5XFsqkLzC11HoBD6', hex: '461ea68e5e13c72abf1bd2f0bcae4650521712cdb76276f0d5' },
-    ],
+    ]
   },
   {
     name: 'BPS',
