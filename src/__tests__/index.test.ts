@@ -696,6 +696,13 @@ const vectors: Array<TestVector> = [
       { text: 'WPCCQwJafaApw6482EkDR6V84arfa47VmT', hex: '76a91405b4701f113f51576fd7f6422dfe6ab00f41739488ac' },
       { text: 'WV116oEVxKUzrafgcRZXCNdDN7r7hjt4xV', hex: '76a91445672c77361c4f90f95b7c4c721f375a6a99766888ac' }
     ],
+  },
+  {
+    name: 'WAVES',
+    coinType: 5741564,
+    passingVectors: [
+      { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
+    ],
   }
 ];
 
