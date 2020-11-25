@@ -84,6 +84,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SRM (base58, no check)
  - STEEM (base58+ripemd160-checksum)
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
+ - TFUEL (checksummed-hex)
  - TRX (base58check)
  - VET (checksummed-hex)
  - VLX (base58, no check)
