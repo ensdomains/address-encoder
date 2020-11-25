@@ -233,6 +233,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'KMD',
+    coinType: 141,
+    passingVectors: [
+      { text: 'RDNC9mLrN48pVGDQ5jSoPb2nRsUPJ5t2R7', hex: '76a9142cd2a4e3d1c2738ee4fce61e73ea822dcaacb9b488ac' },
+    ],
+  },
+  {
     name: 'XRP',
     coinType: 144,
     passingVectors: [

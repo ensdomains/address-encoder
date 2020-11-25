@@ -64,6 +64,7 @@ This library currently supports the following cryptocurrencies and address forma
  - IOST (base58, no check)
  - IOTX (bech32)
  - IRIS (bech32)
+ - KMD (base58check)
  - KSM (ss58)
  - LRG (base58check P2PKH and P2SH)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
