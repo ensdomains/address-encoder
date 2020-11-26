@@ -600,6 +600,25 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function arAddressEncoder(data: Buffer): string {
+  return data.toString('base64')
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/\=/g, "");
+}
+
+function arAddressDecoder(data: string): Buffer {
+  data = data.replace(/\-/g, "+").replace(/\_/g, "/");
+
+  const padding = data.length % 4 === 0
+    ? 0
+    : 4 - (data.length % 4);
+
+  data = data.concat("=".repeat(padding));
+
+  return Buffer.from(data, 'base64');
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -639,6 +658,7 @@ const formats: IFormat[] = [
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
+  getConfig('AR', 472, arAddressEncoder, arAddressDecoder),
   getConfig('SOL', 501, bs58Encode, bs58Decode),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
