@@ -35,6 +35,7 @@ This library currently supports the following cryptocurrencies and address forma
  - AR (base64url)
  - ARK (base58check)
  - ATOM (bech32)
+ - AVAX (bech32)
  - BCD (base58check P2PKH and P2SH, and bech32 segwit)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
