@@ -30,6 +30,8 @@ import {
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import { Keccak } from 'sha3';
+import  ripemd160  from 'ripemd160';
+import { cry } from 'thor-devkit';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
@@ -498,48 +500,30 @@ function seroAddressDecoder(data: string): Buffer {
 }
 
 function calcCheckSum(withoutChecksum: Buffer): Buffer {
-  const HASH = require('thor-devkit');
-  const ChecksumLength: number = 4;
-
-  const blake2b256ed = HASH.cry.blake2b256(withoutChecksum);
-  const keccak256ed = HASH.cry.keccak256(blake2b256ed);
-  return keccak256ed.slice(0,  ChecksumLength); 
+  const keccak256ed = cry.keccak256(cry.blake2b256(withoutChecksum));
+  return keccak256ed.slice(0,  4); 
 }
 
 function isByteArrayValid(addressBytes: Buffer): boolean {
-  const AddressVersion: number = 5;
-  const AddressLength: number = 26;
-  const ChecksumLength: number = -4;
-  const version = addressBytes.readInt8(0);
-  const network = addressBytes.readInt8(1);
-  
-  if(version !== AddressVersion) {
+  // "M" for mainnet, "T" for test net. Just limited to mainnet
+  if(addressBytes.readInt8(0) !== 5 || addressBytes.readInt8(1) !== "M".charCodeAt(0) || addressBytes.length !== 26) {
     return false;
   }
 
-  //"M" for mainnet, "T" for test net. Just limited to mainnet
-  if(network !== "M".charCodeAt(0)) {
-    return false;
-  }
+  const checkSum = addressBytes.slice(-4);
+  const generated = calcCheckSum(addressBytes.slice(0 , -4));
 
-  if(addressBytes.length !== AddressLength) {
-    return false;
-  }
-
-  const checkSum = addressBytes.slice(ChecksumLength);
-  const checkSumGenerated = calcCheckSum(addressBytes.slice(0 , ChecksumLength));
-
-  return checkSum.equals(checkSumGenerated);
-
+  return checkSum.equals(generated);
 }
-//https://github.com/virtualeconomy/v-systems/blob/master/src/main/scala/vsys/account/Address.scala
+
+// Reference:
+// https://github.com/virtualeconomy/v-systems/blob/master/src/main/scala/vsys/account/Address.scala
 function vsysAddressDecoder(data: string): Buffer {
   let base58String = data;
-  const AddressStringLength = 36;
   if(data.startsWith('address:')){
     base58String = data.substr(data.length);
   }
-  if(base58String.length > AddressStringLength) {
+  if(base58String.length > 36) {
     throw new Error('Address length should not be more than 36');
   }
   const bytes = bs58DecodeNoCheck(base58String);
