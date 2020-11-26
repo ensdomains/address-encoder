@@ -465,7 +465,7 @@ function liskAddressDecoder(data: string): Buffer {
 
   return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
 }
-  
+
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
 function hnsAddressEncoder(data: Buffer): string {
@@ -549,7 +549,7 @@ function hntAddressDecoder(data: string): Buffer {
   return buf.slice(1);
 }
 
-function steemAddressEncoder(data: Buffer): string {  
+function steemAddressEncoder(data: Buffer): string {
   const RIPEMD160 = require('ripemd160');
 
   const checksum = new RIPEMD160().update(data).digest();
@@ -690,13 +690,13 @@ function nanoAddressEncoder(data: Buffer): string {
   const checksumEncoded = nanoBase32Encode(checksum);
 
   const address = `nano_${encoded}${checksumEncoded}`;
-  
+
   return address;
 }
 
 function nanoAddressDecoder(data: string): Buffer {
   const decoded = nanoBase32Decode(data.slice(5));
-  
+
   return Buffer.from(decoded).slice(0, -5);
 }
 
@@ -822,6 +822,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  hexChecksumChain('TOMO', 889),
   getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   bech32Chain('ONE', 1023, 'one'),

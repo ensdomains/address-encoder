@@ -303,9 +303,9 @@ const vectors: Array<TestVector> = [
       { text: 'GT7Hz8QWPNmrZ9Z1mEgpYKN7Jdp97eoQjN', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
       { text : 'AQRA16uKrFpxzR17yidYtJDn2t287dc1XY', hex: 'a9145ece0cadddc415b1980f001785947120acdb36fc87' },
       { text : 'btg1zw508d6qejxtdg4y5r3zarvaryv2eet8g', hex: '5210751e76e8199196d454941c45d1b3a323' },
-      { 
-        text : 'btg1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kc36v4c', 
-        hex: '5128751e76e8199196d454941c45d1b3a323f1433bd6751e76e8199196d454941c45d1b3a323f1433bd6' 
+      {
+        text : 'btg1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kc36v4c',
+        hex: '5128751e76e8199196d454941c45d1b3a323f1433bd6751e76e8199196d454941c45d1b3a323f1433bd6'
       },
     ],
   },
@@ -313,9 +313,9 @@ const vectors: Array<TestVector> = [
     name: 'NANO',
     coinType: 165,
     passingVectors: [
-      { 
-        text: 'nano_15dng9kx49xfumkm4q6qpaxneie6oynebiwpums3ktdd6t3f3dhp69nxgb38', 
-        hex: '0d7471e5d11faddce5315c97b23b464184afa8c4c396dcf219696b2682d0adf6' 
+      {
+        text: 'nano_15dng9kx49xfumkm4q6qpaxneie6oynebiwpums3ktdd6t3f3dhp69nxgb38',
+        hex: '0d7471e5d11faddce5315c97b23b464184afa8c4c396dcf219696b2682d0adf6'
       },
       {
         text: 'nano_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs',
@@ -594,6 +594,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'TOMO',
+    coinType: 889,
+    passingVectors: [
+      { text: '0xf5C9206843DAe847DdFd551ef7b850895430EcA3', hex: 'f5c9206843dae847ddfd551ef7b850895430eca3' },
+      { text: '0x15813DAE07E373DC800690031A1385eB7faDe49F', hex: '15813dae07e373dc800690031a1385eb7fade49f' },
+    ],
+  },
+  {
     name: 'HNT',
     coinType: 904,
     passingVectors: [
@@ -601,7 +609,7 @@ const vectors: Array<TestVector> = [
       { text: '112qB3YaH5bZkCnKA5uRH7tBtGNv2Y5B4smv1jsmvGUzgKT71QpE', hex: '00f11444921875e2ef7435513a1d1f1b0fa49e3242956a24383912ec5d4f194077' },
     ],
   },
-  {  
+  {
     name: 'BCD',
     coinType: 999,
     passingVectors: [
