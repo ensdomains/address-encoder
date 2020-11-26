@@ -602,6 +602,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+<<<<<<< HEAD
     name: 'HNT',
     coinType: 904,
     passingVectors: [
@@ -625,6 +626,8 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+=======
+>>>>>>> 6158ae1... reorder by coin type
     name: 'ONT',
     coinType: 1024,
     passingVectors: [
