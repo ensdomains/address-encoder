@@ -29,8 +29,8 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
-import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import  ripemd160  from 'ripemd160';
+import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
