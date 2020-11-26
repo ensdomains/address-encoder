@@ -602,6 +602,103 @@ function wavesAddressDecoder(data: string): Buffer {
   }
 
   return buffer;
+
+}
+
+const glog = [0, 0, 1, 18, 2, 5, 19, 11, 3, 29, 6, 27, 20, 8, 12, 23, 4, 10, 30, 17, 7, 22, 28, 26, 21, 25, 9, 16, 13, 14, 24, 15];
+const gexp = [1, 2, 4, 8, 16, 5, 10, 20, 13, 26, 17, 7, 14, 28, 29, 31, 27, 19, 3, 6, 12, 24, 21, 15, 30, 25, 23, 11, 22, 9, 18, 1];
+function gmult(a: number, b: number): number {
+  if (a === 0 || b === 0) {return 0;}
+
+  return gexp[(glog[a] + glog[b]) % 31];
+}
+
+function ardrCheckSum(codeword: number[]): boolean {
+  let sum = 0;
+
+  for (let i = 1; i < 5; i++) {
+    let t = 0;
+    for (let j = 0; j < 31; j++) {
+      if (j > 12 && j < 27) {continue;}
+
+      let pos = j;
+      if (j > 26) {pos -= 14;}
+
+      // tslint:disable-next-line:no-bitwise
+      t ^= gmult(codeword[pos], gexp[(i * j) % 31]);
+    
+  }
+    // tslint:disable-next-line:no-bitwise
+    sum |= t;
+
+  }
+  return sum === 0;
+}
+
+const alphabet = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+const cwmap = [3, 2, 1, 0, 7, 6, 5, 4, 13, 14, 15, 16, 12, 8, 9, 10, 11];
+
+function ardrAddressDecoder(data: string): Buffer {
+  const codeword = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  data = data.replace(/(^\s+)|(\s+$)/g, '').toUpperCase();
+  const prefix = data.slice(0, 5);
+  if (prefix !== 'ARDOR' || data.split("-").length !== 5) {
+    throw Error('Unrecognised address format');
+  } else {
+    data = data.substr(data.indexOf("-"));
+  }
+
+  const clean = [];
+  let count = 0;
+
+  for (const char of data) {
+    const pos = alphabet.indexOf(char);
+
+    if (pos >= 0) {
+      clean[count++] = pos;
+      if (count > 17) {
+        throw Error('Unrecognised address format');    
+      }
+    }
+  }
+
+  for (let i = 0, j = 0; i < count; i++) {
+    codeword[cwmap[j++]] = clean[i];
+  }
+  
+  if (!ardrCheckSum(codeword)) {
+    throw Error('Unrecognised address format');
+  }
+
+  return Buffer.from(codeword);
+}
+
+
+function ardrAddressEncoder(data: Buffer): string {
+  const dataStr = data.toString('hex');
+  const arr = [];
+  
+  for(let i = 0, j = 0; i < dataStr.length; i = i + 2) {
+    arr[cwmap[j++]] = 16 * parseInt(dataStr[i], 16) + parseInt(dataStr[i + 1], 16);
+  }
+
+  let acc = "";
+  const rtn = [];
+  for(let i = 0; i < 17; i++) {
+    if(arr[i] >= alphabet.length || arr.length !== 17) {
+      throw Error('Unrecognised address format');
+    }
+    acc += alphabet[arr[i]];
+
+    if(i < 12 && (i + 1) % 4 === 0 || i === 16 ) {
+      rtn.push(acc);
+      acc = "";
+    } 
+
+  }
+  return `ARDOR-${rtn.join("-")}`;
+
 }
 
 const AlgoChecksumByteLength = 4;
@@ -866,6 +963,7 @@ export const formats: IFormat[] = [
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
+  getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),

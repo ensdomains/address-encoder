@@ -719,6 +719,13 @@ const vectors: Array<TestVector> = [
     coinType: 9797,
     passingVectors: [
       { text: '0x7e534bc64A80e56dB3eEDBd1b54639C3A9a7CDEA', hex: '7e534bc64a80e56db3eedbd1b54639c3a9a7cdea' },
+    ]
+  },
+  {
+    name: 'ARDR',
+    coinType: 16754,
+    passingVectors: [
+      { text: 'ARDOR-MT4P-AHG4-A4NA-CCMM2', hex: '15021913020e0f080a1313000a08021408' },
     ],
   },
   {
