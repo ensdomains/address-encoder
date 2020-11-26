@@ -88,6 +88,7 @@ This library currently supports the following cryptocurrencies and address forma
  - STEEM (base58+ripemd160-checksum)
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TFUEL (checksummed-hex)
+ - TOMO (checksummed-hex)
  - TRX (base58check)
  - VET (checksummed-hex)
  - VLX (base58, no check)
@@ -100,5 +101,5 @@ This library currently supports the following cryptocurrencies and address forma
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZEN (base58 check)
  - ZIL (bech32)
- 
+
 PRs to add additional chains and address types are welcome.
