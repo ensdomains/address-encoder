@@ -28,7 +28,7 @@ function hexToBin(hex: string) {
 
 function binToHex(bin: string | any[] | Uint8Array) {
   const out = [];
-  for(let i of Object.keys(bin)) {
+  for(const i of Object.keys(bin)) {
     out.push(("0" + bin[Number(i)].toString(16)).slice(-2));
   }
   return out.join("");
@@ -44,7 +44,7 @@ function strToBin(str: string) {
 
 function binToStr(bin: string | any[] | Uint8Array) {
   const out = [];
-  for(let i of Object.keys(bin)) {
+  for(const i of Object.keys(bin)) {
     out.push(String.fromCharCode(bin[Number(i)]));
   }
   return out.join("");
@@ -94,7 +94,7 @@ function uint64ToBe8(num: { remainder: (arg0: any) => any; divide: (arg0: any) =
   return res;
 }
 
-b58.encodeBlock = function (data: string | any[], buf: { [x: string]: number; }, index: number) {
+b58.encodeBlock = (data: string | any[], buf: { [x: string]: number; }, index: number) => {
   if (data.length < 1 || data.length > fullEncodedBlockSize) {
     throw Error("Invalid block length: " + data.length);
   }
@@ -113,7 +113,7 @@ b58.encodeBlock = function (data: string | any[], buf: { [x: string]: number; },
   return buf;
 };
 
-b58.decodeBlock = function (data: string | any[], buf: { set: (arg0: Uint8Array, arg1: any) => void; }, index: any) {
+b58.decodeBlock = (data: string | any[], buf: { set: (arg0: Uint8Array, arg1: any) => void; }, index: any) => {
   if (data.length < 1 || data.length > fullEncodedBlockSize) {
     throw Error("Invalid block length: " + data.length);
   }
