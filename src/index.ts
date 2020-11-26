@@ -832,6 +832,7 @@ export const formats: IFormat[] = [
     encoder: tezosAddressEncoder,
     name: 'XTZ',
   },
+  bech32Chain('ADA', 1815, 'addr'),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
   {
