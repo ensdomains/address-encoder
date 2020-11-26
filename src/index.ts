@@ -841,7 +841,7 @@ export const formats: IFormat[] = [
     encoder: hederaAddressEncoder,
     name: 'HBAR',
   },
-  getConfig('MIOTA', 4218, bs58Encode, bs58Decode),
+  getConfig('IOTA', 4218, bs58Encode, bs58Decode),
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('NRG', 9797),
   hexChecksumChain('CELO', 52752),
