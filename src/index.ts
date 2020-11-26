@@ -474,13 +474,12 @@ function seroAddressEncoder(data: Buffer): string {
 }
 
 function seroAddressDecoder(data: string): Buffer {
-  if (/^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$/i.test(data)) {
-    const bytes = bs58DecodeNoCheck(data);
-    if (bytes.length === 96) {
-      return  bytes;
-    }
+  const bytes = bs58DecodeNoCheck(data);
+  if (bytes.length === 96) {
+    return  bytes;
   }
   throw Error('Unrecognised address format');
+ 
 }
 
 // Reference:
