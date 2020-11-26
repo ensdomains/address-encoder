@@ -29,6 +29,7 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
+import  ripemd160  from 'ripemd160';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 
 type EnCoder = (data: Buffer) => string;
@@ -549,7 +550,36 @@ function hntAddressDecoder(data: string): Buffer {
   return buf.slice(1);
 }
 
-function steemAddressEncoder(data: Buffer): string {
+// Referenced from following
+// https://github.com/gxchain/gxb-core/blob/dev_master/libraries/chain/protocol/address.cpp
+function gxcAddressEncoder(data: Buffer): string {  
+  const checksum = new ripemd160().update(data).digest();
+
+  return 'GXC' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
+}
+
+function gxcAddressDecoder(data: string): Buffer {
+  const prefix = data.slice(0, 3);
+  if (prefix !== 'GXC') {
+    throw Error('Unrecognised address format');
+  }
+
+  data = data.slice(3);
+
+  const buffer: Buffer = bs58DecodeNoCheck(data);
+  const checksum = buffer.slice(-4);
+  const key = buffer.slice(0, -4);
+  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return key;
+}
+
+
+function steemAddressEncoder(data: Buffer): string {  
   const RIPEMD160 = require('ripemd160');
 
   const checksum = new RIPEMD160().update(data).digest();
@@ -952,6 +982,7 @@ export const formats: IFormat[] = [
   },
   bech32Chain('ADA', 1815, 'addr'),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
+  getConfig('GXC', 2303, gxcAddressEncoder, gxcAddressDecoder),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
   {
     coinType: 3030,
