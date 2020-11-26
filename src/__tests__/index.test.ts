@@ -530,7 +530,6 @@ const vectors: Array<TestVector> = [
       { text: 'TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh', hex: '41cf1ecacaf90a04bb0297f9991ae1262d0a3399e13d6d96c2' }
     ],
   },
-  
   {
     name: 'IRIS',
     coinType: 566,
