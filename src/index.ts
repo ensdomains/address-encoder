@@ -580,15 +580,13 @@ function gxcAddressDecoder(data: string): Buffer {
 
 
 function steemAddressEncoder(data: Buffer): string {  
-  const RIPEMD160 = require('ripemd160');
 
-  const checksum = new RIPEMD160().update(data).digest();
+  const checksum = new ripemd160().update(data).digest();
 
   return 'STM' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
 }
 
 function steemAddressDecoder(data: string): Buffer {
-  const RIPEMD160 = require('ripemd160');
 
   const prefix = data.slice(0, 3);
   if (prefix !== 'STM') {
@@ -600,7 +598,39 @@ function steemAddressDecoder(data: string): Buffer {
   const buffer: Buffer = bs58DecodeNoCheck(data);
   const checksum = buffer.slice(-4);
   const key = buffer.slice(0, -4);
-  const checksumVerify = new RIPEMD160().update(key).digest().slice(0, 4);
+  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return Buffer.from(key);
+}
+
+// Referenced from following
+// https://dev.bitshares.works/en/master/bts_guide/index_faq.html#dev-faq17
+function btsAddressEncoder(data: Buffer): string {  
+  
+  const checksum = new ripemd160().update(data).digest();
+
+  return 'BTS' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
+}
+
+// Referenced from following
+// https://dev.bitshares.works/en/master/bts_guide/index_faq.html#dev-faq17
+function btsAddressDecoder(data: string): Buffer {
+
+  const prefix = data.slice(0, 3);
+  if (prefix !== 'BTS') {
+    throw Error('Unrecognised address format');
+  }
+
+  data = data.slice(3);
+
+  const buffer: Buffer = bs58DecodeNoCheck(data);
+  const checksum = buffer.slice(-4);
+  const key = buffer.slice(0, -4);
+  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
 
   if(!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
@@ -948,6 +978,7 @@ export const formats: IFormat[] = [
   getConfig('IOST', 291, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   bech32Chain('IOTX', 304, 'io'),
+  getConfig('BTS', 308, btsAddressEncoder, btsAddressDecoder),
   bech32Chain('CKB', 309, 'ckb'),
   bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),

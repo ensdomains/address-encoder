@@ -45,6 +45,7 @@ This library currently supports the following cryptocurrencies and address forma
  - BSV (base58check)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
  - BTG (base58check P2PKH and P2SH, and bech32 segwit)
+ - BTS (base58+ripemd160-checksum)
  - CCA (base58check P2PKH and P2SH)
  - CCXX (base58check P2PKH and P2SH, and bech32 segwit)
  - CELO (checksummed-hex)
