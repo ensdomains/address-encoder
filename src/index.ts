@@ -645,6 +645,25 @@ function algoEncode(data: Buffer): string {
   return cleanAddr;
 }
 
+function arAddressEncoder(data: Buffer): string {
+  return data.toString('base64')
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/\=/g, "");
+}
+
+function arAddressDecoder(data: string): Buffer {
+  data = data.replace(/\-/g, "+").replace(/\_/g, "/");
+
+  const padding = data.length % 4 === 0
+    ? 0
+    : 4 - (data.length % 4);
+
+  data = data.concat("=".repeat(padding));
+
+  return Buffer.from(data, 'base64');
+}
+
 function bsvAddresEncoder(data: Buffer): string {
   const buf = Buffer.concat([Buffer.from([0]), data]);
 
@@ -809,6 +828,7 @@ export const formats: IFormat[] = [
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
+  getConfig('AR', 472, arAddressEncoder, arAddressDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bech32Chain('IRIS', 566, 'iaa'),

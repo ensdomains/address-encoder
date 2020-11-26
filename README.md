@@ -32,6 +32,7 @@ This library currently supports the following cryptocurrencies and address forma
  - AE (base58check)
  - AIB (base58check P2PKH and P2SH)
  - AION (hex)
+ - AR (base64url)
  - ARK (base58check)
  - ATOM (bech32)
  - BCD (base58check P2PKH and P2SH, and bech32 segwit)
