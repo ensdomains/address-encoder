@@ -367,6 +367,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
   },
   {
+    name: 'EWT',
+    coinType: 246,
+    passingVectors: [
+      { text: '0x2ce42c2B3aCff7eddcfd32DCB0703F1870b0eBe1', hex: '2ce42c2b3acff7eddcfd32dcb0703f1870b0ebe1' },
+    ],
+  },
+  {
     name: 'ALGO',
     coinType: 283,
     passingVectors: [

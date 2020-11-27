@@ -974,6 +974,7 @@ export const formats: IFormat[] = [
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
+  hexChecksumChain('EWT', 246),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('IOST', 291, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
