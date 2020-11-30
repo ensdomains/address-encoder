@@ -29,6 +29,7 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
+import  ripemd160  from 'ripemd160';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
@@ -466,6 +467,21 @@ function liskAddressDecoder(data: string): Buffer {
 
   return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
 }
+  
+function seroAddressEncoder(data: Buffer): string {
+  const address =  bs58EncodeNoCheck(data);
+
+  return address;
+}
+
+function seroAddressDecoder(data: string): Buffer {
+  const bytes = bs58DecodeNoCheck(data);
+  if (bytes.length === 96) {
+    return  bytes;
+  }
+  throw Error('Unrecognised address format');
+ 
+}
 
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
@@ -550,16 +566,43 @@ function hntAddressDecoder(data: string): Buffer {
   return buf.slice(1);
 }
 
-function steemAddressEncoder(data: Buffer): string {
-  const RIPEMD160 = require('ripemd160');
+// Referenced from following
+// https://github.com/gxchain/gxb-core/blob/dev_master/libraries/chain/protocol/address.cpp
+function gxcAddressEncoder(data: Buffer): string {  
+  const checksum = new ripemd160().update(data).digest();
 
-  const checksum = new RIPEMD160().update(data).digest();
+  return 'GXC' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
+}
+
+function gxcAddressDecoder(data: string): Buffer {
+  const prefix = data.slice(0, 3);
+  if (prefix !== 'GXC') {
+    throw Error('Unrecognised address format');
+  }
+
+  data = data.slice(3);
+
+  const buffer: Buffer = bs58DecodeNoCheck(data);
+  const checksum = buffer.slice(-4);
+  const key = buffer.slice(0, -4);
+  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return key;
+}
+
+
+function steemAddressEncoder(data: Buffer): string {  
+
+  const checksum = new ripemd160().update(data).digest();
 
   return 'STM' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
 }
 
 function steemAddressDecoder(data: string): Buffer {
-  const RIPEMD160 = require('ripemd160');
 
   const prefix = data.slice(0, 3);
   if (prefix !== 'STM') {
@@ -571,7 +614,39 @@ function steemAddressDecoder(data: string): Buffer {
   const buffer: Buffer = bs58DecodeNoCheck(data);
   const checksum = buffer.slice(-4);
   const key = buffer.slice(0, -4);
-  const checksumVerify = new RIPEMD160().update(key).digest().slice(0, 4);
+  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return Buffer.from(key);
+}
+
+// Referenced from following
+// https://dev.bitshares.works/en/master/bts_guide/index_faq.html#dev-faq17
+function btsAddressEncoder(data: Buffer): string {  
+  
+  const checksum = new ripemd160().update(data).digest();
+
+  return 'BTS' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
+}
+
+// Referenced from following
+// https://dev.bitshares.works/en/master/bts_guide/index_faq.html#dev-faq17
+function btsAddressDecoder(data: string): Buffer {
+
+  const prefix = data.slice(0, 3);
+  if (prefix !== 'BTS') {
+    throw Error('Unrecognised address format');
+  }
+
+  data = data.slice(3);
+
+  const buffer: Buffer = bs58DecodeNoCheck(data);
+  const checksum = buffer.slice(-4);
+  const key = buffer.slice(0, -4);
+  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
 
   if(!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
@@ -603,6 +678,103 @@ function wavesAddressDecoder(data: string): Buffer {
   }
 
   return buffer;
+
+}
+
+const glog = [0, 0, 1, 18, 2, 5, 19, 11, 3, 29, 6, 27, 20, 8, 12, 23, 4, 10, 30, 17, 7, 22, 28, 26, 21, 25, 9, 16, 13, 14, 24, 15];
+const gexp = [1, 2, 4, 8, 16, 5, 10, 20, 13, 26, 17, 7, 14, 28, 29, 31, 27, 19, 3, 6, 12, 24, 21, 15, 30, 25, 23, 11, 22, 9, 18, 1];
+function gmult(a: number, b: number): number {
+  if (a === 0 || b === 0) {return 0;}
+
+  return gexp[(glog[a] + glog[b]) % 31];
+}
+
+function ardrCheckSum(codeword: number[]): boolean {
+  let sum = 0;
+
+  for (let i = 1; i < 5; i++) {
+    let t = 0;
+    for (let j = 0; j < 31; j++) {
+      if (j > 12 && j < 27) {continue;}
+
+      let pos = j;
+      if (j > 26) {pos -= 14;}
+
+      // tslint:disable-next-line:no-bitwise
+      t ^= gmult(codeword[pos], gexp[(i * j) % 31]);
+    
+  }
+    // tslint:disable-next-line:no-bitwise
+    sum |= t;
+
+  }
+  return sum === 0;
+}
+
+const alphabet = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+const cwmap = [3, 2, 1, 0, 7, 6, 5, 4, 13, 14, 15, 16, 12, 8, 9, 10, 11];
+
+function ardrAddressDecoder(data: string): Buffer {
+  const codeword = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+  data = data.replace(/(^\s+)|(\s+$)/g, '').toUpperCase();
+  const prefix = data.slice(0, 5);
+  if (prefix !== 'ARDOR' || data.split("-").length !== 5) {
+    throw Error('Unrecognised address format');
+  } else {
+    data = data.substr(data.indexOf("-"));
+  }
+
+  const clean = [];
+  let count = 0;
+
+  for (const char of data) {
+    const pos = alphabet.indexOf(char);
+
+    if (pos >= 0) {
+      clean[count++] = pos;
+      if (count > 17) {
+        throw Error('Unrecognised address format');    
+      }
+    }
+  }
+
+  for (let i = 0, j = 0; i < count; i++) {
+    codeword[cwmap[j++]] = clean[i];
+  }
+  
+  if (!ardrCheckSum(codeword)) {
+    throw Error('Unrecognised address format');
+  }
+
+  return Buffer.from(codeword);
+}
+
+
+function ardrAddressEncoder(data: Buffer): string {
+  const dataStr = data.toString('hex');
+  const arr = [];
+  
+  for(let i = 0, j = 0; i < dataStr.length; i = i + 2) {
+    arr[cwmap[j++]] = 16 * parseInt(dataStr[i], 16) + parseInt(dataStr[i + 1], 16);
+  }
+
+  let acc = "";
+  const rtn = [];
+  for(let i = 0; i < 17; i++) {
+    if(arr[i] >= alphabet.length || arr.length !== 17) {
+      throw Error('Unrecognised address format');
+    }
+    acc += alphabet[arr[i]];
+
+    if(i < 12 && (i + 1) % 4 === 0 || i === 16 ) {
+      rtn.push(acc);
+      acc = "";
+    } 
+
+  }
+  return `ARDOR-${rtn.join("-")}`;
+
 }
 
 const AlgoChecksumByteLength = 4;
@@ -819,10 +991,12 @@ export const formats: IFormat[] = [
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
+  hexChecksumChain('EWT', 246),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('IOST', 291, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   bech32Chain('IOTX', 304, 'io'),
+  getConfig('BTS', 308, btsAddressEncoder, btsAddressDecoder),
   bech32Chain('CKB', 309, 'ckb'),
   bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
@@ -835,6 +1009,7 @@ export const formats: IFormat[] = [
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
+  getConfig('SERO', 569, seroAddressEncoder, seroAddressDecoder),
   bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),
   getConfig('SRM', 573, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('VLX', 574, bs58EncodeNoCheck, bs58DecodeNoCheck),
@@ -857,6 +1032,7 @@ export const formats: IFormat[] = [
   },
   bech32Chain('ADA', 1815, 'addr'),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
+  getConfig('GXC', 2303, gxcAddressEncoder, gxcAddressDecoder),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
   {
     coinType: 3030,
@@ -868,6 +1044,7 @@ export const formats: IFormat[] = [
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
+  getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),

@@ -377,6 +377,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
   },
   {
+    name: 'EWT',
+    coinType: 246,
+    passingVectors: [
+      { text: '0x2ce42c2B3aCff7eddcfd32DCB0703F1870b0eBe1', hex: '2ce42c2b3acff7eddcfd32dcb0703f1870b0ebe1' },
+    ],
+  },
+  {
     name: 'ALGO',
     coinType: 283,
     passingVectors: [
@@ -410,6 +417,13 @@ const vectors: Array<TestVector> = [
     coinType: 304,
     passingVectors: [
       { text: 'io1nyjs526mnqcsx4twa7nptkg08eclsw5c2dywp4', hex: '99250a2b5b983103556eefa615d90f3e71f83a98'},
+    ],
+  },
+  {
+    name: 'BTS',
+    coinType: 308,
+    passingVectors: [
+      { text: 'BTS8QykigLRi9ZUcNy1iXGY3KjRuCiLM8Ga49LHti1F8hgawKFc3K', hex: '03d0519ddad62bd2a833bee5dc04011c08f77f66338c38d99c685dee1f454cd1b8'},
     ],
   },
   {
@@ -549,6 +563,24 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'SERO',
+    coinType: 569,
+    passingVectors: [
+      {
+        text: 'p2ya5oepEuHAdcPrn5pfNZTpLMv15ub6vmCmMyqbavPCdxpQ7BVQomCnR2Gv2YQrGUKXYEzstzyUkP7WYef2Kb6ciRcp6eazH8LhjX5cTyJc9Zs2sR7SCSNGJJuJ5K5ihUT',
+        hex: '8889d697ff9f3bc140d6df1679edaf9be975bf41d655c7db7ba8d5d5f7d86b17434b9660b7ccd9f8df866c698d81cf7ae8ae10f6a4c0a17aa36db766fee3ca9ecc7af78b9506a414c2acfbba2adaf5fa811612bd8cc534ea3e083eac6464c340',
+      },
+      {
+        text: 'SPpb3UAuzAarWVDgyU6FTtS3X5dBucTQXb89ydjqXjABiNg8x3v8jPTrGWqo974BtPvuWt9zqBKJXYyEFYjZ3CS5D2jUhncTGmYQCHFWHSAFRyM4kuBhqWcgekPm5z3Jdwj',
+        hex: '49b767bca9137dbbf58eafde5936ddeb843747f450252fbe6c178094cbf76290f575a84bae4565774a0b0098df0fafae874dafc5b628c621b8ccb0ef7372562f10ed5a7343d295c1ca53235d97e7dd9c5ce957e747cbfa2d0c34af1ccacb23de',
+      },
+      {
+        text: 'Gwdm8LqXkvmSuhS6MAP1XQEedzNJ6msxcUAFCfRi2vS8hxXGkpcxUmtBaPVS8bY6yuacyS4FD2ZfGGoP2ioYcUU4pXmxJQYa8XphWffmtsAiVbreRRWZdzFUjWsZUb8WXar',
+        hex: '2e476e68ec4f9dc8b7e4d41dddd07e84ecf7a777fa9229ac7886d5c1499d4c81fe5075976c6025bbd1081caabd587543ce3ce9a2a6a11b4972c951f99f6a36a535c608d00bd7cc5f5314151b7270e820ecff823f0a55e1563a3816cd6b39ffdb',
+      },
+    ],
+  },
+  {
     name: 'CCXX',
     coinType: 571,
     passingVectors: [
@@ -683,11 +715,18 @@ const vectors: Array<TestVector> = [
     ]
   },
   {
+    name: 'GXC',
+    coinType: 2303,
+    passingVectors: [
+      { text: 'GXC6UKk9URcsCuGxLuRDqEuGzAqDkgKbG8AuWXFXsyzc2r9z7A1kw', hex: '02d085655f8060a79a4b12b14e442b8a554ba867bdadce3c2dc39e1a42a01827c0' },
+    ]
+  },
+  {
     name: 'ELA',
     coinType: 2305,
     passingVectors: [
       { text: 'EQDZ4T6YyVkg9mb2cAuLEu8iBKbajQAywF', hex: '214d797cc92303dac242b17026e79bbea28eb642f29f0d3582' }
-    ],
+    ]
   },
   {
     name: 'HBAR',
@@ -729,6 +768,13 @@ const vectors: Array<TestVector> = [
     coinType: 9797,
     passingVectors: [
       { text: '0x7e534bc64A80e56dB3eEDBd1b54639C3A9a7CDEA', hex: '7e534bc64a80e56db3eedbd1b54639c3a9a7cdea' },
+    ]
+  },
+  {
+    name: 'ARDR',
+    coinType: 16754,
+    passingVectors: [
+      { text: 'ARDOR-MT4P-AHG4-A4NA-CCMM2', hex: '15021913020e0f080a1313000a08021408' },
     ],
   },
   {
@@ -752,7 +798,7 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
     ],
-  }
+  },
 ];
 
 var lastCointype = -1;

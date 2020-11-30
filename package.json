@@ -30,6 +30,7 @@
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.12",
+    "@types/ripemd160": "^2.0.0",
     "browserify": "^16.5.0",
     "jest": "^26.4.2",
     "microbundle": "^0.12.4",
