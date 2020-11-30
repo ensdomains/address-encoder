@@ -29,44 +29,115 @@ console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 This library currently supports the following cryptocurrencies and address formats (ordered alphabetically):
 
  - ADA (bech32)
+ - AE (base58check)
+ - AIB (base58check P2PKH and P2SH)
+ - AION (hex)
  - ALGO (checksummed-base32)
+ - AR (base64url)
+ - ARDR
+ - ARK (base58check)
  - ATOM (bech32)
+ - AVAX (bech32)
+ - BCD (base58check P2PKH and P2SH, and bech32 segwit)
  - BCH (base58check and cashAddr; decodes to cashAddr)
  - BNB (bech32)
+ - BPS (base58check P2PKH and P2SH)
+ - BSV (base58check)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
+ - BTG (base58check P2PKH and P2SH, and bech32 segwit)
+ - BTS (base58+ripemd160-checksum)
+ - CCA (base58check P2PKH and P2SH)
+ - CCXX (base58check P2PKH and P2SH, and bech32 segwit)
  - CELO (checksummed-hex)
+ - CKB (bech32)
  - DASH (base58check P2PKH and P2SH)
  - DCR (base58, no check)
+ - DIVI (base58check P2PKH and P2SH)
  - DOGE (base58check P2PKH and P2SH)
  - DOT (ss58)
  - EGLD (bech32)
+ - ELA (base58)
  - EOS
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
+ - EWT (checksummed-hex)
+ - FIL (base10 + leb128 and base32 + blake2b checksum)
+ - GXC
  - HBAR
  - HIVE (base58+ripemd160-checksum)
  - HNS
+ - HNT (base58check)
  - ICX
+ - IOST (base58, no check)
+ - IOTA (base58check)
+ - IOTX (bech32)
+ - IRIS (bech32)
+ - KMD (base58check)
  - KSM (ss58)
+ - LRG (base58check P2PKH and P2SH)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
+ - LUNA (bech32)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
- - NEM (base32)
+ - NANO (nano-base32)
+ - NEM(XEM) (base32)
  - NEO (base58check)
+ - NRG (checksummed-hex)
+ - ONE (bech32)
  - ONT (base58check)
  - PPC (base58check P2PKH and P2SH)
- - TRX (base58check)
  - QTUM (base58check)
+ - RDD (base58check P2PKH and P2SH)
  - RSK (checksummed-hex)
- - SOL (base58check)
+ - RVN (base58check P2PKH and P2SH)
+ - SERO (base58, no check)
+ - SOL (base58, no check)
+ - SRM (base58, no check)
  - STEEM (base58+ripemd160-checksum)
+ - SYS (base58check P2PKH and P2SH, and bech32 segwit)
+ - TFUEL (checksummed-hex)
+ - TOMO (checksummed-hex)
+ - TRX (base58check)
  - VET (checksummed-hex)
+ - VLX (base58, no check)
+ - WAVES (base58)
+ - WICC (base58check P2PKH and P2SH)
  - XDAI (checksummed-hex)
  - XLM (ed25519 public key)
  - XRP (base58check-ripple)
  - XTZ (base58check)
  - XVG (base58check)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
+ - ZEN (base58 check)
  - ZIL (bech32)
  
 
-PRs to add additional chains and address types are welcome.
+## Development guide
+
+We welcome PRs to add additional chains and address types.
+
+The hardest part of adding new cointype is to find out the address format of each coin. Many coins derived from and share the same attributes as Bitcoin, Ethereum, and other popular blockchains. In that case, adding these coins can be as easy as a few lines of code. However, if the address format is unique and no js libraries available (or existing library file size too big), then you may have to port the encoding/verification from other languages into js by yourself, which could become time-consuming with lots of effort.
+
+In either case, please follow the following guides and best practices.
+
+## Reference where the address format is specified.
+
+When we review your pull request, we conduct the following checks.
+
+- Cointype is correctly came from [SLIP 44 ](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
+- Check coin address from block explorer and compare that the test addresses are in a similar format
+- Read the reference code to see the pull request matches with the specification.
+
+Please make sure that you include all the reference information so that we don't have to spend hours googling the relevant info which you must have done already.
+
+## Reuse existing functions where necessary.
+
+If there are reusable components, please reuse the function rather than duplicating the similar code.
+
+## Avoid requiring big encoding/encryption library.
+
+This library will be used in many mobile wallets where size bloat impacts the performance of the wallet. If your solution simply imports existing libraries, it may
+
+## Validate address format, not just encode/decode
+
+Some specifications simply use base58 encoding without specific checksum. However, if there are any extra address format (such as address prefix or address length) exists, please also add that check so that we can prevent users from adding wrong coin address.
+
