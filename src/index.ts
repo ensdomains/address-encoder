@@ -466,6 +466,21 @@ function liskAddressDecoder(data: string): Buffer {
 
   return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
 }
+  
+function seroAddressEncoder(data: Buffer): string {
+  const address =  bs58EncodeNoCheck(data);
+
+  return address;
+}
+
+function seroAddressDecoder(data: string): Buffer {
+  const bytes = bs58DecodeNoCheck(data);
+  if (bytes.length === 96) {
+    return  bytes;
+  }
+  throw Error('Unrecognised address format');
+ 
+}
 
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
@@ -992,6 +1007,7 @@ export const formats: IFormat[] = [
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
+  getConfig('SERO', 569, seroAddressEncoder, seroAddressDecoder),
   bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),
   getConfig('SRM', 573, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('VLX', 574, bs58EncodeNoCheck, bs58DecodeNoCheck),
