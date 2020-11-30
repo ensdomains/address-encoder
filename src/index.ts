@@ -1010,6 +1010,7 @@ export const formats: IFormat[] = [
   bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   getConfig('SERO', 569, seroAddressEncoder, seroAddressDecoder),
+  getConfig('BDX', 570, xmrAddressEncoder, xmrAddressDecoder),
   bitcoinChain('CCXX', 571, 'ccx', [[0x89]], [[0x4b], [0x05]]),
   getConfig('SRM', 573, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('VLX', 574, bs58EncodeNoCheck, bs58DecodeNoCheck),
