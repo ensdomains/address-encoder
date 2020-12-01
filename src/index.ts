@@ -1007,6 +1007,7 @@ export const formats: IFormat[] = [
   getConfig('AR', 472, arAddressEncoder, arAddressDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
+  getConfig('XHV', 535, xmrAddressEncoder, xmrAddressDecoder),
   bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   getConfig('SERO', 569, seroAddressEncoder, seroAddressDecoder),
