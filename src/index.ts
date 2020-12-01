@@ -31,6 +31,7 @@ import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import  ripemd160  from 'ripemd160';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
+import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
@@ -974,6 +975,7 @@ export const formats: IFormat[] = [
   bech32Chain('ZIL', 119, 'zil'),
   bech32Chain('EGLD', 120, 'erd'),
   getConfig('ZEN', 121, zenEncoder, zenDecoder),
+  getConfig('XMR', 128, xmrAddressEncoder, xmrAddressDecoder),
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
