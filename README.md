@@ -40,6 +40,7 @@ This library currently supports the following cryptocurrencies and address forma
  - AVAX (bech32)
  - BCD (base58check P2PKH and P2SH, and bech32 segwit)
  - BCH (base58check and cashAddr; decodes to cashAddr)
+ - BDX (base58xmr)
  - BNB (bech32)
  - BPS (base58check P2PKH and P2SH)
  - BSV (base58check)
