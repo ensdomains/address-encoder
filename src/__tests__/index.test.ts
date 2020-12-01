@@ -140,6 +140,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'XVG',
+    coinType: 77,
+    passingVectors: [
+      { text: 'D7MKQnLxXEqn84PN42jWAVhvrXEuULLV9r', hex: '76a914183ffcc41f3095bea7ff324e52a65b46c74126e188ac' },
+    ]
+  },
+  {
     name: 'ARK',
     coinType: 111,
     passingVectors: [

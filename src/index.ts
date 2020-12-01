@@ -970,6 +970,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
+  bitcoinBase58Chain('XVG',77, [[0x1E]], [[0x21]]),
   getConfig('ARK', 111, bs58Encode, arkAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
