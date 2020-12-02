@@ -61,6 +61,7 @@ This library currently supports the following cryptocurrencies and address forma
  - EOS
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
+ - ETN (base58xmr)
  - EWT (checksummed-hex)
  - FIL (base10 + leb128 and base32 + blake2b checksum)
  - GXC
