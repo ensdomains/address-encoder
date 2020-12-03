@@ -892,6 +892,35 @@ function nanoAddressDecoder(data: string): Buffer {
   return Buffer.from(decoded).slice(0, -5);
 }
 
+function etnAddressEncoder(data: Buffer): string {
+  const { Keccak } = require('sha3');
+  
+  const buf = Buffer.concat([Buffer.from([18]), data]);
+
+  const checksum = (new Keccak(256).update(buf).digest()).slice(0, 4);
+
+  return xmrAddressEncoder(Buffer.concat([buf, checksum]));
+}
+
+function etnAddressDecoder(data: string): Buffer {
+  const { Keccak } = require('sha3');
+
+  const buf = xmrAddressDecoder(data);
+  
+  if(buf[0] !== 18){
+    throw Error('Unrecognised address format');
+  }
+
+  const checksum = buf.slice(65, 69);
+  const checksumVerify = (new Keccak(256).update(buf.slice(0, 65)).digest()).slice(0, 4);
+  
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return buf.slice(1, 65);
+}
+
 function zenEncoder(data: Buffer): string {
   if (
     !data.slice(0, 2).equals(Buffer.from([0x20, 0x89])) && // zn
@@ -1001,6 +1030,7 @@ export const formats: IFormat[] = [
   bech32Chain('CKB', 309, 'ckb'),
   bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
+  getConfig('ETN', 415, etnAddressEncoder, etnAddressDecoder),
   getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
