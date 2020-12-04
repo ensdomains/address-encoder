@@ -29,7 +29,9 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
+import { check } from 'prettier';
 import  ripemd160  from 'ripemd160';
+import { Keccak } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
@@ -656,9 +658,6 @@ function btsAddressDecoder(data: string): Buffer {
 }
 
 function wavesAddressDecoder(data: string): Buffer {
-  const blake = require('blakejs');
-  const { Keccak } = require('sha3');
-
   const buffer = bs58DecodeNoCheck(data);
 
   if(buffer[0] !== 1) {
@@ -671,7 +670,7 @@ function wavesAddressDecoder(data: string): Buffer {
 
   const bufferData = buffer.slice(0, 22);
   const checksum = buffer.slice(22, 26);
-  const checksumVerify = (new Keccak(256).update(Buffer.from(blake.blake2b(bufferData, null, 32))).digest()).slice(0, 4);
+  const checksumVerify = (new Keccak(256).update(Buffer.from(blake2b(bufferData, null, 32))).digest()).slice(0, 4);
 
   if(!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
@@ -775,6 +774,31 @@ function ardrAddressEncoder(data: Buffer): string {
   }
   return `ARDOR-${rtn.join("-")}`;
 
+}
+
+function bcnAddressEncoder(data: Buffer): string {
+  const checksum = (new Keccak(256).update(data).digest()).slice(0, 4);
+
+  return xmrAddressEncoder(Buffer.concat([data, checksum]));
+}
+
+function bcnAddressDecoder(data: string): Buffer {
+  const buf = xmrAddressDecoder(data);
+
+  const tag = buf.slice(0, -68).toString('hex');
+
+  if(buf.length < 68 || (tag !== '06' && tag !== 'cef622')) {
+    throw Error('Unrecognised address format');
+  }
+
+  const checksum = buf.slice(-4);
+  const checksumVerify = (new Keccak(256).update(buf.slice(0, -4)).digest()).slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return buf.slice(0, -4);
 }
 
 const AlgoChecksumByteLength = 4;
@@ -893,8 +917,6 @@ function nanoAddressDecoder(data: string): Buffer {
 }
 
 function etnAddressEncoder(data: Buffer): string {
-  const { Keccak } = require('sha3');
-  
   const buf = Buffer.concat([Buffer.from([18]), data]);
 
   const checksum = (new Keccak(256).update(buf).digest()).slice(0, 4);
@@ -903,8 +925,6 @@ function etnAddressEncoder(data: Buffer): string {
 }
 
 function etnAddressDecoder(data: string): Buffer {
-  const { Keccak } = require('sha3');
-
   const buf = xmrAddressDecoder(data);
   
   if(buf[0] !== 18){
@@ -1019,6 +1039,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
   getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('BCN', 204, bcnAddressEncoder, bcnAddressDecoder),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   hexChecksumChain('EWT', 246),
