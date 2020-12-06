@@ -122,7 +122,7 @@ This library currently supports the following cryptocurrencies and address forma
 
 We welcome PRs to add additional chains and address types.
 
-The hardest part of adding new cointype is to find out the address format of each coin. Many coins derived from and share the same attributes as Bitcoin, Ethereum, and other popular blockchains. In that case, adding these coins can be as easy as a few lines of code. However, if the address format is unique and no js libraries available (or existing library file size too big), then you may have to port the encoding/verification from other languages into js by yourself, which could become time-consuming with lots of effort.
+The hardest part of adding new cointype is to find out the address format of each coin. [Many coins derived from and share the same attributes as Bitcoin, Ethereum, and other popular blockchains](https://github.com/satoshilabs/slips/pull/1024/files). In that case, adding these coins can be as easy as a few lines of code. However, if the address format is unique and no js libraries available (or existing library file size too big), then you may have to port the encoding/verification from other languages into js by yourself, which could become time-consuming with lots of effort.
 
 In either case, please follow the following guides and best practices.
 
@@ -130,7 +130,7 @@ In either case, please follow the following guides and best practices.
 
 When we review your pull request, we conduct the following checks.
 
-- Cointype is correctly came from [SLIP 44 ](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
+- The cointype correctly came from [SLIP 44 ](https://github.com/satoshilabs/slips/blob/master/slip-0044.md). If you don't find your coin in the list, raise PR to add it ([example](https://github.com/satoshilabs/slips/pull/1024))
 - Check coin address from block explorer and compare that the test addresses are in a similar format
 - Read the reference code to see the pull request matches with the specification.
 
