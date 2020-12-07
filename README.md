@@ -98,6 +98,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SOL (base58, no check)
  - SRM (base58, no check)
  - STEEM (base58+ripemd160-checksum)
+ - STRAT (base58check P2PKH and P2SH)
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TFUEL (checksummed-hex)
  - TOMO (checksummed-hex)
