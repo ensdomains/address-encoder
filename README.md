@@ -65,6 +65,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ETN (base58xmr)
  - EWT (checksummed-hex)
  - FIL (base10 + leb128 and base32 + blake2b checksum)
+ - FIRO (base58check P2PKH and P2SH)
  - GXC
  - HBAR
  - HIVE (base58+ripemd160-checksum)

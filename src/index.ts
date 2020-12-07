@@ -79,6 +79,7 @@ function makeBitcoinBase58CheckEncoder(p2pkhVersion: base58CheckVersion, p2shVer
 function makeBitcoinBase58CheckDecoder(p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58Decode(data);
+
     // Checks if the first addr bytes are exactly equal to provided version field
     const checkVersion = (version: base58CheckVersion) => {
       return version.every((value: number, index: number) => index < addr.length && value === addr.readUInt8(index))
@@ -1028,6 +1029,7 @@ export const formats: IFormat[] = [
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
   getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
+  bitcoinBase58Chain('FIRO', 136, [[0x52]], [[0x07]]),
   hexChecksumChain('RSK', 137, 30),
   bitcoinBase58Chain('KMD', 141, [[0x3C]], [[0x55]]),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
