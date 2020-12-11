@@ -31,6 +31,7 @@ import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import  ripemd160  from 'ripemd160';
 import { Keccak } from 'sha3';
+import { c32AddressDecoder, c32AddressEncoder } from './blockstack/address';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
@@ -1098,6 +1099,7 @@ export const formats: IFormat[] = [
   },
   getConfig('IOTA', 4218, bs58Encode, bs58Decode),
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
+  getConfig('STX', 5757, c32AddressEncoder, c32AddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
