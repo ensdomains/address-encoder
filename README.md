@@ -55,6 +55,7 @@ This library currently supports the following cryptocurrencies and address forma
  - DASH (base58check P2PKH and P2SH)
  - DCR (base58, no check)
  - DIVI (base58check P2PKH and P2SH)
+ - DGB (base58check P2PKH and P2SH, and bech32 segwit)
  - DOGE (base58check P2PKH and P2SH)
  - DOT (ss58)
  - EGLD (bech32)
