@@ -916,6 +916,64 @@ function nanoAddressDecoder(data: string): Buffer {
   return Buffer.from(decoded).slice(0, -5);
 }
 
+function nulsAddressEncoder(data: Buffer): string {
+  const chainId = data[0] & 0xff | (data[1] & 0xff) << 8;
+  const tempBuffer = Buffer.allocUnsafe(data.length + 1);
+
+  let temp = 0;
+  let xor = 0x00;
+  for(let i = 0; i < data.length; i++) {
+    temp = data[i];
+    temp = temp > 127 ? temp - 256 : temp;
+    tempBuffer[i] = temp;
+    xor ^= temp;
+  }
+  tempBuffer[data.length] = xor;
+
+  let prefix = "";
+  if(1 === chainId) {
+    prefix = 'NULS';
+  } 
+
+  const constant = ['a', 'b', 'c', 'd', 'e'];
+  return prefix + constant[prefix.length - 1] + bs58EncodeNoCheck(tempBuffer);
+}
+
+function nulsAddressDecoder(data: string): Buffer {
+  if(data.startsWith('NULS')) {
+    data = data.substring(5);
+  } else {
+    for(let i = 0; i < data.length; i++) {
+      var val = data.charAt(i);
+      if(val.charCodeAt(0) >= 97) {
+        data = data.substring(i + 1);
+        break;
+      }
+    }
+  }
+
+  let bytes = bs58DecodeNoCheck(data);
+
+  let temp = 0;
+  let xor = 0x00;
+  for(let i = 0; i < bytes.length - 1; i++) {
+    temp = bytes[i];
+    temp = temp > 127 ? temp - 256 : temp;
+    bytes[i] = temp;
+    xor ^= temp;
+  }
+
+  if(xor < 0) {
+    xor = 256 + xor;
+  }
+
+  if(xor !== bytes[bytes.length - 1]) {
+    throw Error('Unrecognised address format');
+  }
+
+  return bytes.slice(0, -1);
+}
+
 function etnAddressEncoder(data: Buffer): string {
   const buf = Buffer.concat([Buffer.from([18]), data]);
 
@@ -1098,6 +1156,7 @@ export const formats: IFormat[] = [
   },
   getConfig('IOTA', 4218, bs58Encode, bs58Decode),
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
+  getConfig('NULS', 8964, nulsAddressEncoder, nulsAddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
