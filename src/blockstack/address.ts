@@ -1,3 +1,5 @@
+// Ported from https://www.npmjs.com/package/c32check to reduce file size
+
 import { c32CheckDecode, c32CheckEncode } from './checksum';
 
 export function c32AddressEncoder(data: Buffer) : string {
