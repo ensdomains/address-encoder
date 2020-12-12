@@ -293,6 +293,33 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
   name,
 });
 
+function makeEosioEncoder(prefix: string): (data: Buffer) => string {
+  return (data: Buffer) => {
+    if (!eosPublicKey.isValid(data)) {
+      throw Error('Unrecognised address format');
+    }
+    const woPrefix = eosPublicKey.fromHex(data).toString();
+    return woPrefix.replace(/^.{3}/g, prefix);
+  }
+}
+
+function makeEosioDecoder(prefix: string): (data: string) => Buffer {
+  return (data: string) => {
+    if (!eosPublicKey.isValid(data)) {
+      throw Error('Unrecognised address format');
+    }
+    const regex = new RegExp("^.{" + prefix.length + "}", "g");
+    const wPrefix = data.replace(regex, 'EOS');
+    return eosPublicKey(wPrefix).toBuffer();
+  }
+}
+
+const eosioChain = (name: string, coinType: number, prefix: string) => ({
+  coinType,
+  decoder: makeEosioDecoder(prefix),
+  encoder: makeEosioEncoder(prefix),
+  name,
+});
 
 function b32encodeXemAddr(data: Buffer): string {
   return b32encode(hex2a(data.toString('hex')));
@@ -307,20 +334,6 @@ function b32decodeXemAddr(data: string): Buffer {
     .toUpperCase()
     .replace(/-/g, '');
   return b32decode(address);
-}
-
-function eosAddrEncoder(data: Buffer): string {
-  if (!eosPublicKey.isValid(data)) {
-    throw Error('Unrecognised address format');
-  }
-  return eosPublicKey.fromHex(data).toString();
-}
-
-function eosAddrDecoder(data: string): Buffer {
-  if (!eosPublicKey.isValid(data)) {
-    throw Error('Unrecognised address format');
-  }
-  return eosPublicKey(data).toBuffer();
 }
 
 function ksmAddrEncoder(data: Buffer): string {
@@ -1039,7 +1052,7 @@ export const formats: IFormat[] = [
   bitcoinChain('BTG', 156, 'btg', [[0x26]], [[0x17]]),
   getConfig('NANO', 165, nanoAddressEncoder, nanoAddressDecoder),
   bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
-  getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
+  eosioChain('EOS', 194, 'EOS'),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('BCN', 204, bcnAddressEncoder, bcnAddressDecoder),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
