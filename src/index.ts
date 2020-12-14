@@ -496,23 +496,25 @@ function seroAddressDecoder(data: string): Buffer {
   throw Error('Unrecognised address format');
 }
 
-//https://github.com/wanchain/go-wanchain/blob/develop/common/types.go
+// https://github.com/wanchain/go-wanchain/blob/develop/common/types.go
 function wanToChecksumAddress(data: string): string {
-  const HASH = require('thor-devkit');
   const strippedData = rskStripHexPrefix(data);
   const ndata = strippedData.toLowerCase();
   
-  const hashed = HASH.cry.keccak256(ndata);
+  const hashed = new Keccak(256).update(Buffer.from(ndata)).digest();
   let  ret = '0x';
   const len = ndata.length;
   let hashByte;
   for(let i = 0; i < len; i++) {
     hashByte = hashed[Math.floor(i / 2)]; 
-
+    
     if (i % 2 === 0) {
+      /* tslint:disable:no-bitwise */
       hashByte = hashByte >> 4;
     } else {
+      /* tslint:disable:no-bitwise */
       hashByte &= 0xf;
+      /* tslint:enable:no-bitwise */
     }
 
     if(ndata[i] > '9' && hashByte <= 7) {
