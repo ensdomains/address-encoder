@@ -29,7 +29,6 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
-import  ripemd160  from 'ripemd160';
 import { Keccak } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
@@ -293,6 +292,33 @@ const bech32Chain = (name: string, coinType: number, prefix: string) => ({
   name,
 });
 
+function makeEosioEncoder(prefix: string): (data: Buffer) => string {
+  return (data: Buffer) => {
+    if (!eosPublicKey.isValid(data)) {
+      throw Error('Unrecognised address format');
+    }
+    const woPrefix = eosPublicKey.fromHex(data).toString();
+    return woPrefix.replace(/^.{3}/g, prefix);
+  }
+}
+
+function makeEosioDecoder(prefix: string): (data: string) => Buffer {
+  return (data: string) => {
+    if (!eosPublicKey.isValid(data)) {
+      throw Error('Unrecognised address format');
+    }
+    const regex = new RegExp("^.{" + prefix.length + "}", "g");
+    const wPrefix = data.replace(regex, 'EOS');
+    return eosPublicKey(wPrefix).toBuffer();
+  }
+}
+
+const eosioChain = (name: string, coinType: number, prefix: string) => ({
+  coinType,
+  decoder: makeEosioDecoder(prefix),
+  encoder: makeEosioEncoder(prefix),
+  name,
+});
 
 function b32encodeXemAddr(data: Buffer): string {
   return b32encode(hex2a(data.toString('hex')));
@@ -307,20 +333,6 @@ function b32decodeXemAddr(data: string): Buffer {
     .toUpperCase()
     .replace(/-/g, '');
   return b32decode(address);
-}
-
-function eosAddrEncoder(data: Buffer): string {
-  if (!eosPublicKey.isValid(data)) {
-    throw Error('Unrecognised address format');
-  }
-  return eosPublicKey.fromHex(data).toString();
-}
-
-function eosAddrDecoder(data: string): Buffer {
-  if (!eosPublicKey.isValid(data)) {
-    throw Error('Unrecognised address format');
-  }
-  return eosPublicKey(data).toBuffer();
 }
 
 function ksmAddrEncoder(data: Buffer): string {
@@ -566,95 +578,6 @@ function hntAddressDecoder(data: string): Buffer {
   }
 
   return buf.slice(1);
-}
-
-// Referenced from following
-// https://github.com/gxchain/gxb-core/blob/dev_master/libraries/chain/protocol/address.cpp
-function gxcAddressEncoder(data: Buffer): string {  
-  const checksum = new ripemd160().update(data).digest();
-
-  return 'GXC' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
-}
-
-function gxcAddressDecoder(data: string): Buffer {
-  const prefix = data.slice(0, 3);
-  if (prefix !== 'GXC') {
-    throw Error('Unrecognised address format');
-  }
-
-  data = data.slice(3);
-
-  const buffer: Buffer = bs58DecodeNoCheck(data);
-  const checksum = buffer.slice(-4);
-  const key = buffer.slice(0, -4);
-  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
-
-  if(!checksumVerify.equals(checksum)) {
-    throw Error('Invalid checksum');
-  }
-
-  return key;
-}
-
-
-function steemAddressEncoder(data: Buffer): string {  
-
-  const checksum = new ripemd160().update(data).digest();
-
-  return 'STM' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
-}
-
-function steemAddressDecoder(data: string): Buffer {
-
-  const prefix = data.slice(0, 3);
-  if (prefix !== 'STM') {
-    throw Error('Unrecognised address format');
-  }
-
-  data = data.slice(3);
-
-  const buffer: Buffer = bs58DecodeNoCheck(data);
-  const checksum = buffer.slice(-4);
-  const key = buffer.slice(0, -4);
-  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
-
-  if(!checksumVerify.equals(checksum)) {
-    throw Error('Invalid checksum');
-  }
-
-  return Buffer.from(key);
-}
-
-// Referenced from following
-// https://dev.bitshares.works/en/master/bts_guide/index_faq.html#dev-faq17
-function btsAddressEncoder(data: Buffer): string {  
-  
-  const checksum = new ripemd160().update(data).digest();
-
-  return 'BTS' + bs58EncodeNoCheck(Buffer.concat([data, checksum.slice(0, 4)]));
-}
-
-// Referenced from following
-// https://dev.bitshares.works/en/master/bts_guide/index_faq.html#dev-faq17
-function btsAddressDecoder(data: string): Buffer {
-
-  const prefix = data.slice(0, 3);
-  if (prefix !== 'BTS') {
-    throw Error('Unrecognised address format');
-  }
-
-  data = data.slice(3);
-
-  const buffer: Buffer = bs58DecodeNoCheck(data);
-  const checksum = buffer.slice(-4);
-  const key = buffer.slice(0, -4);
-  const checksumVerify = new ripemd160().update(key).digest().slice(0, 4);
-
-  if(!checksumVerify.equals(checksum)) {
-    throw Error('Invalid checksum');
-  }
-
-  return Buffer.from(key);
 }
 
 function wavesAddressDecoder(data: string): Buffer {
@@ -1029,7 +952,7 @@ export const formats: IFormat[] = [
   getConfig('XMR', 128, xmrAddressEncoder, xmrAddressDecoder),
   zcashChain('ZEC', 133, 'zs', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   getConfig('LSK', 134, liskAddressEncoder, liskAddressDecoder),
-  getConfig('STEEM', 135, steemAddressEncoder, steemAddressDecoder),
+  eosioChain('STEEM', 135, 'STM'),
   bitcoinBase58Chain('FIRO', 136, [[0x52]], [[0x07]]),
   hexChecksumChain('RSK', 137, 30),
   bitcoinBase58Chain('KMD', 141, [[0x3C]], [[0x55]]),
@@ -1039,9 +962,10 @@ export const formats: IFormat[] = [
   bitcoinChain('BTG', 156, 'btg', [[0x26]], [[0x17]]),
   getConfig('NANO', 165, nanoAddressEncoder, nanoAddressDecoder),
   bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
-  getConfig('EOS', 194, eosAddrEncoder, eosAddrDecoder),
+  eosioChain('EOS', 194, 'EOS'),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('BCN', 204, bcnAddressEncoder, bcnAddressDecoder),
+  eosioChain('FIO', 235, 'FIO'),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   hexChecksumChain('EWT', 246),
@@ -1049,7 +973,7 @@ export const formats: IFormat[] = [
   getConfig('IOST', 291, bs58EncodeNoCheck, bs58DecodeNoCheck),
   bitcoinBase58Chain('DIVI', 301, [[0x1e]], [[0xd]]),
   bech32Chain('IOTX', 304, 'io'),
-  getConfig('BTS', 308, btsAddressEncoder, btsAddressDecoder),
+  eosioChain('BTS', 308, 'BTS'),
   bech32Chain('CKB', 309, 'ckb'),
   bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
@@ -1074,7 +998,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
-  getConfig('HIVE', 825, steemAddressEncoder, steemAddressDecoder),
+  eosioChain('HIVE', 825, 'STM'),
   hexChecksumChain('TOMO', 889),
   getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
@@ -1088,7 +1012,7 @@ export const formats: IFormat[] = [
   },
   bech32Chain('ADA', 1815, 'addr'),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
-  getConfig('GXC', 2303, gxcAddressEncoder, gxcAddressDecoder),
+  eosioChain('GXC', 2303, 'GXC'),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
   {
     coinType: 3030,

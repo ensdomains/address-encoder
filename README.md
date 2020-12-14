@@ -47,7 +47,7 @@ This library currently supports the following cryptocurrencies and address forma
  - BSV (base58check)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
  - BTG (base58check P2PKH and P2SH, and bech32 segwit)
- - BTS (base58+ripemd160-checksum)
+ - BTS (base58 + ripemd160-checksum)
  - CCA (base58check P2PKH and P2SH)
  - CCXX (base58check P2PKH and P2SH, and bech32 segwit)
  - CELO (checksummed-hex)
@@ -59,16 +59,17 @@ This library currently supports the following cryptocurrencies and address forma
  - DOT (ss58)
  - EGLD (bech32)
  - ELA (base58)
- - EOS
+ - EOS (base58 + ripemd160-checksum)
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
  - ETN (base58xmr)
  - EWT (checksummed-hex)
  - FIL (base10 + leb128 and base32 + blake2b checksum)
+ - FIO (base58 + ripemd160-checksum)
  - FIRO (base58check P2PKH and P2SH)
- - GXC
+ - GXC (base58 + ripemd160-checksum)
  - HBAR
- - HIVE (base58+ripemd160-checksum)
+ - HIVE (base58 + ripemd160-checksum)
  - HNS
  - HNT (base58check)
  - ICX
@@ -98,7 +99,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SERO (base58, no check)
  - SOL (base58, no check)
  - SRM (base58, no check)
- - STEEM (base58+ripemd160-checksum)
+ - STEEM (base58 + ripemd160-checksum)
  - STRAT (base58check P2PKH and P2SH)
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TFUEL (checksummed-hex)
