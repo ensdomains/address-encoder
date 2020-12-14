@@ -31,7 +31,6 @@ import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import { Keccak } from 'sha3';
 import  ripemd160  from 'ripemd160';
-import { cry } from 'thor-devkit';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
@@ -500,8 +499,8 @@ function seroAddressDecoder(data: string): Buffer {
 }
 
 function calcCheckSum(withoutChecksum: Buffer): Buffer {
-  const keccak256ed = cry.keccak256(cry.blake2b256(withoutChecksum));
-  return keccak256ed.slice(0,  4); 
+  const checksum = (new Keccak(256).update(Buffer.from(blake2b(withoutChecksum, null, 32))).digest()).slice(0, 4);
+  return checksum; 
 }
 
 function isByteArrayValid(addressBytes: Buffer): boolean {
@@ -510,10 +509,9 @@ function isByteArrayValid(addressBytes: Buffer): boolean {
     return false;
   }
 
-  const checkSum = addressBytes.slice(-4);
-  const generated = calcCheckSum(addressBytes.slice(0 , -4));
-
-  return checkSum.equals(generated);
+  const givenCheckSum = addressBytes.slice(-4);
+  const generatedCheckSum = calcCheckSum(addressBytes.slice(0 , -4));
+  return givenCheckSum.equals(generatedCheckSum);
 }
 
 // Reference:
@@ -524,19 +522,19 @@ function vsysAddressDecoder(data: string): Buffer {
     base58String = data.substr(data.length);
   }
   if(base58String.length > 36) {
-    throw new Error('Address length should not be more than 36');
+    throw new Error('VSYS: Address length should not be more than 36');
   }
   const bytes = bs58DecodeNoCheck(base58String);
 
   if(!isByteArrayValid(bytes)) {
-    throw new Error('VSYS failed checksum');   
+    throw new Error('VSYS: Invalid checksum');   
   } 
   return bytes;
 }
 
 function vsysAddressEncoder(data: Buffer): string {
   if(!isByteArrayValid(data)) {
-    throw new Error('VSYS failed checksum');
+    throw new Error('VSYS: Invalid checksum');
   }
   return bs58EncodeNoCheck(data);
 }
