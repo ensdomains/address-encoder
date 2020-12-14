@@ -6,6 +6,7 @@ import {
 } from 'bech32';
 import bigInt from 'big-integer';
 import { blake2b } from 'blakejs'
+import BN from 'bn.js';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import {
@@ -655,10 +656,6 @@ function icxAddressDecoder(data: string): Buffer {
   }
 }
 
-function hntAddresEncoder(data: Buffer): string {
-  const buf = Buffer.concat([Buffer.from([0]), data]);
-
-}
 function hcChecksum(withoutChecksum: string): Buffer {
   const createBlakeHash = require('blake-hash')
   const ChecksumLength: number = 4;
@@ -704,9 +701,8 @@ const b58 = [
 
 
 function hcEncode(data: Buffer): string {
-  const BN =require('bn.js');
   const bigRadix = new BN(58);
-  const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+  const alphabt = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
   const alphabetIdx0 = '1';
 
   const str = data.toString('hex');
@@ -718,7 +714,7 @@ function hcEncode(data: Buffer): string {
   while(x.cmp(bigZero)  > 0) {	
     const temp  = x.div(bigRadix);
     const mod = x.mod(bigRadix);
-    const char = alphabet[mod.toNumber()];
+    const char = alphabt[mod.toNumber()];
     
     answer.push(char);
     x = temp;
@@ -747,7 +743,6 @@ function hcCheckEncoder(data: Buffer): string {
 }
 
 function hcDecode(data: string): Buffer {
-  const BN =require('bn.js');
   let answer = new BN(0);
   const bigRadix = new BN(58);
   const alphabetIdx0 = '1';
@@ -812,8 +807,9 @@ function hcCheckDecoder(input: string): Buffer {
   return Buffer.concat([Buffer.from(version), payload]);
    
 }
-function steemAddressEncoder(data: Buffer): string {  
-  const RIPEMD160 = require('ripemd160');
+
+function hntAddresEncoder(data: Buffer): string {
+  const buf = Buffer.concat([Buffer.from([0]), data]);
 
   return bs58Encode(buf);
 }
