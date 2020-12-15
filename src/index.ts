@@ -5,7 +5,8 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import bigInt from 'big-integer';
-import { blake2b } from 'blakejs'
+import createBlakeHash from 'blake-hash';
+import { blake2b } from 'blakejs';
 import BN from 'bn.js';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
@@ -657,7 +658,6 @@ function icxAddressDecoder(data: string): Buffer {
 }
 
 function hcChecksum(withoutChecksum: string): Buffer {
-  const createBlakeHash = require('blake-hash')
   const ChecksumLength: number = 4;
   
   const blake256ed = createBlakeHash('blake256').update(withoutChecksum, 'hex').digest('hex');
