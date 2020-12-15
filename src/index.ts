@@ -29,6 +29,7 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
+import  ripemd160  from 'ripemd160';
 import { Keccak } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
@@ -546,6 +547,47 @@ function wanChecksummedHexDecoder(data: string): Buffer {
 
 }
 
+function calcCheckSum(withoutChecksum: Buffer): Buffer {
+  const checksum = (new Keccak(256).update(Buffer.from(blake2b(withoutChecksum, null, 32))).digest()).slice(0, 4);
+  return checksum; 
+}
+
+function isByteArrayValid(addressBytes: Buffer): boolean {
+  // "M" for mainnet, "T" for test net. Just limited to mainnet
+  if(addressBytes.readInt8(0) !== 5 || addressBytes.readInt8(1) !== "M".charCodeAt(0) || addressBytes.length !== 26) {
+    return false;
+  }
+
+  const givenCheckSum = addressBytes.slice(-4);
+  const generatedCheckSum = calcCheckSum(addressBytes.slice(0 , -4));
+  return givenCheckSum.equals(generatedCheckSum);
+}
+
+// Reference:
+// https://github.com/virtualeconomy/v-systems/blob/master/src/main/scala/vsys/account/Address.scala
+function vsysAddressDecoder(data: string): Buffer {
+  let base58String = data;
+  if(data.startsWith('address:')){
+    base58String = data.substr(data.length);
+  }
+  if(base58String.length > 36) {
+    throw new Error('VSYS: Address length should not be more than 36');
+  }
+  const bytes = bs58DecodeNoCheck(base58String);
+
+  if(!isByteArrayValid(bytes)) {
+    throw new Error('VSYS: Invalid checksum');   
+  } 
+  return bytes;
+}
+
+function vsysAddressEncoder(data: Buffer): string {
+  if(!isByteArrayValid(data)) {
+    throw new Error('VSYS: Invalid checksum');
+  }
+  return bs58EncodeNoCheck(data);
+}
+  
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
 function hnsAddressEncoder(data: Buffer): string {
@@ -1027,9 +1069,10 @@ export const formats: IFormat[] = [
   bech32Chain('CKB', 309, 'ckb'),
   bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
+  getConfig('VSYS', 360, vsysAddressEncoder, vsysAddressDecoder),
   eosioChain('ABBC', 367, 'ABBC'),
   getConfig('ETN', 415, etnAddressEncoder, etnAddressDecoder),
-  getConfig('AION', 425, aionEncoder, aionDecoder),
+  getConfig('AION', 425, aionEncoder, aionDecoder), 
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),

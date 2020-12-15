@@ -109,6 +109,7 @@ This library currently supports the following cryptocurrencies and address forma
  - TRX (base58check)
  - VET (checksummed-hex)
  - VLX (base58, no check)
+ - VSYS
  - WAN (checksummed-hex)
  - WAVES (base58)
  - WICC (base58check P2PKH and P2SH)
