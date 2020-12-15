@@ -1023,7 +1023,7 @@ export const formats: IFormat[] = [
   getConfig('VSYS', 360, vsysAddressEncoder, vsysAddressDecoder),
   eosioChain('ABBC', 367, 'ABBC'),
   getConfig('ETN', 415, etnAddressEncoder, etnAddressDecoder),
-  getConfig('AION', 425, aionEncoder, aionDecoder), 
+  getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
