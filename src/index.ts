@@ -495,7 +495,56 @@ function seroAddressDecoder(data: string): Buffer {
     return  bytes;
   }
   throw Error('Unrecognised address format');
- 
+}
+
+// https://github.com/wanchain/go-wanchain/blob/develop/common/types.go
+function wanToChecksumAddress(data: string): string {
+  const strippedData = rskStripHexPrefix(data);
+  const ndata = strippedData.toLowerCase();
+  
+  const hashed = new Keccak(256).update(Buffer.from(ndata)).digest();
+  let  ret = '0x';
+  const len = ndata.length;
+  let hashByte;
+  for(let i = 0; i < len; i++) {
+    hashByte = hashed[Math.floor(i / 2)]; 
+    
+    if (i % 2 === 0) {
+      /* tslint:disable:no-bitwise */
+      hashByte = hashByte >> 4;
+    } else {
+      /* tslint:disable:no-bitwise */
+      hashByte &= 0xf;
+      /* tslint:enable:no-bitwise */
+    }
+
+    if(ndata[i] > '9' && hashByte <= 7) {
+      ret += ndata[i].toUpperCase();
+    } else {
+      ret += ndata[i];
+    }
+  }
+  return ret;
+}
+
+function isValidChecksumWanAddress(address: string ): boolean {
+  const isValid: boolean = /^0x[0-9a-fA-F]{40}$/.test(address);
+  return isValid && (wanToChecksumAddress(address) === address)
+}
+
+function wanChecksummedHexEncoder(data: Buffer): string {
+  return wanToChecksumAddress('0x'+data.toString('hex'));
+}
+
+function wanChecksummedHexDecoder(data: string): Buffer {
+  if(isValidChecksumWanAddress(data)) {
+    return Buffer.from(rskStripHexPrefix(data), 'hex');
+  
+  } else {
+    throw Error('Invalid address checksum');
+  
+  }
+
 }
 
 function calcCheckSum(withoutChecksum: Buffer): Buffer {
@@ -1072,7 +1121,9 @@ export const formats: IFormat[] = [
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
-  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
+  getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
+  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),  
+  
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
