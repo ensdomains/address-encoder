@@ -28,6 +28,7 @@ console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 
 This library currently supports the following cryptocurrencies and address formats (ordered alphabetically):
 
+ - ABBC (base58 + ripemd160-checksum)
  - ADA (bech32)
  - AE (base58check)
  - AIB (base58check P2PKH and P2SH)
@@ -48,28 +49,30 @@ This library currently supports the following cryptocurrencies and address forma
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
  - BTG (base58check P2PKH and P2SH, and bech32 segwit)
  - BTM (bech32 segwit)
- - BTS (base58+ripemd160-checksum)
+ - BTS (base58 + ripemd160-checksum)
  - CCA (base58check P2PKH and P2SH)
  - CCXX (base58check P2PKH and P2SH, and bech32 segwit)
  - CELO (checksummed-hex)
  - CKB (bech32)
  - DASH (base58check P2PKH and P2SH)
  - DCR (base58, no check)
+ - DGB (base58check P2PKH and P2SH, and bech32 segwit)
  - DIVI (base58check P2PKH and P2SH)
  - DOGE (base58check P2PKH and P2SH)
  - DOT (ss58)
  - EGLD (bech32)
  - ELA (base58)
- - EOS
+ - EOS (base58 + ripemd160-checksum)
  - ETC (checksummed-hex)
  - ETH (checksummed-hex)
  - ETN (base58xmr)
  - EWT (checksummed-hex)
  - FIL (base10 + leb128 and base32 + blake2b checksum)
+ - FIO (base58 + ripemd160-checksum)
  - FIRO (base58check P2PKH and P2SH)
- - GXC
+ - GXC (base58 + ripemd160-checksum)
  - HBAR
- - HIVE (base58+ripemd160-checksum)
+ - HIVE (base58 + ripemd160-checksum)
  - HNS
  - HNT (base58check)
  - ICX
@@ -99,7 +102,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SERO (base58, no check)
  - SOL (base58, no check)
  - SRM (base58, no check)
- - STEEM (base58+ripemd160-checksum)
+ - STEEM (base58 + ripemd160-checksum)
  - STRAT (base58check P2PKH and P2SH)
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TFUEL (checksummed-hex)
@@ -107,6 +110,7 @@ This library currently supports the following cryptocurrencies and address forma
  - TRX (base58check)
  - VET (checksummed-hex)
  - VLX (base58, no check)
+ - VSYS 
  - WAVES (base58)
  - WICC (base58check P2PKH and P2SH)
  - XDAI (checksummed-hex)

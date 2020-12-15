@@ -77,6 +77,15 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'DGB',
+    coinType: 20,
+    passingVectors: [
+      { text: 'dgb1q6fdfum8w0052aqmqjhpcpjzuyg4jlwjy9jrwz9', hex: '0014d25a9e6cee7be8ae836095c380c85c222b2fba44' },
+      { text: 'DPPWe2aK4aYj3rt3yvw9zstCDXrN6frS7a', hex: '76a914c82c346ddb007e70fbb73edcbe104ecceea97bd188ac' },
+      { text: 'SRFLzWuizzCPQDc5qLM2L8pZkvFws6We3j', hex: 'a9142b5feabcb3feb6c45f9b623a7f1bc16be7377db787' },
+    ],
+  },
+  {
     name: 'MONA',
     coinType: 22,
     passingVectors: [
@@ -410,6 +419,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'FIO',
+    coinType: 235,
+    passingVectors: [
+      { text: 'FIO7tkpmicyK2YWShSKef6B9XXqBN6LpDJo69oRDfhn67CEnj3L2G', hex: '038bb1a68d19eb9139734d0f38da55cfcea955ed8f0baf42f12502e244293c08eb'},
+    ],
+  },
+  {
     name: 'BSV',
     coinType: 236,
     passingVectors: [
@@ -496,6 +512,20 @@ const vectors: Array<TestVector> = [
       },
     ],
   },
+  { name: 'VSYS',
+    coinType: 360,
+    passingVectors: [
+      { text: 'ARF12jvtjz9caUFmiwBeRe1SPRGQhUWKrtd', hex: '054d878288c4d4e2dd250560e303476b2152703557a0d3aa3396'},
+    ],
+  },
+  {
+    name: 'ABBC',
+    coinType: 367, 
+    passingVectors: [
+      { text: 'ABBC5i3zbGsuyexJc6NaHv81yPh2WeaqrtYMMVaEqcYLz9guAAV74A', hex: '026bff3fc4dc3cde1dcb2068bef16624a260c6f0e330addb54f894bce7fa353de6' },
+      { text: 'ABBC5MTKdW6dFqEjYqQYMmLohCsALWcBAx2xRapzDTKAtz3XwKJcaf', hex: '023d3a2e33a90f8f5bcbda1ec129ba1eee5e5f2ab6a77d652cbb0517f2b49669e8' },
+    ],
+  },
   {
     name: 'ETN',
     coinType: 415,
@@ -518,7 +548,7 @@ const vectors: Array<TestVector> = [
         text: '0xa0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
         hex: 'a0c24fbbecf42184d1ca8e9401ddaa2a99f69f3560e3d6c673de3c8a0be2a8eb',
       },
-    ],
+    ]
   },
   {
     name: 'KSM',
