@@ -1011,7 +1011,12 @@ function nulsAddressEncoder(data: Buffer): string {
   let prefix = "";
   if(1 === chainId) {
     prefix = 'NULS';
-  } 
+  } else if (2 === chainId) {
+    prefix = 'tNULS';
+  } else {
+    const chainIdBuffer = Buffer.concat([Buffer.from([0xFF & chainId >> 0]), Buffer.from([0xFF & chainId >> 8])]);
+    prefix = bs58EncodeNoCheck(chainIdBuffer).toUpperCase();
+  }
 
   const constant = ['a', 'b', 'c', 'd', 'e'];
   return prefix + constant[prefix.length - 1] + bs58EncodeNoCheck(tempBuffer);
@@ -1020,6 +1025,8 @@ function nulsAddressEncoder(data: Buffer): string {
 function nulsAddressDecoder(data: string): Buffer {
   if(data.startsWith('NULS')) {
     data = data.substring(5);
+  } else if (data.startsWith('tNULS')) {
+    data = data.substring(6);
   } else {
     for(let i = 0; i < data.length; i++) {
       const val = data.charAt(i);
