@@ -229,6 +229,31 @@ function encodeCashAddr(data: Buffer): string {
   }
 }
 
+function decodeNearAddr(data: string): Buffer {
+  if(data.startsWith('NEAR')) {
+    const removedPrefixed = data.substr(4);
+    const decoded = bs58DecodeNoCheck(removedPrefixed);
+    if (decoded.slice(0,-4).length !== 32) {
+      throw Error('Invalid address string');
+    }
+
+    return decoded.slice(0,-4);
+  }
+  if(data.length !== 64) {
+    throw Error('Invalid address string')
+  }
+  
+  return Buffer.from(data, 'hex');
+}
+
+function encodeNearAddr(data: Buffer): string {
+  if(data.length !== 32) {
+    throw Error('Invalid address format');
+  
+  }
+  return data.toString('hex');
+}
+
 function decodeCashAddr(data: string): Buffer {
   const { prefix, type, hash } = cashaddrDecode(data);
   if (type === 0) {
