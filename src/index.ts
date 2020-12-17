@@ -1079,6 +1079,7 @@ export const formats: IFormat[] = [
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   getConfig('AR', 472, arAddressEncoder, arAddressDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
+  hexChecksumChain('THETA', 500),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XHV', 535, xmrAddressEncoder, xmrAddressDecoder),
   bech32Chain('IRIS', 566, 'iaa'),
