@@ -31,7 +31,6 @@ const parityCheckMatrixColumns: bigint[] = [
 	0x0036an, 0x002d9n, 0x001c7n, 0x0003fn,
 ]
 
-
 export function isValidAddress(address: Address, chain: ChainID): boolean {
 	let codeWord: bigint = address
 	codeWord ^= chain.codeword

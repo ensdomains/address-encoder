@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNEXT",
-    "module": "ES2015",
+    "module": "ES2020",
     "declaration": true,
     "outDir": "./lib",
     "strict": true,
