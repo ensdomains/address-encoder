@@ -1,3 +1,5 @@
+// REF: https://github.com/ensdomains/address-encoder/pull/130#issuecomment-735935450
+
 type Address = bigint
 
 // [n,k,d]-Linear code parameters
