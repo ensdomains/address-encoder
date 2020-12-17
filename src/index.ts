@@ -32,6 +32,7 @@ import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-bas
 import  ripemd160  from 'ripemd160';
 import { Keccak } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
+import { isValidAddress, ChainID } from './flow/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
 type EnCoder = (data: Buffer) => string;
@@ -1009,6 +1010,9 @@ function aionEncoder(data: Buffer): string {
 
 // Remove staring zeros from buffer
 function flowDecode(data: string): Buffer {
+  if (!isValidAddress(BigInt(data), ChainID.mainnet)) {
+    throw Error('Unrecognised address format');
+  }
   return Buffer.from(rskStripHexPrefix(data).replace(/^0+/, ''), 'hex');
 }
 
@@ -1024,7 +1028,7 @@ function flowEncode(data: Buffer): string {
   }
   data.copy(addrBytes, AddressLength - data.length);
 
-  return '0x' + addrBytes.toString('hex').toUpperCase();
+  return '0x' + addrBytes.toString('hex').toLowerCase();
 }
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {

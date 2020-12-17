@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNEXT",
     "module": "ES2015",
     "declaration": true,
     "outDir": "./lib",
