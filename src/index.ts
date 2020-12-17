@@ -230,28 +230,40 @@ function encodeCashAddr(data: Buffer): string {
 }
 
 function decodeNearAddr(data: string): Buffer {
-  if(data.startsWith('NEAR')) {
-    const removedPrefixed = data.substr(4);
-    const decoded = bs58DecodeNoCheck(removedPrefixed);
-    if (decoded.slice(0,-4).length !== 32) {
-      throw Error('Invalid address string');
-    }
+  const regex = /(^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$)/g;
 
-    return decoded.slice(0,-4);
+  if(!regex.test(data)) {
+    throw Error('Invalid address string');
   }
-  if(data.length !== 64) {
-    throw Error('Invalid address string')
+
+  let ndata  = data;
+  if(data.startsWith('0x')) {
+    ndata = data.substr(2);
   }
   
-  return Buffer.from(data, 'hex');
+  if(data.length >= 2 || data.length <= 64) {  
+    if(data.endsWith('.near')) {
+      return Buffer.from(data);
+    } else {
+      const hexAll = /^[0-9a-f]{64}/g;
+      if(hexAll.test(ndata)) {
+        return Buffer.from(ndata);
+      } else {
+        throw Error('Invalid address string');
+      }
+    }   
+  } else {
+    throw Error('Invalid address string');
+  }  
 }
 
 function encodeNearAddr(data: Buffer): string {
-  if(data.length !== 32) {
+  const ndata = data.toString();
+  if(ndata.length > 64 || ndata.length < 2) {
     throw Error('Invalid address format');
   
   }
-  return data.toString('hex');
+  return ndata;
 }
 
 function decodeCashAddr(data: string): Buffer {
