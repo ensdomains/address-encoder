@@ -77,6 +77,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'VIA',
+    coinType: 14,
+    passingVectors: [
+      { text: 'Vxgc5PCLkzNkDLkuduQEcrUBF1Z1UUHnav', hex: '76a914f8d8b16d9409898a976b66bad157b91b71dc18ca88ac' },
+      { text: 'EYg9j8ieF6BQzS9doHnjg3Faj7SdAhfqnV', hex: 'a914aa423f4ab9ea252abc360ec1dada62ef2527245987' },
+    ],
+  },
+  {
     name: 'DGB',
     coinType: 20,
     passingVectors: [

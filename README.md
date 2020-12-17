@@ -109,6 +109,7 @@ This library currently supports the following cryptocurrencies and address forma
  - TOMO (checksummed-hex)
  - TRX (base58check)
  - VET (checksummed-hex)
+ - VIA (base58check P2PKH and P2SH)
  - VLX (base58, no check)
  - VSYS
  - WAN (checksummed-hex)
