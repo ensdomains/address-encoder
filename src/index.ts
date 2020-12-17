@@ -242,7 +242,7 @@ function decodeNearAddr(data: string): Buffer {
   }
   
   if(data.length >= 2 || data.length <= 64) {  
-    if(data.endsWith('.near')) {
+    if((data.endsWith('.near') && data.length > 5)) {
       return Buffer.from(data);
     } else {
       const hexAll = /^[0-9a-f]{64}/g;
