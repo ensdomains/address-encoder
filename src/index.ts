@@ -1227,6 +1227,7 @@ export const formats: IFormat[] = [
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('VSYS', 360, vsysAddressEncoder, vsysAddressDecoder),
   eosioChain('ABBC', 367, 'ABBC'),
+  getConfig('NEAR', 397, encodeNearAddr, decodeNearAddr),
   getConfig('ETN', 415, etnAddressEncoder, etnAddressDecoder),
   getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
