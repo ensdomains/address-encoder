@@ -500,6 +500,23 @@ function seroAddressDecoder(data: string): Buffer {
   throw Error('Unrecognised address format');
 }
 
+function scAddressEncoder(data:Buffer): string {
+  const hexString = data.toString('hex');
+
+  if(hexString.length !== 76) {
+    throw Error('Unrecognised address format');
+  }
+  return hexString;
+}
+
+function scAddressDecoder(data: string): Buffer {
+  if(data.length !== 76) {
+    throw Error('Unrecognised address format');
+  }
+
+  return Buffer.from(data, 'hex');
+}
+
 // https://github.com/wanchain/go-wanchain/blob/develop/common/types.go
 function wanToChecksumAddress(data: string): string {
   const strippedData = rskStripHexPrefix(data);
@@ -1293,6 +1310,7 @@ export const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('SC', 1991, scAddressEncoder, scAddressDecoder),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   eosioChain('GXC', 2303, 'GXC'),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),

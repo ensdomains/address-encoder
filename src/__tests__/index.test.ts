@@ -898,6 +898,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'SC',
+    coinType: 1991,
+    passingVectors: [
+      { text: '1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab', hex: '1234567890abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789ab'}
+    ],
+  },
+  {
     name: 'QTUM',
     coinType: 2301,
     passingVectors: [
