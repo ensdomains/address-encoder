@@ -54,6 +54,7 @@ This library currently supports the following cryptocurrencies and address forma
  - CCXX (base58check P2PKH and P2SH, and bech32 segwit)
  - CELO (checksummed-hex)
  - CKB (bech32)
+ - CLO (checksummed-hex)
  - DASH (base58check P2PKH and P2SH)
  - DCR (base58, no check)
  - DGB (base58check P2PKH and P2SH, and bech32 segwit)

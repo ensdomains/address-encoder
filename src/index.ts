@@ -1093,6 +1093,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
+  hexChecksumChain('CLO', 820),
   eosioChain('HIVE', 825, 'STM'),
   hexChecksumChain('TOMO', 889),
   getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
