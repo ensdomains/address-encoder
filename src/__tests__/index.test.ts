@@ -888,6 +888,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'ZEL',
+    coinType: 19167,
+    passingVectors: [
+      { text: 't1XWTigDqS5Dy9McwQc752ShtZV1ffTMJB3', hex: '76a91495921ba2fc5277d8a35b0e2d339987d51681c51d88ac' },
+      { text: 't3c51GjrkUg7pUiS8bzNdTnW2hD25egWUih', hex: 'a914c008da0bbc92b35ff71f613ca10ff11e2a6ae2fe87' },
+    ],
+  },
+  {
     name: 'CELO',
     coinType: 52752,
     passingVectors: [
