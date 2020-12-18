@@ -29,8 +29,9 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
+import { check } from 'prettier';
 import  ripemd160  from 'ripemd160';
-import { Keccak } from 'sha3';
+import { Keccak, SHA3 } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
@@ -623,6 +624,31 @@ function hnsAddressDecoder(data: string): Buffer {
   return Buffer.from(hash);
 }
 
+function nasAddressEncoder(data: Buffer): string {
+  const content = Buffer.concat([Buffer.from([25]), Buffer.from([87]), data]);
+  const checksum = (new SHA3(256).update(content).digest()).slice(0, 4);
+  
+  return bs58EncodeNoCheck(Buffer.concat([content, checksum]));
+}
+
+function nasAddressDecoder(data: string): Buffer {
+  const buf = bs58DecodeNoCheck(data);
+
+  if(buf.length !== 26 || buf[0] !== 25 || buf[1] !== 87){
+    throw Error('Unrecognised address format');
+  }
+
+  const bufferData = buf.slice(0, 22);
+  const checksum = buf.slice(-4);
+  const checksumVerify = (new SHA3(256).update(bufferData).digest()).slice(0, 4);
+
+  if(!checksumVerify.equals(checksum)) {
+    throw Error('Invalid checksum');
+  }
+
+  return bufferData.slice(2);
+}
+
 // Referenced from following
 // https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L219
 function icxAddressEncoder(data: Buffer): string {
@@ -1109,6 +1135,7 @@ export const formats: IFormat[] = [
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   eosioChain('GXC', 2303, 'GXC'),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
+  getConfig('NAS', 2718, nasAddressEncoder, nasAddressDecoder),
   {
     coinType: 3030,
     decoder: hederaAddressDecoder,

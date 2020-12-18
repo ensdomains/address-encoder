@@ -839,6 +839,13 @@ const vectors: Array<TestVector> = [
     ]
   },
   {
+    name: 'NAS',
+    coinType: 2718,
+    passingVectors: [
+      { text: 'n1FF1nz6tarkDVwWQkMnnwFPuPKUaQTdptE', hex: '07f964ff495324635f22c7b486e05d7e67c7af5c' },
+    ],
+  },
+  {
     name: 'HBAR',
     coinType: 3030,
     passingVectors: [
