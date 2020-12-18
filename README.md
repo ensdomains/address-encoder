@@ -71,6 +71,7 @@ This library currently supports the following cryptocurrencies and address forma
  - FIL (base10 + leb128 and base32 + blake2b checksum)
  - FIO (base58 + ripemd160-checksum)
  - FIRO (base58check P2PKH and P2SH)
+ - FLOW (hex)
  - GO (checksummed-hex)
  - GRIN (base58check)
  - GXC (base58 + ripemd160-checksum)

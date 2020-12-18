@@ -685,6 +685,11 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'FLOW',
+    coinType: 539,
+    passingVectors: [{ text: '0xf233dcee88fe0abe', hex: 'f233dcee88fe0abe' }],
+  },
+  {
     name: 'IRIS',
     coinType: 566,
     passingVectors: [

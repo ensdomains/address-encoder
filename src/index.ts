@@ -29,9 +29,9 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
-import  ripemd160  from 'ripemd160';
 import { Keccak } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
+import { ChainID, isValidAddress } from './flow/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 import { nimqDecoder, nimqEncoder } from './nimq';
 
@@ -346,7 +346,7 @@ function dotAddrEncoder(data: Buffer): string {
 }
 
 function ksmAddrDecoder(data: string): Buffer {
-  return new Buffer(ss58Decode(data));
+  return Buffer.from(ss58Decode(data));
 }
 
 function ontAddrEncoder(data: Buffer): string {
@@ -1008,6 +1008,29 @@ function aionEncoder(data: Buffer): string {
   return '0x'.concat(data.toString('hex'));
 }
 
+// Remove staring zeros from buffer
+function flowDecode(data: string): Buffer {
+  if (!isValidAddress(BigInt(data), ChainID.mainnet)) {
+    throw Error('Unrecognised address format');
+  }
+  return Buffer.from(rskStripHexPrefix(data).replace(/^0+/, ''), 'hex');
+}
+
+// https://github.com/onflow/flow-go/blob/master/model/flow/address.go#L51
+// If b is larger than 8, b will be cropped from the left.
+// If b is smaller than 8, b will be appended by zeroes at the front.
+function flowEncode(data: Buffer): string {
+  const AddressLength = 8;
+  let addrBytes = Buffer.alloc(AddressLength, 0x00);
+
+  if (data.length > AddressLength) {
+    addrBytes = data.slice(-AddressLength);
+  }
+  data.copy(addrBytes, AddressLength - data.length);
+
+  return '0x' + addrBytes.toString('hex').toLowerCase();
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -1087,6 +1110,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('THETA', 500),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XHV', 535, xmrAddressEncoder, xmrAddressDecoder),
+  getConfig('FLOW', 539, flowEncode, flowDecode),
   bech32Chain('IRIS', 566, 'iaa'),
   bitcoinBase58Chain('LRG', 568, [[0x1e]], [[0x0d]]),
   getConfig('SERO', 569, seroAddressEncoder, seroAddressDecoder),
