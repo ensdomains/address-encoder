@@ -107,6 +107,7 @@ This library currently supports the following cryptocurrencies and address forma
  - STRAT (base58check P2PKH and P2SH)
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TFUEL (checksummed-hex)
+ - THETA (base58check)
  - TOMO (checksummed-hex)
  - TRX (base58check)
  - VET (checksummed-hex)
