@@ -108,6 +108,7 @@ This library currently supports the following cryptocurrencies and address forma
  - TFUEL (checksummed-hex)
  - TOMO (checksummed-hex)
  - TRX (base58check)
+ - TT (checksummed-hex)
  - VET (checksummed-hex)
  - VLX (base58, no check)
  - VSYS

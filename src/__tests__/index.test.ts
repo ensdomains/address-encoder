@@ -780,6 +780,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'TT',
+    coinType: 1001,
+    passingVectors: [
+      { text: '0x1001EEc06f2aDff074fC2A9492e132c33d6bd54d', hex: '1001eec06f2adff074fc2a9492e132c33d6bd54d' },
+    ],
+  },
+  {
     name: 'ONE',
     coinType: 1023,
     passingVectors: [

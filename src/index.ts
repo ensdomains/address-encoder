@@ -1097,6 +1097,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('TOMO', 889),
   getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
+  hexChecksumChain('TT', 1001),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
