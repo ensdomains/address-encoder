@@ -95,6 +95,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NRG (checksummed-hex)
  - ONE (bech32)
  - ONT (base58check)
+ - POA (checksummed-hex)
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
  - RDD (base58check P2PKH and P2SH)
