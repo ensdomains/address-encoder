@@ -113,6 +113,7 @@ This library currently supports the following cryptocurrencies and address forma
  - THETA (base58check)
  - TOMO (checksummed-hex)
  - TRX (base58check)
+ - TT (checksummed-hex)
  - VET (checksummed-hex)
  - VIA (base58check P2PKH and P2SH)
  - VLX (base58, no check)
