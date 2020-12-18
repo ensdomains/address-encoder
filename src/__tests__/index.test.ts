@@ -77,6 +77,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'VIA',
+    coinType: 14,
+    passingVectors: [
+      { text: 'Vxgc5PCLkzNkDLkuduQEcrUBF1Z1UUHnav', hex: '76a914f8d8b16d9409898a976b66bad157b91b71dc18ca88ac' },
+      { text: 'EYg9j8ieF6BQzS9doHnjg3Faj7SdAhfqnV', hex: 'a914aa423f4ab9ea252abc360ec1dada62ef2527245987' },
+    ],
+  },
+  {
     name: 'DGB',
     coinType: 20,
     passingVectors: [
@@ -624,6 +632,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'THETA',
+    coinType: 500,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
     name: 'SOL',
     coinType: 501,
     passingVectors: [
@@ -725,6 +740,16 @@ const vectors: Array<TestVector> = [
     coinType: 589,
     passingVectors: [
       { text: '0x3599CF49e80A01BCb879A19599C8a6cd8C8d9aa6', hex: '3599cf49e80a01bcb879a19599c8a6cd8c8d9aa6' },
+    ],
+  },
+  {
+    name: 'GRIN',
+    coinType: 592,
+    passingVectors: [
+      { 
+        text: 'grin1k6m6sjpwc047zdhsdj9r77v5nnxm33hx7wxqvw5dhd9vl0d7t4fsaqt0lg',
+        hex: 'b6b7a8482ec3ebe136f06c8a3f79949ccdb8c6e6f38c063a8dbb4acfbdbe5d53' 
+      }
     ],
   },
   {
