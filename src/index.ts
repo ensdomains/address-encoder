@@ -31,7 +31,7 @@ import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import { Keccak } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
-import { isValidAddress, ChainID } from './flow/index';
+import { ChainID, isValidAddress } from './flow/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 
 type EnCoder = (data: Buffer) => string;
@@ -1022,8 +1022,8 @@ function flowEncode(data: Buffer): string {
   const AddressLength = 8;
   let addrBytes = Buffer.alloc(AddressLength, 0x00);
 
-  if (data.length > 8) {
-    addrBytes = data.slice(-8);
+  if (data.length > AddressLength) {
+    addrBytes = data.slice(-AddressLength);
   }
   data.copy(addrBytes, AddressLength - data.length);
 
