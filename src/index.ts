@@ -33,6 +33,7 @@ import { Keccak } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { ChainID, isValidAddress } from './flow/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
+import { nimqDecoder, nimqEncoder } from './nimq';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
@@ -1048,6 +1049,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('DASH', 5, [[0x4c]], [[0x10]]),
   bitcoinBase58Chain('PPC', 6, [[0x37]], [[0x75]]),
   getConfig('NMC', 7, bs58Encode, bs58Decode),
+  bitcoinBase58Chain('VIA', 14, [[0x47]], [[0x21]]),
   bitcoinChain('DGB', 20, 'dgb', [[0x1e]], [[0x3f]]),
   bitcoinChain('MONA', 22, 'mona', [[0x32]], [[0x37], [0x05]]),
   getConfig('DCR', 42, bs58EncodeNoCheck, bs58DecodeNoCheck),
@@ -1078,12 +1080,14 @@ export const formats: IFormat[] = [
   bitcoinChain('BTG', 156, 'btg', [[0x26]], [[0x17]]),
   getConfig('NANO', 165, nanoAddressEncoder, nanoAddressDecoder),
   bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
+  hexChecksumChain('POA', 178),
   eosioChain('EOS', 194, 'EOS'),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('BCN', 204, bcnAddressEncoder, bcnAddressDecoder),
   eosioChain('FIO', 235, 'FIO'),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
+  getConfig('NIM', 242, nimqEncoder, nimqDecoder),
   hexChecksumChain('EWT', 246),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('IOST', 291, bs58EncodeNoCheck, bs58DecodeNoCheck),
@@ -1099,9 +1103,11 @@ export const formats: IFormat[] = [
   getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
+  bech32Chain('KAVA', 459, 'kava'),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   getConfig('AR', 472, arAddressEncoder, arAddressDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
+  hexChecksumChain('THETA', 500),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
   getConfig('XHV', 535, xmrAddressEncoder, xmrAddressDecoder),
   getConfig('FLOW', 539, flowEncode, flowDecode),
@@ -1118,10 +1124,12 @@ export const formats: IFormat[] = [
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
+  hexChecksumChain('CLO', 820),
   eosioChain('HIVE', 825, 'STM'),
   hexChecksumChain('TOMO', 889),
   getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
+  hexChecksumChain('TT', 1001),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
@@ -1142,14 +1150,15 @@ export const formats: IFormat[] = [
   },
   getConfig('IOTA', 4218, bs58Encode, bs58Decode),
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
+  hexChecksumChain('GO', 6060),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
+  zcashChain('ZEL', 19167, 'za', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
-  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),  
-  
+  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
