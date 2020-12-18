@@ -5,9 +5,7 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import bigInt from 'big-integer';
-import createBlakeHash from 'blake-hash';
 import { blake2b } from 'blakejs';
-import BN from 'bn.js';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import {
@@ -674,157 +672,6 @@ function icxAddressDecoder(data: string): Buffer {
   }
 }
 
-function hcChecksum(withoutChecksum: string): Buffer {
-  const ChecksumLength: number = 4;
-  
-  const blake256ed = createBlakeHash('blake256').update(withoutChecksum, 'hex').digest('hex');
-  const blake256edTwice = createBlakeHash('blake256').update(Buffer.from(blake256ed, 'hex')).digest('hex');
-  return Buffer.from(blake256edTwice, 'hex').slice(0, ChecksumLength);
-}
-
-const b58 = [
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 0, 1, 2, 3, 4, 5, 6,
-  7, 8, 255, 255, 255, 255, 255, 255,
-  255, 9, 10, 11, 12, 13, 14, 15,
-  16, 255, 17, 18, 19, 20, 21, 255,
-  22, 23, 24, 25, 26, 27, 28, 29,
-  30, 31, 32, 255, 255, 255, 255, 255,
-  255, 33, 34, 35, 36, 37, 38, 39,
-  40, 41, 42, 43, 255, 44, 45, 46,
-  47, 48, 49, 50, 51, 52, 53, 54,
-  55, 56, 57, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255,
-  255, 255, 255, 255, 255, 255, 255, 255];
-
-
-function hcEncode(data: Buffer): string {
-  const bigRadix = new BN(58);
-  const alphabt = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-  const alphabetIdx0 = '1';
-
-  const str = data.toString('hex');
-  let x = new BN(str, 16);
-  const bigZero = new BN('0', 16);
-
-  const answer = [];
-
-  while(x.cmp(bigZero)  > 0) {	
-    const temp  = x.div(bigRadix);
-    const mod = x.mod(bigRadix);
-    const char = alphabt[mod.toNumber()];
-    
-    answer.push(char);
-    x = temp;
-  }
-  const len = data.length;
-
-  for(let i = 0; i < len; i++){
-    if(data.readInt8(i) !== 0) {
-      break;
-    }
-    answer.push(alphabetIdx0);
-  }
-  const alen = answer.length;
-
-  for(let i = 0; i < Math.floor(alen/2); i++) {
-    [answer[i], answer[alen-1-i]] = [answer[alen-1-i], answer[i]];
-  }
-  return answer.join('');
-}
-
-function hcCheckEncoder(data: Buffer): string {
-  const input = data;
-  const cksum = hcChecksum(input.toString('hex'));
-  const result = Buffer.concat([data, cksum]);
-  return  hcEncode(result);
-}
-
-function hcDecode(data: string): Buffer {
-  let answer = new BN(0);
-  const bigRadix = new BN(58);
-  const alphabetIdx0 = '1';
-
-  let j = new BN(1);
-  const len =  data.length;
-
-  for(let i = len - 1; i >= 0; i--) {
-    const tmp  = b58[data[i].charCodeAt(0)];
-      if (tmp === 255) {
-          return Buffer.from("");
-      }
-
-      let scratch = new BN(tmp);
-      scratch = scratch.mul(j);
-      answer = answer.add(scratch);
-      j = j.mul(bigRadix);
-    }
-    const tmpval = answer.toArray();
-    let val = [];
-     for (let numZeros = 0; numZeros < len ; numZeros++) {
-        if(data[numZeros] !== alphabetIdx0) {
-          break;
-        }
-        val.push(0);
-     }   
-    val = val.concat(tmpval);
-    return Buffer.from(val);
-}
-
-
-function checkPrefix(version: number[]): boolean {
-  if(version[0] === 0x19 && version[1] === 0xa4) {
-      return true;
-  } else if(version[0] === 0x07 && version[1] === 0xc3) {
-      return true;
-  } else if(version[0] === 0x09 && version[1] === 0x7f) {
-      return true;
-  } else if(version[0] === 0x09 && version[1] === 0x5a) {
-      return true;
-  } else {
-    return false;
-  }
-  
-}
-  
-function hcCheckDecoder(input: string): Buffer {
-  const decoded = hcDecode(input);  
-  if(decoded.length < 6) {
-    throw Error('Unrecognised address format');  
-  }
-  const version = [decoded[0], decoded[1]];
-  const cksum = decoded.slice(-4);
-  if(!checkPrefix(version)){
-    throw Error('Unrecognised address Network ID');
-  }
-  
-  if(!hcChecksum(decoded.slice(0, -4).toString('hex')).equals(cksum)){
-    throw Error('Checksum failed');
-  }
-  const payload = decoded.slice(2, decoded.length - 4);
-  return Buffer.concat([Buffer.from(version), payload]);
-   
-}
-
 function hntAddresEncoder(data: Buffer): string {
   const buf = Buffer.concat([Buffer.from([0]), data]);
 
@@ -1249,7 +1096,6 @@ export const formats: IFormat[] = [
   getConfig('BTM', 153, makeBech32SegwitEncoder('bm'), makeBech32SegwitDecoder('bm')),
   bitcoinChain('BTG', 156, 'btg', [[0x26]], [[0x17]]),
   getConfig('NANO', 165, nanoAddressEncoder, nanoAddressDecoder),
-  getConfig('HC', 171, hcCheckEncoder, hcCheckDecoder),
   bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
   hexChecksumChain('POA', 178),
   eosioChain('EOS', 194, 'EOS'),

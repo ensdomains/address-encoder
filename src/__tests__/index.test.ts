@@ -383,20 +383,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'HC',
-    coinType: 171,
-    passingVectors: [
-      {
-        text: 'HsNfvK7wrYC6bdzZxFBbhX9xzrXAXh9iuys',
-        hex: '097f78f5e8f39e6374c9c3fc1c8ff86f87faa164de05',
-      },
-      {
-        text: 'HcYjxtg31mDJuK9YGgd83hGg2D2xciBH35f',
-        hex: '095aa02d8d5c82a45265379407d7ddf957686be7eabf',
-      },
-    ],
-  },
-  {
     name: 'RVN',
     coinType: 175,
     passingVectors: [
