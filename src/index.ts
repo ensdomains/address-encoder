@@ -1008,8 +1008,6 @@ function aionEncoder(data: Buffer): string {
   return '0x'.concat(data.toString('hex'));
 }
 
-
-
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -1037,8 +1035,8 @@ export const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
-  bitcoinBase58Chain('XVG', 77, [[0x1e]], [[0x21]]),
-  bitcoinBase58Chain('STRAT', 105, [[0x3f]], [[0x7d]]),
+  bitcoinBase58Chain('XVG',77, [[0x1E]], [[0x21]]),
+  bitcoinBase58Chain('STRAT', 105, [[0x3F]], [[0x7D]]),
   getConfig('ARK', 111, bs58Encode, arkAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
@@ -1050,7 +1048,7 @@ export const formats: IFormat[] = [
   eosioChain('STEEM', 135, 'STM'),
   bitcoinBase58Chain('FIRO', 136, [[0x52]], [[0x07]]),
   hexChecksumChain('RSK', 137, 30),
-  bitcoinBase58Chain('KMD', 141, [[0x3c]], [[0x55]]),
+  bitcoinBase58Chain('KMD', 141, [[0x3C]], [[0x55]]),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
