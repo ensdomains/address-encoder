@@ -33,6 +33,7 @@ import  ripemd160  from 'ripemd160';
 import { Keccak } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
+import { nimqDecoder, nimqEncoder } from './nimq';
 
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
@@ -1007,6 +1008,8 @@ function aionEncoder(data: Buffer): string {
   return '0x'.concat(data.toString('hex'));
 }
 
+
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -1034,8 +1037,8 @@ export const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
-  bitcoinBase58Chain('XVG',77, [[0x1E]], [[0x21]]),
-  bitcoinBase58Chain('STRAT', 105, [[0x3F]], [[0x7D]]),
+  bitcoinBase58Chain('XVG', 77, [[0x1e]], [[0x21]]),
+  bitcoinBase58Chain('STRAT', 105, [[0x3f]], [[0x7d]]),
   getConfig('ARK', 111, bs58Encode, arkAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
@@ -1047,7 +1050,7 @@ export const formats: IFormat[] = [
   eosioChain('STEEM', 135, 'STM'),
   bitcoinBase58Chain('FIRO', 136, [[0x52]], [[0x07]]),
   hexChecksumChain('RSK', 137, 30),
-  bitcoinBase58Chain('KMD', 141, [[0x3C]], [[0x55]]),
+  bitcoinBase58Chain('KMD', 141, [[0x3c]], [[0x55]]),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
@@ -1061,6 +1064,7 @@ export const formats: IFormat[] = [
   eosioChain('FIO', 235, 'FIO'),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
+  getConfig('NIM', 242, nimqEncoder, nimqDecoder),
   hexChecksumChain('EWT', 246),
   getConfig('ALGO', 283, algoEncode, algoDecode),
   getConfig('IOST', 291, bs58EncodeNoCheck, bs58DecodeNoCheck),
@@ -1123,8 +1127,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
-  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),  
-  
+  getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
