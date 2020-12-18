@@ -455,6 +455,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
   },
   {
+    name: 'NIM',
+    coinType: 242,
+    passingVectors: [
+      { text: 'NQ18 GAL5 Y1FC 66VV PE1X J82Q 0A2F LYPB 2EY7', hex: '82a85f85ec31bbdbb83e920580284fa7eeb13be7' },
+    ],
+  },
+  {
     name: 'EWT',
     coinType: 246,
     passingVectors: [
