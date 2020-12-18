@@ -1126,6 +1126,7 @@ export const formats: IFormat[] = [
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
+  zcashChain('ZEL', 19167, 'za', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
   hexChecksumChain('CELO', 52752),
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),

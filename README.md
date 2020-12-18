@@ -128,6 +128,7 @@ This library currently supports the following cryptocurrencies and address forma
  - XTZ (base58check)
  - XVG (base58check P2PKH and P2SH)
  - ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
+ - ZEL (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZEN (base58 check)
  - ZIL (bech32)
  
