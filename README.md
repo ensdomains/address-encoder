@@ -80,6 +80,7 @@ This library currently supports the following cryptocurrencies and address forma
  - IOTA (base58check)
  - IOTX (bech32)
  - IRIS (bech32)
+ - KAVA (bech32)
  - KMD (base58check)
  - KSM (ss58)
  - LRG (base58check P2PKH and P2SH)

@@ -1076,6 +1076,7 @@ export const formats: IFormat[] = [
   getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
   getConfig('AE', 457, aeAddressEncoder, aeAddressDecoder),
+  bech32Chain('KAVA', 459, 'kava'),
   getConfig('FIL', 461, filAddrEncoder, filAddrDecoder),
   getConfig('AR', 472, arAddressEncoder, arAddressDecoder),
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
