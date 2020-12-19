@@ -948,6 +948,36 @@ function ardrAddressEncoder(data: Buffer): string {
 
 }
 
+function scChecksum(data: string): boolean {
+  const hashSize = 32;
+  const strUnlockHash = data.substr(0, hashSize * 2);
+  const checksum = data.substr(hashSize*2);
+  const byteUnlockHash = Buffer.from(strUnlockHash, 'hex');
+  const expectedChecksum = Buffer.from(blake2b(byteUnlockHash, null, 32)).slice(0 , 6).toString('hex');
+  return expectedChecksum === checksum;
+}
+
+function scAddressEncoder(data:Buffer): string {
+  const hexString = data.toString('hex');
+  if(hexString.length !== 76) {
+    throw Error('Unrecognised address format');
+  }
+  if(!scChecksum(hexString)) {
+    throw Error('Invalid checksum');
+  }
+  return hexString;
+}
+
+function scAddressDecoder(data: string): Buffer {
+  if(data.length !== 76) {
+    throw Error('Unrecognised address format');
+  }
+  if(!scChecksum(data)) {
+    throw Error('Invalid checksum');
+  }
+  return Buffer.from(data, 'hex');
+}
+
 function bcnAddressEncoder(data: Buffer): string {
   const checksum = (new Keccak(256).update(data).digest()).slice(0, 4);
 
@@ -1365,6 +1395,7 @@ export const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('SC', 1991, scAddressEncoder, scAddressDecoder),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   eosioChain('GXC', 2303, 'GXC'),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),

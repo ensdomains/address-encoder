@@ -905,6 +905,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'SC',
+    coinType: 1991,
+    passingVectors: [
+      { text: '95f3c3e81f33c9fc5186f2048f62b8893b230df568fb1d31faefa1a2e61df14c12b12419e3b8', hex: '95f3c3e81f33c9fc5186f2048f62b8893b230df568fb1d31faefa1a2e61df14c12b12419e3b8'},
+      { text: 'cb0e0bc4536efed858614252f09fbe76365cf7201336e779249a654bab1a3bbadc7e68cd4f21', hex: 'cb0e0bc4536efed858614252f09fbe76365cf7201336e779249a654bab1a3bbadc7e68cd4f21'}
+    ],
+  },
+  {
     name: 'QTUM',
     coinType: 2301,
     passingVectors: [
