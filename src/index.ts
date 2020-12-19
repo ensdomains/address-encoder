@@ -29,7 +29,6 @@ import {
 } from 'crypto-addr-codec';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
-import { check } from 'prettier';
 import  ripemd160  from 'ripemd160';
 import { Keccak, SHA3 } from 'sha3';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
@@ -625,16 +624,15 @@ function hnsAddressDecoder(data: string): Buffer {
 }
 
 function nasAddressEncoder(data: Buffer): string {
-  const content = Buffer.concat([Buffer.from([25]), Buffer.from([87]), data]);
-  const checksum = (new SHA3(256).update(content).digest()).slice(0, 4);
+  const checksum = (new SHA3(256).update(data).digest()).slice(0, 4);
   
-  return bs58EncodeNoCheck(Buffer.concat([content, checksum]));
+  return bs58EncodeNoCheck(Buffer.concat([data, checksum]));
 }
 
 function nasAddressDecoder(data: string): Buffer {
   const buf = bs58DecodeNoCheck(data);
 
-  if(buf.length !== 26 || buf[0] !== 25 || buf[1] !== 87){
+  if(buf.length !== 26 || buf[0] !== 25 || (buf[1] !== 87 && buf[1] !== 88)){
     throw Error('Unrecognised address format');
   }
 
@@ -646,7 +644,7 @@ function nasAddressDecoder(data: string): Buffer {
     throw Error('Invalid checksum');
   }
 
-  return bufferData.slice(2);
+  return bufferData;
 }
 
 // Referenced from following
