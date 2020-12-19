@@ -77,6 +77,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'VIA',
+    coinType: 14,
+    passingVectors: [
+      { text: 'Vxgc5PCLkzNkDLkuduQEcrUBF1Z1UUHnav', hex: '76a914f8d8b16d9409898a976b66bad157b91b71dc18ca88ac' },
+      { text: 'EYg9j8ieF6BQzS9doHnjg3Faj7SdAhfqnV', hex: 'a914aa423f4ab9ea252abc360ec1dada62ef2527245987' },
+    ],
+  },
+  {
     name: 'DGB',
     coinType: 20,
     passingVectors: [
@@ -383,6 +391,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'POA',
+    coinType: 178,
+    passingVectors: [
+      { text: '0xF977814e90dA44bFA03b6295A0616a897441aceC', hex: 'f977814e90da44bfa03b6295a0616a897441acec' },
+      { text: '0xBE0eB53F46cd790Cd13851d5EFf43D12404d33E8', hex: 'be0eb53f46cd790cd13851d5eff43d12404d33e8' },
+    ],
+  },
+  {
     name: 'EOS',
     coinType: 194,
     passingVectors: [
@@ -437,6 +453,13 @@ const vectors: Array<TestVector> = [
     name: 'NEO',
     coinType: 239,
     passingVectors: [{ text: 'AXaXZjZGA3qhQRTCsyG5uFKr9HeShgVhTF', hex: '17ad5cac596a1ef6c18ac1746dfd304f93964354b5' }],
+  },
+  {
+    name: 'NIM',
+    coinType: 242,
+    passingVectors: [
+      { text: 'NQ18 GAL5 Y1FC 66VV PE1X J82Q 0A2F LYPB 2EY7', hex: '82a85f85ec31bbdbb83e920580284fa7eeb13be7' },
+    ],
   },
   {
     name: 'EWT',
@@ -576,6 +599,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'KAVA',
+    coinType: 459,
+    passingVectors: [
+      { text: 'kava1r4v2zdhdalfj2ydazallqvrus9fkphmglhn6u6', hex: '1d58a136edefd32511bd177ff0307c815360df68' },
+    ],
+  },
+  {
     name: 'FIL',
     coinType: 461,
     passingVectors: [
@@ -624,6 +654,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'THETA',
+    coinType: 500,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
     name: 'SOL',
     coinType: 501,
     passingVectors: [
@@ -646,6 +683,11 @@ const vectors: Array<TestVector> = [
         hex: 'f4b24b708551a04541bfc33b74edddf8180bee188a01b7581c66452619634bf0b54e866dc481be8f53d1d99a470080185e01c7760aac8c4b3e2336b6b1c53da731ff047530a5df' 
       },
     ],
+  },
+  {
+    name: 'FLOW',
+    coinType: 539,
+    passingVectors: [{ text: '0xf233dcee88fe0abe', hex: 'f233dcee88fe0abe' }],
   },
   {
     name: 'IRIS',
@@ -728,6 +770,16 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'GRIN',
+    coinType: 592,
+    passingVectors: [
+      { 
+        text: 'grin1k6m6sjpwc047zdhsdj9r77v5nnxm33hx7wxqvw5dhd9vl0d7t4fsaqt0lg',
+        hex: 'b6b7a8482ec3ebe136f06c8a3f79949ccdb8c6e6f38c063a8dbb4acfbdbe5d53' 
+      }
+    ],
+  },
+  {
     name: 'XDAI',
     coinType: 700,
     passingVectors: [
@@ -746,6 +798,13 @@ const vectors: Array<TestVector> = [
     coinType: 714,
     passingVectors: [
       { text: 'bnb1grpf0955h0ykzq3ar5nmum7y6gdfl6lxfn46h2', hex: '40c2979694bbc961023d1d27be6fc4d21a9febe6' },
+    ],
+  },
+  {
+    name: 'CLO',
+    coinType: 820,
+    passingVectors: [
+      { text: '0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed', hex: '5aaeb6053f3e94c9b9a09f33669435e7ef1beaed' },
     ],
   },
   {
@@ -777,6 +836,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i', hex: '76a91465a16059864a2fdbc7c99a4723a8395bc6f188eb88ac' },
       { text: '3CMNFxN1oHBc4R1EpboAL5yzHGgE611Xou', hex: 'a91474f209f6ea907e2ea48f74fae05782ae8a66525787' },
+    ],
+  },
+  {
+    name: 'TT',
+    coinType: 1001,
+    passingVectors: [
+      { text: '0x1001EEc06f2aDff074fC2A9492e132c33d6bd54d', hex: '1001eec06f2adff074fc2a9492e132c33d6bd54d' },
     ],
   },
   {
@@ -875,6 +941,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'GO',
+    coinType: 6060,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
     name: 'AVAX',
     coinType: 9000,
     passingVectors: [
@@ -893,6 +966,14 @@ const vectors: Array<TestVector> = [
     coinType: 16754,
     passingVectors: [
       { text: 'ARDOR-MT4P-AHG4-A4NA-CCMM2', hex: '15021913020e0f080a1313000a08021408' },
+    ],
+  },
+  {
+    name: 'ZEL',
+    coinType: 19167,
+    passingVectors: [
+      { text: 't1XWTigDqS5Dy9McwQc752ShtZV1ffTMJB3', hex: '76a91495921ba2fc5277d8a35b0e2d339987d51681c51d88ac' },
+      { text: 't3c51GjrkUg7pUiS8bzNdTnW2hD25egWUih', hex: 'a914c008da0bbc92b35ff71f613ca10ff11e2a6ae2fe87' },
     ],
   },
   {
