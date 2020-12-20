@@ -1055,6 +1055,73 @@ function flowEncode(data: Buffer): string {
   return '0x' + addrBytes.toString('hex').toLowerCase();
 }
 
+/* tslint:disable:no-bitwise */
+function nulsAddressEncoder(data: Buffer): string {
+  const chainId = data[0] & 0xff | (data[1] & 0xff) << 8;
+  const tempBuffer = Buffer.allocUnsafe(data.length + 1);
+
+  let temp = 0;
+  let xor = 0x00;
+  for(let i = 0; i < data.length; i++) {
+    temp = data[i];
+    temp = temp > 127 ? temp - 256 : temp;
+    tempBuffer[i] = temp;
+    xor ^= temp;
+  }
+  tempBuffer[data.length] = xor;
+
+  let prefix = "";
+  if(1 === chainId) {
+    prefix = 'NULS';
+  } else if (2 === chainId) {
+    prefix = 'tNULS';
+  } else {
+    const chainIdBuffer = Buffer.concat([Buffer.from([0xFF & chainId >> 0]), Buffer.from([0xFF & chainId >> 8])]);
+    prefix = bs58EncodeNoCheck(chainIdBuffer).toUpperCase();
+  }
+
+  const constant = ['a', 'b', 'c', 'd', 'e'];
+  return prefix + constant[prefix.length - 1] + bs58EncodeNoCheck(tempBuffer);
+}
+
+function nulsAddressDecoder(data: string): Buffer {
+  if(data.startsWith('NULS')) {
+    data = data.substring(5);
+  } else if (data.startsWith('tNULS')) {
+    data = data.substring(6);
+  } else {
+    for(let i = 0; i < data.length; i++) {
+      const val = data.charAt(i);
+      if(val.charCodeAt(0) >= 97) {
+        data = data.substring(i + 1);
+        break;
+      }
+    }
+  }
+
+  const bytes = bs58DecodeNoCheck(data);
+
+  let temp = 0;
+  let xor = 0x00;
+  for(let i = 0; i < bytes.length - 1; i++) {
+    temp = bytes[i];
+    temp = temp > 127 ? temp - 256 : temp;
+    bytes[i] = temp;
+    xor ^= temp;
+  }
+
+  if(xor < 0) {
+    xor = 256 + xor;
+  }
+
+  if(xor !== bytes[bytes.length - 1]) {
+    throw Error('Unrecognised address format');
+  }
+
+  return bytes.slice(0, -1);
+}
+/* tslint:enable:no-bitwise */
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -1176,6 +1243,7 @@ export const formats: IFormat[] = [
   getConfig('IOTA', 4218, bs58Encode, bs58Decode),
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('GO', 6060),
+  getConfig('NULS', 8964, nulsAddressEncoder, nulsAddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),

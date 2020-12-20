@@ -98,6 +98,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NEO (base58check)
  - NMC (base58check)
  - NRG (checksummed-hex)
+ - NULS (base58)
  - ONE (bech32)
  - ONT (base58check)
  - POA (checksummed-hex)
