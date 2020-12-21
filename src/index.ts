@@ -229,6 +229,26 @@ function encodeCashAddr(data: Buffer): string {
   }
 }
 
+function decodeNearAddr(data: string): Buffer {
+  const regex = /(^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$)/g;
+  if(!regex.test(data)) {
+    throw Error('Invalid address string');
+  } else {
+    if(data.length > 64 || data.length < 2) {
+      throw Error('Invalid address format');
+    }
+    return Buffer.from(data);
+  }
+}
+
+function encodeNearAddr(data: Buffer): string {
+  const ndata = data.toString();
+  if(ndata.length > 64 || ndata.length < 2) {
+    throw Error('Invalid address format');
+  }
+  return ndata;
+}
+
 function decodeCashAddr(data: string): Buffer {
   const { prefix, type, hash } = cashaddrDecode(data);
   if (type === 0) {
@@ -1190,6 +1210,7 @@ export const formats: IFormat[] = [
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('VSYS', 360, vsysAddressEncoder, vsysAddressDecoder),
   eosioChain('ABBC', 367, 'ABBC'),
+  getConfig('NEAR', 397, encodeNearAddr, decodeNearAddr),
   getConfig('ETN', 415, etnAddressEncoder, etnAddressDecoder),
   getConfig('AION', 425, aionEncoder, aionDecoder),
   getConfig('KSM', 434, ksmAddrEncoder, ksmAddrDecoder),
