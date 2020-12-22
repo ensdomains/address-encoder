@@ -74,6 +74,7 @@ This library currently supports the following cryptocurrencies and address forma
  - FLOW (hex)
  - GO (checksummed-hex)
  - GRIN (base58check)
+ - GRS (base58check P2PKH and P2SH, and bech32 segwit)
  - GXC (base58 + ripemd160-checksum)
  - HBAR
  - HIVE (base58 + ripemd160-checksum)
