@@ -5,7 +5,7 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import bigInt from 'big-integer';
-import { blake2b } from 'blakejs'
+import { blake2b, blake2bHex } from 'blakejs';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import {
@@ -1253,7 +1253,32 @@ function nulsAddressDecoder(data: string): Buffer {
 
   return bytes.slice(0, -1);
 }
-/* tslint:enable:no-bitwise */
+
+const SIA_HASH_SIZE = 32;
+const SIA_CHECKSUM_SIZE = 6;
+const SIA_BLAKE2B_LEN = 32;
+
+function siaAddressEncoder(data: Buffer): string {
+  const checksum = blake2bHex(data, null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
+  return data.toString('hex') + checksum;
+}
+
+function siaAddressDecoder(data: string): Buffer {
+  if (data.length !== (SIA_CHECKSUM_SIZE + SIA_HASH_SIZE) * 2) {
+    throw Error('Unrecognised address format');
+  }
+
+  const hash = Buffer.from(data.slice(0, SIA_HASH_SIZE * 2), 'hex');
+  const checksum = data.slice(SIA_HASH_SIZE * 2);
+  const expectedChecksum = blake2bHex(hash, null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
+
+  if (checksum !== expectedChecksum) {
+    throw Error('Unrecognised address format');
+  }
+
+  return hash;
+}
+
 
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
@@ -1284,8 +1309,8 @@ export const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
-  bitcoinBase58Chain('XVG',77, [[0x1E]], [[0x21]]),
-  bitcoinBase58Chain('STRAT', 105, [[0x3F]], [[0x7D]]),
+  bitcoinBase58Chain('XVG', 77, [[0x1e]], [[0x21]]),
+  bitcoinBase58Chain('STRAT', 105, [[0x3f]], [[0x7d]]),
   getConfig('ARK', 111, bs58Encode, arkAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
@@ -1297,7 +1322,7 @@ export const formats: IFormat[] = [
   eosioChain('STEEM', 135, 'STM'),
   bitcoinBase58Chain('FIRO', 136, [[0x52]], [[0x07]]),
   hexChecksumChain('RSK', 137, 30),
-  bitcoinBase58Chain('KMD', 141, [[0x3C]], [[0x55]]),
+  bitcoinBase58Chain('KMD', 141, [[0x3c]], [[0x55]]),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
@@ -1365,6 +1390,7 @@ export const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('SC', 1991, siaAddressEncoder, siaAddressDecoder),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   eosioChain('GXC', 2303, 'GXC'),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
