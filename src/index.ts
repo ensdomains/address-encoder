@@ -5,7 +5,7 @@ import {
   toWords as bech32ToWords,
 } from 'bech32';
 import bigInt from 'big-integer';
-import { blake2b } from 'blakejs'
+import { blake2b, blake2bHex } from 'blakejs';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import {
@@ -1255,6 +1255,31 @@ function nulsAddressDecoder(data: string): Buffer {
 }
 /* tslint:enable:no-bitwise */
 
+const SIA_HASH_SIZE = 32;
+const SIA_CHECKSUM_SIZE = 6;
+const SIA_BLAKE2B_LEN = 32;
+
+function siaAddressEncoder(data: Buffer): string {
+  const checksum = blake2bHex(data, null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
+  return data.toString('hex') + checksum;
+}
+
+function siaAddressDecoder(data: string): Buffer {
+  if (data.length !== (SIA_CHECKSUM_SIZE + SIA_HASH_SIZE) * 2) {
+    throw Error('Unrecognised address format');
+  }
+
+  const hash = Buffer.from(data.slice(0, SIA_HASH_SIZE * 2), 'hex');
+  const checksum = data.slice(SIA_HASH_SIZE * 2);
+  const expectedChecksum = blake2bHex(hash, null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
+
+  if (checksum !== expectedChecksum) {
+    throw Error('Unrecognised address format');
+  }
+
+  return hash;
+}
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -1365,6 +1390,7 @@ export const formats: IFormat[] = [
     name: 'XTZ',
   },
   bech32Chain('ADA', 1815, 'addr'),
+  getConfig('SC', 1991, siaAddressEncoder, siaAddressDecoder),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   eosioChain('GXC', 2303, 'GXC'),
   getConfig('ELA', 2305, bs58EncodeNoCheck, bs58DecodeNoCheck),
