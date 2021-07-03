@@ -1379,6 +1379,7 @@ export const formats: IFormat[] = [
   eosioChain('HIVE', 825, 'STM'),
   hexChecksumChain('TOMO', 889),
   getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
+  bech32Chain('RUNE', 931, 'thor'),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   hexChecksumChain('TT', 1001),
   bech32Chain('ONE', 1023, 'one'),
