@@ -6,6 +6,7 @@ import {
 } from 'bech32';
 import bigInt from 'big-integer';
 import { blake2b, blake2bHex } from 'blakejs';
+import { c32encode, c32decode } from './blockstacks/encoding';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import {
@@ -1347,6 +1348,7 @@ export const formats: IFormat[] = [
   bech32Chain('CKB', 309, 'ckb'),
   bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
+  getConfig('STX', 355, c32encode, c32decode),
   getConfig('VSYS', 360, vsysAddressEncoder, vsysAddressDecoder),
   eosioChain('ABBC', 367, 'ABBC'),
   getConfig('NEAR', 397, encodeNearAddr, decodeNearAddr),

@@ -544,6 +544,16 @@ const vectors: Array<TestVector> = [
       },
     ],
   },
+  {
+    name: 'STX',
+    coinType: 355,
+    passingVectors: [
+      {
+        text: 'SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7',
+        hex: 'a46ff88886c2ef9762d970b4d2c63678835bd39d',
+      },
+    ],
+  },
   { name: 'VSYS',
     coinType: 360,
     passingVectors: [
