@@ -10,7 +10,7 @@ function c32checksum(dataHex: string): string {
 }
 
 export function c32checkEncode(data: Buffer): string {
-  let dataHex = data.toString('hex');
+  const dataHex = data.toString('hex');
   let hash160hex = dataHex.substring(0, dataHex.length - 8);
   if (!hash160hex.match(/^[0-9a-fA-F]{40}$/)) {
     throw new Error('Invalid argument: not a hash160 hex string');
@@ -23,16 +23,16 @@ export function c32checkEncode(data: Buffer): string {
 
   // p2pkh: 'P'
   // p2sh: 'M'
-  let version = { p2pkh: 22, p2sh: 20 };
+  const version = { p2pkh: 22, p2sh: 20 };
 
-  let checksumHex = dataHex.slice(-8);
+  const checksumHex = dataHex.slice(-8);
   let c32str = '';
   let prefix = '';
 
-  if (checksumHex == c32checksum(`${version.p2pkh.toString(16)}${hash160hex}`)) {
+  if (checksumHex === c32checksum(`${version.p2pkh.toString(16)}${hash160hex}`)) {
     prefix = 'P';
     c32str = c32encode(`${hash160hex}${checksumHex}`);
-  } else if ((checksumHex == c32checksum(`${version.p2sh.toString(16)}${hash160hex}`))) {
+  } else if ((checksumHex === c32checksum(`${version.p2sh.toString(16)}${hash160hex}`))) {
     prefix = 'M';
     c32str = c32encode(`${hash160hex}${checksumHex}`);
   }
@@ -56,6 +56,7 @@ function c32encode(inputHex: string): string {
   let carry = 0;
   for (let i = inputHex.length - 1; i >= 0; i--) {
     if (carry < 4) {
+      // tslint:disable-next-line:no-bitwise
       const currentCode = hex.indexOf(inputHex[i]) >> carry;
       let nextCode = 0;
       if (i !== 0) {
@@ -63,6 +64,7 @@ function c32encode(inputHex: string): string {
       }
       // carry = 0, nextBits is 1, carry = 1, nextBits is 2
       const nextBits = 1 + carry;
+      // tslint:disable-next-line:no-bitwise
       const nextLowBits = nextCode % (1 << nextBits) << (5 - nextBits);
       const curC32Digit = C32_ALPHABET[currentCode + nextLowBits];
       carry = nextBits;
@@ -73,6 +75,7 @@ function c32encode(inputHex: string): string {
   }
 
   let C32leadingZeros = 0;
+  // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < res.length; i++) {
     if (res[i] !== '0') {
       break;
@@ -106,11 +109,11 @@ export function c32checkDecode(data: string): Buffer {
   if (data.length <= 5) {
     throw new Error('Invalid c32 address: invalid length');
   }
-  if (data[0] != 'S') {
+  if (data[0] !== 'S') {
     throw new Error('Invalid c32 address: must start with "S"');
   }
 
-  let c32data = c32normalize(data.slice(1));
+  const c32data = c32normalize(data.slice(1));
   const versionChar = c32data[0];
   const version = C32_ALPHABET.indexOf(versionChar);
 
@@ -119,7 +122,7 @@ export function c32checkDecode(data: string): Buffer {
     versionHex = `0${versionHex}`;
   }
 
-  let dataHex = c32decode(c32data.slice(1));
+  const dataHex = c32decode(c32data.slice(1));
   const checksum = dataHex.slice(-8);
 
   if (c32checksum(`${versionHex}${dataHex.substring(0, dataHex.length - 8)}`) !== checksum) {
@@ -149,11 +152,14 @@ function c32decode(c32input: string): string {
       carryBits = 0;
       carry = 0;
     }
+    // tslint:disable-next-line:no-bitwise
     const currentCode = C32_ALPHABET.indexOf(c32input[i]) << carryBits;
     const currentValue = currentCode + carry;
     const currentHexDigit = hex[currentValue % 16];
     carryBits += 1;
+    // tslint:disable-next-line:no-bitwise
     carry = currentValue >> 4;
+    // tslint:disable-next-line:no-bitwise
     if (carry > 1 << carryBits) {
       throw new Error('Panic error in decoding.');
     }
@@ -167,6 +173,7 @@ function c32decode(c32input: string): string {
   }
 
   let hexLeadingZeros = 0;
+  // tslint:disable-next-line:prefer-for-of
   for (let i = 0; i < res.length; i++) {
     if (res[i] !== '0') {
       break;

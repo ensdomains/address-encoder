@@ -852,14 +852,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'RUNE',
-    coinType: 931,
-    passingVectors: [
-      { text: 'thor196yf4pq80hjrmz7nnh0ar0ypqg02r0w4dq4mzu', hex: '2e889a84077de43d8bd39ddfd1bc81021ea1bdd5' },
-      { text: 'thor1yv0mrrygnjs03zsrwrgqz4sa36evfw2a049l5p', hex: '231fb18c889ca0f88a0370d001561d8eb2c4b95d' },
-    ],
-  },
-  {
     name: 'BCD',
     coinType: 999,
     passingVectors: [
