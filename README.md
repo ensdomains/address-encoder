@@ -82,7 +82,7 @@ This library currently supports the following cryptocurrencies and address forma
  - HNT (base58check)
  - ICX
  - IOST (base58, no check)
- - IOTA (base58check)
+ - IOTA (bech32)
  - IOTX (bech32)
  - IRIS (bech32)
  - KAVA (bech32)
