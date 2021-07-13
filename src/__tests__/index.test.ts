@@ -961,7 +961,7 @@ const vectors: Array<TestVector> = [
     name: 'IOTA',
     coinType: 4218,
     passingVectors: [
-      { text: 'Qc6iYCZWn4BauKXGYirRG8pMtgdHMk2dzn', hex: '3aa9f8f3b055324f6b2d6bcac328ec2d7e3cd22d8b' },
+      { text: 'iota1qpw6k49dedaxrt854rau02talgfshgt0jlm5w8x9nk5ts6f5x5m759nh2ml', hex: '005dab54adcb7a61acf4a8fbc7a97dfa130ba16f97f7471cc59da8b869343537ea' },
     ]
   },
   {
