@@ -234,7 +234,7 @@ function encodeCashAddr(data: Buffer): string {
 
 function makeCardanoEncoder(hrp: string): (data: Buffer) => string {
   const encodeByron = makeCardanoByronEncoder();
-  const encodeBech32 = makeBech32Encoder(hrp);
+  const encodeBech32 = makeBech32Encoder(hrp, 104);
   return (data: Buffer) => { 
     try {
       return encodeByron(data);
@@ -246,7 +246,7 @@ function makeCardanoEncoder(hrp: string): (data: Buffer) => string {
 
 function makeCardanoDecoder(hrp: string): (data: string) => Buffer {
   const decodeByron = makeCardanoByronDecoder();
-  const decodeBech32 = makeBech32Decoder(hrp);
+  const decodeBech32 = makeBech32Decoder(hrp, 104);
   return (data: string) => {
     if (data.toLowerCase().startsWith(hrp)) {
       return decodeBech32(data);
@@ -484,13 +484,13 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
   name,
 });
 
-function makeBech32Encoder(prefix: string) {
-  return (data: Buffer) => bech32Encode(prefix, bech32ToWords(data));
+function makeBech32Encoder(prefix: string, limit?: number) {
+  return (data: Buffer) => bech32Encode(prefix, bech32ToWords(data), limit);
 }
 
-function makeBech32Decoder(currentPrefix: string) {
+function makeBech32Decoder(currentPrefix: string, limit?: number) {
   return (data: string) => {
-    const { prefix, words } = bech32Decode(data);
+    const { prefix, words } = bech32Decode(data, limit);
     if (prefix !== currentPrefix) {
       throw Error('Unrecognised address format');
     }
@@ -498,10 +498,10 @@ function makeBech32Decoder(currentPrefix: string) {
   };
 }
 
-const bech32Chain = (name: string, coinType: number, prefix: string) => ({
+const bech32Chain = (name: string, coinType: number, prefix: string, limit?: number) => ({
   coinType,
-  decoder: makeBech32Decoder(prefix),
-  encoder: makeBech32Encoder(prefix),
+  decoder: makeBech32Decoder(prefix, limit),
+  encoder: makeBech32Encoder(prefix, limit),
   name,
 });
 
