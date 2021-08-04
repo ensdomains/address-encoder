@@ -902,6 +902,14 @@ const vectors: Array<TestVector> = [
         text: 'addr1gqtnpvdhqrtpd4g424fcaq7k0ufuzyadt7djygf8qdyzevuph3wczvf2dwyx5u',
         hex: '401730b1b700d616d51555538e83d67f13c113ad5f9b22212703482cb381bc5d81312a',
       },
+      {
+        text: 'Ae2tdPwUPEZFRbyhz3cpfC2CumGzNkFBN2L42rcUc2yjQpEkxDbkPodpMAi',
+        hex: '83581cba970ad36654d8dd8f74274b733452ddeab9a62a397746be3c42ccdda000',
+      },
+      {
+        text: 'DdzFFzCqrhsiMfvZtvTgqbR5jT4UAMEwJCT2bBvWSTiN736tSSxhnhHbmJYUhTiuZGgojfi3jizinGRVUdBF9QHgWHi11nEVpwK36gC9',
+        hex: '83581c22fb739e75d1f34748c2f03365ac909aff4d5a47bad7b4231c62a949a101581e581c2374b70ae27c8cc324be7b97285bdde6eeb78354cf6d1110baa37da000',
+      },
     ],
   },
   {

@@ -7,6 +7,7 @@ import {
 import bigInt from 'big-integer';
 import { blake2b, blake2bHex } from 'blakejs';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
+import { crc32 } from 'crc';
 // @ts-ignore
 import {
   b32decode,
@@ -30,6 +31,7 @@ import {
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import { Keccak, SHA3 } from 'sha3';
+import { decode as cborDecode, encode as cborEncode, TaggedValue } from './cbor/cbor';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { ChainID, isValidAddress } from './flow/index';
 import { groestl_2 }  from './groestl-hash-js/index';
@@ -229,6 +231,82 @@ function encodeCashAddr(data: Buffer): string {
       throw Error('Unrecognised address format');
   }
 }
+
+function makeCardanoEncoder(hrp: string): (data: Buffer) => string {
+  const encodeByron = makeCardanoByronEncoder();
+  const encodeBech32 = makeBech32Encoder(hrp);
+  return (data: Buffer) => { 
+    try {
+      return encodeByron(data);
+    } catch {
+      return encodeBech32(data);
+    }
+  }
+}
+
+function makeCardanoDecoder(hrp: string): (data: string) => Buffer {
+  const decodeByron = makeCardanoByronDecoder();
+  const decodeBech32 = makeBech32Decoder(hrp);
+  return (data: string) => {
+    if (data.toLowerCase().startsWith(hrp)) {
+      return decodeBech32(data);
+    } else {
+      return decodeByron(data);
+    }
+  };
+}
+
+function makeCardanoByronEncoder() {
+  return (data: Buffer) => {
+    const checksum = crc32(data);
+    const taggedValue = new TaggedValue(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), 24);
+
+    const cborEncodedAddress = cborEncode([taggedValue, checksum]);
+
+    const address = bs58EncodeNoCheck(Buffer.from(cborEncodedAddress));
+
+    if (!address.startsWith('Ae2') && !address.startsWith('Ddz')) {
+      throw Error('Unrecognised address format');
+    }
+  
+    return address;
+   };
+}
+
+function makeCardanoByronDecoder() {
+  return (data: string) => { 
+    const bytes = bs58DecodeNoCheck(data);
+    const bytesAb = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+
+    const cborDecoded = cborDecode(bytesAb);
+
+    const taggedAddr = cborDecoded[0];
+    if(taggedAddr === undefined) {
+      throw Error('Unrecognised address format');
+    }
+  
+    const addrChecksum = cborDecoded[1];
+    const calculatedChecksum = crc32(taggedAddr.value);
+  
+    if(calculatedChecksum !== addrChecksum) {
+      throw Error('Unrecognised address format');
+    }
+
+    return Buffer.from(taggedAddr.value);
+  };
+}
+
+
+const cardanoChain = (
+  name: string,
+  coinType: number,
+  hrp: string,
+) => ({
+  coinType,
+  decoder: makeCardanoDecoder(hrp),
+  encoder: makeCardanoEncoder(hrp),
+  name,
+});
 
 function decodeNearAddr(data: string): Buffer {
   const regex = /(^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$)/g;
@@ -1389,7 +1467,7 @@ export const formats: IFormat[] = [
     encoder: tezosAddressEncoder,
     name: 'XTZ',
   },
-  bech32Chain('ADA', 1815, 'addr'),
+  cardanoChain('ADA', 1815, 'addr'),
   getConfig('SC', 1991, siaAddressEncoder, siaAddressDecoder),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   eosioChain('GXC', 2303, 'GXC'),
