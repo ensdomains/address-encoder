@@ -1,3 +1,5 @@
+// Ported from https://www.npmjs.com/package/cbor-redux as the release 0.4.0 was missing on npm, which has critical changes.
+
 /* tslint:disable:max-classes-per-file */
 
 /** @hidden */
