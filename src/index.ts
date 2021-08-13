@@ -7,7 +7,6 @@ import {
 import bigInt from 'big-integer';
 import { blake2b, blake2bHex } from 'blakejs';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
-import { crc32 } from 'crc';
 // @ts-ignore
 import {
   b32decode,
@@ -28,6 +27,7 @@ import {
   stripHexPrefix as rskStripHexPrefix,
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
+import { crc32 } from 'js-crc';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import { Keccak, SHA3 } from 'sha3';
@@ -261,7 +261,7 @@ function makeCardanoByronEncoder() {
     const checksum = crc32(data);
     const taggedValue = new TaggedValue(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), 24);
 
-    const cborEncodedAddress = cborEncode([taggedValue, checksum]);
+    const cborEncodedAddress = cborEncode([taggedValue, parseInt(checksum, 16)]);
 
     const address = bs58EncodeNoCheck(Buffer.from(cborEncodedAddress));
 
@@ -288,7 +288,7 @@ function makeCardanoByronDecoder() {
     const addrChecksum = cborDecoded[1];
     const calculatedChecksum = crc32(taggedAddr.value);
   
-    if(calculatedChecksum !== addrChecksum) {
+    if(parseInt(calculatedChecksum, 16) !== addrChecksum) {
       throw Error('Unrecognised address format');
     }
 
