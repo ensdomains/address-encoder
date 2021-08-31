@@ -29,7 +29,7 @@ console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 This library currently supports the following cryptocurrencies and address formats (ordered alphabetically):
 
  - ABBC (base58 + ripemd160-checksum)
- - ADA (bech32)
+ - ADA (base58, no check + crc32-checksum and bech32)
  - AE (base58check)
  - AIB (base58check P2PKH and P2SH)
  - AION (hex)
@@ -108,6 +108,7 @@ This library currently supports the following cryptocurrencies and address forma
  - QTUM (base58check)
  - RDD (base58check P2PKH and P2SH)
  - RSK (checksummed-hex)
+ - RUNE (bech32)
  - RVN (base58check P2PKH and P2SH)
  - SC (blake2b checksum)
  - SERO (base58, no check)
