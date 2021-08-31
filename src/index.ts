@@ -1483,7 +1483,7 @@ export const formats: IFormat[] = [
   },
   getConfig('IOTA', 4218, bs58Encode, bs58Decode),
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
-  getConfig('STX',5757, c32checkEncode, c32checkDecode),
+  getConfig('STX', 5757, c32checkEncode, c32checkDecode),
   hexChecksumChain('GO', 6060),
   getConfig('NULS', 8964, nulsAddressEncoder, nulsAddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),

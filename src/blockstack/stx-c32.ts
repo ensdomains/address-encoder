@@ -1,7 +1,11 @@
 // https://en.wikipedia.org/wiki/Base32#Crockford's_Base32
-import { hashSha256 } from 'cross-sha256';
+import { sha256 } from 'js-sha256';
 export const C32_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 const hex = '0123456789abcdef';
+
+function hashSha256(data: Buffer): Buffer {
+  return Buffer.from(sha256.update(data).digest())
+}
 
 function c32checksum(dataHex: string): string {
   const dataHash = hashSha256(hashSha256(Buffer.from(dataHex, 'hex')));
