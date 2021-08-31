@@ -27,9 +27,11 @@ import {
   stripHexPrefix as rskStripHexPrefix,
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
+import { crc32 } from 'js-crc';
 import { sha512_256 } from 'js-sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import { Keccak, SHA3 } from 'sha3';
+import { decode as cborDecode, encode as cborEncode, TaggedValue } from './cbor/cbor';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { ChainID, isValidAddress } from './flow/index';
 import { groestl_2 }  from './groestl-hash-js/index';
@@ -230,6 +232,82 @@ function encodeCashAddr(data: Buffer): string {
   }
 }
 
+function makeCardanoEncoder(hrp: string): (data: Buffer) => string {
+  const encodeByron = makeCardanoByronEncoder();
+  const encodeBech32 = makeBech32Encoder(hrp, 104);
+  return (data: Buffer) => { 
+    try {
+      return encodeByron(data);
+    } catch {
+      return encodeBech32(data);
+    }
+  }
+}
+
+function makeCardanoDecoder(hrp: string): (data: string) => Buffer {
+  const decodeByron = makeCardanoByronDecoder();
+  const decodeBech32 = makeBech32Decoder(hrp, 104);
+  return (data: string) => {
+    if (data.toLowerCase().startsWith(hrp)) {
+      return decodeBech32(data);
+    } else {
+      return decodeByron(data);
+    }
+  };
+}
+
+function makeCardanoByronEncoder() {
+  return (data: Buffer) => {
+    const checksum = crc32(data);
+    const taggedValue = new TaggedValue(data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength), 24);
+
+    const cborEncodedAddress = cborEncode([taggedValue, parseInt(checksum, 16)]);
+
+    const address = bs58EncodeNoCheck(Buffer.from(cborEncodedAddress));
+
+    if (!address.startsWith('Ae2') && !address.startsWith('Ddz')) {
+      throw Error('Unrecognised address format');
+    }
+  
+    return address;
+   };
+}
+
+function makeCardanoByronDecoder() {
+  return (data: string) => { 
+    const bytes = bs58DecodeNoCheck(data);
+    const bytesAb = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+
+    const cborDecoded = cborDecode(bytesAb);
+
+    const taggedAddr = cborDecoded[0];
+    if(taggedAddr === undefined) {
+      throw Error('Unrecognised address format');
+    }
+  
+    const addrChecksum = cborDecoded[1];
+    const calculatedChecksum = crc32(taggedAddr.value);
+  
+    if(parseInt(calculatedChecksum, 16) !== addrChecksum) {
+      throw Error('Unrecognised address format');
+    }
+
+    return Buffer.from(taggedAddr.value);
+  };
+}
+
+
+const cardanoChain = (
+  name: string,
+  coinType: number,
+  hrp: string,
+) => ({
+  coinType,
+  decoder: makeCardanoDecoder(hrp),
+  encoder: makeCardanoEncoder(hrp),
+  name,
+});
+
 function decodeNearAddr(data: string): Buffer {
   const regex = /(^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$)/g;
   if(!regex.test(data)) {
@@ -406,13 +484,13 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
   name,
 });
 
-function makeBech32Encoder(prefix: string) {
-  return (data: Buffer) => bech32Encode(prefix, bech32ToWords(data));
+function makeBech32Encoder(prefix: string, limit?: number) {
+  return (data: Buffer) => bech32Encode(prefix, bech32ToWords(data), limit);
 }
 
-function makeBech32Decoder(currentPrefix: string) {
+function makeBech32Decoder(currentPrefix: string, limit?: number) {
   return (data: string) => {
-    const { prefix, words } = bech32Decode(data);
+    const { prefix, words } = bech32Decode(data, limit);
     if (prefix !== currentPrefix) {
       throw Error('Unrecognised address format');
     }
@@ -420,10 +498,10 @@ function makeBech32Decoder(currentPrefix: string) {
   };
 }
 
-const bech32Chain = (name: string, coinType: number, prefix: string) => ({
+const bech32Chain = (name: string, coinType: number, prefix: string, limit?: number) => ({
   coinType,
-  decoder: makeBech32Decoder(prefix),
-  encoder: makeBech32Encoder(prefix),
+  decoder: makeBech32Decoder(prefix, limit),
+  encoder: makeBech32Encoder(prefix, limit),
   name,
 });
 
@@ -1379,6 +1457,7 @@ export const formats: IFormat[] = [
   eosioChain('HIVE', 825, 'STM'),
   hexChecksumChain('TOMO', 889),
   getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
+  bech32Chain('RUNE', 931, 'thor'),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   hexChecksumChain('TT', 1001),
   bech32Chain('ONE', 1023, 'one'),
@@ -1389,7 +1468,7 @@ export const formats: IFormat[] = [
     encoder: tezosAddressEncoder,
     name: 'XTZ',
   },
-  bech32Chain('ADA', 1815, 'addr'),
+  cardanoChain('ADA', 1815, 'addr'),
   getConfig('SC', 1991, siaAddressEncoder, siaAddressDecoder),
   getConfig('QTUM', 2301, bs58Encode, bs58Decode),
   eosioChain('GXC', 2303, 'GXC'),
