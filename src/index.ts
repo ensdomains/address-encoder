@@ -505,6 +505,28 @@ const bech32Chain = (name: string, coinType: number, prefix: string, limit?: num
   name,
 });
 
+function makeIotaBech32Encoder(prefix: string, limit?: number) {
+  const bufferAddrVersion = Buffer.from([0o0]);
+  return (data: Buffer) => bech32Encode(prefix, bech32ToWords(Buffer.concat([bufferAddrVersion, data])), limit);
+}
+
+function makeIotaBech32Decoder(currentPrefix: string, limit?: number) {
+  return (data: string) => {
+    const { prefix, words } = bech32Decode(data, limit);
+    if (prefix !== currentPrefix) {
+      throw Error('Unrecognised address format');
+    }
+    return Buffer.from(bech32FromWords(words)).slice(1);
+  };
+}
+
+const iotaBech32Chain = (name: string, coinType: number, prefix: string, limit?: number) => ({
+  coinType,
+  decoder: makeIotaBech32Decoder(prefix, limit),
+  encoder: makeIotaBech32Encoder(prefix, limit),
+  name,
+});
+
 function makeEosioEncoder(prefix: string): (data: Buffer) => string {
   return (data: Buffer) => {
     if (!eosPublicKey.isValid(data)) {
@@ -1480,7 +1502,7 @@ export const formats: IFormat[] = [
     encoder: hederaAddressEncoder,
     name: 'HBAR',
   },
-  getConfig('IOTA', 4218, bs58Encode, bs58Decode),
+  iotaBech32Chain('IOTA', 4218, 'iota'),
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   hexChecksumChain('GO', 6060),
   getConfig('NULS', 8964, nulsAddressEncoder, nulsAddressDecoder),
