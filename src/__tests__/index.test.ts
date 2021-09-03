@@ -4,7 +4,7 @@ import { IFormat, formats, formatsByName, formatsByCoinType } from '../index';
 interface TestVector {
   name: string;
   coinType: number;
-  passingVectors: Array<{ text: string; hex: string; canonical?: string }>;
+  passingVectors: Array<{ text: string; hex: string; canonical?: string; }>;
 }
 
 // Ordered by coinType
@@ -1014,6 +1014,14 @@ const vectors: Array<TestVector> = [
     coinType: 5353,
     passingVectors: [
       { text: 'hs1qd42hrldu5yqee58se4uj6xctm7nk28r70e84vx', hex: '6d5571fdbca1019cd0f0cd792d1b0bdfa7651c7e' },
+    ],
+  },
+  {
+    name: 'STX',
+    coinType: 5757,
+    passingVectors: [
+      { text: 'SP2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKNRV9EJ7', hex: 'a46ff88886c2ef9762d970b4d2c63678835bd39d71b4ba47' },
+      { text: 'SM2J6ZY48GV1EZ5V2V5RB9MP66SW86PYKKQVX8X0G', hex: 'a46ff88886c2ef9762d970b4d2c63678835bd39df7d47410' },
     ],
   },
   {

@@ -116,6 +116,7 @@ This library currently supports the following cryptocurrencies and address forma
  - SRM (base58, no check)
  - STEEM (base58 + ripemd160-checksum)
  - STRAT (base58check P2PKH and P2SH)
+ - STX (crockford base32 P2PKH and P2SH + ripemd160-checksum)
  - SYS (base58check P2PKH and P2SH, and bech32 segwit)
  - TFUEL (checksummed-hex)
  - THETA (base58check)
