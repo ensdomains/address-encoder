@@ -1483,6 +1483,7 @@ export const formats: IFormat[] = [
   bech32Chain('RUNE', 931, 'thor'),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   hexChecksumChain('TT', 1001),
+  hexChecksumChain('FTM', 1007),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
   {
