@@ -72,6 +72,7 @@ This library currently supports the following cryptocurrencies and address forma
  - FIO (base58 + ripemd160-checksum)
  - FIRO (base58check P2PKH and P2SH)
  - FLOW (hex)
+ - FTM (checksummed-hex)
  - GO (checksummed-hex)
  - GRIN (base58check)
  - GRS (base58check P2PKH and P2SH, and bech32 segwit)
