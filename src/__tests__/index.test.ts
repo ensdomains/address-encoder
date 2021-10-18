@@ -223,9 +223,9 @@ const vectors: Array<TestVector> = [
     name: 'XMR',
     coinType: 128,
     passingVectors: [
-      { 
-        text: '41tQrTUaj2L93qVeWLaaUG3S2PP2rkaRB2woVf23r1tq3fbyCp36LmSWeMGiaLScUk6tB8f4SonDtRozPJq22i46JS1ZmLt', 
-        hex: '1206f6702fffbd0d301f0832b37c53890e89631be265d5060ba0a5e924d51ea60fefb70ae52bcfc5b13ac9958ea0e9ad232b090cc644efdf94548c5638b626ef9a80a25291' 
+      {
+        text: '41tQrTUaj2L93qVeWLaaUG3S2PP2rkaRB2woVf23r1tq3fbyCp36LmSWeMGiaLScUk6tB8f4SonDtRozPJq22i46JS1ZmLt',
+        hex: '1206f6702fffbd0d301f0832b37c53890e89631be265d5060ba0a5e924d51ea60fefb70ae52bcfc5b13ac9958ea0e9ad232b090cc644efdf94548c5638b626ef9a80a25291'
       },
     ],
   },
@@ -433,9 +433,9 @@ const vectors: Array<TestVector> = [
     name: 'BCN',
     coinType: 204,
     passingVectors: [
-      { 
-        text: '21UQFLdH7WvPZEd8HNwXncHtDwFvv4GRqaN3R4cWyuw2TRZxRtRPb7FFTxfcwwQsqYSD2EqhgVCLsGdRdejAoHFHAHJrxxo', 
-        hex: '0606fd971eb1513f86da272c0e64700d64f013286f1bd024c7768bbfc24b36bd9df9f02985759782567ac26311e9637f96b452da1cb5e15c5d6f0c15cdd107bc52' 
+      {
+        text: '21UQFLdH7WvPZEd8HNwXncHtDwFvv4GRqaN3R4cWyuw2TRZxRtRPb7FFTxfcwwQsqYSD2EqhgVCLsGdRdejAoHFHAHJrxxo',
+        hex: '0606fd971eb1513f86da272c0e64700d64f013286f1bd024c7768bbfc24b36bd9df9f02985759782567ac26311e9637f96b452da1cb5e15c5d6f0c15cdd107bc52'
       },
       {
         text: 'bcnZ6VSM78fQNL5js7VnCybbs3ojLbdAD4DfbdJkUqghYWLqXeEgdyo9UyiAZKnB548DK1ofu8wed3jYCPT62zpf2R97SejoT7',
@@ -552,7 +552,7 @@ const vectors: Array<TestVector> = [
   },
   {
     name: 'ABBC',
-    coinType: 367, 
+    coinType: 367,
     passingVectors: [
       { text: 'ABBC5i3zbGsuyexJc6NaHv81yPh2WeaqrtYMMVaEqcYLz9guAAV74A', hex: '026bff3fc4dc3cde1dcb2068bef16624a260c6f0e330addb54f894bce7fa353de6' },
       { text: 'ABBC5MTKdW6dFqEjYqQYMmLohCsALWcBAx2xRapzDTKAtz3XwKJcaf', hex: '023d3a2e33a90f8f5bcbda1ec129ba1eee5e5f2ab6a77d652cbb0517f2b49669e8' },
@@ -566,7 +566,7 @@ const vectors: Array<TestVector> = [
         hex: '393930326331333636323966633633303431366535306434663266656636616666383637656137652e6c6f636b75702e6e656172' },
         { text: 'blah.com',
         hex: '626c61682e636f6d' },
-        { text: '9685af3fe2dc231e5069ccff8ec6950eb961d42ebb9116a8ab9c0d38f9e45249', 
+        { text: '9685af3fe2dc231e5069ccff8ec6950eb961d42ebb9116a8ab9c0d38f9e45249',
         hex: '39363835616633666532646332333165353036396363666638656336393530656239363164343265626239313136613861623963306433386639653435323439'}
     ],
   },
@@ -574,7 +574,7 @@ const vectors: Array<TestVector> = [
     name: 'ETN',
     coinType: 415,
     passingVectors: [
-      { 
+      {
         text: '45Jmf8PnJKziGyrLouJMeBFw2yVyX1QB52sKEQ4S1VSU2NVsaVGPNu4bWKkaHaeZ6tWCepP6iceZk8XhTLzDaEVa72QrtVh',
         hex: '6135cf83f4b3f9f6c52cb0dc0f91245945346c1ece03640b2a3c5eb9acdf650831d0b00f0a1ddfce4b9bf7df1df46dae94ac6229e492c72d03b94e3609159535',
       },
@@ -660,9 +660,9 @@ const vectors: Array<TestVector> = [
     name: 'AR',
     coinType: 472,
     passingVectors: [
-      { 
-        text: 'GRQ7swQO1AMyFgnuAPI7AvGQlW3lzuQuwlJbIpWV7xk', 
-        hex: '19143bb3040ed403321609ee00f23b02f190956de5cee42ec2525b229595ef19' 
+      {
+        text: 'GRQ7swQO1AMyFgnuAPI7AvGQlW3lzuQuwlJbIpWV7xk',
+        hex: '19143bb3040ed403321609ee00f23b02f190956de5cee42ec2525b229595ef19'
       },
     ],
   },
@@ -699,9 +699,9 @@ const vectors: Array<TestVector> = [
     name: 'XHV',
     coinType: 535,
     passingVectors: [
-      { 
-        text: 'hvs1VkXQ7qvBzrCuTofumZ52HNBhriXWP5kWcqZAG2VDXKuLwcCN5YaF2A4wmUXrZMGiz97eT9jXQBPp6vmRyTsk2ttY8z6YRU', 
-        hex: 'f4b24b708551a04541bfc33b74edddf8180bee188a01b7581c66452619634bf0b54e866dc481be8f53d1d99a470080185e01c7760aac8c4b3e2336b6b1c53da731ff047530a5df' 
+      {
+        text: 'hvs1VkXQ7qvBzrCuTofumZ52HNBhriXWP5kWcqZAG2VDXKuLwcCN5YaF2A4wmUXrZMGiz97eT9jXQBPp6vmRyTsk2ttY8z6YRU',
+        hex: 'f4b24b708551a04541bfc33b74edddf8180bee188a01b7581c66452619634bf0b54e866dc481be8f53d1d99a470080185e01c7760aac8c4b3e2336b6b1c53da731ff047530a5df'
       },
     ],
   },
@@ -747,7 +747,7 @@ const vectors: Array<TestVector> = [
     name: 'BDX',
     coinType: 570,
     passingVectors: [
-      { 
+      {
         text: 'bxdBHRJaUhrFjfHLVESP2KQ7j56LVXhgxBCiJB2fdKvuauVSUpxAqVF3gTvEx9fcd4MditoVxumV3VYFyY35S9TK19JAmCMXz',
         hex: 'd101a272642ddf45581910432620975c8a3385df68e1bb3d3cfe4ce1c97b4c5ecab46cca3eca869e100670ba171e59a77b5b8543ecdabc9aaa9f861374856e3e10a8dd024d2d',
     }
@@ -794,10 +794,17 @@ const vectors: Array<TestVector> = [
     name: 'GRIN',
     coinType: 592,
     passingVectors: [
-      { 
+      {
         text: 'grin1k6m6sjpwc047zdhsdj9r77v5nnxm33hx7wxqvw5dhd9vl0d7t4fsaqt0lg',
-        hex: 'b6b7a8482ec3ebe136f06c8a3f79949ccdb8c6e6f38c063a8dbb4acfbdbe5d53' 
+        hex: 'b6b7a8482ec3ebe136f06c8a3f79949ccdb8c6e6f38c063a8dbb4acfbdbe5d53'
       }
+    ],
+  },
+  {
+    name: 'OPT',
+    coinType: 614,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
     ],
   },
   {

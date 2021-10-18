@@ -96,7 +96,7 @@ This library currently supports the following cryptocurrencies and address forma
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NANO (nano-base32)
  - NAS(base58 + sha3-256-checksum)
- - NEAR 
+ - NEAR
  - NEM(XEM) (base32)
  - NEO (base58check)
  - NMC (base58check)
@@ -104,6 +104,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NULS (base58)
  - ONE (bech32)
  - ONT (base58check)
+ - OPT (checksummed-hex)
  - POA (checksummed-hex)
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
@@ -142,7 +143,7 @@ This library currently supports the following cryptocurrencies and address forma
  - ZEL (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
  - ZEN (base58 check)
  - ZIL (bech32)
- 
+
 
 ## Development guide
 

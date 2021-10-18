@@ -236,7 +236,7 @@ function encodeCashAddr(data: Buffer): string {
 function makeCardanoEncoder(hrp: string): (data: Buffer) => string {
   const encodeByron = makeCardanoByronEncoder();
   const encodeBech32 = makeBech32Encoder(hrp, 104);
-  return (data: Buffer) => { 
+  return (data: Buffer) => {
     try {
       return encodeByron(data);
     } catch {
@@ -269,13 +269,13 @@ function makeCardanoByronEncoder() {
     if (!address.startsWith('Ae2') && !address.startsWith('Ddz')) {
       throw Error('Unrecognised address format');
     }
-  
+
     return address;
    };
 }
 
 function makeCardanoByronDecoder() {
-  return (data: string) => { 
+  return (data: string) => {
     const bytes = bs58DecodeNoCheck(data);
     const bytesAb = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
 
@@ -285,10 +285,10 @@ function makeCardanoByronDecoder() {
     if(taggedAddr === undefined) {
       throw Error('Unrecognised address format');
     }
-  
+
     const addrChecksum = cborDecoded[1];
     const calculatedChecksum = crc32(taggedAddr.value);
-  
+
     if(parseInt(calculatedChecksum, 16) !== addrChecksum) {
       throw Error('Unrecognised address format');
     }
@@ -717,7 +717,7 @@ function liskAddressDecoder(data: string): Buffer {
 
   return Buffer.from(bigInt(data.slice(0, -1)).toString(16), 'hex');
 }
-  
+
 function seroAddressEncoder(data: Buffer): string {
   const address =  bs58EncodeNoCheck(data);
 
@@ -736,14 +736,14 @@ function seroAddressDecoder(data: string): Buffer {
 function wanToChecksumAddress(data: string): string {
   const strippedData = rskStripHexPrefix(data);
   const ndata = strippedData.toLowerCase();
-  
+
   const hashed = new Keccak(256).update(Buffer.from(ndata)).digest();
   let  ret = '0x';
   const len = ndata.length;
   let hashByte;
   for(let i = 0; i < len; i++) {
-    hashByte = hashed[Math.floor(i / 2)]; 
-    
+    hashByte = hashed[Math.floor(i / 2)];
+
     if (i % 2 === 0) {
       /* tslint:disable:no-bitwise */
       hashByte = hashByte >> 4;
@@ -774,17 +774,17 @@ function wanChecksummedHexEncoder(data: Buffer): string {
 function wanChecksummedHexDecoder(data: string): Buffer {
   if(isValidChecksumWanAddress(data)) {
     return Buffer.from(rskStripHexPrefix(data), 'hex');
-  
+
   } else {
     throw Error('Invalid address checksum');
-  
+
   }
 
 }
 
 function calcCheckSum(withoutChecksum: Buffer): Buffer {
   const checksum = (new Keccak(256).update(Buffer.from(blake2b(withoutChecksum, null, 32))).digest()).slice(0, 4);
-  return checksum; 
+  return checksum;
 }
 
 function isByteArrayValid(addressBytes: Buffer): boolean {
@@ -811,8 +811,8 @@ function vsysAddressDecoder(data: string): Buffer {
   const bytes = bs58DecodeNoCheck(base58String);
 
   if(!isByteArrayValid(bytes)) {
-    throw new Error('VSYS: Invalid checksum');   
-  } 
+    throw new Error('VSYS: Invalid checksum');
+  }
   return bytes;
 }
 
@@ -822,7 +822,7 @@ function vsysAddressEncoder(data: Buffer): string {
   }
   return bs58EncodeNoCheck(data);
 }
-  
+
 // Reference:
 // https://github.com/handshake-org/hsd/blob/c85d9b4c743a9e1c9577d840e1bd20dee33473d3/lib/primitives/address.js#L297
 function hnsAddressEncoder(data: Buffer): string {
@@ -860,7 +860,7 @@ function hnsAddressDecoder(data: string): Buffer {
 
 function nasAddressEncoder(data: Buffer): string {
   const checksum = (new SHA3(256).update(data).digest()).slice(0, 4);
-  
+
   return bs58EncodeNoCheck(Buffer.concat([data, checksum]));
 }
 
@@ -974,7 +974,7 @@ function ardrCheckSum(codeword: number[]): boolean {
 
       // tslint:disable-next-line:no-bitwise
       t ^= gmult(codeword[pos], gexp[(i * j) % 31]);
-    
+
   }
     // tslint:disable-next-line:no-bitwise
     sum |= t;
@@ -1006,7 +1006,7 @@ function ardrAddressDecoder(data: string): Buffer {
     if (pos >= 0) {
       clean[count++] = pos;
       if (count > 17) {
-        throw Error('Unrecognised address format');    
+        throw Error('Unrecognised address format');
       }
     }
   }
@@ -1014,7 +1014,7 @@ function ardrAddressDecoder(data: string): Buffer {
   for (let i = 0, j = 0; i < count; i++) {
     codeword[cwmap[j++]] = clean[i];
   }
-  
+
   if (!ardrCheckSum(codeword)) {
     throw Error('Unrecognised address format');
   }
@@ -1026,7 +1026,7 @@ function ardrAddressDecoder(data: string): Buffer {
 function ardrAddressEncoder(data: Buffer): string {
   const dataStr = data.toString('hex');
   const arr = [];
-  
+
   for(let i = 0, j = 0; i < dataStr.length; i = i + 2) {
     arr[cwmap[j++]] = 16 * parseInt(dataStr[i], 16) + parseInt(dataStr[i + 1], 16);
   }
@@ -1042,7 +1042,7 @@ function ardrAddressEncoder(data: Buffer): string {
     if(i < 12 && (i + 1) % 4 === 0 || i === 16 ) {
       rtn.push(acc);
       acc = "";
-    } 
+    }
 
   }
   return `ARDOR-${rtn.join("-")}`;
@@ -1199,14 +1199,14 @@ function etnAddressEncoder(data: Buffer): string {
 
 function etnAddressDecoder(data: string): Buffer {
   const buf = xmrAddressDecoder(data);
-  
+
   if(buf[0] !== 18){
     throw Error('Unrecognised address format');
   }
 
   const checksum = buf.slice(65, 69);
   const checksumVerify = (new Keccak(256).update(buf.slice(0, 65)).digest()).slice(0, 4);
-  
+
   if(!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
   }
@@ -1473,6 +1473,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
   hexChecksumChain('TFUEL', 589),
   bech32Chain('GRIN', 592, 'grin'),
+  hexChecksumChain('OPT', 614),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
