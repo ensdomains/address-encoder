@@ -1,9 +1,10 @@
-import {
-  decode as bech32Decode,
-  encode as bech32Encode,
-  fromWords as bech32FromWords,
-  toWords as bech32ToWords,
-} from 'bech32';
+import { bech32, bech32m } from 'bech32';
+const {
+  decode: bech32Decode,
+  encode:  bech32Encode,
+  fromWords: bech32FromWords,
+  toWords: bech32ToWords
+} = bech32;
 import bigInt from 'big-integer';
 import { blake2b, blake2bHex } from 'blakejs';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
@@ -520,6 +521,25 @@ function makeIotaBech32Decoder(currentPrefix: string, limit?: number) {
     return Buffer.from(bech32FromWords(words)).slice(1);
   };
 }
+
+function makeBech32mEncoder(prefix: string, limit?: number) {
+  return (data: Buffer) => bech32m.encode(prefix, bech32m.toWords(data), limit);
+}
+function makeBech32mDecoder(currentPrefix: string, limit?: number) {
+  return (data: string) => {
+    const { prefix, words } = bech32m.decode(data, limit);
+    if (prefix !== currentPrefix) {
+      throw Error('Unrecognised address format');
+    }
+    return Buffer.from(bech32m.fromWords(words));
+  };
+}
+const bech32mChain = (name: string, coinType: number, prefix: string, limit?: number) => ({
+  coinType,
+  decoder: makeBech32mDecoder(prefix, limit),
+  encoder: makeBech32mEncoder(prefix, limit),
+  name,
+});
 
 const iotaBech32Chain = (name: string, coinType: number, prefix: string, limit?: number) => ({
   coinType,
@@ -1509,6 +1529,7 @@ export const formats: IFormat[] = [
   getConfig('HNS', 5353, hnsAddressEncoder, hnsAddressDecoder),
   getConfig('STX', 5757, c32checkEncode, c32checkDecode),
   hexChecksumChain('GO', 6060),
+  bech32mChain('XCH', 8444, 'xch', 90),
   getConfig('NULS', 8964, nulsAddressEncoder, nulsAddressDecoder),
   bech32Chain('AVAX', 9000, 'avax'),
   hexChecksumChain('NRG', 9797),

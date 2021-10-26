@@ -1046,6 +1046,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'XCH',
+    coinType: 8444,
+    passingVectors: [
+      { text: 'xch1f0ryxk6qn096hefcwrdwpuph2hm24w69jnzezhkfswk0z2jar7aq5zzpfj', hex: '4bc6435b409bcbabe53870dae0f03755f6aabb4594c5915ec983acf12a5d1fba'},
+    ],
+  },
+  {
     name: 'NULS',
     coinType: 8964,
     passingVectors: [
@@ -1113,7 +1120,6 @@ const vectors: Array<TestVector> = [
       { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
     ],
   },
-
 ];
 
 var lastCointype = -1;
