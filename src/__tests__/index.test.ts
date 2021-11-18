@@ -7,6 +7,8 @@ interface TestVector {
   passingVectors: Array<{ text: string; hex: string; canonical?: string; }>;
 }
 
+const MAX_SLIP44_NUMBER = 2415919103 // 0x08fffffff
+
 // Ordered by coinType
 const vectors: Array<TestVector> = [
   {
@@ -1120,6 +1122,27 @@ const vectors: Array<TestVector> = [
       { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
     ],
   },
+  { 
+    name: 'BSC',
+    coinType: MAX_SLIP44_NUMBER + 519,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  { 
+    name: 'MATIC',
+    coinType: MAX_SLIP44_NUMBER + 969,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  { 
+    name: 'ARB1',
+    coinType: MAX_SLIP44_NUMBER + 42161,
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  } 
 ];
 
 var lastCointype = -1;
