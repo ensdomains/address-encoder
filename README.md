@@ -35,6 +35,7 @@ This library currently supports the following cryptocurrencies and address forma
  - AION (hex)
  - ALGO (checksummed-base32)
  - AR (base64url)
+ - ARB1 (checksummed-hex)
  - ARDR
  - ARK (base58check)
  - ATOM (bech32)
@@ -45,6 +46,7 @@ This library currently supports the following cryptocurrencies and address forma
  - BDX (base58xmr)
  - BNB (bech32)
  - BPS (base58check P2PKH and P2SH)
+ - BSC (checksummed-hex)
  - BSV (base58check)
  - BTC (base58check P2PKH and P2SH, and bech32 segwit)
  - BTG (base58check P2PKH and P2SH, and bech32 segwit)
@@ -93,6 +95,7 @@ This library currently supports the following cryptocurrencies and address forma
  - LSK (hex with suffix)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
  - LUNA (bech32)
+ - MATIC (checksummed-hex)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
  - NANO (nano-base32)
  - NAS(base58 + sha3-256-checksum)
