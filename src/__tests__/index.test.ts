@@ -7,7 +7,6 @@ interface TestVector {
   passingVectors: Array<{ text: string; hex: string; canonical?: string; }>;
 }
 
-
 // Ordered by coinType
 const vectors: Array<TestVector> = [
   {
