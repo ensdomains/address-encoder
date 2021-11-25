@@ -1493,6 +1493,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('CCA', 489, [[0x0b]], [[0x05]]),
   hexChecksumChain('THETA', 500),
   getConfig('SOL', 501, bs58EncodeNoCheck, bs58DecodeNoCheck),
+  hexChecksumChain('BSC', 519),
   getConfig('XHV', 535, xmrAddressEncoder, xmrAddressDecoder),
   getConfig('FLOW', 539, flowEncode, flowDecode),
   bech32Chain('IRIS', 566, 'iaa'),
@@ -1514,6 +1515,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('TOMO', 889),
   getConfig('HNT', 904, hntAddresEncoder, hntAddressDecoder),
   bech32Chain('RUNE', 931, 'thor'),
+  hexChecksumChain('MATIC', 966),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   hexChecksumChain('TT', 1001),
   hexChecksumChain('FTM', 1007),
@@ -1552,9 +1554,7 @@ export const formats: IFormat[] = [
   getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
   // EVM chainIds have to be placed in descending order
-  evmChain('ARB1', 42161),
-  evmChain('MATIC', 137),
-  evmChain('BSC', 56)
+  evmChain('ARB1', 42161)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
