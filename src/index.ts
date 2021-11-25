@@ -487,6 +487,7 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
   name,
 });
 
+/* tslint:disable:no-bitwise */
 export const convertEVMChainIdToCoinType = (chainId: number) =>{
   return Math.abs(SLIP44_MSB | chainId)
 }
