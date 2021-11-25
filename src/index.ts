@@ -1452,6 +1452,7 @@ export const formats: IFormat[] = [
   getConfig('NANO', 165, nanoAddressEncoder, nanoAddressDecoder),
   bitcoinBase58Chain('RVN', 175, [[0x3c]], [[0x7a]]),
   hexChecksumChain('POA', 178),
+  bitcoinChain('LCC', 192, 'lcc', [[0x1c]], [[0x32], [0x05]]),
   eosioChain('EOS', 194, 'EOS'),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
   getConfig('BCN', 204, bcnAddressEncoder, bcnAddressDecoder),

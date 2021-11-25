@@ -89,6 +89,7 @@ This library currently supports the following cryptocurrencies and address forma
  - KAVA (bech32)
  - KMD (base58check)
  - KSM (ss58)
+ - LCC (base58check P2PKH and P2SH, and bech32 segwit)
  - LRG (base58check P2PKH and P2SH)
  - LSK (hex with suffix)
  - LTC (base58check P2PHK and P2SH, and bech32 segwit)
