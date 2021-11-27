@@ -39,7 +39,7 @@ import { ChainID, isValidAddress } from './flow/index';
 import { groestl_2 }  from './groestl-hash-js/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 import { nimqDecoder, nimqEncoder } from './nimq';
-
+const SLIP44_MSB = 0x80000000
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
 
@@ -483,6 +483,18 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
   coinType,
   decoder: makeChecksummedHexDecoder(chainId),
   encoder: makeChecksummedHexEncoder(chainId),
+  name,
+});
+
+/* tslint:disable:no-bitwise */
+export const convertEVMChainIdToCoinType = (chainId: number) =>{
+  return  (SLIP44_MSB | chainId) >>> 0
+}
+
+const evmChain = (name: string, coinType: number) => ({
+  coinType: convertEVMChainIdToCoinType(coinType),
+  decoder: makeChecksummedHexDecoder(),
+  encoder: makeChecksummedHexEncoder(),
   name,
 });
 
@@ -1540,6 +1552,10 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('WICC', 99999, [[0x49]], [[0x33]]),
   getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
+  // EVM chainIds
+  evmChain('BSC', 56),
+  evmChain('MATIC', 137),
+  evmChain('ARB1', 42161)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

@@ -1,11 +1,12 @@
 import fs from 'fs';
-import { IFormat, formats, formatsByName, formatsByCoinType } from '../index';
+import { IFormat, formats, formatsByName, formatsByCoinType, convertEVMChainIdToCoinType } from '../index';
 
 interface TestVector {
   name: string;
   coinType: number;
   passingVectors: Array<{ text: string; hex: string; canonical?: string; }>;
 }
+
 
 // Ordered by coinType
 const vectors: Array<TestVector> = [
@@ -1129,6 +1130,28 @@ const vectors: Array<TestVector> = [
       { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
     ],
   },
+  // EVM chainIds
+  {
+    name: 'BSC',
+    coinType: convertEVMChainIdToCoinType(56),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
+    name: 'MATIC',
+    coinType: convertEVMChainIdToCoinType(137),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
+    name: 'ARB1',
+    coinType: convertEVMChainIdToCoinType(42161),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  }
 ];
 
 var lastCointype = -1;
