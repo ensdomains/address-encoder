@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { IFormat, formats, formatsByName, formatsByCoinType, convertEVMChainIdToCoinType } from '../index';
+import { IFormat, formats, formatsByName, formatsByCoinType } from '../index';
 
 interface TestVector {
   name: string;
@@ -705,13 +705,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'BSC',
-    coinType: 519,
-    passingVectors: [
-      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
-    ],
-  },
-  {
     name: 'XHV',
     coinType: 535,
     passingVectors: [
@@ -880,13 +873,6 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: 'thor1kljxxccrheghavaw97u78le6yy3sdj7h696nl4', hex: 'b7e4636303be517eb3ae2fb9e3ff3a212306cbd7' },
       { text: 'thor1yv0mrrygnjs03zsrwrgqz4sa36evfw2a049l5p', hex: '231fb18c889ca0f88a0370d001561d8eb2c4b95d' },
-    ],
-  },
-  {
-    name: 'MATIC',
-    coinType: 966,
-    passingVectors: [
-      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
     ],
   },
   {
@@ -1143,14 +1129,6 @@ const vectors: Array<TestVector> = [
       { text: '3PAP3wkgbGjdd1FuBLn9ajXvo6edBMCa115', hex: '01575cb3839cef68f8b5650461fe707311e2919c73b945cf1edc'},
     ],
   },
-  // EVM chainIds have to be placed in descending order
-  { 
-    name: 'ARB1',
-    coinType: convertEVMChainIdToCoinType(42161),
-    passingVectors: [
-      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
-    ],
-  }
 ];
 
 var lastCointype = -1;
