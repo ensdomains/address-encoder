@@ -1506,7 +1506,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
   hexChecksumChain('TFUEL', 589),
   bech32Chain('GRIN', 592, 'grin'),
-  hexChecksumChain('XDAI', 700),
+  hexChecksumChain('XDAI_LEGACY', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
   hexChecksumChain('CLO', 820),
@@ -1554,6 +1554,7 @@ export const formats: IFormat[] = [
   // EVM chainIds
   evmChain('OPT', 10),
   evmChain('BSC', 56),
+  evmChain('XDAI', 100),
   evmChain('MATIC', 137),
   evmChain('ARB1', 42161)
 ];
