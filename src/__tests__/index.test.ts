@@ -152,7 +152,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'ETC',
+    name: 'ETC_LEGACY',
     coinType: 61,
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
@@ -401,7 +401,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'POA',
+    name: 'POA_LEGACY',
     coinType: 178,
     passingVectors: [
       { text: '0xF977814e90dA44bFA03b6295A0616a897441aceC', hex: 'f977814e90da44bfa03b6295a0616a897441acec' },
@@ -481,7 +481,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'EWT',
+    name: 'EWT_LEGACY',
     coinType: 246,
     passingVectors: [
       { text: '0x2ce42c2B3aCff7eddcfd32DCB0703F1870b0eBe1', hex: '2ce42c2b3acff7eddcfd32dcb0703f1870b0ebe1' },
@@ -685,7 +685,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'THETA',
+    name: 'THETA_LEGACY',
     coinType: 500,
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
@@ -832,7 +832,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'CLO',
+    name: 'CLO_LEGACY',
     coinType: 820,
     passingVectors: [
       { text: '0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed', hex: '5aaeb6053f3e94c9b9a09f33669435e7ef1beaed' },
@@ -846,7 +846,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'TOMO',
+    name: 'TOMO_LEGACY',
     coinType: 889,
     passingVectors: [
       { text: '0xf5C9206843DAe847DdFd551ef7b850895430EcA3', hex: 'f5c9206843dae847ddfd551ef7b850895430eca3' },
@@ -878,14 +878,14 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'TT',
+    name: 'TT_LEGACY',
     coinType: 1001,
     passingVectors: [
       { text: '0x1001EEc06f2aDff074fC2A9492e132c33d6bd54d', hex: '1001eec06f2adff074fc2a9492e132c33d6bd54d' },
     ],
   },
   {
-    name: 'FTM',
+    name: 'FTM_LEGACY',
     coinType: 1007,
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
@@ -1042,7 +1042,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'GO',
+    name: 'GO_LEGACY',
     coinType: 6060,
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
@@ -1073,7 +1073,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'NRG',
+    name: 'NRG_LEGACY',
     coinType: 9797,
     passingVectors: [
       { text: '0x7e534bc64A80e56dB3eEDBd1b54639C3A9a7CDEA', hex: '7e534bc64a80e56db3eedbd1b54639c3a9a7cdea' },
@@ -1095,7 +1095,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'CELO',
+    name: 'CELO_LEGACY',
     coinType: 52752,
     passingVectors: [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
@@ -1139,10 +1139,47 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'GO',
+    coinType: convertEVMChainIdToCoinType(60),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
+    name: 'ETC',
+    coinType: convertEVMChainIdToCoinType(61),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
+    name: 'TOMO',
+    coinType: convertEVMChainIdToCoinType(88),
+    passingVectors: [
+      { text: '0xf5C9206843DAe847DdFd551ef7b850895430EcA3', hex: 'f5c9206843dae847ddfd551ef7b850895430eca3' },
+      { text: '0x15813DAE07E373DC800690031A1385eB7faDe49F', hex: '15813dae07e373dc800690031a1385eb7fade49f' },
+    ],
+  },
+  {
+    name: 'POA',
+    coinType: convertEVMChainIdToCoinType(99),
+    passingVectors: [
+      { text: '0xF977814e90dA44bFA03b6295A0616a897441aceC', hex: 'f977814e90da44bfa03b6295a0616a897441acec' },
+      { text: '0xBE0eB53F46cd790Cd13851d5EFf43D12404d33E8', hex: 'be0eb53f46cd790cd13851d5eff43d12404d33e8' },
+    ],
+  },
+  {
     name: 'XDAI',
     coinType: convertEVMChainIdToCoinType(100),
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
+    name: 'TT',
+    coinType: convertEVMChainIdToCoinType(108),
+    passingVectors: [
+      { text: '0x1001EEc06f2aDff074fC2A9492e132c33d6bd54d', hex: '1001eec06f2adff074fc2a9492e132c33d6bd54d' },
     ],
   },
   {
@@ -1153,10 +1190,52 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'EWT',
+    coinType: convertEVMChainIdToCoinType(246),
+    passingVectors: [
+      { text: '0x2ce42c2B3aCff7eddcfd32DCB0703F1870b0eBe1', hex: '2ce42c2b3acff7eddcfd32dcb0703f1870b0ebe1' },
+    ],
+  },
+  {
+    name: 'FTM',
+    coinType: convertEVMChainIdToCoinType(250),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
+    name: 'THETA',
+    coinType: convertEVMChainIdToCoinType(361),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
+    name: 'CLO',
+    coinType: convertEVMChainIdToCoinType(820),
+    passingVectors: [
+      { text: '0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed', hex: '5aaeb6053f3e94c9b9a09f33669435e7ef1beaed' },
+    ],
+  },
+  {
+    name: 'NRG',
+    coinType: convertEVMChainIdToCoinType(39797),
+    passingVectors: [
+      { text: '0x7e534bc64A80e56dB3eEDBd1b54639C3A9a7CDEA', hex: '7e534bc64a80e56db3eedbd1b54639c3a9a7cdea' },
+    ]
+  },
+  {
     name: 'ARB1',
     coinType: convertEVMChainIdToCoinType(42161),
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
+    name: 'CELO',
+    coinType: convertEVMChainIdToCoinType(42220),
+    passingVectors: [
+      { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
   }
 ];
