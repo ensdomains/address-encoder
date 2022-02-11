@@ -1511,7 +1511,6 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
   hexChecksumChain('TFUEL', 589),
   bech32Chain('GRIN', 592, 'grin'),
-  hexChecksumChain('OPT', 614),
   hexChecksumChain('XDAI', 700),
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
@@ -1558,6 +1557,7 @@ export const formats: IFormat[] = [
   getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
   // EVM chainIds
+  evmChain('OPT', 10),
   evmChain('BSC', 56),
   evmChain('MATIC', 137),
   evmChain('ARB1', 42161)
