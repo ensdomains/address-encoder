@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { IFormat, formats, formatsByName, formatsByCoinType, convertEVMChainIdToCoinType } from '../index';
+import { IFormat, formats, formatsByName, formatsByCoinType, convertEVMChainIdToCoinType, convertCoinTypeToEVMChainId } from '../index';
 
 interface TestVector {
   name: string;
@@ -1288,3 +1288,9 @@ test("README ordering", () => {
   var sortedEntries = entries.slice(0).sort();
   expect(entries).toEqual(sortedEntries);
 });
+
+test("Convert cointype to evm chain id and convert back", () => {
+  const xdai = 61
+  const coinType = convertEVMChainIdToCoinType(xdai)
+  expect(convertCoinTypeToEVMChainId(coinType)).toBe(xdai)
+})

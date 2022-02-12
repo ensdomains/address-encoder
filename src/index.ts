@@ -491,6 +491,11 @@ export const convertEVMChainIdToCoinType = (chainId: number) =>{
   return  (SLIP44_MSB | chainId) >>> 0
 }
 
+/* tslint:disable:no-bitwise */
+export const convertCoinTypeToEVMChainId = (coinType: number) =>{
+  return  ((SLIP44_MSB -1) & coinType) >> 0
+}
+
 const evmChain = (name: string, coinType: number) => ({
   coinType: convertEVMChainIdToCoinType(coinType),
   decoder: makeChecksummedHexDecoder(),
