@@ -1571,6 +1571,7 @@ export const formats: IFormat[] = [
   evmChain('FTM', 250),
   evmChain('THETA', 361),
   evmChain('CLO', 820),
+  evmChain('SMARTBCH', 10000),
   evmChain('NRG', 39797),
   evmChain('ARB1', 42161),
   evmChain('CELO', 42220)
