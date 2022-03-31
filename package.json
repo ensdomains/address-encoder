@@ -1,6 +1,6 @@
 {
   "name": "@ensdomains/address-encoder",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "description": "Encodes and decodes address formats for various cryptocurrencies",
   "source": "src/index.ts",
   "main": "lib/index.js",
@@ -10,8 +10,9 @@
     "build": "microbundle",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run test",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn build",
+    "pub": "yarn publish --access public",
     "size": "browserify lib/index.js | wc -c",
     "test": "jest --config jestconfig.json"
   },
