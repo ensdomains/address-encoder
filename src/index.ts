@@ -620,6 +620,10 @@ function ksmAddrDecoder(data: string): Buffer {
   return Buffer.from(ss58Decode(data));
 }
 
+function nodlAddrEncoder(data: Buffer): string {
+  return ss58Encode(Uint8Array.from(data), 37);
+}
+
 function ontAddrEncoder(data: Buffer): string {
   return bs58Encode(Buffer.concat([Buffer.from([0x17]), data]))
 }
@@ -1522,6 +1526,7 @@ export const formats: IFormat[] = [
   bech32Chain('RUNE', 931, 'thor'),
   bitcoinChain('BCD', 999, 'bcd', [[0x00]], [[0x05]]),
   hexChecksumChain('TT_LEGACY', 1001),
+  getConfig('NODL', 1003, nodlAddrEncoder, ksmAddrDecoder),
   hexChecksumChain('FTM_LEGACY', 1007),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
