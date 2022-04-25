@@ -313,8 +313,11 @@ const cardanoChain = (
 function makeAvaxDecoder (hrp: string): (data: string) => Buffer {
   const decodeBech32 = makeBech32Decoder(hrp)
   return (data: string) => {
-    let [id, address] = data.split('-')
-    if (!address) address = id
+    let address
+    const [id, possibleAddr] = data.split('-')
+    if (!possibleAddr) { address = id }
+    else { address = possibleAddr }
+
     return decodeBech32(address)
   }
 }
@@ -322,8 +325,11 @@ function makeAvaxDecoder (hrp: string): (data: string) => Buffer {
 function makeAvaxcDecoder (): (data: string) => Buffer {
   const decode = makeChecksummedHexDecoder()
   return (data: string) => {
-    let [id, address] = data.split('-')
-    if (!address) address = id
+    let address
+    const [id, possibleAddr] = data.split('-')
+    if (!possibleAddr) { address = id }
+    else { address = possibleAddr }
+
     return decode(address)
   }
 }
