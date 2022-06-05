@@ -112,7 +112,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NULS (base58)
  - ONE (bech32)
  - ONT (base58check)
- - OPT (checksummed-hex)
+ - OP (checksummed-hex)
  - POA (checksummed-hex)
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)
