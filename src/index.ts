@@ -1558,7 +1558,7 @@ export const formats: IFormat[] = [
   getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
   // EVM chainIds
-  evmChain('OPT', 10),
+  evmChain('OP', 10),
   evmChain('BSC', 56),
   evmChain('GO', 60),
   evmChain('ETC', 61),
