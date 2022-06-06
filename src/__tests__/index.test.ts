@@ -538,6 +538,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'MRX',
+    coinType: 326,
+    passingVectors: [
+      { text: 'MPYAKTYDaEMEXWFSxHeMtpXNNiSjK4TVch', hex: 'ab8959869ee2579028abdf6a199b049bfae6dc3b' },
+    ]
+  },
+  {
     name: 'LUNA',
     coinType: 330,
     passingVectors: [
