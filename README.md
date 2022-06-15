@@ -102,6 +102,7 @@ This library currently supports the following cryptocurrencies and address forma
  - LUNA (bech32)
  - MATIC (checksummed-hex)
  - MONA (base58check P2PKH and P2SH, and bech32 segwit)
+ - MRX (base58check)
  - NANO (nano-base32)
  - NAS(base58 + sha3-256-checksum)
  - NEAR
@@ -112,7 +113,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NULS (base58)
  - ONE (bech32)
  - ONT (base58check)
- - OPT (checksummed-hex)
+ - OP (checksummed-hex)
  - POA (checksummed-hex)
  - PPC (base58check P2PKH and P2SH)
  - QTUM (base58check)

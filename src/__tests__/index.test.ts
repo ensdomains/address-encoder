@@ -538,6 +538,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'MRX',
+    coinType: 326,
+    passingVectors: [
+      { text: 'MPYAKTYDaEMEXWFSxHeMtpXNNiSjK4TVch', hex: 'ab8959869ee2579028abdf6a199b049bfae6dc3b' },
+    ]
+  },
+  {
     name: 'LUNA',
     coinType: 330,
     passingVectors: [
@@ -1147,7 +1154,7 @@ const vectors: Array<TestVector> = [
   },
   // EVM chainIds
   {
-    name: 'OPT',
+    name: 'OP',
     coinType: convertEVMChainIdToCoinType(10),
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },

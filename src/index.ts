@@ -1508,6 +1508,7 @@ export const formats: IFormat[] = [
   bech32Chain('IOTX', 304, 'io'),
   eosioChain('BTS', 308, 'BTS'),
   bech32Chain('CKB', 309, 'ckb'),
+  getConfig('MRX', 326, bs58Encode, bs58Decode),
   bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('VSYS', 360, vsysAddressEncoder, vsysAddressDecoder),
@@ -1583,7 +1584,7 @@ export const formats: IFormat[] = [
   getConfig('WAN', 5718350, wanChecksummedHexEncoder, wanChecksummedHexDecoder),
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
   // EVM chainIds
-  evmChain('OPT', 10),
+  evmChain('OP', 10),
   evmChain('BSC', 56),
   evmChain('GO', 60),
   evmChain('ETC', 61),
