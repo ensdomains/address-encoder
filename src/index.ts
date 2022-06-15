@@ -1484,7 +1484,6 @@ export const formats: IFormat[] = [
   bech32Chain('IOTX', 304, 'io'),
   eosioChain('BTS', 308, 'BTS'),
   bech32Chain('CKB', 309, 'ckb'),
-  getConfig('MRX', 326, bs58Encode, bs58Decode),
   bech32Chain('LUNA', 330, 'terra'),
   getConfig('DOT', 354, dotAddrEncoder, ksmAddrDecoder),
   getConfig('VSYS', 360, vsysAddressEncoder, vsysAddressDecoder),
