@@ -1559,6 +1559,7 @@ export const formats: IFormat[] = [
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
   // EVM chainIds
   evmChain('OP', 10),
+  evmChain('CRO', 25),
   evmChain('BSC', 56),
   evmChain('GO', 60),
   evmChain('ETC', 61),
