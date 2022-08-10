@@ -1575,7 +1575,8 @@ export const formats: IFormat[] = [
   evmChain('CLO', 820),
   evmChain('NRG', 39797),
   evmChain('ARB1', 42161),
-  evmChain('CELO', 42220)
+  evmChain('CELO', 42220),
+  evmChain('AVAXC', 43114)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
