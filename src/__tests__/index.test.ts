@@ -1251,6 +1251,13 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
+  },
+  {
+    name: 'AVAXC',
+    coinType: convertEVMChainIdToCoinType(43114),
+    passingVectors: [
+      { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
+    ],
   }
 ];
 
