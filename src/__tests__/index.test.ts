@@ -1077,6 +1077,16 @@ const vectors: Array<TestVector> = [
     coinType: 9000,
     passingVectors: [
       { text: 'avax1a5h6v9weng8guuah6aamagea0xhsd04mvs2zun', hex: 'ed2fa615d99a0e8e73b7d77bbea33d79af06bebb' },
+      {
+        text: 'P-avax1a5h6v9weng8guuah6aamagea0xhsd04mvs2zun',
+        hex: 'ed2fa615d99a0e8e73b7d77bbea33d79af06bebb',
+        canonical: 'avax1a5h6v9weng8guuah6aamagea0xhsd04mvs2zun'
+      },
+      {
+        text: 'X-avax1a5h6v9weng8guuah6aamagea0xhsd04mvs2zun',
+        hex: 'ed2fa615d99a0e8e73b7d77bbea33d79af06bebb',
+        canonical: 'avax1a5h6v9weng8guuah6aamagea0xhsd04mvs2zun'
+      },
     ],
   },
   {

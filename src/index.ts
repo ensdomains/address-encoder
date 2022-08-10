@@ -310,6 +310,18 @@ const cardanoChain = (
   name,
 });
 
+function makeAvaxDecoder (hrp: string): (data: string) => Buffer {
+  const decodeBech32 = makeBech32Decoder(hrp)
+  return (data: string) => {
+    let address
+    const [id, possibleAddr] = data.split('-')
+    if (!possibleAddr) { address = id }
+    else { address = possibleAddr }
+
+    return decodeBech32(address)
+  }
+}
+
 function decodeNearAddr(data: string): Buffer {
   const regex = /(^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$)/g;
   if(!regex.test(data)) {
@@ -1550,7 +1562,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('GO_LEGACY', 6060),
   bech32mChain('XCH', 8444, 'xch', 90),
   getConfig('NULS', 8964, nulsAddressEncoder, nulsAddressDecoder),
-  bech32Chain('AVAX', 9000, 'avax'),
+  getConfig('AVAX', 9000, makeBech32Encoder('avax'), makeAvaxDecoder('avax')),
   hexChecksumChain('NRG_LEGACY', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   zcashChain('ZEL', 19167, 'za', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
