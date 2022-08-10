@@ -1090,18 +1090,6 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'AVAXC',
-    coinType: 9005,
-    passingVectors: [
-      { text: '0x572f4D80f10f663B5049F789546f25f70Bb62a7F', hex: '572f4d80f10f663b5049f789546f25f70bb62a7f' },
-      {
-        text: 'C-0x572f4D80f10f663B5049F789546f25f70Bb62a7F',
-        hex: '572f4d80f10f663b5049f789546f25f70bb62a7f',
-        canonical: '0x572f4D80f10f663B5049F789546f25f70Bb62a7F'
-      },
-    ]
-  },
-  {
     name: 'NRG_LEGACY',
     coinType: 9797,
     passingVectors: [

@@ -322,18 +322,6 @@ function makeAvaxDecoder (hrp: string): (data: string) => Buffer {
   }
 }
 
-function makeAvaxcDecoder (): (data: string) => Buffer {
-  const decode = makeChecksummedHexDecoder()
-  return (data: string) => {
-    let address
-    const [id, possibleAddr] = data.split('-')
-    if (!possibleAddr) { address = id }
-    else { address = possibleAddr }
-
-    return decode(address)
-  }
-}
-
 function decodeNearAddr(data: string): Buffer {
   const regex = /(^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$)/g;
   if(!regex.test(data)) {
@@ -1575,7 +1563,6 @@ export const formats: IFormat[] = [
   bech32mChain('XCH', 8444, 'xch', 90),
   getConfig('NULS', 8964, nulsAddressEncoder, nulsAddressDecoder),
   getConfig('AVAX', 9000, makeBech32Encoder('avax'), makeAvaxDecoder('avax')),
-  getConfig('AVAXC', 9005, makeChecksummedHexEncoder(), makeAvaxcDecoder()),
   hexChecksumChain('NRG_LEGACY', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   zcashChain('ZEL', 19167, 'za', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
