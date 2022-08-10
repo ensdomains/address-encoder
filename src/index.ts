@@ -1572,6 +1572,7 @@ export const formats: IFormat[] = [
   getConfig('WAVES', 5741564, bs58EncodeNoCheck, wavesAddressDecoder),
   // EVM chainIds
   evmChain('OP', 10),
+  evmChain('CRO', 25),
   evmChain('BSC', 56),
   evmChain('GO', 60),
   evmChain('ETC', 61),
@@ -1586,7 +1587,8 @@ export const formats: IFormat[] = [
   evmChain('CLO', 820),
   evmChain('NRG', 39797),
   evmChain('ARB1', 42161),
-  evmChain('CELO', 42220)
+  evmChain('CELO', 42220),
+  evmChain('AVAXC', 43114)
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));

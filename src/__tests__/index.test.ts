@@ -541,7 +541,7 @@ const vectors: Array<TestVector> = [
     name: 'MRX',
     coinType: 326,
     passingVectors: [
-      { text: 'MPYAKTYDaEMEXWFSxHeMtpXNNiSjK4TVch', hex: 'ab8959869ee2579028abdf6a199b049bfae6dc3b' },
+      { text: 'MPYAKTYDaEMEXWFSxHeMtpXNNiSjK4TVch', hex: '32ab8959869ee2579028abdf6a199b049bfae6dc3b' },
     ]
   },
   {
@@ -1149,6 +1149,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'CRO',
+    coinType: convertEVMChainIdToCoinType(25),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
     name: 'BSC',
     coinType: convertEVMChainIdToCoinType(56),
     passingVectors: [
@@ -1251,6 +1258,13 @@ const vectors: Array<TestVector> = [
   {
     name: 'CELO',
     coinType: convertEVMChainIdToCoinType(42220),
+    passingVectors: [
+      { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
+    ],
+  },
+  {
+    name: 'AVAXC',
+    coinType: convertEVMChainIdToCoinType(43114),
     passingVectors: [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
