@@ -892,6 +892,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'NODL',
+    coinType: 1003,
+    passingVectors: [
+      { text: '4k5Am7GnRscesBAG7NEuibjdstLTwBhwtYW1of2FC79DYkqF', hex: '823c7f65123aa9e1fdcfcd146590e7f058a348f282781eebbecc82d20852c627' },
+    ],
+  },
+  {
     name: 'FTM_LEGACY',
     coinType: 1007,
     passingVectors: [

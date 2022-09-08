@@ -111,6 +111,7 @@ This library currently supports the following cryptocurrencies and address forma
  - NEM(XEM) (base32)
  - NEO (base58check)
  - NMC (base58check)
+ - NODL (ss58)
  - NRG (checksummed-hex)
  - NULS (base58)
  - ONE (bech32)
