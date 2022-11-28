@@ -144,7 +144,7 @@ This library currently supports the following cryptocurrencies and address forma
  - WAVES (base58)
  - WICC (base58check P2PKH and P2SH)
  - XCH (bech32m)
- - XDAI (checksummed-hex)
+ - GNO (checksummed-hex)
  - XHV (base58xmr)
  - XLM (ed25519 public key)
  - XMR (base58xmr)

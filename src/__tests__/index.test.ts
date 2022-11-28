@@ -818,7 +818,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'XDAI_LEGACY',
+    name: 'GNO_LEGACY',
     coinType: 700,
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
@@ -1193,7 +1193,7 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
-    name: 'XDAI',
+    name: 'GNO',
     coinType: convertEVMChainIdToCoinType(100),
     passingVectors: [
       { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
@@ -1321,7 +1321,7 @@ test("README ordering", () => {
 });
 
 test("Convert cointype to evm chain id and convert back", () => {
-  const xdai = 61
-  const coinType = convertEVMChainIdToCoinType(xdai)
-  expect(convertCoinTypeToEVMChainId(coinType)).toBe(xdai)
+  const gno = 61
+  const coinType = convertEVMChainIdToCoinType(gno)
+  expect(convertCoinTypeToEVMChainId(coinType)).toBe(gno)
 })
