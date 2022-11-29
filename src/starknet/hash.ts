@@ -2,7 +2,7 @@
 import { keccak256 } from 'ethereum-cryptography/keccak.js';
 import { hexToBytes } from 'ethereum-cryptography/utils.js';
 
-import { addHexPrefix, buf2hex, removeHexPrefix, utf8ToArray } from './encode';
+import { addHexPrefix, buf2hex, removeHexPrefix } from './encode';
 import {
   BigNumberish,
   toBN,

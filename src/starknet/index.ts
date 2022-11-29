@@ -1,4 +1,3 @@
-import Bn from 'bn.js'
 import { addHexPrefix, removeHexPrefix } from './encode';
 
 /* eslint-disable no-bitwise */
@@ -8,11 +7,11 @@ import { MASK_251, ZERO } from './constants';
 import { keccakBn } from './hash';
 import { BigNumberish, assertInRange, toBN, toHex } from './number';
 
-export function addAddressPadding(address: BigNumberish): string {
+function addAddressPadding(address: BigNumberish): string {
   return addHexPrefix(removeHexPrefix(toHex(toBN(address))).padStart(64, '0'));
 }
 
-export function validateAndParseAddress(address: BigNumberish): string {
+function validateAndParseAddress(address: BigNumberish): string {
   assertInRange(address, ZERO, MASK_251, 'Starknet Address');
 
   const result = addAddressPadding(address);
