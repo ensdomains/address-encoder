@@ -2,7 +2,7 @@ import { bech32, bech32m } from 'bech32';
 import { 
   validateChecksumAddress as starkValidateChecksumAddress,
   getChecksumAddress as starkGetChecksumAddress
-} from 'starknet';
+} from './starknet';
 
 const {
   decode: bech32Decode,
