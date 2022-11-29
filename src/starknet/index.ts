@@ -42,6 +42,5 @@ export function getChecksumAddress(address: BigNumberish): string {
 }
 
 export function validateChecksumAddress(address: string): boolean {
-  return true
-  // return getChecksumAddress(address) === address;
+  return getChecksumAddress(address) === address;
 }
