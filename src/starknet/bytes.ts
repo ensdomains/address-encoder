@@ -26,23 +26,7 @@ function isBytes(value: any): value is Bytes {
   for (const v of value) {
     if (!isInteger(v) || v < 0 || v >= 256) { return false; }
   }
-  // for (let i = 0; i < value.length; i++) {
-  //     const v = value[i];
-  //     if (!isInteger(v) || v < 0 || v >= 256) { return false; }
-  // }
   return true;
-}
-
-function addSlice(array: Uint8Array): Uint8Array {
-  if(typeof(array) === 'undefined'){ throw Error('array undefined') }
-  // if (array && array.slice) { return array; }
-
-  // array.slice = function() {
-  //     const args = Array.prototype.slice.call(arguments);
-  //     return addSlice(new Uint8Array(Array.prototype.slice.apply(array, args)));
-  // }
-
-  return array;
 }
 
 function checkSafeUint53(value: number, message?: string): void {
@@ -79,7 +63,7 @@ export function arrayify(value: BytesLike | IHexable | number, options?: IDataOp
     }
     if (result.length === 0) { result.push(0); }
 
-    return addSlice(new Uint8Array(result));
+    return new Uint8Array(result);
   }
 
   if (options.allowMissingPrefix && typeof(value) === "string" && value.substring(0, 2) !== "0x") {
@@ -105,10 +89,10 @@ export function arrayify(value: BytesLike | IHexable | number, options?: IDataOp
       result.push(parseInt(hex.substring(i, i + 2), 16));
     }
 
-    return addSlice(new Uint8Array(result));
+    return new Uint8Array(result);
   }
 
   if (isBytes(value)) {
-    return addSlice(new Uint8Array(value));
+    return new Uint8Array(value);
   }
 }
