@@ -5,8 +5,7 @@ import { addHexPrefix, removeHexPrefix } from './encode';
 import { keccakBn } from './hash';
 import { assertInRange, BigNumberish, toBN, toHex } from './number';
 
-import { arrayify } from '@ethersproject/bytes';
-
+import { arrayify } from './bytes'
 function addAddressPadding(address: BigNumberish): string {
   return addHexPrefix(removeHexPrefix(toHex(toBN(address))).padStart(64, '0'));
 }
@@ -27,7 +26,7 @@ function validateAndParseAddress(address: BigNumberish): string {
 export function getChecksumAddress(address: BigNumberish): string {
   const chars = removeHexPrefix(validateAndParseAddress(address)).toLowerCase().split('');
   const hashed = arrayify(keccakBn(address), { hexPad: 'left' }); // in case the hash is 251 bits (63 chars) we need to pad it to 64 chars without changing the number value ("left")
-
+  if(typeof(hashed) === 'undefined') { throw Error('hashed is undefined')}
   for (let i = 0; i < chars.length; i += 2) {
     /* tslint:disable-next-line:no-bitwise */
     if (hashed[i >> 1] >> 4 >= 8) {
