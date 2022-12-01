@@ -9,22 +9,24 @@ export function isHex(hex: string): boolean {
 }
 
 function assert(val:any, msg:any) {
-  if (!val)
+  if (!val){
     throw new Error(msg || 'Assertion failed');
-}
-
-export function toBN(number: BigNumberish, base?: number | 'hex') {
-  if (typeof number === 'string') {
-    // eslint-disable-next-line no-param-reassign
-    number = number.toLowerCase();
   }
-  if (typeof number === 'string' && isHex(number) && !base)
-    return new BN(removeHexPrefix(number), 'hex');
-  return new BN(number, base);
 }
 
-export function toHex(number: BN): string {
-  return addHexPrefix(number.toString('hex'));
+export function toBN(num: BigNumberish, base?: number | 'hex') {
+  if (typeof num === 'string') {
+    // eslint-disable-next-line no-param-reassign
+    num = num.toLowerCase();
+  }
+  if (typeof num === 'string' && isHex(num) && !base){
+    return new BN(removeHexPrefix(num), 'hex');
+  }
+  return new BN(num, base);
+}
+
+export function toHex(num: BN): string {
+  return addHexPrefix(num.toString('hex'));
 }
 
 /*

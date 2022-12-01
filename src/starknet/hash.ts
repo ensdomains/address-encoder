@@ -16,13 +16,13 @@ function hexToBytes(hex: string): Uint8Array {
   if (typeof hex !== 'string') {
     throw new TypeError('hexToBytes: expected string, got ' + typeof hex);
   }
-  if (hex.length % 2) throw new Error('hexToBytes: received invalid unpadded hex');
+  if (hex.length % 2) { throw new Error('hexToBytes: received invalid unpadded hex') };
   const array = new Uint8Array(hex.length / 2);
   for (let i = 0; i < array.length; i++) {
     const j = i * 2;
     const hexByte = hex.slice(j, j + 2);
     const byte = Number.parseInt(hexByte, 16);
-    if (Number.isNaN(byte) || byte < 0) throw new Error('Invalid byte sequence');
+    if (Number.isNaN(byte) || byte < 0) { throw new Error('Invalid byte sequence'); }
     array[i] = byte;
   }
   return array;

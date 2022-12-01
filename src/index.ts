@@ -1,10 +1,4 @@
 import { bech32, bech32m } from 'bech32';
-const {
-  decode: bech32Decode,
-  encode:  bech32Encode,
-  fromWords: bech32FromWords,
-  toWords: bech32ToWords
-} = bech32;
 import bigInt from 'big-integer';
 import { blake2b, blake2bHex } from 'blakejs';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
@@ -40,9 +34,16 @@ import { groestl_2 }  from './groestl-hash-js/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 import { nimqDecoder, nimqEncoder } from './nimq';
 import { 
-  validateChecksumAddress as starkValidateChecksumAddress,
-  getChecksumAddress as starkGetChecksumAddress
+  getChecksumAddress as starkGetChecksumAddress,
+  validateChecksumAddress as starkValidateChecksumAddress
 } from './starknet';
+
+const {
+  decode: bech32Decode,
+  encode:  bech32Encode,
+  fromWords: bech32FromWords,
+  toWords: bech32ToWords
+} = bech32;
 
 const SLIP44_MSB = 0x80000000
 type EnCoder = (data: Buffer) => string;
