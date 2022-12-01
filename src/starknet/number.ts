@@ -1,12 +1,13 @@
-import BN from 'bn.js';
-
 import { addHexPrefix, removeHexPrefix } from './encode';
-
-export type BigNumberish = string | number | BN;
+// Could not make import work for bn.js as @types/bn.js wasn't working
+/* tslint:disable:no-var-requires */
+const BN = require('bn.js')
 
 export function isHex(hex: string): boolean {
   return /^0x[0-9a-f]*$/i.test(hex);
 }
+
+export type BigNumberish = string | number | typeof BN;
 
 function assert(val:any, msg:any) {
   if (!val){
@@ -25,7 +26,7 @@ export function toBN(num: BigNumberish, base?: number | 'hex') {
   return new BN(num, base);
 }
 
-export function toHex(num: BN): string {
+export function toHex(num: typeof BN): string {
   return addHexPrefix(num.toString('hex'));
 }
 
