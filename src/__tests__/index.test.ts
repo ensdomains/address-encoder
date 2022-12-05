@@ -1090,6 +1090,16 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'STRK',
+    coinType: 9004,
+    passingVectors: [
+      {
+        text: '0x02Fd23d9182193775423497fc0c472E156C57C69E4089A1967fb288A2d84e914',
+        hex: '02fd23d9182193775423497fc0c472e156c57c69e4089a1967fb288a2d84e914'
+      }
+    ],
+  },
+  {
     name: 'NRG_LEGACY',
     coinType: 9797,
     passingVectors: [

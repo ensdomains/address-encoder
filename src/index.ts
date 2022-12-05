@@ -1,10 +1,4 @@
 import { bech32, bech32m } from 'bech32';
-const {
-  decode: bech32Decode,
-  encode:  bech32Encode,
-  fromWords: bech32FromWords,
-  toWords: bech32ToWords
-} = bech32;
 import bigInt from 'big-integer';
 import { blake2b, blake2bHex } from 'blakejs';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
@@ -39,6 +33,18 @@ import { ChainID, isValidAddress } from './flow/index';
 import { groestl_2 }  from './groestl-hash-js/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 import { nimqDecoder, nimqEncoder } from './nimq';
+import { 
+  getChecksumAddress as starkGetChecksumAddress,
+  validateChecksumAddress as starkValidateChecksumAddress
+} from './starknet';
+
+const {
+  decode: bech32Decode,
+  encode:  bech32Encode,
+  fromWords: bech32FromWords,
+  toWords: bech32ToWords
+} = bech32;
+
 const SLIP44_MSB = 0x80000000
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
@@ -931,6 +937,17 @@ function nasAddressDecoder(data: string): Buffer {
   return bufferData;
 }
 
+function starkAddressEncoder(data: Buffer): string {
+  return starkGetChecksumAddress('0x' + data.toString('hex'))
+}
+
+function starkAddressDecoder(data: string): Buffer {
+  if(!starkValidateChecksumAddress(data)) {
+    throw Error('Invalid checksum');
+  }
+  return Buffer.from(rskStripHexPrefix(data), 'hex');
+}
+
 // Referenced from following
 // https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L219
 function icxAddressEncoder(data: Buffer): string {
@@ -1563,6 +1580,7 @@ export const formats: IFormat[] = [
   bech32mChain('XCH', 8444, 'xch', 90),
   getConfig('NULS', 8964, nulsAddressEncoder, nulsAddressDecoder),
   getConfig('AVAX', 9000, makeBech32Encoder('avax'), makeAvaxDecoder('avax')),
+  getConfig('STRK', 9004, starkAddressEncoder, starkAddressDecoder),
   hexChecksumChain('NRG_LEGACY', 9797),
   getConfig('ARDR', 16754, ardrAddressEncoder, ardrAddressDecoder),
   zcashChain('ZEL', 19167, 'za', [[0x1c, 0xb8]], [[0x1c, 0xbd]]),
