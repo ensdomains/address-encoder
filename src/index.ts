@@ -1541,7 +1541,7 @@ export const formats: IFormat[] = [
   bitcoinBase58Chain('BPS', 576, [[0x00]], [[0x05]]),
   hexChecksumChain('TFUEL', 589),
   bech32Chain('GRIN', 592, 'grin'),
-  hexChecksumChain('XDAI_LEGACY', 700),
+  hexChecksumChain('GNO_LEGACY', 700),
   // VET uses same address format as Ethereum but it's not EVM chain and no chainId found on https://chainlist.org
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
@@ -1596,7 +1596,7 @@ export const formats: IFormat[] = [
   evmChain('ETC', 61),
   evmChain('TOMO', 88),
   evmChain('POA', 99),
-  evmChain('XDAI', 100),
+  evmChain('GNO', 100),
   evmChain('TT', 108),
   evmChain('MATIC', 137),
   evmChain('EWT', 246),
