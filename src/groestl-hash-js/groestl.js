@@ -84,7 +84,7 @@ var compress = function(int64buf, state) {
       t[uu] = xor64(T0[B64(0, m[(uu + 1) & 0xF])], T1[B64(1, m[(uu + 3) & 0xF])], T2[B64(2, m[(uu + 5) & 0xF])], T3[B64(3, m[(uu + 11) & 0xF])], T4[B64(4, m[(uu + 0) & 0xF])], T5[B64(5, m[(uu + 2) & 0xF])], T6[B64(6, m[(uu + 4) & 0xF])], T7[B64(7, m[(uu + 6) & 0xF])]);
     }
     /* tslint:enable:no-bitwise */
-    temp = m;
+    let temp = m;
     m = t;
     t = temp;
   }
