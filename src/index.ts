@@ -45,7 +45,7 @@ const {
   toWords: bech32ToWords
 } = bech32;
 
-const SLIP44_MSB = 0x80000000
+export const SLIP44_MSB = 0x80000000
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
 
@@ -1610,7 +1610,18 @@ export const formats: IFormat[] = [
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
-export const formatsByCoinType: { [key: number]: IFormat } = Object.assign(
+const coinTypeFormats: { [key: number]: IFormat } = Object.assign(
   {},
   ...formats.map(x => ({ [x.coinType]: x })),
 );
+const handler = {
+  get(target:any, prop:string) {
+    if(target[prop]){
+      return target[prop]
+    }else if(parseInt(prop) > SLIP44_MSB){
+      return target[60]
+    }  
+  },
+};
+
+export const formatsByCoinType = new Proxy(coinTypeFormats, handler);

@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { IFormat, formats, formatsByName, formatsByCoinType, convertEVMChainIdToCoinType, convertCoinTypeToEVMChainId } from '../index';
+import { IFormat, formats, formatsByName, formatsByCoinType, convertEVMChainIdToCoinType, convertCoinTypeToEVMChainId, SLIP44_MSB } from '../index';
 
 interface TestVector {
   name: string;
@@ -1304,6 +1304,22 @@ vectors.forEach((vector: TestVector) => {
     }
   });
 });
+
+test("support non listed EVM chain coin types if above slip44 msb", () => {
+  const nonRegisteredNumber = SLIP44_MSB + 1
+  const coinTypes = vectors.map(v => v.coinType)
+  const ethType = formatsByCoinType[60]
+  console.log({nonRegisteredNumber, ethType})
+  expect(coinTypes.includes(nonRegisteredNumber)).toBe(false);
+  expect(formatsByCoinType[nonRegisteredNumber]).toBe(ethType);
+})
+
+test("does not support non listed EVM chain coin types if below slip44 msb", () => {
+  const nonRegisteredNumber = SLIP44_MSB - 1
+  const coinTypes = vectors.map(v => v.coinType)
+  expect(coinTypes.includes(nonRegisteredNumber)).toBe(false);
+  expect(formatsByCoinType[nonRegisteredNumber]).toBe(undefined);
+})
 
 test("Format ordering", () => {
   lastCointype = -1;
