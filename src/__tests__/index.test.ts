@@ -1310,7 +1310,11 @@ test("support non listed EVM chain coin types if above slip44 msb", () => {
   const coinTypes = vectors.map(v => v.coinType)
   const ethType = formatsByCoinType[60]
   expect(coinTypes.includes(nonRegisteredNumber)).toBe(false);
-  expect(formatsByCoinType[nonRegisteredNumber]).toBe(ethType);
+  const result = formatsByCoinType[nonRegisteredNumber];
+  expect(result.coinType).toBe(nonRegisteredNumber);
+  expect(result.name).toBe('');
+  expect(result.encoder).toBe(ethType.encoder);
+  expect(result.decoder).toBe(ethType.decoder);
 })
 
 test("does not support non listed EVM chain coin types if below slip44 msb", () => {

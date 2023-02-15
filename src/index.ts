@@ -1616,10 +1616,18 @@ const coinTypeFormats: { [key: number]: IFormat } = Object.assign(
 );
 const handler = {
   get(target:any, prop:string) {
+    const coinType = parseInt(prop)
     if(target[prop]){
       return target[prop]
-    }else if(parseInt(prop) > SLIP44_MSB){
-      return target[60]
+    }else if(coinType > SLIP44_MSB){
+      const eth = target[60]
+      let {encoder, decoder} = eth
+      return {
+        coinType,
+        decoder,
+        encoder,
+        name:''
+      }
     }  
   },
 };
