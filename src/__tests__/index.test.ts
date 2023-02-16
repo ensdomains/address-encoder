@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { IFormat, formats, formatsByName, formatsByCoinType, convertEVMChainIdToCoinType, convertCoinTypeToEVMChainId, SLIP44_MSB } from '../index';
+import { IFormat, formats, formatsByName, formatsByCoinType, convertEVMChainIdToCoinType, convertCoinTypeToEVMChainId, SLIP44_MSB, EVM_MSB } from '../index';
 
 interface TestVector {
   name: string;
@@ -1324,6 +1324,13 @@ test("does not support non listed EVM chain coin types if below slip44 msb", () 
   expect(formatsByCoinType[nonRegisteredNumber]).toBe(undefined);
 })
 
+test("does not support non listed EVM chain coin types if equal or above evmid msb", () => {
+  const nonRegisteredNumber = EVM_MSB
+  const coinTypes = vectors.map(v => v.coinType)
+  expect(coinTypes.includes(nonRegisteredNumber)).toBe(false);
+  expect(formatsByCoinType[nonRegisteredNumber]).toBe(undefined);
+})
+
 test("Format ordering", () => {
   lastCointype = -1;
   formats.forEach((format: IFormat) => {
@@ -1353,4 +1360,22 @@ test("Convert cointype to evm chain id and convert back", () => {
   const gno = 61
   const coinType = convertEVMChainIdToCoinType(gno)
   expect(convertCoinTypeToEVMChainId(coinType)).toBe(gno)
+})
+
+test("Cannot convert evm chain id to cointype if too high", () => {
+  expect(() => {
+    convertEVMChainIdToCoinType(EVM_MSB - SLIP44_MSB)
+  }).toThrow('chainId 2147483648 must be between 1 and 2147483648');
+})
+
+test("Cannot convert coinType to evm chain id if too high", () => {
+  expect(() => {
+    convertCoinTypeToEVMChainId(EVM_MSB)
+  }).toThrow('coinType 4294967296 must be between 2147483648 and 4294967295');
+})
+
+test("Cannot convert coinType to evm chain id if too low", () => {
+  expect(() => {
+    convertCoinTypeToEVMChainId(SLIP44_MSB - 1)
+  }).toThrow('coinType 2147483647 must be between 2147483648 and 4294967295');
 })

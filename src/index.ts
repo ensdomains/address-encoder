@@ -46,6 +46,7 @@ const {
 } = bech32;
 
 export const SLIP44_MSB = 0x80000000
+export const EVM_MSB = 0x100000000
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
 
@@ -506,11 +507,17 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
 
 /* tslint:disable:no-bitwise */
 export const convertEVMChainIdToCoinType = (chainId: number) =>{
+  if( (chainId + SLIP44_MSB) >= EVM_MSB ){
+    throw Error(`chainId ${chainId} must be between 1 and ${EVM_MSB - SLIP44_MSB}`)
+  }
   return  (SLIP44_MSB | chainId) >>> 0
 }
 
 /* tslint:disable:no-bitwise */
 export const convertCoinTypeToEVMChainId = (coinType: number) =>{
+  if( coinType >= EVM_MSB || coinType < SLIP44_MSB ){
+    throw Error(`coinType ${coinType} must be between ${SLIP44_MSB} and ${EVM_MSB -1}`)
+  }
   return  ((SLIP44_MSB -1) & coinType) >> 0
 }
 
@@ -1619,7 +1626,7 @@ const handler = {
     const coinType = parseInt(prop, 10)
     if(target[prop]){
       return target[prop]
-    }else if(coinType > SLIP44_MSB){
+    }else if(coinType > SLIP44_MSB && coinType < EVM_MSB){
       const eth = target[60]
       const { encoder, decoder } = eth
       return {
