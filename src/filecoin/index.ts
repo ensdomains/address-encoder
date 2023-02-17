@@ -11,7 +11,7 @@ function validateChecksum (ingest:Buffer, expect:Buffer){
 }
 
 function getChecksum (ingest:Buffer):Buffer {
-    return blake2b(ingest, null, 4)
+    return blake2b(Uint8Array.from(ingest), null, 4)
 }
 
 function checkAddressString (address:string){
