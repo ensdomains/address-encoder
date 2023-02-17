@@ -21,8 +21,8 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run test
-    - run: npm run lint
-    - run: npm run size
+        cache: 'yarn'
+    - run: yarn
+    - run: yarn test
+    - run: yarn lint
+    - run: yarn size
