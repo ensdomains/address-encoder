@@ -46,7 +46,6 @@ const {
 } = bech32;
 
 export const SLIP44_MSB = 0x80000000
-export const EVM_MSB = 0x100000000
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
 
