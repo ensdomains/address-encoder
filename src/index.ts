@@ -1625,7 +1625,7 @@ const handler = {
     const coinType = parseInt(prop, 10)
     if(target[prop]){
       return target[prop]
-    }else if(coinType > SLIP44_MSB && coinType < EVM_MSB){
+    }else if(coinType & SLIP44_MSB  != 0){
       const eth = target[60]
       const { encoder, decoder } = eth
       return {
