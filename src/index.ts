@@ -507,7 +507,7 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
 
 /* tslint:disable:no-bitwise */
 export const convertEVMChainIdToCoinType = (chainId: number) =>{
-  if( (chainId + SLIP44_MSB) >= EVM_MSB ){
+  if( chainId >= SLIP44_MSB ){
     throw Error(`chainId ${chainId} must be between 1 and ${EVM_MSB - SLIP44_MSB}`)
   }
   return  (SLIP44_MSB | chainId) >>> 0
