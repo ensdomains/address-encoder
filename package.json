@@ -34,7 +34,7 @@
     "@types/ripemd160": "^2.0.0",
     "browserify": "^16.5.0",
     "jest": "^26.4.2",
-    "microbundle": "^0.12.4",
+    "microbundle": "^0.15.1",
     "prettier": "^1.18.2",
     "ts-jest": "^26.4.1",
     "tslint": "^5.20.0",
