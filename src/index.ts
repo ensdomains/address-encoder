@@ -838,7 +838,7 @@ function wanChecksummedHexDecoder(data: string): Buffer {
 }
 
 function calcCheckSum(withoutChecksum: Buffer): Buffer {
-  const checksum = (new Keccak(256).update(Buffer.from(blake2b(withoutChecksum, null, 32))).digest()).slice(0, 4);
+  const checksum = (new Keccak(256).update(Buffer.from(blake2b(Uint8Array.from(withoutChecksum), null, 32))).digest()).slice(0, 4);
   return checksum;
 }
 
@@ -997,7 +997,7 @@ function hntAddressDecoder(data: string): Buffer {
 }
 
 function wavesAddressDecoder(data: string): Buffer {
-  const buffer = bs58DecodeNoCheck(data);
+  const buffer: Buffer = bs58DecodeNoCheck(data);
 
   if(buffer[0] !== 1) {
     throw Error('Bad program version');
@@ -1009,7 +1009,7 @@ function wavesAddressDecoder(data: string): Buffer {
 
   const bufferData = buffer.slice(0, 22);
   const checksum = buffer.slice(22, 26);
-  const checksumVerify = (new Keccak(256).update(Buffer.from(blake2b(bufferData, null, 32))).digest()).slice(0, 4);
+  const checksumVerify = (new Keccak(256).update(Buffer.from(blake2b(Uint8Array.from(bufferData), null, 32))).digest()).slice(0, 4);
 
   if(!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
@@ -1241,7 +1241,7 @@ function arkAddressDecoder(data: string): Buffer {
 
 function nanoAddressEncoder(data: Buffer): string {
   const encoded = nanoBase32Encode(Uint8Array.from(data));
-  const checksum = blake2b(data, null, 5).reverse();
+  const checksum = blake2b(Uint8Array.from(data), null, 5).reverse();
   const checksumEncoded = nanoBase32Encode(checksum);
 
   const address = `nano_${encoded}${checksumEncoded}`;
@@ -1427,7 +1427,7 @@ const SIA_CHECKSUM_SIZE = 6;
 const SIA_BLAKE2B_LEN = 32;
 
 function siaAddressEncoder(data: Buffer): string {
-  const checksum = blake2bHex(data, null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
+  const checksum = blake2bHex(Uint8Array.from(data), null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
   return data.toString('hex') + checksum;
 }
 
@@ -1438,7 +1438,7 @@ function siaAddressDecoder(data: string): Buffer {
 
   const hash = Buffer.from(data.slice(0, SIA_HASH_SIZE * 2), 'hex');
   const checksum = data.slice(SIA_HASH_SIZE * 2);
-  const expectedChecksum = blake2bHex(hash, null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
+  const expectedChecksum = blake2bHex(Uint8Array.from(hash), null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
 
   if (checksum !== expectedChecksum) {
     throw Error('Unrecognised address format');

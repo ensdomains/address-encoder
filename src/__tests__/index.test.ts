@@ -1317,10 +1317,10 @@ test("Format ordering", () => {
 test("README ordering", () => {
   const lines = fs.readFileSync('README.md', {encoding: 'utf-8'}).split('\n');
   const sectionIdx = lines.indexOf("## Supported cryptocurrencies");
-  var entries = [];
+  var entries: string[] = [];
   for(var i = sectionIdx + 1; i < lines.length; i++) {
     if(lines[i].startsWith(' - ')) {
-      entries.push(lines[i].substr(3));
+      entries.push(lines[i].substring(3));
     } else if(lines[i].startsWith('#')) {
       break;
     }
