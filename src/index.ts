@@ -514,8 +514,8 @@ export const convertEVMChainIdToCoinType = (chainId: number) =>{
 
 /* tslint:disable:no-bitwise */
 export const convertCoinTypeToEVMChainId = (coinType: number) =>{
-  if( coinType >= EVM_MSB || coinType < SLIP44_MSB ){
-    throw Error(`coinType ${coinType} must be between ${SLIP44_MSB} and ${EVM_MSB -1}`)
+  if( coinType & SLIP44_MSB == 0 ){
+    throw Error(`coinType ${coinType} is not an EVM chain`)
   }
   return  ((SLIP44_MSB - 1) & coinType) >> 0
 }
