@@ -507,14 +507,14 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
 /* tslint:disable:no-bitwise */
 export const convertEVMChainIdToCoinType = (chainId: number) =>{
   if( chainId >= SLIP44_MSB ){
-    throw Error(`chainId ${chainId} must be between 1 and ${EVM_MSB - SLIP44_MSB}`)
+    throw Error(`chainId ${chainId} must be less than ${SLIP44_MSB}`)
   }
   return  (SLIP44_MSB | chainId) >>> 0
 }
 
 /* tslint:disable:no-bitwise */
 export const convertCoinTypeToEVMChainId = (coinType: number) =>{
-  if( coinType & SLIP44_MSB == 0 ){
+  if( (coinType & SLIP44_MSB) === 0 ){
     throw Error(`coinType ${coinType} is not an EVM chain`)
   }
   return  ((SLIP44_MSB - 1) & coinType) >> 0
@@ -1625,7 +1625,8 @@ const handler = {
     const coinType = parseInt(prop, 10)
     if(target[prop]){
       return target[prop]
-    }else if(coinType & SLIP44_MSB  != 0){
+      /* tslint:disable:no-bitwise */
+    } else if((coinType & SLIP44_MSB) !== 0){
       const eth = target[60]
       const { encoder, decoder } = eth
       return {
@@ -1634,7 +1635,7 @@ const handler = {
         encoder,
         name:''
       }
-    }  
+    }
   },
 };
 
