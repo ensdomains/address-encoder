@@ -1555,6 +1555,7 @@ export const formats: IFormat[] = [
   hexChecksumChain('FTM_LEGACY', 1007),
   bech32Chain('ONE', 1023, 'one'),
   getConfig('ONT', 1024, ontAddrEncoder, ontAddrDecoder),
+  bech32Chain('NOSTR', 1237, 'npub'),
   {
     coinType: 1729,
     decoder: tezosAddressDecoder,
