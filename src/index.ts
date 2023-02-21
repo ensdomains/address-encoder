@@ -45,7 +45,7 @@ const {
   toWords: bech32ToWords
 } = bech32;
 
-const SLIP44_MSB = 0x80000000
+export const SLIP44_MSB = 0x80000000
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
 
@@ -506,12 +506,18 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
 
 /* tslint:disable:no-bitwise */
 export const convertEVMChainIdToCoinType = (chainId: number) =>{
+  if( chainId >= SLIP44_MSB ){
+    throw Error(`chainId ${chainId} must be less than ${SLIP44_MSB}`)
+  }
   return  (SLIP44_MSB | chainId) >>> 0
 }
 
 /* tslint:disable:no-bitwise */
 export const convertCoinTypeToEVMChainId = (coinType: number) =>{
-  return  ((SLIP44_MSB -1) & coinType) >> 0
+  if( (coinType & SLIP44_MSB) === 0 ){
+    throw Error(`coinType ${coinType} is not an EVM chain`)
+  }
+  return  ((SLIP44_MSB - 1) & coinType) >> 0
 }
 
 const evmChain = (name: string, coinType: number) => ({
@@ -1611,7 +1617,27 @@ export const formats: IFormat[] = [
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
-export const formatsByCoinType: { [key: number]: IFormat } = Object.assign(
+const coinTypeFormats: { [key: number]: IFormat } = Object.assign(
   {},
   ...formats.map(x => ({ [x.coinType]: x })),
 );
+const handler = {
+  get(target:any, prop:string) {
+    const coinType = parseInt(prop, 10)
+    if(target[prop]){
+      return target[prop]
+      /* tslint:disable:no-bitwise */
+    } else if((coinType & SLIP44_MSB) !== 0){
+      const eth = target[60]
+      const { encoder, decoder } = eth
+      return {
+        coinType,
+        decoder,
+        encoder,
+        name:''
+      }
+    }
+  },
+};
+
+export const formatsByCoinType = new Proxy(coinTypeFormats, handler);
