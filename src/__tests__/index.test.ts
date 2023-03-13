@@ -1255,6 +1255,13 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'ACE',
+    coinType: convertEVMChainIdToCoinType(648),
+    passingVectors: [
+      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
+    ],
+  },
+  {
     name: 'CLO',
     coinType: convertEVMChainIdToCoinType(820),
     passingVectors: [
@@ -1288,14 +1295,7 @@ const vectors: Array<TestVector> = [
     passingVectors: [
       { text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275', hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275' },
     ],
-  },
-  {
-    name: 'ACE',
-    coinType: convertEVMChainIdToCoinType(648),
-    passingVectors: [
-      { text: '0x314159265dD8dbb310642f98f50C066173C1259b', hex: '314159265dd8dbb310642f98f50c066173c1259b' },
-    ],
-  },
+  }
 ];
 
 var lastCointype = -1;
