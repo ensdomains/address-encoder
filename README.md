@@ -6,9 +6,9 @@ Text-format addresses are decoded into their native binary representations, and 
 
 This library was written for use with [EIP 2304](https://eips.ethereum.org/EIPS/eip-2304), but may be useful for anyone looking for a general purpose cryptocurrency address codec.
 
-EVM compatible chains are either specified using SLIP44 coinType or `0x800000000 | chainId` where 0x800000000 is msb (most significant bit) reserved at SLIP44 and no coin types exist in that range. This is to avoid number colision with th existing coin types.
+EVM compatible chains are either specified using SLIP44 coinType or `0x80000000 | chainId` where 0x80000000 is msb (most significant bit) reserved at SLIP44 and no coin types exist in that range. This is to avoid number colision with th existing coin types.
 
-For example, cointype of ARB1 is 2147441487(`0x80000000 | 42161`).
+Please read [the specification page for the more detail](https://docs.ens.domains/ens-improvement-proposals/ensip-11-evmchain-address-resolution#specification)
 
 ## Installation
 
