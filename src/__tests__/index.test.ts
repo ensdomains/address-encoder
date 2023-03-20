@@ -841,6 +841,15 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'Age',
+    coinType: 753,
+    passingVectors: [
+      { text: 'age1ql3z7hjy54pw3hyww5ayyfg7zqgvc7w3j2elw8zmrj2kg5sfn9aqmcac8p', hex: '07e22f5e44a542e8dc8e753a42251e1010cc79d192b3f71c5b1c95645209997a' },
+      { text: 'age1lggyhqrw2nlhcxprm67z43rta597azn8gknawjehu9d9dl0jq3yqqvfafg', hex: 'fa104b806e54ff7c1823debc2ac46bed0bee8a6745a7d74b37e15a56fdf20448' },
+      { text: 'age1yhm4gctwfmrpz87tdslm550wrx6m79y9f2hdzt0lndjnehwj0ukqrjpyx5', hex: '25f754616e4ec6111fcb6c3fba51ee19b5bf14854aaed12dff9b653cddd27f2c' },
+    ],
+  },
+  {
     name: 'CLO_LEGACY',
     coinType: 820,
     passingVectors: [

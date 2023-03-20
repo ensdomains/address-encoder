@@ -1551,6 +1551,7 @@ export const formats: IFormat[] = [
   // VET uses same address format as Ethereum but it's not EVM chain and no chainId found on https://chainlist.org
   hexChecksumChain('VET', 703),
   bech32Chain('BNB', 714, 'bnb'),
+  bech32Chain('Age', 753, 'age'),
   hexChecksumChain('CLO_LEGACY', 820),
   eosioChain('HIVE', 825, 'STM'),
   hexChecksumChain('TOMO_LEGACY', 889),

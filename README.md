@@ -51,6 +51,7 @@ This library currently supports the following cryptocurrencies and address forma
 - BCN (base58xmr)
 - BDX (base58xmr)
 - BNB (bech32)
+- Age (bech32)
 - BPS (base58check P2PKH and P2SH)
 - BSC (checksummed-hex)
 - BSV (base58check)
