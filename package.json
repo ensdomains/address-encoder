@@ -53,8 +53,5 @@
     "nano-base32": "^1.0.1",
     "ripemd160": "^2.0.2",
     "sha3": "^2.1.3"
-  },
-  "publishConfig": {
-    "@ace_domains:registry": "https://registry.npmjs.org"
   }
 }
