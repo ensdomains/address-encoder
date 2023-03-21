@@ -1,5 +1,5 @@
 {
-  "name": "@ace_domains/address-encoder",
+  "name": "@ensdomains/address-encoder",
   "version": "0.1.0",
   "description": "Encodes and decodes address formats for various cryptocurrencies",
   "source": "src/index.ts",
