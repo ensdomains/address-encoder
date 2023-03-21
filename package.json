@@ -1,6 +1,6 @@
 {
   "name": "@ensdomains/address-encoder",
-  "version": "0.1.0",
+  "version": "0.2.18",
   "description": "Encodes and decodes address formats for various cryptocurrencies",
   "source": "src/index.ts",
   "main": "lib/index.js",
