@@ -1261,6 +1261,22 @@ function nanoAddressDecoder(data: string): Buffer {
   return Buffer.from(decoded).slice(0, -5);
 }
 
+function bananoAddressEncoder(data: Buffer): string {
+  const encoded = nanoBase32Encode(Uint8Array.from(data));
+  const checksum = blake2b(Uint8Array.from(data), null, 5).reverse();
+  const checksumEncoded = nanoBase32Encode(checksum);
+
+  const address = `ban_${encoded}${checksumEncoded}`;
+
+  return address;
+}
+
+function bananoAddressDecoder(data: string): Buffer {
+  const decoded = nanoBase32Decode(data.slice(4));
+
+  return Buffer.from(decoded).slice(0, -5);
+}
+
 function etnAddressEncoder(data: Buffer): string {
   const buf = Buffer.concat([Buffer.from([18]), data]);
 
@@ -1507,6 +1523,7 @@ export const formats: IFormat[] = [
   bitcoinChain('LCC', 192, 'lcc', [[0x1c]], [[0x32], [0x05]]),
   eosioChain('EOS', 194, 'EOS'),
   getConfig('TRX', 195, bs58Encode, bs58Decode),
+  getConfig('BAN', 198, bananoAddressEncoder, bananoAddressDecoder),
   getConfig('BCN', 204, bcnAddressEncoder, bcnAddressDecoder),
   eosioChain('FIO', 235, 'FIO'),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
