@@ -442,6 +442,20 @@ const vectors: Array<TestVector> = [
     ],
   },
   {
+    name: 'BAN',
+    coinType: 198,
+    passingVectors: [
+      {
+        text: 'ban_15dng9kx49xfumkm4q6qpaxneie6oynebiwpums3ktdd6t3f3dhp69nxgb38',
+        hex: '0d7471e5d11faddce5315c97b23b464184afa8c4c396dcf219696b2682d0adf6'
+      },
+      {
+        text: 'ban_1anrzcuwe64rwxzcco8dkhpyxpi8kd7zsjc1oeimpc3ppca4mrjtwnqposrs',
+        hex: '2298fab7c61058e77ea554cb93edeeda0692cbfcc540ab213b2836b29029e23a'
+      }
+    ],
+  },
+  {
     name: 'BCN',
     coinType: 204,
     passingVectors: [
