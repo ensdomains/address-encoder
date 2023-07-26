@@ -470,6 +470,20 @@ const vectors: Array<TestVector> = [
       { text: '1Ax4gZtb7gAit2TivwejZHYtNNLT18PUXJ', hex: '6d23156cbbdcc82a5a47eee4c2c7c583c18b6bf4' },
     ],
   },
+   {
+    name: 'QRL',
+    coinType: 238,
+    passingVectors: [
+      {
+        text: 'Q02070028dc6ca5f722f9646171cee25eff5d178907d0e05a7c343eeba77ef138fcc0da9a0074db',
+        hex: '02070028dc6ca5f722f9646171cee25eff5d178907d0e05a7c343eeba77ef138fcc0da9a0074db', 
+      },
+      {
+        text: 'Q01060079df8fabfb4fdf7e7d5c4968fbf239bf804eb883082c77a00b25abf2724d95d3e47b32bb',
+        hex: '01060079df8fabfb4fdf7e7d5c4968fbf239bf804eb883082c77a00b25abf2724d95d3e47b32bb',
+      }
+    ],
+  },
   {
     name: 'NEO',
     coinType: 239,
