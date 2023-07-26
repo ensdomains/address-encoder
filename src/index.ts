@@ -37,6 +37,8 @@ import {
   getChecksumAddress as starkGetChecksumAddress,
   validateChecksumAddress as starkValidateChecksumAddress
 } from './starknet';
+import { arrayify } from './starknet/bytes';
+import { sha256 } from 'js-sha256';
 
 const {
   decode: bech32Decode,
@@ -1453,6 +1455,67 @@ function siaAddressDecoder(data: string): Buffer {
   return hash;
 }
 
+/// BEGIN QRL ADDRESS LOGIC
+
+// sources: 
+//          verify QRL address            --> https://github.com/theQRL/validate-qrl-address/blob/master/src/index.js
+//          convert between human and raw --> https://github.com/theQRL/wallet-helpers/blob/main/src/index.js
+//          the specs                     --> https://docs.theqrl.org/developers/address/
+function hexToBytes(hex: string) {
+  const bytes = [];
+  let c = 0;
+  for (c = 0; c < hex.length; c += 2) {
+    bytes.push(parseInt(hex.substr(c, 2), 16));
+  }
+  return bytes;
+}
+
+function checkHash(q: string) {
+  const qs = q.slice(1, 71);
+  const qa = hexToBytes(q.slice(71, 80));
+  const qx = sha256(hexToBytes(qs));
+  const qm = qx.slice(56, 64);
+  const qj = hexToBytes(qm);
+  return (
+    qj[0] === qa[0] && qj[1] === qa[1] && qj[2] === qa[2] && qj[3] === qa[3]
+  );
+}
+
+function checkValidHumanQRLAddress(data: string): void {
+  if (!data.startsWith('Q'))
+    throw Error(`Unrecognised QRL address format (Missing 'Q' prefix)`);
+
+  if (data.length !== 79)
+    throw Error(`Unrecognised QRL address format (Invalid length)`);
+
+  if (!checkHash(data))
+    throw Error(`Unrecognised QRL address format (Invalid checkHash)`);
+}
+
+function bytesToHex(bytes: Uint8Array) {
+  for (var hex = [], i = 0; i < bytes.length; i++) {
+    hex.push((bytes[i] >>> 4).toString(16))
+    hex.push((bytes[i] & 0xf).toString(16))
+  }
+  return hex.join('')
+}
+
+function qrlAddressEncoder(data: Buffer): string {
+  const raw = Uint8Array.from(data);
+  const humanAddress = `Q${bytesToHex(raw)}`;
+  checkValidHumanQRLAddress(humanAddress);
+  return humanAddress;
+}
+
+function qrlAddressDecoder(data: string): Buffer {
+  checkValidHumanQRLAddress(data);
+
+  const hex = data.slice(1)  // remove the Q
+  return Buffer.from(arrayify(`0x${hex}`)!);
+}
+
+// END QRL ADDRESS LOGIC
+
 const getConfig = (name: string, coinType: number, encoder: EnCoder, decoder: DeCoder) => {
   return {
     coinType,
@@ -1510,6 +1573,7 @@ export const formats: IFormat[] = [
   getConfig('BCN', 204, bcnAddressEncoder, bcnAddressDecoder),
   eosioChain('FIO', 235, 'FIO'),
   getConfig('BSV', 236, bsvAddresEncoder, bsvAddressDecoder),
+  getConfig('QRL', 238, qrlAddressEncoder, qrlAddressDecoder),
   getConfig('NEO', 239, bs58Encode, bs58Decode),
   getConfig('NIM', 242, nimqEncoder, nimqDecoder),
   hexChecksumChain('EWT_LEGACY', 246),
