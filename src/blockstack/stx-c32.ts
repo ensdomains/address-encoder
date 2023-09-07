@@ -1,16 +1,12 @@
 // https://en.wikipedia.org/wiki/Base32#Crockford's_Base32
-import { sha256 } from 'js-sha256';
+import { sha256 } from '@noble/hashes/sha256';
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils';
 export const C32_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 const hex = '0123456789abcdef';
 
-function hashSha256(data: Buffer): Buffer {
-  return Buffer.from(sha256.update(data).digest())
-}
-
 function c32checksum(dataHex: string): string {
-  const dataHash = hashSha256(hashSha256(Buffer.from(dataHex, 'hex')));
-  const checksum = dataHash.slice(0, 4).toString('hex');
-  return checksum;
+  const dataHash = sha256(sha256(hexToBytes(dataHex)));
+  return bytesToHex(dataHash.slice(0, 4));
 }
 
 export function c32checkEncode(data: Buffer): string {
@@ -36,7 +32,7 @@ export function c32checkEncode(data: Buffer): string {
   if (checksumHex === c32checksum(`${version.p2pkh.toString(16)}${hash160hex}`)) {
     prefix = 'P';
     c32str = c32encode(`${hash160hex}${checksumHex}`);
-  } else if ((checksumHex === c32checksum(`${version.p2sh.toString(16)}${hash160hex}`))) {
+  } else if (checksumHex === c32checksum(`${version.p2sh.toString(16)}${hash160hex}`)) {
     prefix = 'M';
     c32str = c32encode(`${hash160hex}${checksumHex}`);
   }
@@ -106,7 +102,10 @@ function c32normalize(c32input: string): string {
   // must be upper-case
   // replace all O's with 0's
   // replace all I's and L's with 1's
-  return c32input.toUpperCase().replace(/O/g, '0').replace(/[IL]/g, '1');
+  return c32input
+    .toUpperCase()
+    .replace(/O/g, '0')
+    .replace(/[IL]/g, '1');
 }
 
 export function c32checkDecode(data: string): Buffer {
