@@ -4536,11 +4536,6 @@ js-crc@^0.2.0:
   resolved "https://registry.npmjs.org/js-crc/-/js-crc-0.2.0.tgz"
   integrity sha1-9yxcdhgXa/91zIEqHO2949jraDk=
 
-js-sha256@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.npmjs.org/js-sha256/-/js-sha256-0.9.0.tgz"
-  integrity sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==
-
 js-sha512@^0.8.0:
   version "0.8.0"
   resolved "https://registry.npmjs.org/js-sha512/-/js-sha512-0.8.0.tgz"
