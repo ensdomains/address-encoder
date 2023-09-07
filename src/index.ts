@@ -1,6 +1,6 @@
+import { blake2b } from '@noble/hashes/blake2b';
 import { bech32, bech32m } from 'bech32';
 import bigInt from 'big-integer';
-import { blake2b, blake2bHex } from 'blakejs';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
 // @ts-ignore
 import {
@@ -30,26 +30,22 @@ import { c32checkDecode, c32checkEncode } from './blockstack/stx-c32';
 import { decode as cborDecode, encode as cborEncode, TaggedValue } from './cbor/cbor';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
 import { ChainID, isValidAddress } from './flow/index';
-import { groestl_2 }  from './groestl-hash-js/index';
+import { groestl_2 } from './groestl-hash-js/index';
 import { xmrAddressDecoder, xmrAddressEncoder } from './monero/xmr-base58';
 import { nimqDecoder, nimqEncoder } from './nimq';
-import { 
+import {
   getChecksumAddress as starkGetChecksumAddress,
-  validateChecksumAddress as starkValidateChecksumAddress
+  validateChecksumAddress as starkValidateChecksumAddress,
 } from './starknet';
+import { bytesToHex } from '@noble/hashes/utils';
 
-const {
-  decode: bech32Decode,
-  encode:  bech32Encode,
-  fromWords: bech32FromWords,
-  toWords: bech32ToWords
-} = bech32;
+const { decode: bech32Decode, encode: bech32Encode, fromWords: bech32FromWords, toWords: bech32ToWords } = bech32;
 
-export const SLIP44_MSB = 0x80000000
+export const SLIP44_MSB = 0x80000000;
 type EnCoder = (data: Buffer) => string;
 type DeCoder = (data: string) => Buffer;
 
-type base58CheckVersion = number[]
+type base58CheckVersion = number[];
 
 export interface IFormat {
   coinType: number;
@@ -59,7 +55,10 @@ export interface IFormat {
 }
 
 // Support version field of more than one byte (e.g. Zcash)
-function makeBitcoinBase58CheckEncoder(p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
+function makeBitcoinBase58CheckEncoder(
+  p2pkhVersion: base58CheckVersion,
+  p2shVersion: base58CheckVersion,
+): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -88,16 +87,23 @@ function makeBitcoinBase58CheckEncoder(p2pkhVersion: base58CheckVersion, p2shVer
 
 // Supports version field of more than one byte
 // NOTE: Assumes all versions in p2pkhVersions[] or p2shVersions[] will have the same length
-function makeBitcoinBase58CheckDecoder(p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
+function makeBitcoinBase58CheckDecoder(
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
+): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58Decode(data);
 
     // Checks if the first addr bytes are exactly equal to provided version field
     const checkVersion = (version: base58CheckVersion) => {
-      return version.every((value: number, index: number) => index < addr.length && value === addr.readUInt8(index))
-    }
+      return version.every((value: number, index: number) => index < addr.length && value === addr.readUInt8(index));
+    };
     if (p2pkhVersions.some(checkVersion)) {
-      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(p2pkhVersions[0].length), Buffer.from([0x88, 0xac])]);
+      return Buffer.concat([
+        Buffer.from([0x76, 0xa9, 0x14]),
+        addr.slice(p2pkhVersions[0].length),
+        Buffer.from([0x88, 0xac]),
+      ]);
     } else if (p2shVersions.some(checkVersion)) {
       return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(p2shVersions[0].length), Buffer.from([0x87])]);
     }
@@ -105,7 +111,12 @@ function makeBitcoinBase58CheckDecoder(p2pkhVersions: base58CheckVersion[], p2sh
   };
 }
 
-const bitcoinBase58Chain = (name: string, coinType: number, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]) => ({
+const bitcoinBase58Chain = (
+  name: string,
+  coinType: number,
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
+) => ({
   coinType,
   decoder: makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions),
   encoder: makeBitcoinBase58CheckEncoder(p2pkhVersions[0], p2shVersions[0]),
@@ -141,7 +152,11 @@ function makeBech32SegwitDecoder(hrp: string): (data: string) => Buffer {
   };
 }
 
-function makeBitcoinEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
+function makeBitcoinEncoder(
+  hrp: string,
+  p2pkhVersion: base58CheckVersion,
+  p2shVersion: base58CheckVersion,
+): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
   const encodeBase58Check = makeBitcoinBase58CheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
@@ -153,7 +168,11 @@ function makeBitcoinEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shV
   };
 }
 
-function makeBitcoinDecoder(hrp: string, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
+function makeBitcoinDecoder(
+  hrp: string,
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
+): (data: string) => Buffer {
   const decodeBech32 = makeBech32SegwitDecoder(hrp);
   const decodeBase58Check = makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions);
   return (data: string) => {
@@ -181,7 +200,11 @@ const bitcoinChain = (
 // Similar to makeBitcoinEncoder but:
 // - Uses Bech32 without SegWit https://zips.z.cash/zip-0173
 // - Supports version field of more than one byte
-function makeZcashEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
+function makeZcashEncoder(
+  hrp: string,
+  p2pkhVersion: base58CheckVersion,
+  p2shVersion: base58CheckVersion,
+): (data: Buffer) => string {
   const encodeBech32 = makeBech32Encoder(hrp);
   const encodeBase58Check = makeBitcoinBase58CheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
@@ -194,7 +217,11 @@ function makeZcashEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shVer
 }
 
 // Similar to makeBitcoinDecoder but uses makeZcashBase58CheckDecoder to support version field of more than one byte
-function makeZcashDecoder(hrp: string, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
+function makeZcashDecoder(
+  hrp: string,
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
+): (data: string) => Buffer {
   const decodeBase58Check = makeBitcoinBase58CheckDecoder(p2pkhVersions, p2shVersions);
   const decodeBech32 = makeBech32Decoder(hrp);
   return (data: string) => {
@@ -249,7 +276,7 @@ function makeCardanoEncoder(hrp: string): (data: Buffer) => string {
     } catch {
       return encodeBech32(data);
     }
-  }
+  };
 }
 
 function makeCardanoDecoder(hrp: string): (data: string) => Buffer {
@@ -278,7 +305,7 @@ function makeCardanoByronEncoder() {
     }
 
     return address;
-   };
+  };
 }
 
 function makeCardanoByronDecoder() {
@@ -289,14 +316,14 @@ function makeCardanoByronDecoder() {
     const cborDecoded = cborDecode(bytesAb);
 
     const taggedAddr = cborDecoded[0];
-    if(taggedAddr === undefined) {
+    if (taggedAddr === undefined) {
       throw Error('Unrecognised address format');
     }
 
     const addrChecksum = cborDecoded[1];
     const calculatedChecksum = crc32(taggedAddr.value);
 
-    if(parseInt(calculatedChecksum, 16) !== addrChecksum) {
+    if (parseInt(calculatedChecksum, 16) !== addrChecksum) {
       throw Error('Unrecognised address format');
     }
 
@@ -304,36 +331,34 @@ function makeCardanoByronDecoder() {
   };
 }
 
-
-const cardanoChain = (
-  name: string,
-  coinType: number,
-  hrp: string,
-) => ({
+const cardanoChain = (name: string, coinType: number, hrp: string) => ({
   coinType,
   decoder: makeCardanoDecoder(hrp),
   encoder: makeCardanoEncoder(hrp),
   name,
 });
 
-function makeAvaxDecoder (hrp: string): (data: string) => Buffer {
-  const decodeBech32 = makeBech32Decoder(hrp)
+function makeAvaxDecoder(hrp: string): (data: string) => Buffer {
+  const decodeBech32 = makeBech32Decoder(hrp);
   return (data: string) => {
-    let address
-    const [id, possibleAddr] = data.split('-')
-    if (!possibleAddr) { address = id }
-    else { address = possibleAddr }
+    let address;
+    const [id, possibleAddr] = data.split('-');
+    if (!possibleAddr) {
+      address = id;
+    } else {
+      address = possibleAddr;
+    }
 
-    return decodeBech32(address)
-  }
+    return decodeBech32(address);
+  };
 }
 
 function decodeNearAddr(data: string): Buffer {
   const regex = /(^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$)/g;
-  if(!regex.test(data)) {
+  if (!regex.test(data)) {
     throw Error('Invalid address string');
   } else {
-    if(data.length > 64 || data.length < 2) {
+    if (data.length > 64 || data.length < 2) {
       throw Error('Invalid address format');
     }
     return Buffer.from(data);
@@ -342,7 +367,7 @@ function decodeNearAddr(data: string): Buffer {
 
 function encodeNearAddr(data: Buffer): string {
   const ndata = data.toString();
-  if(ndata.length > 64 || ndata.length < 2) {
+  if (ndata.length > 64 || ndata.length < 2) {
     throw Error('Invalid address format');
   }
   return ndata;
@@ -367,41 +392,47 @@ function decodeBitcoinCash(data: string): Buffer {
   }
 }
 
-function grsCheckSumFn(buffer: Buffer): Buffer{
-  const rtn : string = groestl_2(buffer, 1, 1) as string
-  return Buffer.from(rtn)
+function grsCheckSumFn(buffer: Buffer): Buffer {
+  const rtn: string = groestl_2(buffer, 1, 1) as string;
+  return Buffer.from(rtn);
 }
 
-function bs58grscheckEncode(payload:Buffer): string {
-  const checksum = grsCheckSumFn(payload)
-  return bs58EncodeNoCheck(Buffer.concat([
-    payload,
-    checksum
-  ], payload.length + 4))
+function bs58grscheckEncode(payload: Buffer): string {
+  const checksum = grsCheckSumFn(payload);
+  return bs58EncodeNoCheck(Buffer.concat([payload, checksum], payload.length + 4));
 }
 // Lifted from https://github.com/ensdomains/address-encoder/pull/239/commits/4872330fba558730108d7f1e0d197cfef3dd9ca6
 // https://github.com/groestlcoin/bs58grscheck
-function decodeRaw (buffer: Buffer): Buffer {
-  const payload = buffer.slice(0, -4)
-  const checksum = buffer.slice(-4)
-  const newChecksum = grsCheckSumFn(payload)
+function decodeRaw(buffer: Buffer): Buffer {
+  const payload = buffer.slice(0, -4);
+  const checksum = buffer.slice(-4);
+  const newChecksum = grsCheckSumFn(payload);
   /* tslint:disable:no-bitwise */
-  if (checksum[0] ^ newChecksum[0] |
-      checksum[1] ^ newChecksum[1] |
-      checksum[2] ^ newChecksum[2] |
-      checksum[3] ^ newChecksum[3]) {return Buffer.from([])};
+  if (
+    (checksum[0] ^ newChecksum[0]) |
+    (checksum[1] ^ newChecksum[1]) |
+    (checksum[2] ^ newChecksum[2]) |
+    (checksum[3] ^ newChecksum[3])
+  ) {
+    return Buffer.from([]);
+  }
   /* tslint:enable:no-bitwise */
-  return payload
+  return payload;
 }
 
 function bs58grscheckDecode(str: string): Buffer {
   const buffer = bs58DecodeNoCheck(str);
-  const payload = decodeRaw(buffer)
-  if (payload.length === 0) {throw new Error('Invalid checksum');}
-  return payload
+  const payload = decodeRaw(buffer);
+  if (payload.length === 0) {
+    throw new Error('Invalid checksum');
+  }
+  return payload;
 }
 
-function makeBase58GrsCheckEncoder(p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
+function makeBase58GrsCheckEncoder(
+  p2pkhVersion: base58CheckVersion,
+  p2shVersion: base58CheckVersion,
+): (data: Buffer) => string {
   return (data: Buffer) => {
     let addr: Buffer;
     switch (data.readUInt8(0)) {
@@ -427,14 +458,21 @@ function makeBase58GrsCheckEncoder(p2pkhVersion: base58CheckVersion, p2shVersion
   };
 }
 
-function makeBase58GrsCheckDecoder(p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
+function makeBase58GrsCheckDecoder(
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
+): (data: string) => Buffer {
   return (data: string) => {
     const addr = bs58grscheckDecode(data);
     const checkVersion = (version: base58CheckVersion) => {
-      return version.every((value: number, index: number) => index < addr.length && value === addr.readUInt8(index))
-    }
+      return version.every((value: number, index: number) => index < addr.length && value === addr.readUInt8(index));
+    };
     if (p2pkhVersions.some(checkVersion)) {
-      return Buffer.concat([Buffer.from([0x76, 0xa9, 0x14]), addr.slice(p2pkhVersions[0].length), Buffer.from([0x88, 0xac])]);
+      return Buffer.concat([
+        Buffer.from([0x76, 0xa9, 0x14]),
+        addr.slice(p2pkhVersions[0].length),
+        Buffer.from([0x88, 0xac]),
+      ]);
     } else if (p2shVersions.some(checkVersion)) {
       return Buffer.concat([Buffer.from([0xa9, 0x14]), addr.slice(p2shVersions[0].length), Buffer.from([0x87])]);
     }
@@ -442,7 +480,11 @@ function makeBase58GrsCheckDecoder(p2pkhVersions: base58CheckVersion[], p2shVers
   };
 }
 
-function makeGroestlcoinEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p2shVersion: base58CheckVersion): (data: Buffer) => string {
+function makeGroestlcoinEncoder(
+  hrp: string,
+  p2pkhVersion: base58CheckVersion,
+  p2shVersion: base58CheckVersion,
+): (data: Buffer) => string {
   const encodeBech32 = makeBech32SegwitEncoder(hrp);
   const encodeBase58Check = makeBase58GrsCheckEncoder(p2pkhVersion, p2shVersion);
   return (data: Buffer) => {
@@ -454,7 +496,11 @@ function makeGroestlcoinEncoder(hrp: string, p2pkhVersion: base58CheckVersion, p
   };
 }
 
-function makeGroestlcoinDecoder(hrp: string, p2pkhVersions: base58CheckVersion[], p2shVersions: base58CheckVersion[]): (data: string) => Buffer {
+function makeGroestlcoinDecoder(
+  hrp: string,
+  p2pkhVersions: base58CheckVersion[],
+  p2shVersions: base58CheckVersion[],
+): (data: string) => Buffer {
   const decodeBech32 = makeBech32SegwitDecoder(hrp);
   const decodeBase58Check = makeBase58GrsCheckDecoder(p2pkhVersions, p2shVersions);
   return (data: string) => {
@@ -505,20 +551,20 @@ const hexChecksumChain = (name: string, coinType: number, chainId?: number) => (
 });
 
 /* tslint:disable:no-bitwise */
-export const convertEVMChainIdToCoinType = (chainId: number) =>{
-  if( chainId >= SLIP44_MSB ){
-    throw Error(`chainId ${chainId} must be less than ${SLIP44_MSB}`)
+export const convertEVMChainIdToCoinType = (chainId: number) => {
+  if (chainId >= SLIP44_MSB) {
+    throw Error(`chainId ${chainId} must be less than ${SLIP44_MSB}`);
   }
-  return  (SLIP44_MSB | chainId) >>> 0
-}
+  return (SLIP44_MSB | chainId) >>> 0;
+};
 
 /* tslint:disable:no-bitwise */
-export const convertCoinTypeToEVMChainId = (coinType: number) =>{
-  if( (coinType & SLIP44_MSB) === 0 ){
-    throw Error(`coinType ${coinType} is not an EVM chain`)
+export const convertCoinTypeToEVMChainId = (coinType: number) => {
+  if ((coinType & SLIP44_MSB) === 0) {
+    throw Error(`coinType ${coinType} is not an EVM chain`);
   }
-  return  ((SLIP44_MSB - 1) & coinType) >> 0
-}
+  return ((SLIP44_MSB - 1) & coinType) >> 0;
+};
 
 const evmChain = (name: string, coinType: number) => ({
   coinType: convertEVMChainIdToCoinType(coinType),
@@ -596,7 +642,7 @@ function makeEosioEncoder(prefix: string): (data: Buffer) => string {
     }
     const woPrefix = eosPublicKey.fromHex(data).toString();
     return woPrefix.replace(/^.{3}/g, prefix);
-  }
+  };
 }
 
 function makeEosioDecoder(prefix: string): (data: string) => Buffer {
@@ -604,10 +650,10 @@ function makeEosioDecoder(prefix: string): (data: string) => Buffer {
     if (!eosPublicKey.isValid(data)) {
       throw Error('Unrecognised address format');
     }
-    const regex = new RegExp("^.{" + prefix.length + "}", "g");
+    const regex = new RegExp('^.{' + prefix.length + '}', 'g');
     const wPrefix = data.replace(regex, 'EOS');
     return eosPublicKey(wPrefix).toBuffer();
-  }
+  };
 }
 
 const eosioChain = (name: string, coinType: number, prefix: string) => ({
@@ -645,15 +691,15 @@ function ksmAddrDecoder(data: string): Buffer {
 }
 
 function ontAddrEncoder(data: Buffer): string {
-  return bs58Encode(Buffer.concat([Buffer.from([0x17]), data]))
+  return bs58Encode(Buffer.concat([Buffer.from([0x17]), data]));
 }
 
 function ontAddrDecoder(data: string): Buffer {
-  const address = bs58Decode(data)
+  const address = bs58Decode(data);
 
   switch (address.readUInt8(0)) {
-   case 0x17:
-     return address.slice(1);
+    case 0x17:
+      return address.slice(1);
 
     default:
       throw Error('Unrecognised address format');
@@ -780,7 +826,7 @@ function liskAddressDecoder(data: string): Buffer {
 }
 
 function seroAddressEncoder(data: Buffer): string {
-  const address =  bs58EncodeNoCheck(data);
+  const address = bs58EncodeNoCheck(data);
 
   return address;
 }
@@ -788,7 +834,7 @@ function seroAddressEncoder(data: Buffer): string {
 function seroAddressDecoder(data: string): Buffer {
   const bytes = bs58DecodeNoCheck(data);
   if (bytes.length === 96) {
-    return  bytes;
+    return bytes;
   }
   throw Error('Unrecognised address format');
 }
@@ -799,10 +845,10 @@ function wanToChecksumAddress(data: string): string {
   const ndata = strippedData.toLowerCase();
 
   const hashed = new Keccak(256).update(Buffer.from(ndata)).digest();
-  let  ret = '0x';
+  let ret = '0x';
   const len = ndata.length;
   let hashByte;
-  for(let i = 0; i < len; i++) {
+  for (let i = 0; i < len; i++) {
     hashByte = hashed[Math.floor(i / 2)];
 
     if (i % 2 === 0) {
@@ -814,7 +860,7 @@ function wanToChecksumAddress(data: string): string {
       /* tslint:enable:no-bitwise */
     }
 
-    if(ndata[i] > '9' && hashByte <= 7) {
+    if (ndata[i] > '9' && hashByte <= 7) {
       ret += ndata[i].toUpperCase();
     } else {
       ret += ndata[i];
@@ -823,39 +869,39 @@ function wanToChecksumAddress(data: string): string {
   return ret;
 }
 
-function isValidChecksumWanAddress(address: string ): boolean {
+function isValidChecksumWanAddress(address: string): boolean {
   const isValid: boolean = /^0x[0-9a-fA-F]{40}$/.test(address);
-  return isValid && (wanToChecksumAddress(address) === address)
+  return isValid && wanToChecksumAddress(address) === address;
 }
 
 function wanChecksummedHexEncoder(data: Buffer): string {
-  return wanToChecksumAddress('0x'+data.toString('hex'));
+  return wanToChecksumAddress('0x' + data.toString('hex'));
 }
 
 function wanChecksummedHexDecoder(data: string): Buffer {
-  if(isValidChecksumWanAddress(data)) {
+  if (isValidChecksumWanAddress(data)) {
     return Buffer.from(rskStripHexPrefix(data), 'hex');
-
   } else {
     throw Error('Invalid address checksum');
-
   }
-
 }
 
 function calcCheckSum(withoutChecksum: Buffer): Buffer {
-  const checksum = (new Keccak(256).update(Buffer.from(blake2b(Uint8Array.from(withoutChecksum), null, 32))).digest()).slice(0, 4);
+  const checksum = new Keccak(256)
+    .update(Buffer.from(blake2b(Uint8Array.from(withoutChecksum), { dkLen: 32 })))
+    .digest()
+    .slice(0, 4);
   return checksum;
 }
 
 function isByteArrayValid(addressBytes: Buffer): boolean {
   // "M" for mainnet, "T" for test net. Just limited to mainnet
-  if(addressBytes.readInt8(0) !== 5 || addressBytes.readInt8(1) !== "M".charCodeAt(0) || addressBytes.length !== 26) {
+  if (addressBytes.readInt8(0) !== 5 || addressBytes.readInt8(1) !== 'M'.charCodeAt(0) || addressBytes.length !== 26) {
     return false;
   }
 
   const givenCheckSum = addressBytes.slice(-4);
-  const generatedCheckSum = calcCheckSum(addressBytes.slice(0 , -4));
+  const generatedCheckSum = calcCheckSum(addressBytes.slice(0, -4));
   return givenCheckSum.equals(generatedCheckSum);
 }
 
@@ -863,22 +909,22 @@ function isByteArrayValid(addressBytes: Buffer): boolean {
 // https://github.com/virtualeconomy/v-systems/blob/master/src/main/scala/vsys/account/Address.scala
 function vsysAddressDecoder(data: string): Buffer {
   let base58String = data;
-  if(data.startsWith('address:')){
+  if (data.startsWith('address:')) {
     base58String = data.substr(data.length);
   }
-  if(base58String.length > 36) {
+  if (base58String.length > 36) {
     throw new Error('VSYS: Address length should not be more than 36');
   }
   const bytes = bs58DecodeNoCheck(base58String);
 
-  if(!isByteArrayValid(bytes)) {
+  if (!isByteArrayValid(bytes)) {
     throw new Error('VSYS: Invalid checksum');
   }
   return bytes;
 }
 
 function vsysAddressEncoder(data: Buffer): string {
-  if(!isByteArrayValid(data)) {
+  if (!isByteArrayValid(data)) {
     throw new Error('VSYS: Invalid checksum');
   }
   return bs58EncodeNoCheck(data);
@@ -920,7 +966,10 @@ function hnsAddressDecoder(data: string): Buffer {
 }
 
 function nasAddressEncoder(data: Buffer): string {
-  const checksum = (new SHA3(256).update(data).digest()).slice(0, 4);
+  const checksum = new SHA3(256)
+    .update(data)
+    .digest()
+    .slice(0, 4);
 
   return bs58EncodeNoCheck(Buffer.concat([data, checksum]));
 }
@@ -928,15 +977,18 @@ function nasAddressEncoder(data: Buffer): string {
 function nasAddressDecoder(data: string): Buffer {
   const buf = bs58DecodeNoCheck(data);
 
-  if(buf.length !== 26 || buf[0] !== 25 || (buf[1] !== 87 && buf[1] !== 88)){
+  if (buf.length !== 26 || buf[0] !== 25 || (buf[1] !== 87 && buf[1] !== 88)) {
     throw Error('Unrecognised address format');
   }
 
   const bufferData = buf.slice(0, 22);
   const checksum = buf.slice(-4);
-  const checksumVerify = (new SHA3(256).update(bufferData).digest()).slice(0, 4);
+  const checksumVerify = new SHA3(256)
+    .update(bufferData)
+    .digest()
+    .slice(0, 4);
 
-  if(!checksumVerify.equals(checksum)) {
+  if (!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
   }
 
@@ -944,11 +996,11 @@ function nasAddressDecoder(data: string): Buffer {
 }
 
 function starkAddressEncoder(data: Buffer): string {
-  return starkGetChecksumAddress('0x' + data.toString('hex'))
+  return starkGetChecksumAddress('0x' + data.toString('hex'));
 }
 
 function starkAddressDecoder(data: string): Buffer {
-  if(!starkValidateChecksumAddress(data)) {
+  if (!starkValidateChecksumAddress(data)) {
     throw Error('Invalid checksum');
   }
   return Buffer.from(rskStripHexPrefix(data), 'hex');
@@ -973,8 +1025,8 @@ function icxAddressEncoder(data: Buffer): string {
 // Referenced from following
 // https://github.com/icon-project/icon-service/blob/master/iconservice/base/address.py#L238
 function icxAddressDecoder(data: string): Buffer {
-  const prefix = data.slice(0, 2)
-  const body = data.slice(2)
+  const prefix = data.slice(0, 2);
+  const body = data.slice(2);
   switch (prefix) {
     case 'hx':
       return Buffer.concat([Buffer.from([0x00]), Buffer.from(body, 'hex')]);
@@ -995,7 +1047,7 @@ function hntAddressDecoder(data: string): Buffer {
   const buf = bs58Decode(data);
 
   const version = buf[0];
-  if(version !== 0x00){
+  if (version !== 0x00) {
     throw Error('Invalid version byte');
   }
 
@@ -1005,7 +1057,7 @@ function hntAddressDecoder(data: string): Buffer {
 function wavesAddressDecoder(data: string): Buffer {
   const buffer: Buffer = bs58DecodeNoCheck(data);
 
-  if(buffer[0] !== 1) {
+  if (buffer[0] !== 1) {
     throw Error('Bad program version');
   }
 
@@ -1015,20 +1067,90 @@ function wavesAddressDecoder(data: string): Buffer {
 
   const bufferData = buffer.slice(0, 22);
   const checksum = buffer.slice(22, 26);
-  const checksumVerify = (new Keccak(256).update(Buffer.from(blake2b(Uint8Array.from(bufferData), null, 32))).digest()).slice(0, 4);
+  const checksumVerify = new Keccak(256)
+    .update(Buffer.from(blake2b(Uint8Array.from(bufferData), { dkLen: 32 })))
+    .digest()
+    .slice(0, 4);
 
-  if(!checksumVerify.equals(checksum)) {
+  if (!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
   }
 
   return buffer;
-
 }
 
-const glog = [0, 0, 1, 18, 2, 5, 19, 11, 3, 29, 6, 27, 20, 8, 12, 23, 4, 10, 30, 17, 7, 22, 28, 26, 21, 25, 9, 16, 13, 14, 24, 15];
-const gexp = [1, 2, 4, 8, 16, 5, 10, 20, 13, 26, 17, 7, 14, 28, 29, 31, 27, 19, 3, 6, 12, 24, 21, 15, 30, 25, 23, 11, 22, 9, 18, 1];
+const glog = [
+  0,
+  0,
+  1,
+  18,
+  2,
+  5,
+  19,
+  11,
+  3,
+  29,
+  6,
+  27,
+  20,
+  8,
+  12,
+  23,
+  4,
+  10,
+  30,
+  17,
+  7,
+  22,
+  28,
+  26,
+  21,
+  25,
+  9,
+  16,
+  13,
+  14,
+  24,
+  15,
+];
+const gexp = [
+  1,
+  2,
+  4,
+  8,
+  16,
+  5,
+  10,
+  20,
+  13,
+  26,
+  17,
+  7,
+  14,
+  28,
+  29,
+  31,
+  27,
+  19,
+  3,
+  6,
+  12,
+  24,
+  21,
+  15,
+  30,
+  25,
+  23,
+  11,
+  22,
+  9,
+  18,
+  1,
+];
 function gmult(a: number, b: number): number {
-  if (a === 0 || b === 0) {return 0;}
+  if (a === 0 || b === 0) {
+    return 0;
+  }
 
   return gexp[(glog[a] + glog[b]) % 31];
 }
@@ -1039,18 +1161,20 @@ function ardrCheckSum(codeword: number[]): boolean {
   for (let i = 1; i < 5; i++) {
     let t = 0;
     for (let j = 0; j < 31; j++) {
-      if (j > 12 && j < 27) {continue;}
+      if (j > 12 && j < 27) {
+        continue;
+      }
 
       let pos = j;
-      if (j > 26) {pos -= 14;}
+      if (j > 26) {
+        pos -= 14;
+      }
 
       // tslint:disable-next-line:no-bitwise
       t ^= gmult(codeword[pos], gexp[(i * j) % 31]);
-
-  }
+    }
     // tslint:disable-next-line:no-bitwise
     sum |= t;
-
   }
   return sum === 0;
 }
@@ -1063,10 +1187,10 @@ function ardrAddressDecoder(data: string): Buffer {
 
   data = data.replace(/(^\s+)|(\s+$)/g, '').toUpperCase();
   const prefix = data.slice(0, 5);
-  if (prefix !== 'ARDOR' || data.split("-").length !== 5) {
+  if (prefix !== 'ARDOR' || data.split('-').length !== 5) {
     throw Error('Unrecognised address format');
   } else {
-    data = data.substr(data.indexOf("-"));
+    data = data.substr(data.indexOf('-'));
   }
 
   const clean = [];
@@ -1094,35 +1218,35 @@ function ardrAddressDecoder(data: string): Buffer {
   return Buffer.from(codeword);
 }
 
-
 function ardrAddressEncoder(data: Buffer): string {
   const dataStr = data.toString('hex');
   const arr = [];
 
-  for(let i = 0, j = 0; i < dataStr.length; i = i + 2) {
+  for (let i = 0, j = 0; i < dataStr.length; i = i + 2) {
     arr[cwmap[j++]] = 16 * parseInt(dataStr[i], 16) + parseInt(dataStr[i + 1], 16);
   }
 
-  let acc = "";
+  let acc = '';
   const rtn = [];
-  for(let i = 0; i < 17; i++) {
-    if(arr[i] >= alphabet.length || arr.length !== 17) {
+  for (let i = 0; i < 17; i++) {
+    if (arr[i] >= alphabet.length || arr.length !== 17) {
       throw Error('Unrecognised address format');
     }
     acc += alphabet[arr[i]];
 
-    if(i < 12 && (i + 1) % 4 === 0 || i === 16 ) {
+    if ((i < 12 && (i + 1) % 4 === 0) || i === 16) {
       rtn.push(acc);
-      acc = "";
+      acc = '';
     }
-
   }
-  return `ARDOR-${rtn.join("-")}`;
-
+  return `ARDOR-${rtn.join('-')}`;
 }
 
 function bcnAddressEncoder(data: Buffer): string {
-  const checksum = (new Keccak(256).update(data).digest()).slice(0, 4);
+  const checksum = new Keccak(256)
+    .update(data)
+    .digest()
+    .slice(0, 4);
 
   return xmrAddressEncoder(Buffer.concat([data, checksum]));
 }
@@ -1132,14 +1256,17 @@ function bcnAddressDecoder(data: string): Buffer {
 
   const tag = buf.slice(0, -68).toString('hex');
 
-  if(buf.length < 68 || (tag !== '06' && tag !== 'cef622')) {
+  if (buf.length < 68 || (tag !== '06' && tag !== 'cef622')) {
     throw Error('Unrecognised address format');
   }
 
   const checksum = buf.slice(-4);
-  const checksumVerify = (new Keccak(256).update(buf.slice(0, -4)).digest()).slice(0, 4);
+  const checksumVerify = new Keccak(256)
+    .update(buf.slice(0, -4))
+    .digest()
+    .slice(0, 4);
 
-  if(!checksumVerify.equals(checksum)) {
+  if (!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
   }
 
@@ -1188,20 +1315,19 @@ function algoEncode(data: Buffer): string {
 }
 
 function arAddressEncoder(data: Buffer): string {
-  return data.toString('base64')
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/\=/g, "");
+  return data
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/\=/g, '');
 }
 
 function arAddressDecoder(data: string): Buffer {
-  data = data.replace(/\-/g, "+").replace(/\_/g, "/");
+  data = data.replace(/\-/g, '+').replace(/\_/g, '/');
 
-  const padding = data.length % 4 === 0
-    ? 0
-    : 4 - (data.length % 4);
+  const padding = data.length % 4 === 0 ? 0 : 4 - (data.length % 4);
 
-  data = data.concat("=".repeat(padding));
+  data = data.concat('='.repeat(padding));
 
   return Buffer.from(data, 'base64');
 }
@@ -1215,12 +1341,12 @@ function bsvAddresEncoder(data: Buffer): string {
 function bsvAddressDecoder(data: string): Buffer {
   const buf = bs58Decode(data);
 
-  if(buf.length !== 21) {
+  if (buf.length !== 21) {
     throw Error('Unrecognised address format');
   }
 
   const version = buf[0];
-  if(version !== 0x00){
+  if (version !== 0x00) {
     throw Error('Invalid version byte');
   }
 
@@ -1247,7 +1373,7 @@ function arkAddressDecoder(data: string): Buffer {
 
 function nanoAddressEncoder(data: Buffer): string {
   const encoded = nanoBase32Encode(Uint8Array.from(data));
-  const checksum = blake2b(Uint8Array.from(data), null, 5).reverse();
+  const checksum = blake2b(Uint8Array.from(data), { dkLen: 5 }).reverse();
   const checksumEncoded = nanoBase32Encode(checksum);
 
   const address = `nano_${encoded}${checksumEncoded}`;
@@ -1264,7 +1390,10 @@ function nanoAddressDecoder(data: string): Buffer {
 function etnAddressEncoder(data: Buffer): string {
   const buf = Buffer.concat([Buffer.from([18]), data]);
 
-  const checksum = (new Keccak(256).update(buf).digest()).slice(0, 4);
+  const checksum = new Keccak(256)
+    .update(buf)
+    .digest()
+    .slice(0, 4);
 
   return xmrAddressEncoder(Buffer.concat([buf, checksum]));
 }
@@ -1272,14 +1401,17 @@ function etnAddressEncoder(data: Buffer): string {
 function etnAddressDecoder(data: string): Buffer {
   const buf = xmrAddressDecoder(data);
 
-  if(buf[0] !== 18){
+  if (buf[0] !== 18) {
     throw Error('Unrecognised address format');
   }
 
   const checksum = buf.slice(65, 69);
-  const checksumVerify = (new Keccak(256).update(buf.slice(0, 65)).digest()).slice(0, 4);
+  const checksumVerify = new Keccak(256)
+    .update(buf.slice(0, 65))
+    .digest()
+    .slice(0, 4);
 
-  if(!checksumVerify.equals(checksum)) {
+  if (!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
   }
 
@@ -1363,12 +1495,12 @@ function flowEncode(data: Buffer): string {
 
 /* tslint:disable:no-bitwise */
 function nulsAddressEncoder(data: Buffer): string {
-  const chainId = data[0] & 0xff | (data[1] & 0xff) << 8;
+  const chainId = (data[0] & 0xff) | ((data[1] & 0xff) << 8);
   const tempBuffer = Buffer.allocUnsafe(data.length + 1);
 
   let temp = 0;
   let xor = 0x00;
-  for(let i = 0; i < data.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     temp = data[i];
     temp = temp > 127 ? temp - 256 : temp;
     tempBuffer[i] = temp;
@@ -1376,13 +1508,13 @@ function nulsAddressEncoder(data: Buffer): string {
   }
   tempBuffer[data.length] = xor;
 
-  let prefix = "";
-  if(1 === chainId) {
+  let prefix = '';
+  if (1 === chainId) {
     prefix = 'NULS';
   } else if (2 === chainId) {
     prefix = 'tNULS';
   } else {
-    const chainIdBuffer = Buffer.concat([Buffer.from([0xFF & chainId >> 0]), Buffer.from([0xFF & chainId >> 8])]);
+    const chainIdBuffer = Buffer.concat([Buffer.from([0xff & (chainId >> 0)]), Buffer.from([0xff & (chainId >> 8)])]);
     prefix = bs58EncodeNoCheck(chainIdBuffer).toUpperCase();
   }
 
@@ -1391,14 +1523,14 @@ function nulsAddressEncoder(data: Buffer): string {
 }
 
 function nulsAddressDecoder(data: string): Buffer {
-  if(data.startsWith('NULS')) {
+  if (data.startsWith('NULS')) {
     data = data.substring(5);
   } else if (data.startsWith('tNULS')) {
     data = data.substring(6);
   } else {
-    for(let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       const val = data.charAt(i);
-      if(val.charCodeAt(0) >= 97) {
+      if (val.charCodeAt(0) >= 97) {
         data = data.substring(i + 1);
         break;
       }
@@ -1409,18 +1541,18 @@ function nulsAddressDecoder(data: string): Buffer {
 
   let temp = 0;
   let xor = 0x00;
-  for(let i = 0; i < bytes.length - 1; i++) {
+  for (let i = 0; i < bytes.length - 1; i++) {
     temp = bytes[i];
     temp = temp > 127 ? temp - 256 : temp;
     bytes[i] = temp;
     xor ^= temp;
   }
 
-  if(xor < 0) {
+  if (xor < 0) {
     xor = 256 + xor;
   }
 
-  if(xor !== bytes[bytes.length - 1]) {
+  if (xor !== bytes[bytes.length - 1]) {
     throw Error('Unrecognised address format');
   }
 
@@ -1433,7 +1565,10 @@ const SIA_CHECKSUM_SIZE = 6;
 const SIA_BLAKE2B_LEN = 32;
 
 function siaAddressEncoder(data: Buffer): string {
-  const checksum = blake2bHex(Uint8Array.from(data), null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
+  const checksum = bytesToHex(blake2b(Uint8Array.from(data), { dkLen: SIA_BLAKE2B_LEN })).slice(
+    0,
+    SIA_CHECKSUM_SIZE * 2,
+  );
   return data.toString('hex') + checksum;
 }
 
@@ -1444,7 +1579,10 @@ function siaAddressDecoder(data: string): Buffer {
 
   const hash = Buffer.from(data.slice(0, SIA_HASH_SIZE * 2), 'hex');
   const checksum = data.slice(SIA_HASH_SIZE * 2);
-  const expectedChecksum = blake2bHex(Uint8Array.from(hash), null, SIA_BLAKE2B_LEN).slice(0, SIA_CHECKSUM_SIZE * 2);
+  const expectedChecksum = bytesToHex(blake2b(Uint8Array.from(hash), { dkLen: SIA_BLAKE2B_LEN })).slice(
+    0,
+    SIA_CHECKSUM_SIZE * 2,
+  );
 
   if (checksum !== expectedChecksum) {
     throw Error('Unrecognised address format');
@@ -1482,8 +1620,8 @@ export const formats: IFormat[] = [
   hexChecksumChain('ETH', 60),
   hexChecksumChain('ETC_LEGACY', 61),
   getConfig('ICX', 74, icxAddressEncoder, icxAddressDecoder),
-  bitcoinBase58Chain('XVG',77, [[0x1E]], [[0x21]]),
-  bitcoinBase58Chain('STRAT', 105, [[0x3F]], [[0x7D]]),
+  bitcoinBase58Chain('XVG', 77, [[0x1e]], [[0x21]]),
+  bitcoinBase58Chain('STRAT', 105, [[0x3f]], [[0x7d]]),
   getConfig('ARK', 111, bs58Encode, arkAddressDecoder),
   bech32Chain('ATOM', 118, 'cosmos'),
   bech32Chain('ZIL', 119, 'zil'),
@@ -1495,7 +1633,7 @@ export const formats: IFormat[] = [
   eosioChain('STEEM', 135, 'STM'),
   bitcoinBase58Chain('FIRO', 136, [[0x52]], [[0x07]]),
   hexChecksumChain('RSK', 137, 30),
-  bitcoinBase58Chain('KMD', 141, [[0x3C]], [[0x55]]),
+  bitcoinBase58Chain('KMD', 141, [[0x3c]], [[0x55]]),
   getConfig('XRP', 144, data => xrpCodec.encodeChecked(data), data => xrpCodec.decodeChecked(data)),
   getConfig('BCH', 145, encodeCashAddr, decodeBitcoinCash),
   getConfig('XLM', 148, strEncoder, strDecoder),
@@ -1613,29 +1751,26 @@ export const formats: IFormat[] = [
   evmChain('NRG', 39797),
   evmChain('ARB1', 42161),
   evmChain('CELO', 42220),
-  evmChain('AVAXC', 43114)
+  evmChain('AVAXC', 43114),
 ];
 
 export const formatsByName: { [key: string]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.name]: x })));
-const coinTypeFormats: { [key: number]: IFormat } = Object.assign(
-  {},
-  ...formats.map(x => ({ [x.coinType]: x })),
-);
+const coinTypeFormats: { [key: number]: IFormat } = Object.assign({}, ...formats.map(x => ({ [x.coinType]: x })));
 const handler = {
-  get(target:any, prop:string) {
-    const coinType = parseInt(prop, 10)
-    if(target[prop]){
-      return target[prop]
+  get(target: any, prop: string) {
+    const coinType = parseInt(prop, 10);
+    if (target[prop]) {
+      return target[prop];
       /* tslint:disable:no-bitwise */
-    } else if((coinType & SLIP44_MSB) !== 0){
-      const eth = target[60]
-      const { encoder, decoder } = eth
+    } else if ((coinType & SLIP44_MSB) !== 0) {
+      const eth = target[60];
+      const { encoder, decoder } = eth;
       return {
         coinType,
         decoder,
         encoder,
-        name:''
-      }
+        name: '',
+      };
     }
   },
 };
