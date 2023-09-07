@@ -1,4 +1,7 @@
 import { blake2b } from '@noble/hashes/blake2b';
+import { keccak_256, sha3_256 } from '@noble/hashes/sha3';
+import { sha512_256 } from '@noble/hashes/sha512';
+import { bytesToHex } from '@noble/hashes/utils';
 import { bech32, bech32m } from 'bech32';
 import bigInt from 'big-integer';
 import { decode as bs58DecodeNoCheck, encode as bs58EncodeNoCheck } from 'bs58';
@@ -23,9 +26,7 @@ import {
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
 import { crc32 } from 'js-crc';
-import { sha512_256 as sha512_256 } from '@noble/hashes/sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
-import { Keccak, SHA3 } from 'sha3';
 import { c32checkDecode, c32checkEncode } from './blockstack/stx-c32';
 import { decode as cborDecode, encode as cborEncode, TaggedValue } from './cbor/cbor';
 import { filAddrDecoder, filAddrEncoder } from './filecoin/index';
@@ -37,7 +38,6 @@ import {
   getChecksumAddress as starkGetChecksumAddress,
   validateChecksumAddress as starkValidateChecksumAddress,
 } from './starknet';
-import { bytesToHex } from '@noble/hashes/utils';
 
 const { decode: bech32Decode, encode: bech32Encode, fromWords: bech32FromWords, toWords: bech32ToWords } = bech32;
 
@@ -844,7 +844,7 @@ function wanToChecksumAddress(data: string): string {
   const strippedData = rskStripHexPrefix(data);
   const ndata = strippedData.toLowerCase();
 
-  const hashed = new Keccak(256).update(Buffer.from(ndata)).digest();
+  const hashed = keccak_256(Uint8Array.from(Buffer.from(ndata)));
   let ret = '0x';
   const len = ndata.length;
   let hashByte;
@@ -887,11 +887,8 @@ function wanChecksummedHexDecoder(data: string): Buffer {
 }
 
 function calcCheckSum(withoutChecksum: Buffer): Buffer {
-  const checksum = new Keccak(256)
-    .update(Buffer.from(blake2b(Uint8Array.from(withoutChecksum), { dkLen: 32 })))
-    .digest()
-    .slice(0, 4);
-  return checksum;
+  const blake = blake2b(Uint8Array.from(withoutChecksum), { dkLen: 32 });
+  return Buffer.from(keccak_256(blake).slice(0, 4));
 }
 
 function isByteArrayValid(addressBytes: Buffer): boolean {
@@ -966,16 +963,12 @@ function hnsAddressDecoder(data: string): Buffer {
 }
 
 function nasAddressEncoder(data: Buffer): string {
-  const checksum = new SHA3(256)
-    .update(data)
-    .digest()
-    .slice(0, 4);
-
+  const checksum = sha3_256(Uint8Array.from(data)).slice(0, 4);
   return bs58EncodeNoCheck(Buffer.concat([data, checksum]));
 }
 
 function nasAddressDecoder(data: string): Buffer {
-  const buf = bs58DecodeNoCheck(data);
+  const buf = Uint8Array.from(bs58DecodeNoCheck(data));
 
   if (buf.length !== 26 || buf[0] !== 25 || (buf[1] !== 87 && buf[1] !== 88)) {
     throw Error('Unrecognised address format');
@@ -983,16 +976,13 @@ function nasAddressDecoder(data: string): Buffer {
 
   const bufferData = buf.slice(0, 22);
   const checksum = buf.slice(-4);
-  const checksumVerify = new SHA3(256)
-    .update(bufferData)
-    .digest()
-    .slice(0, 4);
+  const checksumVerify = Buffer.from(sha3_256(bufferData).slice(0, 4));
 
   if (!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
   }
 
-  return bufferData;
+  return Buffer.from(bufferData);
 }
 
 function starkAddressEncoder(data: Buffer): string {
@@ -1067,10 +1057,8 @@ function wavesAddressDecoder(data: string): Buffer {
 
   const bufferData = buffer.slice(0, 22);
   const checksum = buffer.slice(22, 26);
-  const checksumVerify = new Keccak(256)
-    .update(Buffer.from(blake2b(Uint8Array.from(bufferData), { dkLen: 32 })))
-    .digest()
-    .slice(0, 4);
+  const blake = blake2b(Uint8Array.from(bufferData), { dkLen: 32 });
+  const checksumVerify = Buffer.from(keccak_256(blake).slice(0, 4));
 
   if (!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
@@ -1243,11 +1231,7 @@ function ardrAddressEncoder(data: Buffer): string {
 }
 
 function bcnAddressEncoder(data: Buffer): string {
-  const checksum = new Keccak(256)
-    .update(data)
-    .digest()
-    .slice(0, 4);
-
+  const checksum = keccak_256(Uint8Array.from(data)).slice(0, 4);
   return xmrAddressEncoder(Buffer.concat([data, checksum]));
 }
 
@@ -1261,10 +1245,7 @@ function bcnAddressDecoder(data: string): Buffer {
   }
 
   const checksum = buf.slice(-4);
-  const checksumVerify = new Keccak(256)
-    .update(buf.slice(0, -4))
-    .digest()
-    .slice(0, 4);
+  const checksumVerify = Buffer.from(keccak_256(Uint8Array.from(buf.subarray(0, -4))).subarray(0, 4));
 
   if (!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
@@ -1387,32 +1368,26 @@ function nanoAddressDecoder(data: string): Buffer {
 function etnAddressEncoder(data: Buffer): string {
   const buf = Buffer.concat([Buffer.from([18]), data]);
 
-  const checksum = new Keccak(256)
-    .update(buf)
-    .digest()
-    .slice(0, 4);
+  const checksum = keccak_256(Uint8Array.from(buf)).slice(0, 4);
 
   return xmrAddressEncoder(Buffer.concat([buf, checksum]));
 }
 
 function etnAddressDecoder(data: string): Buffer {
-  const buf = xmrAddressDecoder(data);
+  const buf = Uint8Array.from(xmrAddressDecoder(data));
 
   if (buf[0] !== 18) {
     throw Error('Unrecognised address format');
   }
 
   const checksum = buf.slice(65, 69);
-  const checksumVerify = new Keccak(256)
-    .update(buf.slice(0, 65))
-    .digest()
-    .slice(0, 4);
+  const checksumVerify = Buffer.from(keccak_256(buf.slice(0, 65)).slice(0, 4));
 
   if (!checksumVerify.equals(checksum)) {
     throw Error('Invalid checksum');
   }
 
-  return buf.slice(1, 65);
+  return Buffer.from(buf.slice(1, 65));
 }
 
 function zenEncoder(data: Buffer): string {

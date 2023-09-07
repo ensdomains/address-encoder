@@ -1,9 +1,8 @@
 /* eslint-disable import/extensions */
 import { keccak_256 } from '@noble/hashes/sha3';
-
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils';
 import { removeHexPrefix } from './encode';
 import { BigNumberish, toBN, toHex } from './number';
-import { bytesToHex, hexToBytes } from '@noble/hashes/utils';
 
 export const transactionVersion = 1;
 export const feeTransactionVersion = toBN(2)
