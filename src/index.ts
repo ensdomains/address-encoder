@@ -23,7 +23,7 @@ import {
   toChecksumAddress as rskToChecksumAddress,
 } from 'crypto-addr-codec';
 import { crc32 } from 'js-crc';
-import { sha512_256 } from 'js-sha512';
+import { sha512_256 as sha512_256 } from '@noble/hashes/sha512';
 import { decode as nanoBase32Decode, encode as nanoBase32Encode } from 'nano-base32';
 import { Keccak, SHA3 } from 'sha3';
 import { c32checkDecode, c32checkEncode } from './blockstack/stx-c32';
@@ -1278,10 +1278,7 @@ const AlgoAddressByteLength = 36;
 
 // Returns 4 last byte (8 chars) of sha512_256(publicKey)
 function algoChecksum(pk: Buffer): string {
-  return sha512_256
-    .update(pk)
-    .hex()
-    .substr(-AlgoChecksumByteLength * 2);
+  return bytesToHex(sha512_256(Uint8Array.from(pk)).subarray(-AlgoChecksumByteLength));
 }
 
 function algoDecode(data: string): Buffer {
