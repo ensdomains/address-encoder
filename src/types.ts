@@ -1,0 +1,14 @@
+export type EncoderFunction = (source: Uint8Array) => string;
+export type DecoderFunction = (source: string) => Uint8Array;
+
+export type CoinParameters = {
+  name: string;
+  coinType: number;
+};
+
+export type CoinCoder = {
+  encode: EncoderFunction;
+  decode: DecoderFunction;
+};
+
+export type Coin = CoinParameters & CoinCoder;

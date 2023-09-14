@@ -1,0 +1,15 @@
+{
+  "name": "address-encoder",
+  "module": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "bech32": "^2.0.0",
+    "uint8arrays": "^4.0.6"
+  }
+}
