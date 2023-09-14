@@ -1,1 +1,0 @@
-declare module 'groestl-hash-js';
