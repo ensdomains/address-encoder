@@ -29,3 +29,7 @@ export function hexToString(hex: Hex): string {
   let bytes = hexToBytes(hex);
   return new TextDecoder().decode(bytes);
 }
+
+export function bytesToString(bytes: ByteArray): string {
+  return new TextDecoder().decode(bytes);
+}
