@@ -31,24 +31,6 @@ export const b32Decode = (input: string): Uint8Array => {
   return output.subarray(0, outputIndex);
 };
 
-export const b32Decode2 = (s: string): Uint8Array => {
-  var r = new ArrayBuffer((s.length * 5) / 8);
-  var b = new Uint8Array(r);
-  for (var j = 0; j < s.length / 8; j++) {
-    var v = [0, 0, 0, 0, 0, 0, 0, 0];
-    for (var _i4 = 0; _i4 < 8; ++_i4) {
-      v[_i4] = alphabet.indexOf(s[j * 8 + _i4]);
-    }
-    var i = 0;
-    b[j * 5 + 0] = (v[i + 0] << 3) | (v[i + 1] >> 2);
-    b[j * 5 + 1] = ((v[i + 1] & 0x3) << 6) | (v[i + 2] << 1) | (v[i + 3] >> 4);
-    b[j * 5 + 2] = ((v[i + 3] & 0xf) << 4) | (v[i + 4] >> 1);
-    b[j * 5 + 3] = ((v[i + 4] & 0x1) << 7) | (v[i + 5] << 2) | (v[i + 6] >> 3);
-    b[j * 5 + 4] = ((v[i + 6] & 0x7) << 5) | v[i + 7];
-  }
-  return b;
-};
-
 export const b32Encode = (input: Uint8Array): string => {
   let buffer = 0;
   let bufferLength = 0;

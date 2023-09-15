@@ -3,7 +3,9 @@
   "module": "src/index.ts",
   "type": "module",
   "devDependencies": {
-    "bun-types": "latest"
+    "@ensdomains/address-encoder": "^0.2.22",
+    "bun-types": "latest",
+    "mitata": "^0.1.6"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

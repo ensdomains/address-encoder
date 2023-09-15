@@ -16,16 +16,16 @@ export const createBitcoinDecoder = ({
   p2pkhVersions,
   p2shVersions,
 }: BitcoinCoderParameters) => {
-  const encodeBech32 = createBech32SegwitDecoder(hrp);
-  const encodeBase58 = createBase58WithCheckDecoder(
+  const decodeBech32 = createBech32SegwitDecoder(hrp);
+  const decodeBase58 = createBase58WithCheckDecoder(
     p2pkhVersions,
     p2shVersions
   );
   return (source: string): Uint8Array => {
     if (source.toLowerCase().startsWith(hrp + "1")) {
-      return encodeBech32(source);
+      return decodeBech32(source);
     }
-    return encodeBase58(source);
+    return decodeBase58(source);
   };
 };
 
