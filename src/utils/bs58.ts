@@ -32,7 +32,7 @@ export const bs58Encode = (source: Uint8Array): string => {
 export const bs58DecodeRaw = (source: Uint8Array): Uint8Array | undefined => {
   const payload = source.slice(0, -4);
   const checksum = source.slice(-4);
-  const newChecksum = sha256x2(source);
+  const newChecksum = sha256x2(payload);
 
   if (
     (checksum[0] ^ newChecksum[0]) |
@@ -108,7 +108,7 @@ export const createBase58WithCheckDecoder =
         addr.slice(p2pkhVersions[0].length),
         Uint8Array.of(0x88, 0xac),
       ]);
-    if (p2pkhVersions.some(checkVersion))
+    if (p2shVersions.some(checkVersion))
       return concat([
         Uint8Array.of(0xa9, 0x14),
         addr.slice(p2shVersions[0].length),
