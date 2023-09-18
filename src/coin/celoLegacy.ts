@@ -15,4 +15,4 @@ export const celoLegacy = {
   coinType,
   encode: encodeCeloLegacyAddress,
   decode: decodeCeloLegacyAddress,
-} satisfies Coin;
+} as const satisfies Coin;

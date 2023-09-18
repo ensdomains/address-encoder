@@ -12,4 +12,4 @@ export const qtum = {
   coinType,
   encode: encodeQtumAddress,
   decode: decodeQtumAddress,
-} satisfies Coin;
+} as const satisfies Coin;

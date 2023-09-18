@@ -12,4 +12,4 @@ export const iost = {
   coinType,
   encode: encodeIostAddress,
   decode: decodeIostAddress,
-} satisfies Coin;
+} as const satisfies Coin;

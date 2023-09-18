@@ -24,4 +24,4 @@ export const sys = {
   coinType,
   encode: encodeSysAddress,
   decode: decodeSysAddress,
-} satisfies Coin;
+} as const satisfies Coin;

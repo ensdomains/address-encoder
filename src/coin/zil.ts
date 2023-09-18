@@ -12,4 +12,4 @@ export const zil = {
   coinType,
   encode: encodeZilAddress,
   decode: decodeZilAddress,
-} satisfies Coin;
+} as const satisfies Coin;

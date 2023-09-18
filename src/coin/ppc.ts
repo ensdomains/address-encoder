@@ -24,4 +24,4 @@ export const ppc = {
   coinType,
   encode: encodePpcAddress,
   decode: decodePpcAddress,
-} satisfies Coin;
+} as const satisfies Coin;

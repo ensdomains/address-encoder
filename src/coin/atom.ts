@@ -12,4 +12,4 @@ export const atom = {
   coinType,
   encode: encodeAtomAddress,
   decode: decodeAtomAddress,
-} satisfies Coin;
+} as const satisfies Coin;

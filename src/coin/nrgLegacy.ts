@@ -15,4 +15,4 @@ export const nrgLegacy = {
   coinType,
   encode: encodeNrgLegacyAddress,
   decode: decodeNrgLegacyAddress,
-} satisfies Coin;
+} as const satisfies Coin;

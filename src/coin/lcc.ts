@@ -24,4 +24,4 @@ export const lcc = {
   coinType,
   encode: encodeLccAddress,
   decode: decodeLccAddress,
-} satisfies Coin;
+} as const satisfies Coin;

@@ -24,4 +24,4 @@ export const divi = {
   coinType,
   encode: encodeDiviAddress,
   decode: decodeDiviAddress,
-} satisfies Coin;
+} as const satisfies Coin;

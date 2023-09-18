@@ -15,4 +15,4 @@ export const ftmLegacy = {
   coinType,
   encode: encodeFtmLegacyAddress,
   decode: decodeFtmLegacyAddress,
-} satisfies Coin;
+} as const satisfies Coin;

@@ -15,4 +15,4 @@ export const tfuel = {
   coinType,
   encode: encodeTfuelAddress,
   decode: decodeTfuelAddress,
-} satisfies Coin;
+} as const satisfies Coin;

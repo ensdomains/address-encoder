@@ -29,4 +29,4 @@ export const icx = {
   coinType,
   encode: encodeIcxAddress,
   decode: decodeIcxAddress,
-} satisfies Coin;
+} as const satisfies Coin;

@@ -24,4 +24,4 @@ export const bcd = {
   coinType,
   encode: encodeBcdAddress,
   decode: decodeBcdAddress,
-} satisfies Coin;
+} as const satisfies Coin;

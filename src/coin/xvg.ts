@@ -24,4 +24,4 @@ export const xvg = {
   coinType,
   encode: encodeXvgAddress,
   decode: decodeXvgAddress,
-} satisfies Coin;
+} as const satisfies Coin;

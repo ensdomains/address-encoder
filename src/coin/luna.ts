@@ -14,4 +14,4 @@ export const luna = {
   coinType,
   encode: encodeLunaAddress,
   decode: decodeLunaAddress,
-} satisfies Coin;
+} as const satisfies Coin;

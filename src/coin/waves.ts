@@ -33,4 +33,4 @@ export const waves = {
   coinType,
   encode: encodeWavesAddress,
   decode: decodeWavesAddress,
-} satisfies Coin;
+} as const satisfies Coin;

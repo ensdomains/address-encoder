@@ -40,4 +40,4 @@ export const xmr = {
   coinType,
   encode: encodeXmrAddress,
   decode: decodeXmrAddress,
-} satisfies Coin;
+} as const satisfies Coin;

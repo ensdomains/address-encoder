@@ -24,4 +24,4 @@ export const via = {
   coinType,
   encode: encodeViaAddress,
   decode: decodeViaAddress,
-} satisfies Coin;
+} as const satisfies Coin;

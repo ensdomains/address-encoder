@@ -15,4 +15,4 @@ export const eth = {
   coinType,
   encode: encodeEthAddress,
   decode: decodeEthAddress,
-} satisfies Coin;
+} as const satisfies Coin;

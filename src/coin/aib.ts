@@ -24,4 +24,4 @@ export const aib = {
   coinType,
   encode: encodeAibAddress,
   decode: decodeAibAddress,
-} satisfies Coin;
+} as const satisfies Coin;

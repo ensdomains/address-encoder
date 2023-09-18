@@ -35,4 +35,4 @@ export const zen = {
   coinType,
   encode: encodeZenAddress,
   decode: decodeZenAddress,
-} satisfies Coin;
+} as const satisfies Coin;

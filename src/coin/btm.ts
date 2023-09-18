@@ -17,4 +17,4 @@ export const btm = {
   coinType,
   encode: encodeBtmAddress,
   decode: decodeBtmAddress,
-} satisfies Coin;
+} as const satisfies Coin;

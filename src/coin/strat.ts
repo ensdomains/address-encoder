@@ -24,4 +24,4 @@ export const strat = {
   coinType,
   encode: encodeStratAddress,
   decode: decodeStratAddress,
-} satisfies Coin;
+} as const satisfies Coin;

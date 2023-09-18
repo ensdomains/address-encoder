@@ -12,4 +12,4 @@ export const neo = {
   coinType,
   encode: encodeNeoAddress,
   decode: decodeNeoAddress,
-} satisfies Coin;
+} as const satisfies Coin;

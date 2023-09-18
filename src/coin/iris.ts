@@ -14,4 +14,4 @@ export const iris = {
   coinType,
   encode: encodeIrisAddress,
   decode: decodeIrisAddress,
-} satisfies Coin;
+} as const satisfies Coin;

@@ -24,4 +24,4 @@ export const zec = {
   coinType,
   encode: encodeZecAddress,
   decode: decodeZecAddress,
-} satisfies Coin;
+} as const satisfies Coin;

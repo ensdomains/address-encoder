@@ -24,4 +24,4 @@ export const firo = {
   coinType,
   encode: encodeFiroAddress,
   decode: decodeFiroAddress,
-} satisfies Coin;
+} as const satisfies Coin;

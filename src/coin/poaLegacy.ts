@@ -15,4 +15,4 @@ export const poaLegacy = {
   coinType,
   encode: encodePoaLegacyAddress,
   decode: decodePoaLegacyAddress,
-} satisfies Coin;
+} as const satisfies Coin;

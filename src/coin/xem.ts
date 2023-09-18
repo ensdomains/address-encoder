@@ -30,4 +30,4 @@ export const xem = {
   coinType,
   encode: encodeXemAddress,
   decode: decodeXemAddress,
-} satisfies Coin;
+} as const satisfies Coin;

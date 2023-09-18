@@ -24,4 +24,4 @@ export const lrg = {
   coinType,
   encode: encodeLrgAddress,
   decode: decodeLrgAddress,
-} satisfies Coin;
+} as const satisfies Coin;

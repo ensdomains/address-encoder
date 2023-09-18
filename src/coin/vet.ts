@@ -15,4 +15,4 @@ export const vet = {
   coinType,
   encode: encodeVetAddress,
   decode: decodeVetAddress,
-} satisfies Coin;
+} as const satisfies Coin;

@@ -14,4 +14,4 @@ export const grin = {
   coinType,
   encode: encodeGrinAddress,
   decode: decodeGrinAddress,
-} satisfies Coin;
+} as const satisfies Coin;

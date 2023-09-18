@@ -26,4 +26,4 @@ export const avax = {
   coinType,
   encode: encodeAvaxAddress,
   decode: decodeAvaxAddress,
-} satisfies Coin;
+} as const satisfies Coin;

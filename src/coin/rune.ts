@@ -14,4 +14,4 @@ export const rune = {
   coinType,
   encode: encodeRuneAddress,
   decode: decodeRuneAddress,
-} satisfies Coin;
+} as const satisfies Coin;

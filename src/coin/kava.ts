@@ -14,4 +14,4 @@ export const kava = {
   coinType,
   encode: encodeKavaAddress,
   decode: decodeKavaAddress,
-} satisfies Coin;
+} as const satisfies Coin;

@@ -16,4 +16,4 @@ export const ark = {
   coinType,
   encode: encodeArkAddress,
   decode: decodeArkAddress,
-} satisfies Coin;
+} as const satisfies Coin;

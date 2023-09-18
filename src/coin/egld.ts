@@ -12,4 +12,4 @@ export const egld = {
   coinType,
   encode: encodeEgldAddress,
   decode: decodeEgldAddress,
-} satisfies Coin;
+} as const satisfies Coin;

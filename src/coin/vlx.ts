@@ -12,4 +12,4 @@ export const vlx = {
   coinType,
   encode: encodeVlxAddress,
   decode: decodeVlxAddress,
-} satisfies Coin;
+} as const satisfies Coin;

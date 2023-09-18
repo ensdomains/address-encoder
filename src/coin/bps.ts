@@ -24,4 +24,4 @@ export const bps = {
   coinType,
   encode: encodeBpsAddress,
   decode: decodeBpsAddress,
-} satisfies Coin;
+} as const satisfies Coin;

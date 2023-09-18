@@ -12,4 +12,4 @@ export const nmc = {
   coinType,
   encode: encodeNmcAddress,
   decode: decodeNmcAddress,
-} satisfies Coin;
+} as const satisfies Coin;

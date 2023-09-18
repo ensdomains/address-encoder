@@ -22,4 +22,4 @@ export const lsk = {
   coinType,
   encode: encodeLskAddress,
   decode: decodeLskAddress,
-} satisfies Coin;
+} as const satisfies Coin;

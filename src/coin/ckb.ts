@@ -14,4 +14,4 @@ export const ckb = {
   coinType,
   encode: encodeCkbAddress,
   decode: decodeCkbAddress,
-} satisfies Coin;
+} as const satisfies Coin;

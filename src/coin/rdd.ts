@@ -24,4 +24,4 @@ export const rdd = {
   coinType,
   encode: encodeRddAddress,
   decode: decodeRddAddress,
-} satisfies Coin;
+} as const satisfies Coin;

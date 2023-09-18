@@ -12,4 +12,4 @@ export const trx = {
   coinType,
   encode: encodeTrxAddress,
   decode: decodeTrxAddress,
-} satisfies Coin;
+} as const satisfies Coin;

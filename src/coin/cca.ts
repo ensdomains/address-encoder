@@ -24,4 +24,4 @@ export const cca = {
   coinType,
   encode: encodeCcaAddress,
   decode: decodeCcaAddress,
-} satisfies Coin;
+} as const satisfies Coin;

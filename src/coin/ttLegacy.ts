@@ -15,4 +15,4 @@ export const ttLegacy = {
   coinType,
   encode: encodeTtLegacyAddress,
   decode: decodeTtLegacyAddress,
-} satisfies Coin;
+} as const satisfies Coin;

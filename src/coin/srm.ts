@@ -12,4 +12,4 @@ export const srm = {
   coinType,
   encode: encodeSrmAddress,
   decode: decodeSrmAddress,
-} satisfies Coin;
+} as const satisfies Coin;

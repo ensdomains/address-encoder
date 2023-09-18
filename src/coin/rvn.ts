@@ -24,4 +24,4 @@ export const rvn = {
   coinType,
   encode: encodeRvnAddress,
   decode: decodeRvnAddress,
-} satisfies Coin;
+} as const satisfies Coin;

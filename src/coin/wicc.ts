@@ -24,4 +24,4 @@ export const wicc = {
   coinType,
   encode: encodeWiccAddress,
   decode: decodeWiccAddress,
-} satisfies Coin;
+} as const satisfies Coin;

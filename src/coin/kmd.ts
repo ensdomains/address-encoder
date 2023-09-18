@@ -24,4 +24,4 @@ export const kmd = {
   coinType,
   encode: encodeKmdAddress,
   decode: decodeKmdAddress,
-} satisfies Coin;
+} as const satisfies Coin;

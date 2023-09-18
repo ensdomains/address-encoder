@@ -14,4 +14,4 @@ export const iotx = {
   coinType,
   encode: encodeIotxAddress,
   decode: decodeIotxAddress,
-} satisfies Coin;
+} as const satisfies Coin;
