@@ -137,10 +137,13 @@ export const bs58Encode = (source: Uint8Array): string => {
   return bs58EncodeNoCheck(both);
 };
 
-export const bs58DecodeRaw = (source: Uint8Array): Uint8Array | undefined => {
+export const bs58VerifyChecksum = (
+  source: Uint8Array,
+  checksumFn: (s: Uint8Array) => Uint8Array = sha256x2
+): Uint8Array | undefined => {
   const payload = source.slice(0, -4);
   const checksum = source.slice(-4);
-  const newChecksum = sha256x2(payload);
+  const newChecksum = checksumFn(payload);
 
   if (
     (checksum[0] ^ newChecksum[0]) |
@@ -157,12 +160,12 @@ export const bs58DecodeUnsafe = (source: string): Uint8Array | undefined => {
   const output = bs58DecodeNoCheckUnsafe(source);
   if (!output) return;
 
-  return bs58DecodeRaw(output);
+  return bs58VerifyChecksum(output);
 };
 
 export const bs58Decode = (source: string): Uint8Array => {
   const buffer = bs58DecodeNoCheck(source);
-  const payload = bs58DecodeRaw(buffer);
+  const payload = bs58VerifyChecksum(buffer);
   if (!payload) throw new Error("Invalid checksum");
   return payload;
 };
