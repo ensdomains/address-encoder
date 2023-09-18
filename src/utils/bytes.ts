@@ -1,4 +1,7 @@
-import { bytesToHex as bytesToNoPrefixHex } from "@noble/hashes/utils";
+import {
+  bytesToHex as bytesToNoPrefixHex,
+  hexToBytes as noPrefixHexToBytes,
+} from "@noble/hashes/utils";
 
 export type Hex = `0x${string}`;
 export type ByteArray = Uint8Array;
@@ -43,3 +46,7 @@ export function stringToBytes(str: string): ByteArray {
 export function bytesToHex(bytes: ByteArray): Hex {
   return `0x${bytesToNoPrefixHex(bytes)}`;
 }
+
+export const bytesToHexWithoutPrefix = bytesToNoPrefixHex;
+
+export const hexWithoutPrefixToBytes = noPrefixHexToBytes;
