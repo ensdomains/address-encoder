@@ -17,7 +17,7 @@ const leader = "1";
 const factor = Math.log(base) / Math.log(256);
 const iFactor = Math.log(256) / Math.log(base);
 
-export const b58EncodeNoCheck = (source: Uint8Array) => {
+export const bs58EncodeNoCheck = (source: Uint8Array) => {
   let pbegin = 0;
   let pend = source.length;
   let zeroes = 0;
@@ -61,7 +61,7 @@ export const b58EncodeNoCheck = (source: Uint8Array) => {
   return str;
 };
 
-export const b58DecodeNoCheckUnsafe = (
+export const bs58DecodeNoCheckUnsafe = (
   source: string
 ): Uint8Array | undefined => {
   if (typeof source !== "string") {
@@ -120,8 +120,8 @@ export const b58DecodeNoCheckUnsafe = (
   return vch;
 };
 
-export const b58DecodeNoCheck = (source: string): Uint8Array => {
-  const value = b58DecodeNoCheckUnsafe(source);
+export const bs58DecodeNoCheck = (source: string): Uint8Array => {
+  const value = bs58DecodeNoCheckUnsafe(source);
   if (value) {
     return value;
   }
@@ -134,7 +134,7 @@ export const bs58Encode = (source: Uint8Array): string => {
   const both = new Uint8Array(length);
   both.set(source, 0);
   both.set(checksum.subarray(0, 4), source.length);
-  return b58EncodeNoCheck(both);
+  return bs58EncodeNoCheck(both);
 };
 
 export const bs58DecodeRaw = (source: Uint8Array): Uint8Array | undefined => {
@@ -154,14 +154,14 @@ export const bs58DecodeRaw = (source: Uint8Array): Uint8Array | undefined => {
 };
 
 export const bs58DecodeUnsafe = (source: string): Uint8Array | undefined => {
-  const output = b58DecodeNoCheckUnsafe(source);
+  const output = bs58DecodeNoCheckUnsafe(source);
   if (!output) return;
 
   return bs58DecodeRaw(output);
 };
 
 export const bs58Decode = (source: string): Uint8Array => {
-  const buffer = b58DecodeNoCheck(source);
+  const buffer = bs58DecodeNoCheck(source);
   const payload = bs58DecodeRaw(buffer);
   if (!payload) throw new Error("Invalid checksum");
   return payload;
