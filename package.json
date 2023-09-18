@@ -2,6 +2,9 @@
   "name": "address-encoder",
   "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "generateCoin": "bun ./scripts/generateCoin.ts"
+  },
   "devDependencies": {
     "@ensdomains/address-encoder": "^0.2.22",
     "bun-types": "latest",

@@ -1,6 +1,22 @@
 import { bech32 } from "bech32";
 import { concat } from "uint8arrays/concat";
 
+export const createBech32Encoder =
+  (hrp: string) =>
+  (source: Uint8Array): string => {
+    return bech32.encode(hrp, bech32.toWords(source));
+  };
+
+export const createBech32Decoder =
+  (hrp: string) =>
+  (source: string): Uint8Array => {
+    const { prefix, words } = bech32.decode(source);
+    if (prefix !== hrp) {
+      throw Error("Unexpected human-readable part in bech32 encoded address");
+    }
+    return Uint8Array.of(...bech32.fromWords(words));
+  };
+
 export const createBech32SegwitEncoder =
   (hrp: string) =>
   (source: Uint8Array): string => {
