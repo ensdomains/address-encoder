@@ -1,5 +1,7 @@
-type Hex = `0x${string}`;
-type ByteArray = Uint8Array;
+import { bytesToHex as bytesToNoPrefixHex } from "@noble/hashes/utils";
+
+export type Hex = `0x${string}`;
+export type ByteArray = Uint8Array;
 
 // https://github.com/wagmi-dev/viem/blob/0cd17e9e39fc88b414e125c1dfc9f55d7baf42b7/src/utils/encoding/toBytes.ts#L110C1-L132C2
 
@@ -32,4 +34,12 @@ export function hexToString(hex: Hex): string {
 
 export function bytesToString(bytes: ByteArray): string {
   return new TextDecoder().decode(bytes);
+}
+
+export function stringToBytes(str: string): ByteArray {
+  return new TextEncoder().encode(str);
+}
+
+export function bytesToHex(bytes: ByteArray): Hex {
+  return `0x${bytesToNoPrefixHex(bytes)}`;
 }
