@@ -1,40 +1,38 @@
-import { createBech32SegwitDecoder, createBech32SegwitEncoder } from "./bech32";
+import { createBech32Decoder, createBech32Encoder } from "./bech32";
+import { BitcoinCoderParameters } from "./bitcoin";
 import {
-  Base58CheckVersion,
   createBase58WithCheckDecoder,
   createBase58WithCheckEncoder,
 } from "./bs58";
 
-export type BitcoinCoderParameters = {
-  hrp: string;
-  p2pkhVersions: Base58CheckVersion[];
-  p2shVersions: Base58CheckVersion[];
-};
+// changes from bitcoin.ts:
+// - no hrp suffix (hrp + "1")
+// - no segwit
 
-export const createBitcoinDecoder = ({
+export const createZcashDecoder = ({
   hrp,
   p2pkhVersions,
   p2shVersions,
 }: BitcoinCoderParameters) => {
-  const decodeBech32 = createBech32SegwitDecoder(hrp);
+  const decodeBech32 = createBech32Decoder(hrp);
   const decodeBase58 = createBase58WithCheckDecoder(
     p2pkhVersions,
     p2shVersions
   );
   return (source: string): Uint8Array => {
-    if (source.toLowerCase().startsWith(hrp + "1")) {
+    if (source.toLowerCase().startsWith(hrp)) {
       return decodeBech32(source);
     }
     return decodeBase58(source);
   };
 };
 
-export const createBitcoinEncoder = ({
+export const createZcashEncoder = ({
   hrp,
   p2pkhVersions,
   p2shVersions,
 }: BitcoinCoderParameters) => {
-  const encodeBech32 = createBech32SegwitEncoder(hrp);
+  const encodeBech32 = createBech32Encoder(hrp);
   const encodeBase58 = createBase58WithCheckEncoder(
     p2pkhVersions[0],
     p2shVersions[0]

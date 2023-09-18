@@ -4,6 +4,8 @@ import { bs58DecodeNoCheck, bs58EncodeNoCheck } from "../utils/bs58";
 const name = "XMR";
 const coinType = 128;
 
+// extra decoding/encoding for XMR pulled from https://github.com/paulmillr/scure-base/blob/12f6eacf5afd2af6a0eeb2db1222fb7cc262a204/index.ts#L379
+
 const blockLengths = [0, 2, 3, 5, 6, 7, 9, 10, 11];
 
 export const encodeXmrAddress = (source: Uint8Array): string => {

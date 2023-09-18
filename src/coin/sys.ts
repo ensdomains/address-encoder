@@ -3,8 +3,8 @@ import { createBitcoinDecoder, createBitcoinEncoder } from "../utils/bitcoin";
 
 const name = "SYS";
 const coinType = 57;
-const hrp = "sys";
 
+const hrp = "sys";
 const p2pkhVersions = [[0x3f]];
 const p2shVersions = [[0x05]];
 

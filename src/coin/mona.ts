@@ -3,8 +3,8 @@ import { createBitcoinDecoder, createBitcoinEncoder } from "../utils/bitcoin";
 
 const name = "MONA";
 const coinType = 22;
-const hrp = "mona";
 
+const hrp = "mona";
 const p2pkhVersions = [[0x32]];
 const p2shVersions = [[0x37], [0x05]];
 

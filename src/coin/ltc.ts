@@ -3,8 +3,8 @@ import { createBitcoinDecoder, createBitcoinEncoder } from "../utils/bitcoin";
 
 const name = "LTC";
 const coinType = 2;
-const hrp = "ltc";
 
+const hrp = "ltc";
 const p2pkhVersions = [[0x30]];
 const p2shVersions = [[0x32], [0x05]];
 
