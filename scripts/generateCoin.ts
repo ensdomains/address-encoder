@@ -9,12 +9,22 @@ const rl = readline.createInterface({
 function createCoin() {
   rl.question("Coin Name: ", (coinName_) => {
     rl.question("Coin Type: ", (coinType) => {
-      const coinName = coinName_.toLowerCase();
+      let coinName = coinName_.toLowerCase();
+      let isLegacy = false;
+      if (coinName.endsWith("legacy")) {
+        isLegacy = true;
+        coinName = coinName.replace("legacy", "Legacy");
+      }
+      console.log(coinName, isLegacy);
       const capitalisedName =
         coinName.slice(0, 1).toUpperCase() + coinName.slice(1);
       const coinTemplate = `import { Coin } from "../types";
 
-const name = "${coinName.toUpperCase()}";
+const name = "${
+        isLegacy
+          ? coinName.toUpperCase().replace("LEGACY", "_LEGACY")
+          : coinName.toUpperCase()
+      }";
 const coinType = ${coinType};
 
 export const encode${capitalisedName}Address = (source: Uint8Array): string => {
@@ -26,7 +36,7 @@ export const decode${capitalisedName}Address = (source: string): Uint8Array => {
   throw new Error('Not implemented');
 };
 
-export const ${coinName.toLowerCase()} = {
+export const ${coinName} = {
   name,
   coinType,
   encode: encode${capitalisedName}Address,
