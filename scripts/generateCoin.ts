@@ -15,7 +15,6 @@ function createCoin() {
         isLegacy = true;
         coinName = coinName.replace("legacy", "Legacy");
       }
-      console.log(coinName, isLegacy);
       const capitalisedName =
         coinName.slice(0, 1).toUpperCase() + coinName.slice(1);
       const coinTemplate = `import { Coin } from "../types";

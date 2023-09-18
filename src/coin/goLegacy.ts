@@ -1,0 +1,18 @@
+import { Coin } from "../types";
+import {
+  createHexChecksummedDecoder,
+  createHexChecksummedEncoder,
+} from "../utils/hex";
+
+const name = "GO_LEGACY";
+const coinType = 6060;
+
+export const encodeGoLegacyAddress = createHexChecksummedEncoder();
+export const decodeGoLegacyAddress = createHexChecksummedDecoder();
+
+export const goLegacy = {
+  name,
+  coinType,
+  encode: encodeGoLegacyAddress,
+  decode: decodeGoLegacyAddress,
+} satisfies Coin;
