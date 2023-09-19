@@ -1,17 +1,67 @@
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-const base32Lookup: number[] = alphabet.split("").reduce((acc, char, index) => {
-  acc[char.charCodeAt(0)] = index;
-  return acc;
-}, [] as number[]);
+export type Base32Options = {
+  alphabet: string;
+  base32Lookup: number[];
+};
 
-export const base32Decode = (input: string): Uint8Array => {
+export const createBase32Options = (alphabet: string): Base32Options => {
+  const base32Lookup: number[] = alphabet
+    .split("")
+    .reduce((acc, char, index) => {
+      acc[char.charCodeAt(0)] = index;
+      return acc;
+    }, [] as number[]);
+  return { alphabet, base32Lookup };
+};
+
+const DEFAULT_BASE32_OPTIONS = createBase32Options(
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+);
+
+export const base32Encode = (
+  input: Uint8Array,
+  { alphabet }: Base32Options = DEFAULT_BASE32_OPTIONS
+): string => {
+  const length = input.length;
+  const leftover = (length * 8) % 5;
+  const offset = leftover === 0 ? 0 : 5 - leftover;
+
   let buffer = 0;
   let bufferLength = 0;
-  const output = new Uint8Array(Math.ceil((input.length * 5) / 8));
+  let output = "";
+
+  for (let i = 0; i < length; i++) {
+    buffer = (buffer << 8) | input[i];
+    bufferLength += 8;
+
+    while (bufferLength >= 5) {
+      const index = (buffer >>> (bufferLength + offset - 5)) & 31;
+      output += alphabet[index];
+      bufferLength -= 5;
+    }
+  }
+
+  if (bufferLength > 0) {
+    output += alphabet[(buffer << (5 - (bufferLength + offset))) & 31];
+  }
+
+  return output;
+};
+
+export const base32Decode = (
+  input: string,
+  { base32Lookup }: Base32Options = DEFAULT_BASE32_OPTIONS
+): Uint8Array => {
+  const length = input.length;
+  const leftover = (length * 5) % 8;
+  const offset = leftover === 0 ? 0 : 8 - leftover;
+
+  let buffer = 0;
+  let bufferLength = 0;
+  let output = new Uint8Array(Math.ceil((length * 5) / 8));
 
   let outputIndex = 0;
 
-  for (let i = 0; i < input.length; i++) {
+  for (let i = 0; i < length; i++) {
     const charCode = input.charCodeAt(i);
     const value = base32Lookup[charCode];
 
@@ -23,33 +73,16 @@ export const base32Decode = (input: string): Uint8Array => {
     bufferLength += 5;
 
     while (bufferLength >= 8) {
-      output[outputIndex++] = (buffer >>> (bufferLength - 8)) & 255;
+      output[outputIndex++] = (buffer >>> (bufferLength + offset - 8)) & 255;
       bufferLength -= 8;
     }
   }
 
-  return output.subarray(0, outputIndex);
-};
-
-export const base32Encode = (input: Uint8Array): string => {
-  let buffer = 0;
-  let bufferLength = 0;
-  let output = "";
-
-  for (let i = 0; i < input.length; i++) {
-    buffer = (buffer << 8) | input[i];
-    bufferLength += 8;
-
-    while (bufferLength >= 5) {
-      const index = (buffer >>> (bufferLength - 5)) & 31;
-      output += alphabet[index];
-      bufferLength -= 5;
-    }
-  }
-
   if (bufferLength > 0) {
-    output += alphabet[(buffer << (5 - bufferLength)) & 31];
+    output[outputIndex++] = (buffer << (bufferLength + offset - 8)) & 255;
   }
 
-  return output;
+  if (leftover !== 0) output = output.slice(1);
+
+  return output.subarray(0, outputIndex);
 };
