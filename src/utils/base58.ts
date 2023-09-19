@@ -1,8 +1,8 @@
 import { sha256 } from "@noble/hashes/sha256";
-import { concat } from "uint8arrays/concat";
-import { createChecksumDecoder, createChecksumEncoder } from "./checksum";
+import { concatBytes } from "@noble/hashes/utils";
+import { utils } from "@scure/base";
 
-export type Base58CheckVersion = number[];
+export type Base58CheckVersion = Uint8Array;
 export type Base58Options = {
   alphabet: string;
   base58Lookup: number[];
@@ -145,18 +145,16 @@ export const base58DecodeNoCheck = (source: string): Uint8Array => {
   throw new Error("Non-base58 character");
 };
 
-export const base58ChecksumEncode = createChecksumEncoder(4, sha256x2);
-
-export const base58ChecksumDecode = createChecksumDecoder(4, sha256x2);
+export const base58Checksum = utils.checksum(4, sha256x2);
 
 export const base58Encode = (source: Uint8Array): string => {
-  const checksummed = base58ChecksumEncode(source);
+  const checksummed = base58Checksum.encode(source);
   return base58EncodeNoCheck(checksummed);
 };
 
 export const base58Decode = (source: string): Uint8Array => {
   const buffer = base58DecodeNoCheck(source);
-  const payload = base58ChecksumDecode(buffer);
+  const payload = base58Checksum.decode(buffer);
   return payload;
 };
 
@@ -173,7 +171,7 @@ export const createBase58WithCheckEncoder =
         throw Error("Unrecognised address format");
       }
       return base58Encode(
-        concat([p2pkhVersion, source.slice(3, 3 + source[2])])
+        concatBytes(p2pkhVersion, source.slice(3, 3 + source[2]))
       );
     }
 
@@ -183,7 +181,7 @@ export const createBase58WithCheckEncoder =
         throw Error("Unrecognised address format");
       }
       return base58Encode(
-        concat([p2shVersion, source.slice(2, 2 + source[1])])
+        concatBytes(p2shVersion, source.slice(2, 2 + source[1]))
       );
     }
 
@@ -202,12 +200,16 @@ export const createBase58WithCheckDecoder =
       );
     };
     if (p2pkhVersions.some(checkVersion))
-      return concat([
-        [0x76, 0xa9, 0x14],
+      return concatBytes(
+        new Uint8Array([0x76, 0xa9, 0x14]),
         addr.slice(p2pkhVersions[0].length),
-        [0x88, 0xac],
-      ]);
+        new Uint8Array([0x88, 0xac])
+      );
     if (p2shVersions.some(checkVersion))
-      return concat([[0xa9, 0x14], addr.slice(p2shVersions[0].length), [0x87]]);
+      return concatBytes(
+        new Uint8Array([0xa9, 0x14]),
+        addr.slice(p2shVersions[0].length),
+        new Uint8Array([0x87])
+      );
     throw Error("Unrecognised address format");
   };

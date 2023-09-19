@@ -7,8 +7,8 @@ import {
 const name = "AIB";
 const coinType = 55;
 
-const p2pkhVersions = [[0x17]];
-const p2shVersions = [[0x05]];
+const p2pkhVersions = [new Uint8Array([0x17])];
+const p2shVersions = [new Uint8Array([0x05])];
 
 export const encodeAibAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

@@ -5,8 +5,8 @@ const name = "BCD";
 const coinType = 999;
 
 const hrp = "bcd";
-const p2pkhVersions = [[0x00]];
-const p2shVersions = [[0x05]];
+const p2pkhVersions = [new Uint8Array([0x00])];
+const p2shVersions = [new Uint8Array([0x05])];
 
 export const encodeBcdAddress = createBitcoinEncoder({
   hrp,

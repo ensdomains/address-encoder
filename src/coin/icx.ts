@@ -1,4 +1,4 @@
-import { concat } from "uint8arrays";
+import { concatBytes } from "@noble/hashes/utils";
 import { Coin } from "../types";
 import {
   bytesToHexWithoutPrefix,
@@ -19,8 +19,10 @@ export const encodeIcxAddress = (source: Uint8Array): string => {
 export const decodeIcxAddress = (source: string): Uint8Array => {
   const prefix = source.slice(0, 2);
   const body = source.slice(2);
-  if (prefix === "hx") return concat([[0x00], hexWithoutPrefixToBytes(body)]);
-  if (prefix === "cx") return concat([[0x01], hexWithoutPrefixToBytes(body)]);
+  if (prefix === "hx")
+    return concatBytes(new Uint8Array([0x00]), hexWithoutPrefixToBytes(body));
+  if (prefix === "cx")
+    return concatBytes(new Uint8Array([0x01]), hexWithoutPrefixToBytes(body));
   throw new Error("Invalid address prefix");
 };
 

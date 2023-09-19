@@ -5,8 +5,8 @@ const name = "DGB";
 const coinType = 20;
 
 const hrp = "dgb";
-const p2pkhVersions = [[0x1e]];
-const p2shVersions = [[0x3f]];
+const p2pkhVersions = [new Uint8Array([0x1e])];
+const p2shVersions = [new Uint8Array([0x3f])];
 
 export const encodeDgbAddress = createBitcoinEncoder({
   hrp,

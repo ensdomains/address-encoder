@@ -7,8 +7,8 @@ import {
 const name = "LRG";
 const coinType = 568;
 
-const p2pkhVersions = [[0x1e]];
-const p2shVersions = [[0x0d]];
+const p2pkhVersions = [new Uint8Array([0x1e])];
+const p2shVersions = [new Uint8Array([0x0d])];
 
 export const encodeLrgAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

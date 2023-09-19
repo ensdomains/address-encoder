@@ -7,8 +7,8 @@ import {
 const name = "WICC";
 const coinType = 99999;
 
-const p2pkhVersions = [[0x49]];
-const p2shVersions = [[0x33]];
+const p2pkhVersions = [new Uint8Array([0x49])];
+const p2shVersions = [new Uint8Array([0x33])];
 
 export const encodeWiccAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

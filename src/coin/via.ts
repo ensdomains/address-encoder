@@ -7,8 +7,8 @@ import {
 const name = "VIA";
 const coinType = 14;
 
-const p2pkhVersions = [[0x47]];
-const p2shVersions = [[0x21]];
+const p2pkhVersions = [new Uint8Array([0x47])];
+const p2shVersions = [new Uint8Array([0x21])];
 
 export const encodeViaAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

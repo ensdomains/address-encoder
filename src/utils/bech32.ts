@@ -1,5 +1,5 @@
+import { concatBytes } from "@noble/hashes/utils";
 import { bech32 } from "bech32";
-import { concat } from "uint8arrays/concat";
 
 export const createBech32Encoder =
   (hrp: string) =>
@@ -45,5 +45,8 @@ export const createBech32SegwitDecoder =
     if (version > 0) {
       version += 0x50;
     }
-    return concat([Uint8Array.of(version, script.length), Buffer.from(script)]);
+    return concatBytes(
+      new Uint8Array([version, script.length]),
+      new Uint8Array(script)
+    );
   };

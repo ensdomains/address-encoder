@@ -5,8 +5,8 @@ const name = "MONA";
 const coinType = 22;
 
 const hrp = "mona";
-const p2pkhVersions = [[0x32]];
-const p2shVersions = [[0x37], [0x05]];
+const p2pkhVersions = [new Uint8Array([0x32])];
+const p2shVersions = [new Uint8Array([0x37]), new Uint8Array([0x05])];
 
 export const encodeMonaAddress = createBitcoinEncoder({
   hrp,

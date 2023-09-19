@@ -7,8 +7,8 @@ import {
 const name = "FIRO";
 const coinType = 136;
 
-const p2pkhVersions = [[0x52]];
-const p2shVersions = [[0x07]];
+const p2pkhVersions = [new Uint8Array([0x52])];
+const p2shVersions = [new Uint8Array([0x07])];
 
 export const encodeFiroAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

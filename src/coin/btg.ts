@@ -5,8 +5,8 @@ const name = "BTG";
 const coinType = 156;
 
 const hrp = "btg";
-const p2pkhVersions = [[0x26]];
-const p2shVersions = [[0x17]];
+const p2pkhVersions = [new Uint8Array([0x26])];
+const p2shVersions = [new Uint8Array([0x17])];
 
 export const encodeBtgAddress = createBitcoinEncoder({
   hrp,

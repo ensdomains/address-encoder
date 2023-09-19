@@ -7,8 +7,8 @@ import {
 const name = "STRAT";
 const coinType = 105;
 
-const p2pkhVersions = [[0x3f]];
-const p2shVersions = [[0x7d]];
+const p2pkhVersions = [new Uint8Array([0x3f])];
+const p2shVersions = [new Uint8Array([0x7d])];
 
 export const encodeStratAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

@@ -7,8 +7,8 @@ import {
 const name = "KMD";
 const coinType = 141;
 
-const p2pkhVersions = [[0x3c]];
-const p2shVersions = [[0x55]];
+const p2pkhVersions = [new Uint8Array([0x3c])];
+const p2shVersions = [new Uint8Array([0x55])];
 
 export const encodeKmdAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

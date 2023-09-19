@@ -5,8 +5,8 @@ const name = "CCXX";
 const coinType = 571;
 
 const hrp = "ccx";
-const p2pkhVersions = [[0x89]];
-const p2shVersions = [[0x4b], [0x05]];
+const p2pkhVersions = [new Uint8Array([0x89])];
+const p2shVersions = [new Uint8Array([0x4b]), new Uint8Array([0x05])];
 
 export const encodeCcxxAddress = createBitcoinEncoder({
   hrp,

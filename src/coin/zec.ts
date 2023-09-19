@@ -5,8 +5,8 @@ const name = "ZEC";
 const coinType = 133;
 
 const hrp = "zs";
-const p2pkhVersions = [[0x1c, 0xb8]];
-const p2shVersions = [[0x1c, 0xbd]];
+const p2pkhVersions = [new Uint8Array([0x1c, 0xb8])];
+const p2shVersions = [new Uint8Array([0x1c, 0xbd])];
 
 export const encodeZecAddress = createZcashEncoder({
   hrp,

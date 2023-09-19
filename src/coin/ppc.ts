@@ -7,8 +7,8 @@ import {
 const name = "PPC";
 const coinType = 6;
 
-const p2pkhVersions = [[0x37]];
-const p2shVersions = [[0x75]];
+const p2pkhVersions = [new Uint8Array([0x37])];
+const p2shVersions = [new Uint8Array([0x75])];
 
 export const encodePpcAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

@@ -7,8 +7,8 @@ import {
 const name = "RVN";
 const coinType = 175;
 
-const p2pkhVersions = [[0x3c]];
-const p2shVersions = [[0x7a]];
+const p2pkhVersions = [new Uint8Array([0x3c])];
+const p2shVersions = [new Uint8Array([0x7a])];
 
 export const encodeRvnAddress = createBase58WithCheckEncoder(
   p2pkhVersions[0],

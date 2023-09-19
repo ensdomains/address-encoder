@@ -5,8 +5,8 @@ const name = "LCC";
 const coinType = 192;
 
 const hrp = "lcc";
-const p2pkhVersions = [[0x1c]];
-const p2shVersions = [[0x32], [0x05]];
+const p2pkhVersions = [new Uint8Array([0x1c])];
+const p2shVersions = [new Uint8Array([0x32]), new Uint8Array([0x05])];
 
 export const encodeLccAddress = createBitcoinEncoder({
   hrp,
