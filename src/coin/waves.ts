@@ -1,17 +1,16 @@
 import { blake2b } from "@noble/hashes/blake2b";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { Coin } from "../types";
-import {
-  bs58DecodeNoCheck,
-  bs58EncodeNoCheck,
-  bs58VerifyChecksum,
-} from "../utils/bs58";
+import { bs58DecodeNoCheck, bs58EncodeNoCheck } from "../utils/bs58";
+import { createChecksumDecoder } from "../utils/checksum";
 
 const name = "WAVES";
 const coinType = 5741564;
 
 const checksumFn = (source: Uint8Array): Uint8Array =>
   keccak_256(blake2b(source, { dkLen: 32 }));
+const checksumLength = 4;
+const wavesChecksumDecode = createChecksumDecoder(checksumLength, checksumFn);
 
 export const encodeWavesAddress = bs58EncodeNoCheck;
 export const decodeWavesAddress = (source: string): Uint8Array => {
@@ -22,8 +21,7 @@ export const decodeWavesAddress = (source: string): Uint8Array => {
   if (decoded[1] !== 87 || decoded.length !== 26)
     throw new Error("Invalid address format");
 
-  if (!bs58VerifyChecksum(decoded, checksumFn))
-    throw new Error("Invalid checksum");
+  wavesChecksumDecode(decoded);
 
   return decoded;
 };

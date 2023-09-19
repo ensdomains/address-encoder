@@ -1,5 +1,6 @@
 import { sha256 } from "@noble/hashes/sha256";
 import { concat } from "uint8arrays/concat";
+import { createChecksumDecoder, createChecksumEncoder } from "./checksum";
 
 export type Base58CheckVersion = number[];
 
@@ -128,45 +129,18 @@ export const bs58DecodeNoCheck = (source: string): Uint8Array => {
   throw new Error("Non-base58 character");
 };
 
+export const bs58ChecksumEncode = createChecksumEncoder(4, sha256x2);
+
+export const bs58ChecksumDecode = createChecksumDecoder(4, sha256x2);
+
 export const bs58Encode = (source: Uint8Array): string => {
-  const checksum = sha256x2(source);
-  const length = source.length + 4;
-  const both = new Uint8Array(length);
-  both.set(source, 0);
-  both.set(checksum.subarray(0, 4), source.length);
-  return bs58EncodeNoCheck(both);
-};
-
-export const bs58VerifyChecksum = (
-  source: Uint8Array,
-  checksumFn: (s: Uint8Array) => Uint8Array = sha256x2
-): Uint8Array | undefined => {
-  const payload = source.slice(0, -4);
-  const checksum = source.slice(-4);
-  const newChecksum = checksumFn(payload);
-
-  if (
-    (checksum[0] ^ newChecksum[0]) |
-    (checksum[1] ^ newChecksum[1]) |
-    (checksum[2] ^ newChecksum[2]) |
-    (checksum[3] ^ newChecksum[3])
-  )
-    return;
-
-  return payload;
-};
-
-export const bs58DecodeUnsafe = (source: string): Uint8Array | undefined => {
-  const output = bs58DecodeNoCheckUnsafe(source);
-  if (!output) return;
-
-  return bs58VerifyChecksum(output);
+  const checksummed = bs58ChecksumEncode(source);
+  return bs58EncodeNoCheck(checksummed);
 };
 
 export const bs58Decode = (source: string): Uint8Array => {
   const buffer = bs58DecodeNoCheck(source);
-  const payload = bs58VerifyChecksum(buffer);
-  if (!payload) throw new Error("Invalid checksum");
+  const payload = bs58ChecksumDecode(buffer);
   return payload;
 };
 
