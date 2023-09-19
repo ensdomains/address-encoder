@@ -15,7 +15,7 @@ const base = 58;
 const factor = Math.log(base) / Math.log(256);
 const iFactor = Math.log(256) / Math.log(base);
 
-const createBase58Options = (alphabet: string): Base58Options => {
+export const createBase58Options = (alphabet: string): Base58Options => {
   const base58Lookup: number[] = alphabet
     .split("")
     .reduce((acc, char, index) => {
