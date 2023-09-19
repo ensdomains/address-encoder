@@ -9,9 +9,9 @@ import {
 const name = "NANO";
 const coinType = 165;
 
-const nanoBase32Options = createBase32Options(
-  "13456789abcdefghijkmnopqrstuwxyz"
-);
+const nanoBase32Options = createBase32Options({
+  alphabet: "13456789abcdefghijkmnopqrstuwxyz",
+});
 
 export const encodeNanoAddress = (source: Uint8Array): string => {
   const encoded = base32Encode(source, nanoBase32Options);

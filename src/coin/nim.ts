@@ -8,9 +8,9 @@ import {
 const name = "NIM";
 const coinType = 242;
 
-const nimBase32Options = createBase32Options(
-  "0123456789ABCDEFGHJKLMNPQRSTUVXY"
-);
+const nimBase32Options = createBase32Options({
+  alphabet: "0123456789ABCDEFGHJKLMNPQRSTUVXY",
+});
 
 const CCODE = "NQ";
 

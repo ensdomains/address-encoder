@@ -1,29 +1,43 @@
 export type Base32Options = {
   alphabet: string;
   base32Lookup: number[];
+  padded: boolean;
 };
 
-export const createBase32Options = (alphabet: string): Base32Options => {
+export const createBase32Options = ({
+  alphabet,
+  padded = true,
+}: {
+  alphabet: string;
+  padded?: boolean;
+}): Base32Options => {
   const base32Lookup: number[] = alphabet
     .split("")
     .reduce((acc, char, index) => {
       acc[char.charCodeAt(0)] = index;
       return acc;
     }, [] as number[]);
-  return { alphabet, base32Lookup };
+  return { alphabet, padded, base32Lookup };
 };
 
-const DEFAULT_BASE32_OPTIONS = createBase32Options(
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
-);
+const BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+const DEFAULT_BASE32_OPTIONS = createBase32Options({
+  alphabet: BASE32_ALPHABET,
+});
+
+export const unpaddedBase32Options = {
+  ...DEFAULT_BASE32_OPTIONS,
+  padded: false,
+};
 
 export const base32Encode = (
   input: Uint8Array,
-  { alphabet }: Base32Options = DEFAULT_BASE32_OPTIONS
+  { alphabet, padded }: Base32Options = DEFAULT_BASE32_OPTIONS
 ): string => {
   const length = input.length;
   const leftover = (length * 8) % 5;
-  const offset = leftover === 0 ? 0 : 5 - leftover;
+  const offset = padded ? (leftover === 0 ? 0 : 5 - leftover) : 0;
 
   let buffer = 0;
   let bufferLength = 0;
@@ -49,10 +63,10 @@ export const base32Encode = (
 
 export const base32Decode = (
   input: string,
-  { base32Lookup }: Base32Options = DEFAULT_BASE32_OPTIONS
+  { base32Lookup, padded }: Base32Options = DEFAULT_BASE32_OPTIONS
 ): Uint8Array => {
   const length = input.length;
-  const leftover = (length * 5) % 8;
+  const leftover = padded ? (length * 5) % 8 : 0;
   const offset = leftover === 0 ? 0 : 8 - leftover;
 
   let buffer = 0;
@@ -78,7 +92,7 @@ export const base32Decode = (
     }
   }
 
-  if (bufferLength > 0) {
+  if (bufferLength > 0 && padded) {
     output[outputIndex++] = (buffer << (bufferLength + offset - 8)) & 255;
   }
 
