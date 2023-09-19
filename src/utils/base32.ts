@@ -4,7 +4,7 @@ const base32Lookup: number[] = alphabet.split("").reduce((acc, char, index) => {
   return acc;
 }, [] as number[]);
 
-export const b32Decode = (input: string): Uint8Array => {
+export const base32Decode = (input: string): Uint8Array => {
   let buffer = 0;
   let bufferLength = 0;
   const output = new Uint8Array(Math.ceil((input.length * 5) / 8));
@@ -31,7 +31,7 @@ export const b32Decode = (input: string): Uint8Array => {
   return output.subarray(0, outputIndex);
 };
 
-export const b32Encode = (input: Uint8Array): string => {
+export const base32Encode = (input: Uint8Array): string => {
   let buffer = 0;
   let bufferLength = 0;
   let output = "";
