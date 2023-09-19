@@ -1,9 +1,9 @@
-import { createBech32Decoder, createBech32Encoder } from "./bech32";
-import { BitcoinCoderParameters } from "./bitcoin";
 import {
   createBase58WithCheckDecoder,
   createBase58WithCheckEncoder,
-} from "./bs58";
+} from "./base58";
+import { createBech32Decoder, createBech32Encoder } from "./bech32";
+import { BitcoinCoderParameters } from "./bitcoin";
 
 // changes from bitcoin.ts:
 // - no hrp suffix (hrp + "1")

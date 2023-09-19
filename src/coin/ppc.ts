@@ -2,7 +2,7 @@ import { Coin } from "../types";
 import {
   createBase58WithCheckDecoder,
   createBase58WithCheckEncoder,
-} from "../utils/bs58";
+} from "../utils/base58";
 
 const name = "PPC";
 const coinType = 6;

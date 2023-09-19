@@ -1,5 +1,5 @@
 import { Coin } from "../types";
-import { bs58DecodeNoCheck, bs58EncodeNoCheck } from "../utils/bs58";
+import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
 
 const name = "XMR";
 const coinType = 128;
@@ -12,7 +12,7 @@ export const encodeXmrAddress = (source: Uint8Array): string => {
   let encoded = "";
   for (let i = 0; i < source.length; i += 8) {
     const block = source.subarray(i, i + 8);
-    encoded += bs58EncodeNoCheck(block).padStart(
+    encoded += base58EncodeNoCheck(block).padStart(
       blockLengths[block.length],
       "1"
     );
@@ -24,7 +24,7 @@ export const decodeXmrAddress = (source: string): Uint8Array => {
   for (let i = 0; i < source.length; i += 11) {
     const slice = source.slice(i, i + 11);
     const blockLength = blockLengths.indexOf(slice.length);
-    const block = bs58DecodeNoCheck(slice);
+    const block = base58DecodeNoCheck(slice);
     for (let j = 0; j < block.length - blockLength; j++) {
       if (block[j] !== 0) throw new Error("Invalid padding");
     }

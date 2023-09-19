@@ -3,22 +3,37 @@ import { concat } from "uint8arrays/concat";
 import { createChecksumDecoder, createChecksumEncoder } from "./checksum";
 
 export type Base58CheckVersion = number[];
+export type Base58Options = {
+  alphabet: string;
+  base58Lookup: number[];
+  leader: string;
+};
 
 const sha256x2 = (source: Uint8Array): Uint8Array => sha256(sha256(source));
 
-const alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-
-const base58Lookup: number[] = alphabet.split("").reduce((acc, char, index) => {
-  acc[char.charCodeAt(0)] = index;
-  return acc;
-}, [] as number[]);
-
 const base = 58;
-const leader = "1";
 const factor = Math.log(base) / Math.log(256);
 const iFactor = Math.log(256) / Math.log(base);
 
-export const bs58EncodeNoCheck = (source: Uint8Array) => {
+const createBase58Options = (alphabet: string): Base58Options => {
+  const base58Lookup: number[] = alphabet
+    .split("")
+    .reduce((acc, char, index) => {
+      acc[char.charCodeAt(0)] = index;
+      return acc;
+    }, [] as number[]);
+  const leader = alphabet[0];
+  return { alphabet, base58Lookup, leader };
+};
+
+const DEFAULT_BASE58_OPTIONS = createBase58Options(
+  "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+);
+
+export const base58EncodeNoCheck = (
+  source: Uint8Array,
+  { alphabet, leader }: Base58Options = DEFAULT_BASE58_OPTIONS
+) => {
   let pbegin = 0;
   let pend = source.length;
   let zeroes = 0;
@@ -62,8 +77,9 @@ export const bs58EncodeNoCheck = (source: Uint8Array) => {
   return str;
 };
 
-export const bs58DecodeNoCheckUnsafe = (
-  source: string
+export const base58DecodeNoCheckUnsafe = (
+  source: string,
+  { base58Lookup, leader }: Base58Options = DEFAULT_BASE58_OPTIONS
 ): Uint8Array | undefined => {
   if (typeof source !== "string") {
     throw new TypeError("Expected String");
@@ -121,26 +137,26 @@ export const bs58DecodeNoCheckUnsafe = (
   return vch;
 };
 
-export const bs58DecodeNoCheck = (source: string): Uint8Array => {
-  const value = bs58DecodeNoCheckUnsafe(source);
+export const base58DecodeNoCheck = (source: string): Uint8Array => {
+  const value = base58DecodeNoCheckUnsafe(source);
   if (value) {
     return value;
   }
   throw new Error("Non-base58 character");
 };
 
-export const bs58ChecksumEncode = createChecksumEncoder(4, sha256x2);
+export const base58ChecksumEncode = createChecksumEncoder(4, sha256x2);
 
-export const bs58ChecksumDecode = createChecksumDecoder(4, sha256x2);
+export const base58ChecksumDecode = createChecksumDecoder(4, sha256x2);
 
-export const bs58Encode = (source: Uint8Array): string => {
-  const checksummed = bs58ChecksumEncode(source);
-  return bs58EncodeNoCheck(checksummed);
+export const base58Encode = (source: Uint8Array): string => {
+  const checksummed = base58ChecksumEncode(source);
+  return base58EncodeNoCheck(checksummed);
 };
 
-export const bs58Decode = (source: string): Uint8Array => {
-  const buffer = bs58DecodeNoCheck(source);
-  const payload = bs58ChecksumDecode(buffer);
+export const base58Decode = (source: string): Uint8Array => {
+  const buffer = base58DecodeNoCheck(source);
+  const payload = base58ChecksumDecode(buffer);
   return payload;
 };
 
@@ -156,7 +172,9 @@ export const createBase58WithCheckEncoder =
       ) {
         throw Error("Unrecognised address format");
       }
-      return bs58Encode(concat([p2pkhVersion, source.slice(3, 3 + source[2])]));
+      return base58Encode(
+        concat([p2pkhVersion, source.slice(3, 3 + source[2])])
+      );
     }
 
     // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
@@ -164,7 +182,9 @@ export const createBase58WithCheckEncoder =
       if (source[source.length - 1] !== 0x87) {
         throw Error("Unrecognised address format");
       }
-      return bs58Encode(concat([p2shVersion, source.slice(2, 2 + source[1])]));
+      return base58Encode(
+        concat([p2shVersion, source.slice(2, 2 + source[1])])
+      );
     }
 
     throw Error("Unrecognised address format");
@@ -173,7 +193,7 @@ export const createBase58WithCheckEncoder =
 export const createBase58WithCheckDecoder =
   (p2pkhVersions: Base58CheckVersion[], p2shVersions: Base58CheckVersion[]) =>
   (source: string): Uint8Array => {
-    const addr = bs58Decode(source);
+    const addr = base58Decode(source);
 
     // Checks if the first addr bytes are exactly equal to provided version field
     const checkVersion = (version: Base58CheckVersion) => {

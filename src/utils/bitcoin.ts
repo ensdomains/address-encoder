@@ -1,9 +1,9 @@
-import { createBech32SegwitDecoder, createBech32SegwitEncoder } from "./bech32";
 import {
   Base58CheckVersion,
   createBase58WithCheckDecoder,
   createBase58WithCheckEncoder,
-} from "./bs58";
+} from "./base58";
+import { createBech32SegwitDecoder, createBech32SegwitEncoder } from "./bech32";
 
 export type BitcoinCoderParameters = {
   hrp: string;

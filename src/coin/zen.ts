@@ -1,6 +1,6 @@
 import { equals } from "uint8arrays/equals";
 import { Coin } from "../types";
-import { bs58Decode, bs58Encode } from "../utils/bs58";
+import { base58Decode, base58Encode } from "../utils/base58";
 
 const name = "ZEN";
 const coinType = 121;
@@ -18,10 +18,10 @@ export const encodeZenAddress = (source: Uint8Array): string => {
   if (!validPrefixes.some((x) => equals(x, prefix)))
     throw new Error("Invalid prefix");
 
-  return bs58Encode(source);
+  return base58Encode(source);
 };
 export const decodeZenAddress = (source: string): Uint8Array => {
-  const decoded = bs58Decode(source);
+  const decoded = base58Decode(source);
   const prefix = decoded.slice(0, 2);
 
   if (!validPrefixes.some((x) => equals(x, prefix)))

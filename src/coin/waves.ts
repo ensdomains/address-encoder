@@ -1,7 +1,7 @@
 import { blake2b } from "@noble/hashes/blake2b";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { Coin } from "../types";
-import { bs58DecodeNoCheck, bs58EncodeNoCheck } from "../utils/bs58";
+import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
 import { createChecksumDecoder } from "../utils/checksum";
 
 const name = "WAVES";
@@ -12,9 +12,9 @@ const checksumFn = (source: Uint8Array): Uint8Array =>
 const checksumLength = 4;
 const wavesChecksumDecode = createChecksumDecoder(checksumLength, checksumFn);
 
-export const encodeWavesAddress = bs58EncodeNoCheck;
+export const encodeWavesAddress = base58EncodeNoCheck;
 export const decodeWavesAddress = (source: string): Uint8Array => {
-  const decoded = bs58DecodeNoCheck(source);
+  const decoded = base58DecodeNoCheck(source);
 
   if (decoded[0] !== 1) throw new Error("Invalid address format");
 

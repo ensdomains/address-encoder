@@ -1,11 +1,11 @@
 import { Coin } from "../types";
-import { bs58Decode, bs58Encode } from "../utils/bs58";
+import { base58Decode, base58Encode } from "../utils/base58";
 
 const name = "MRX";
 const coinType = 326;
 
-export const encodeMrxAddress = bs58Encode;
-export const decodeMrxAddress = bs58Decode;
+export const encodeMrxAddress = base58Encode;
+export const decodeMrxAddress = base58Decode;
 
 export const mrx = {
   name,
