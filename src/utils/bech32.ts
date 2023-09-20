@@ -2,15 +2,15 @@ import { concatBytes } from "@noble/hashes/utils";
 import { bech32 } from "bech32";
 
 export const createBech32Encoder =
-  (hrp: string) =>
+  (hrp: string, limit?: number) =>
   (source: Uint8Array): string => {
-    return bech32.encode(hrp, bech32.toWords(source));
+    return bech32.encode(hrp, bech32.toWords(source), limit);
   };
 
 export const createBech32Decoder =
-  (hrp: string) =>
+  (hrp: string, limit?: number) =>
   (source: string): Uint8Array => {
-    const { prefix, words } = bech32.decode(source);
+    const { prefix, words } = bech32.decode(source, limit);
     if (prefix !== hrp) {
       throw Error("Unexpected human-readable part in bech32 encoded address");
     }
