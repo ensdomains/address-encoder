@@ -2,7 +2,7 @@ import { Coin } from "../types";
 import { bytesToHex, hexWithoutPrefixToBytes } from "../utils/bytes";
 import { validateFlowAddress } from "../utils/flow";
 
-const name = "FLOW";
+const name = "flow";
 const coinType = 539;
 
 const addressLength = 8;

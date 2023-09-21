@@ -4,7 +4,7 @@ import { Coin } from "../types";
 import { base32Decode, base32Encode } from "../utils/base32";
 import { hexWithoutPrefixToBytes } from "../utils/bytes";
 
-const name = "XLM";
+const name = "xlm";
 const coinType = 148;
 
 const versionByte = new Uint8Array([0x30]);

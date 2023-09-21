@@ -4,7 +4,7 @@ import {
   createHexChecksummedEncoder,
 } from "../utils/hex";
 
-const name = "FTM_LEGACY";
+const name = "ftmLegacy";
 const coinType = 1007;
 
 export const encodeFtmLegacyAddress = createHexChecksummedEncoder();

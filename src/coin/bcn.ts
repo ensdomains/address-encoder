@@ -5,7 +5,7 @@ import { equals } from "uint8arrays";
 import { Coin } from "../types";
 import { decodeXmrAddress, encodeXmrAddress } from "./xmr";
 
-const name = "BCN";
+const name = "bcn";
 const coinType = 204;
 
 const bcnChecksum = utils.checksum(4, keccak_256);

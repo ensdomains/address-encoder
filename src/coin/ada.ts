@@ -2,7 +2,7 @@ import { Coin } from "../types";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32";
 import { byronDecode, byronEncode } from "../utils/byron";
 
-const name = "ADA";
+const name = "ada";
 const coinType = 1815;
 
 const hrp = "addr";

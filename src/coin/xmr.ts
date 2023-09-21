@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
 
-const name = "XMR";
+const name = "xmr";
 const coinType = 128;
 
 // extra decoding/encoding for XMR pulled from https://github.com/paulmillr/scure-base/blob/12f6eacf5afd2af6a0eeb2db1222fb7cc262a204/index.ts#L379

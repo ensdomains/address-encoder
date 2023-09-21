@@ -5,7 +5,7 @@ import {
   hexWithoutPrefixToBytes,
 } from "../utils/bytes";
 
-const name = "ICX";
+const name = "icx";
 const coinType = 74;
 
 export const encodeIcxAddress = (source: Uint8Array): string => {

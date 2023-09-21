@@ -2,7 +2,7 @@ import { concatBytes } from "@noble/hashes/utils";
 import { Coin } from "../types";
 import { base58Decode, base58Encode } from "../utils/base58";
 
-const name = "XTZ";
+const name = "xtz";
 const coinType = 1729;
 
 // Referenced from the followings

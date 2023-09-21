@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { base58Decode, base58Encode } from "../utils/base58";
 
-const name = "QTUM";
+const name = "qtum";
 const coinType = 2301;
 
 export const encodeQtumAddress = base58Encode;

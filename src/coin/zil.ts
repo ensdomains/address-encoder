@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32";
 
-const name = "ZIL";
+const name = "zil";
 const coinType = 119;
 
 export const encodeZilAddress = createBech32Encoder("zil");

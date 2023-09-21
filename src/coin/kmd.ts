@@ -4,7 +4,7 @@ import {
   createBase58WithCheckEncoder,
 } from "../utils/base58";
 
-const name = "KMD";
+const name = "kmd";
 const coinType = 141;
 
 const p2pkhVersions = [new Uint8Array([0x3c])];

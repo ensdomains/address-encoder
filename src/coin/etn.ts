@@ -4,7 +4,7 @@ import { utils } from "@scure/base";
 import { Coin } from "../types";
 import { decodeXmrAddress, encodeXmrAddress } from "./xmr";
 
-const name = "ETN";
+const name = "etn";
 const coinType = 415;
 
 const type = 18;

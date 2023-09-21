@@ -3,7 +3,7 @@ import { utils } from "@scure/base";
 import { Coin } from "../types";
 import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
 
-const name = "NAS";
+const name = "nas";
 const coinType = 2718;
 
 const nasChecksum = utils.checksum(4, sha3_256);

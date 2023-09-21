@@ -3,7 +3,7 @@ import { Coin } from "../types";
 import { Hex, bytesToHexWithoutPrefix, hexToBytes } from "../utils/bytes";
 import { rawChecksumAddress } from "../utils/hex";
 
-const name = "STRK";
+const name = "strk";
 const coinType = 9004;
 
 const addressLength = 32;

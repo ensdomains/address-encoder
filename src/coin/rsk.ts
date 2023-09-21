@@ -4,7 +4,7 @@ import {
   createHexChecksummedEncoder,
 } from "../utils/hex";
 
-const name = "RSK";
+const name = "rsk";
 const coinType = 137;
 
 const chainId = 30;

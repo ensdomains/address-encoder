@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { bytesToHex, hexWithoutPrefixToBytes } from "../utils/bytes";
 
-const name = "AION";
+const name = "aion";
 const coinType = 425;
 
 const hexRegex = /^[0-9A-Fa-f]{64}$/g;

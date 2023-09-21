@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { createZcashDecoder, createZcashEncoder } from "../utils/zcash";
 
-const name = "ZEC";
+const name = "zec";
 const coinType = 133;
 
 const hrp = "zs";

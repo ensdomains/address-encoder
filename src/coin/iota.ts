@@ -2,7 +2,7 @@ import { concatBytes } from "@noble/hashes/utils";
 import { Coin } from "../types";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32";
 
-const name = "IOTA";
+const name = "iota";
 const coinType = 4218;
 
 const hrp = "iota";

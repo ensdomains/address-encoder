@@ -3,7 +3,7 @@ import { Coin } from "../types";
 import { base32Decode, base32Encode } from "../utils/base32";
 import { bytesToHexWithoutPrefix } from "../utils/bytes";
 
-const name = "XEM";
+const name = "xem";
 const coinType = 43;
 
 export const encodeXemAddress = base32Encode;

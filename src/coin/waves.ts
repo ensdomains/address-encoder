@@ -4,7 +4,7 @@ import { utils } from "@scure/base";
 import { Coin } from "../types";
 import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
 
-const name = "WAVES";
+const name = "waves";
 const coinType = 5741564;
 
 const checksumFn = (source: Uint8Array): Uint8Array =>

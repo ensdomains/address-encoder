@@ -8,7 +8,7 @@ import {
   crockfordBase32Options,
 } from "../utils/base32";
 
-const name = "STX";
+const name = "stx";
 const coinType = 5757;
 
 const prefix = "S";

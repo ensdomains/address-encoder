@@ -2,7 +2,7 @@ import { equals } from "uint8arrays/equals";
 import { Coin } from "../types";
 import { base58Decode, base58Encode } from "../utils/base58";
 
-const name = "ZEN";
+const name = "zen";
 const coinType = 121;
 
 const validPrefixes = [

@@ -8,7 +8,7 @@ import {
 } from "../utils/bytes";
 import { isAddress } from "../utils/hex";
 
-const name = "WAN";
+const name = "wan";
 const coinType = 5718350;
 
 const wanChecksum = (addressBytes: Uint8Array): string => {

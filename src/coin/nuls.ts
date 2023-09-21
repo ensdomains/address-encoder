@@ -2,7 +2,7 @@ import { concatBytes } from "@noble/hashes/utils";
 import { Coin } from "../types";
 import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
 
-const name = "NULS";
+const name = "nuls";
 const coinType = 8964;
 
 const prefixReference = ["a", "b", "c", "d", "e"];

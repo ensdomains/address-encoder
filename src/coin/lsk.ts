@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { base10ToBytes, bytesToBase10 } from "../utils/bytes";
 
-const name = "LSK";
+const name = "lsk";
 const coinType = 134;
 
 export const encodeLskAddress = (source: Uint8Array): string => {

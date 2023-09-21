@@ -6,7 +6,7 @@ import {
   createBase32Options,
 } from "../utils/base32";
 
-const name = "NANO";
+const name = "nano";
 const coinType = 165;
 
 const nanoBase32Options = createBase32Options({

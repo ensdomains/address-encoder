@@ -4,7 +4,7 @@ import {
   createBase58WithCheckEncoder,
 } from "../utils/base58";
 
-const name = "STRAT";
+const name = "strat";
 const coinType = 105;
 
 const p2pkhVersions = [new Uint8Array([0x3f])];

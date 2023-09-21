@@ -4,7 +4,7 @@ import {
   createHexChecksummedEncoder,
 } from "../utils/hex";
 
-const name = "NRG_LEGACY";
+const name = "nrgLegacy";
 const coinType = 9797;
 
 export const encodeNrgLegacyAddress = createHexChecksummedEncoder();

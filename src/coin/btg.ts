@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { createBitcoinDecoder, createBitcoinEncoder } from "../utils/bitcoin";
 
-const name = "BTG";
+const name = "btg";
 const coinType = 156;
 
 const hrp = "btg";

@@ -9,7 +9,7 @@ import {
 } from "../utils/base32";
 import { decodeLeb128, encodeLeb128 } from "../utils/leb128";
 
-const name = "FIL";
+const name = "fil";
 const coinType = 461;
 
 const validateFilAddress = (address: string): boolean => {

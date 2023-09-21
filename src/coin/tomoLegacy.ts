@@ -4,7 +4,7 @@ import {
   createHexChecksummedEncoder,
 } from "../utils/hex";
 
-const name = "TOMO_LEGACY";
+const name = "tomoLegacy";
 const coinType = 889;
 
 export const encodeTomoLegacyAddress = createHexChecksummedEncoder();

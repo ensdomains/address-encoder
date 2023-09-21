@@ -1,3 +1,13 @@
+import * as formats from "./coins";
+
+export type Formats = typeof formats;
+
+export type CoinName = keyof Formats;
+export type CoinType = Formats[CoinName]["coinType"];
+export type CoinTypeInvertedReference = {
+  [key in CoinName as Formats[key]["coinType"]]: Formats[key];
+};
+
 export type EncoderFunction = (source: Uint8Array) => string;
 export type DecoderFunction = (source: string) => Uint8Array;
 

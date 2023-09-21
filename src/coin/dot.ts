@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { createDotAddressDecoder, createDotAddressEncoder } from "../utils/dot";
 
-const name = "DOT";
+const name = "dot";
 const coinType = 354;
 
 const dotType = 0;

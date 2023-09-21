@@ -4,7 +4,7 @@ import {
   createHexChecksummedEncoder,
 } from "../utils/hex";
 
-const name = "GNO_LEGACY";
+const name = "gnoLegacy";
 const coinType = 700;
 
 export const encodeGnoLegacyAddress = createHexChecksummedEncoder();

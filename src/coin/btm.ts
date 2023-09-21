@@ -4,7 +4,7 @@ import {
   createBech32SegwitEncoder,
 } from "../utils/bech32";
 
-const name = "BTM";
+const name = "btm";
 const coinType = 153;
 
 const hrp = "bm";

@@ -3,14 +3,14 @@ import {
   createHexChecksummedDecoder,
   createHexChecksummedEncoder,
 } from "../utils/hex";
-  
-const name = "EWT";
+
+const name = "ewt";
 const evmChainId = 246;
 const coinType = 2147483894;
-  
+
 export const encodeEwtAddress = createHexChecksummedEncoder();
 export const decodeEwtAddress = createHexChecksummedDecoder();
-  
+
 export const ewt = {
   name,
   coinType,

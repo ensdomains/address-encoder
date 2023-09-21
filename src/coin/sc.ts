@@ -7,7 +7,7 @@ import {
   hexWithoutPrefixToBytes,
 } from "../utils/bytes";
 
-const name = "SC";
+const name = "sc";
 const coinType = 1991;
 
 const length = 32;

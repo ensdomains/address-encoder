@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { decodeXmrAddress, encodeXmrAddress } from "./xmr";
 
-const name = "BDX";
+const name = "bdx";
 const coinType = 570;
 
 export const encodeBdxAddress = encodeXmrAddress;

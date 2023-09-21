@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { base64Decode, base64Encode } from "../utils/base64";
 
-const name = "AR";
+const name = "ar";
 const coinType = 472;
 
 const encodeReplaceRegex = /\+|\/|\=/g;

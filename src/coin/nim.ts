@@ -5,7 +5,7 @@ import {
   createBase32Options,
 } from "../utils/base32";
 
-const name = "NIM";
+const name = "nim";
 const coinType = 242;
 
 const nimBase32Options = createBase32Options({

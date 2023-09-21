@@ -2,7 +2,7 @@ import { Coin } from "../types";
 import { bytesToString, stringToBytes } from "../utils/bytes";
 import { validateNearAddress } from "../utils/near";
 
-const name = "NEAR";
+const name = "near";
 const coinType = 397;
 
 export const encodeNearAddress = (source: Uint8Array): string => {

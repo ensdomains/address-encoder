@@ -4,7 +4,7 @@ import { equals } from "uint8arrays";
 import { Coin } from "../types";
 import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
 
-const name = "VSYS";
+const name = "vsys";
 const coinType = 360;
 
 const vsysChecksum = (source: Uint8Array): boolean => {

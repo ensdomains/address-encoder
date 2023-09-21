@@ -6,7 +6,7 @@ import {
   createBase58Options,
 } from "../utils/base58";
 
-const name = "XRP";
+const name = "xrp";
 const coinType = 144;
 
 const xrpBase58Options = createBase58Options(

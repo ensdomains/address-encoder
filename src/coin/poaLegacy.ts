@@ -4,7 +4,7 @@ import {
   createHexChecksummedEncoder,
 } from "../utils/hex";
 
-const name = "POA_LEGACY";
+const name = "poaLegacy";
 const coinType = 178;
 
 export const encodePoaLegacyAddress = createHexChecksummedEncoder();

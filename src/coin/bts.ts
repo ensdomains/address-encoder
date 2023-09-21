@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { createEosDecoder, createEosEncoder } from "../utils/eosio";
 
-const name = "BTS";
+const name = "bts";
 const coinType = 308;
 
 const prefix = "BTS";

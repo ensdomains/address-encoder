@@ -1,6 +1,6 @@
 import { Coin } from "../types";
 
-const name = "ARDR";
+const name = "ardr";
 const coinType = 16754;
 
 const prefix = "ARDOR";

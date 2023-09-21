@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32";
 
-const name = "ATOM";
+const name = "atom";
 const coinType = 118;
 
 export const encodeAtomAddress = createBech32Encoder("cosmos");

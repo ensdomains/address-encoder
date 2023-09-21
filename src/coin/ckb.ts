@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32";
 
-const name = "CKB";
+const name = "ckb";
 const coinType = 309;
 
 const hrp = "ckb";

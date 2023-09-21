@@ -1,6 +1,6 @@
 import { Coin } from "../types";
 
-const name = "HBAR";
+const name = "hbar";
 const coinType = 3030;
 
 export const encodeHbarAddress = (source: Uint8Array): string => {

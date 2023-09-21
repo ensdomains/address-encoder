@@ -2,7 +2,7 @@ import { concatBytes } from "@noble/hashes/utils";
 import { Coin } from "../types";
 import { base58Decode, base58Encode } from "../utils/base58";
 
-const name = "HNT";
+const name = "hnt";
 const coinType = 904;
 
 export const encodeHntAddress = (source: Uint8Array): string => {

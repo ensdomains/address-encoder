@@ -6,7 +6,7 @@ import {
   encodeBchAddressWithVersion,
 } from "../utils/bch";
 
-const name = "BCH";
+const name = "bch";
 const coinType = 145;
 
 const p2pkhVersions = [new Uint8Array([0x00])];

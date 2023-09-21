@@ -7,7 +7,7 @@ import {
   unpaddedBase32Options,
 } from "../utils/base32";
 
-const name = "ALGO";
+const name = "algo";
 const coinType = 283;
 
 const algoChecksum = utils.checksum(4, (data) => sha512_256(data).slice(-4));

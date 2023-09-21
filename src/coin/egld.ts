@@ -1,7 +1,7 @@
 import { Coin } from "../types";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32";
 
-const name = "EGLD";
+const name = "egld";
 const coinType = 120;
 
 export const encodeEgldAddress = createBech32Encoder("erd");

@@ -4,7 +4,7 @@ import {
   createHexChecksummedEncoder,
 } from "../utils/hex";
 
-const name = "THETA_LEGACY";
+const name = "thetaLegacy";
 const coinType = 500;
 
 export const encodeThetaLegacyAddress = createHexChecksummedEncoder();

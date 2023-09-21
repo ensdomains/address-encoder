@@ -4,7 +4,7 @@ import {
   createHexChecksummedEncoder,
 } from "../utils/hex";
 
-const name = "GO_LEGACY";
+const name = "goLegacy";
 const coinType = 6060;
 
 export const encodeGoLegacyAddress = createHexChecksummedEncoder();

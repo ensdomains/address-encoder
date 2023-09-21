@@ -3,14 +3,14 @@ import {
   createHexChecksummedDecoder,
   createHexChecksummedEncoder,
 } from "../utils/hex";
-  
-const name = "THETA";
+
+const name = "theta";
 const evmChainId = 361;
 const coinType = 2147484009;
-  
+
 export const encodeThetaAddress = createHexChecksummedEncoder();
 export const decodeThetaAddress = createHexChecksummedDecoder();
-  
+
 export const theta = {
   name,
   coinType,
