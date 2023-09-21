@@ -26,6 +26,10 @@ const DEFAULT_BASE32_OPTIONS = createBase32Options({
   alphabet: BASE32_ALPHABET,
 });
 
+export const crockfordBase32Options = createBase32Options({
+  alphabet: "0123456789ABCDEFGHJKMNPQRSTVWXYZ",
+});
+
 export const unpaddedBase32Options = {
   ...DEFAULT_BASE32_OPTIONS,
   padded: false,
