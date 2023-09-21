@@ -4,16 +4,16 @@ import { Hex, bytesToHex, hexToBytes, stringToBytes } from "./bytes";
 export const stripHexPrefix = (str: string): string =>
   str.startsWith("0x") ? str.slice(2) : str;
 
-export function checksumAddress(address_: string, chainId?: number): string {
-  const hexAddress = chainId
-    ? `${chainId}${address_.toLowerCase()}`
-    : address_.substring(2).toLowerCase();
-  const hash = keccak_256(stringToBytes(hexAddress));
-
-  const address = (
-    chainId ? hexAddress.substring(`${chainId}0x`.length) : hexAddress
-  ).split("");
-  for (let i = 0; i < 40; i += 2) {
+export const rawChecksumAddress = ({
+  address,
+  hash,
+  length,
+}: {
+  address: string[];
+  hash: Uint8Array;
+  length: number;
+}): Hex => {
+  for (let i = 0; i < length; i += 2) {
     if (hash[i >> 1] >> 4 >= 8 && address[i]) {
       address[i] = address[i].toUpperCase();
     }
@@ -23,6 +23,18 @@ export function checksumAddress(address_: string, chainId?: number): string {
   }
 
   return `0x${address.join("")}`;
+};
+
+export function checksumAddress(address_: string, chainId?: number): string {
+  const hexAddress = chainId
+    ? `${chainId}${address_.toLowerCase()}`
+    : address_.substring(2).toLowerCase();
+  const hash = keccak_256(stringToBytes(hexAddress));
+
+  const address = (
+    chainId ? hexAddress.substring(`${chainId}0x`.length) : hexAddress
+  ).split("");
+  return rawChecksumAddress({ address, hash, length: 40 });
 }
 
 export function isAddress(address: string): boolean {
