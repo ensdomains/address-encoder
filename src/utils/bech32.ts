@@ -1,21 +1,37 @@
 import { concatBytes } from "@noble/hashes/utils";
-import { bech32 } from "bech32";
+import { bech32, bech32m, type BechLib } from "bech32";
 
-export const createBech32Encoder =
-  (hrp: string, limit?: number) =>
+type Bech32Parameters = {
+  bechLib: BechLib;
+  hrp: string;
+  limit?: number;
+};
+
+const createInternalBech32Encoder =
+  ({ bechLib, hrp, limit }: Bech32Parameters) =>
   (source: Uint8Array): string => {
-    return bech32.encode(hrp, bech32.toWords(source), limit);
+    return bechLib.encode(hrp, bechLib.toWords(source), limit);
   };
 
-export const createBech32Decoder =
-  (hrp: string, limit?: number) =>
+const createInternalBech32Decoder =
+  ({ bechLib, hrp, limit }: Bech32Parameters) =>
   (source: string): Uint8Array => {
-    const { prefix, words } = bech32.decode(source, limit);
+    const { prefix, words } = bechLib.decode(source, limit);
     if (prefix !== hrp) {
       throw Error("Unexpected human-readable part in bech32 encoded address");
     }
-    return Uint8Array.of(...bech32.fromWords(words));
+    return new Uint8Array(bechLib.fromWords(words));
   };
+
+export const createBech32Encoder = (hrp: string, limit?: number) =>
+  createInternalBech32Encoder({ hrp, bechLib: bech32, limit });
+export const createBech32Decoder = (hrp: string, limit?: number) =>
+  createInternalBech32Decoder({ hrp, bechLib: bech32, limit });
+
+export const createBech32mEncoder = (hrp: string, limit?: number) =>
+  createInternalBech32Encoder({ hrp, bechLib: bech32m, limit });
+export const createBech32mDecoder = (hrp: string, limit?: number) =>
+  createInternalBech32Decoder({ hrp, bechLib: bech32m, limit });
 
 export const createBech32SegwitEncoder =
   (hrp: string) =>
