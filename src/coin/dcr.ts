@@ -7,7 +7,7 @@ const coinType = 42;
 export const encodeDcrAddress = base58EncodeNoCheck;
 export const decodeDcrAddress = base58DecodeNoCheck;
 
-export const nmc = {
+export const dcr = {
   name,
   coinType,
   encode: encodeDcrAddress,
