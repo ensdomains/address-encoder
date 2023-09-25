@@ -62,15 +62,19 @@
   "repository": "git@github.com:ensdomains/address-encoder.git",
   "license": "MIT",
   "scripts": {
+    "generateCoin": "bun ./scripts/generateCoin.ts",
     "clean": "rm -rf ./dist && rm -rf ./tsconfig.build.tsbuildinfo",
     "build:cjs": "tsc --project tsconfig.build.json --module commonjs --outDir ./dist/cjs --removeComments --verbatimModuleSyntax false && echo > ./dist/cjs/package.json '{\"type\":\"commonjs\"}'",
     "build:esm": "tsc --project tsconfig.build.json --module es2022 --outDir ./dist/esm && echo > ./dist/esm/package.json '{\"type\":\"module\",\"sideEffects\":false}'",
     "build:types": "tsc --project tsconfig.build.json --module esnext --declarationDir ./dist/types --emitDeclarationOnly --declaration --declarationMap",
     "build": "bun run clean && bun run build:cjs && bun run build:esm && bun run build:types",
-    "generateCoin": "bun ./scripts/generateCoin.ts"
+    "prepublish": "bun run build",
+    "prepublishOnly": "bun ./scripts/prepublishOnly.ts"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.2",
     "bun-types": "latest",
+    "fs-extra": "^11.1.1",
     "mitata": "^0.1.6",
     "typescript": "^5.1.6"
   },
