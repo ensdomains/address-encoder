@@ -11,4 +11,4 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
-      - run: bun test src/coin
+      - run: bun test
