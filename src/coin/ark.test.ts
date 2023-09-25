@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeArkAddress, encodeArkAddress } from "./ark";
+import { decodeArkAddress, encodeArkAddress } from "./ark.js";
 
 describe.each([
   {

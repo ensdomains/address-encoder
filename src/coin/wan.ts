@@ -1,12 +1,12 @@
 import { keccak_256 } from "@noble/hashes/sha3";
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
-  Hex,
   bytesToHexWithoutPrefix,
   hexToBytes,
   stringToBytes,
-} from "../utils/bytes";
-import { isAddress } from "../utils/hex";
+  type Hex,
+} from "../utils/bytes.js";
+import { isAddress } from "../utils/hex.js";
 
 const name = "wan";
 const coinType = 5718350;

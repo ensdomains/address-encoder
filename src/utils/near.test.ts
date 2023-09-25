@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { validateNearAddress } from "./near";
+import { validateNearAddress } from "./near.js";
 
 describe("validateNearAddress", () => {
   test("root name", () => {

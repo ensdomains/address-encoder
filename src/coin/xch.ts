@@ -1,5 +1,5 @@
-import { Coin } from "../types";
-import { createBech32mDecoder, createBech32mEncoder } from "../utils/bech32";
+import type { Coin } from "../types.js";
+import { createBech32mDecoder, createBech32mEncoder } from "../utils/bech32.js";
 
 const name = "xch";
 const coinType = 8444;

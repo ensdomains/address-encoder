@@ -1,4 +1,4 @@
-import * as formats from "./coins";
+import * as formats from "./coins.js";
 
 export type Formats = typeof formats;
 

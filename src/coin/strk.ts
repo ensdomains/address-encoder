@@ -1,7 +1,11 @@
 import { keccak_256 } from "@noble/hashes/sha3";
-import { Coin } from "../types";
-import { Hex, bytesToHexWithoutPrefix, hexToBytes } from "../utils/bytes";
-import { rawChecksumAddress } from "../utils/hex";
+import type { Coin } from "../types.js";
+import {
+  bytesToHexWithoutPrefix,
+  hexToBytes,
+  type Hex,
+} from "../utils/bytes.js";
+import { rawChecksumAddress } from "../utils/hex.js";
 
 const name = "strk";
 const coinType = 9004;

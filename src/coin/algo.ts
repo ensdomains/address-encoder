@@ -1,11 +1,11 @@
 import { sha512_256 } from "@noble/hashes/sha512";
 import { utils } from "@scure/base";
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   base32Decode,
   base32Encode,
   unpaddedBase32Options,
-} from "../utils/base32";
+} from "../utils/base32.js";
 
 const name = "algo";
 const coinType = 283;

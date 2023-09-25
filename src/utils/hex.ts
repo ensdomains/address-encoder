@@ -1,5 +1,5 @@
 import { keccak_256 } from "@noble/hashes/sha3";
-import { Hex, bytesToHex, hexToBytes, stringToBytes } from "./bytes";
+import { bytesToHex, hexToBytes, stringToBytes, type Hex } from "./bytes.js";
 
 export const stripHexPrefix = (str: string): string =>
   str.startsWith("0x") ? str.slice(2) : str;

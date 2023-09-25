@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeCroAddress, encodeCroAddress } from "./cro";
+import { decodeCroAddress, encodeCroAddress } from "./cro.js";
 
 describe.each([
   {

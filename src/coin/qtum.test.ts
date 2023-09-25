@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeQtumAddress, encodeQtumAddress } from "./qtum";
+import { decodeQtumAddress, encodeQtumAddress } from "./qtum.js";
 
 describe.each([
   {

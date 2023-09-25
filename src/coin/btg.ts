@@ -1,5 +1,8 @@
-import { Coin } from "../types";
-import { createBitcoinDecoder, createBitcoinEncoder } from "../utils/bitcoin";
+import type { Coin } from "../types.js";
+import {
+  createBitcoinDecoder,
+  createBitcoinEncoder,
+} from "../utils/bitcoin.js";
 
 const name = "btg";
 const coinType = 156;

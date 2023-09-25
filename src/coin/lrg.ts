@@ -1,8 +1,8 @@
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   createBase58WithCheckDecoder,
   createBase58WithCheckEncoder,
-} from "../utils/base58";
+} from "../utils/base58.js";
 
 const name = "lrg";
 const coinType = 568;

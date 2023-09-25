@@ -1,13 +1,10 @@
-import type * as formats from "./coins";
-import { coinTypeMap } from "./consts/coinTypeMap";
-
-type Formats = typeof formats;
-
-type CoinName = keyof Formats;
-type CoinType = Formats[CoinName]["coinType"];
-type CoinTypeInvertedReference = {
-  [key in CoinName as Formats[key]["coinType"]]: Formats[key];
-};
+import { coinTypeMap } from "./consts/coinTypeMap.js";
+import type {
+  CoinName,
+  CoinType,
+  CoinTypeInvertedReference,
+  Formats,
+} from "./types.js";
 
 export const getCoderByCoinNameAsync = async <TCoinName extends CoinName>(
   name: TCoinName

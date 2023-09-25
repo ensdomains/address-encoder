@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeCloAddress, encodeCloAddress } from "./clo";
+import { decodeCloAddress, encodeCloAddress } from "./clo.js";
 
 describe.each([
   {

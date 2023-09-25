@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeZecAddress, encodeZecAddress } from "./zec";
+import { decodeZecAddress, encodeZecAddress } from "./zec.js";
 
 describe.each([
   {

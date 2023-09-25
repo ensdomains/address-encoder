@@ -2,7 +2,7 @@ import { bench, group, run } from "mitata";
 
 import { formatsByName } from "@ensdomains/address-encoder";
 import { hexToBytes } from "@noble/hashes/utils";
-import { decodeBtcAddress, encodeBtcAddress } from "./btc";
+import { decodeBtcAddress, encodeBtcAddress } from "./btc.js";
 
 const btcOld = formatsByName["BTC"];
 

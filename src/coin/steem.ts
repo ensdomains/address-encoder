@@ -1,5 +1,5 @@
-import { Coin } from "../types";
-import { createEosDecoder, createEosEncoder } from "../utils/eosio";
+import type { Coin } from "../types.js";
+import { createEosDecoder, createEosEncoder } from "../utils/eosio.js";
 
 const name = "steem";
 const coinType = 135;

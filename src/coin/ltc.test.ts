@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeLtcAddress, encodeLtcAddress } from "./ltc";
+import { decodeLtcAddress, encodeLtcAddress } from "./ltc.js";
 
 describe.each([
   {

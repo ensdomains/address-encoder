@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeXlmAddress, encodeXlmAddress } from "./xlm";
+import { decodeXlmAddress, encodeXlmAddress } from "./xlm.js";
 
 describe.each([
   {

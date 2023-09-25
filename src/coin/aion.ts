@@ -1,5 +1,5 @@
-import { Coin } from "../types";
-import { bytesToHex, hexWithoutPrefixToBytes } from "../utils/bytes";
+import type { Coin } from "../types.js";
+import { bytesToHex, hexWithoutPrefixToBytes } from "../utils/bytes.js";
 
 const name = "aion";
 const coinType = 425;

@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeSysAddress, encodeSysAddress } from "./sys";
+import { decodeSysAddress, encodeSysAddress } from "./sys.js";
 
 describe.each([
   {

@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeAlgoAddress, encodeAlgoAddress } from "./algo";
+import { decodeAlgoAddress, encodeAlgoAddress } from "./algo.js";
 
 describe.each([
   {

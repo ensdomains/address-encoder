@@ -1,8 +1,8 @@
 import { bench, group, run } from "mitata";
 
 import { base64 } from "@scure/base";
-import { base64Decode, base64Encode } from "./base64";
-import { stringToBytes } from "./bytes";
+import { base64Decode, base64Encode } from "./base64.js";
+import { stringToBytes } from "./bytes.js";
 
 const data = "Hello World!";
 const bytes = stringToBytes(data);

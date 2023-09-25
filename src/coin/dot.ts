@@ -1,5 +1,8 @@
-import { Coin } from "../types";
-import { createDotAddressDecoder, createDotAddressEncoder } from "../utils/dot";
+import type { Coin } from "../types.js";
+import {
+  createDotAddressDecoder,
+  createDotAddressEncoder,
+} from "../utils/dot.js";
 
 const name = "dot";
 const coinType = 354;

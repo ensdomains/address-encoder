@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeNmcAddress, encodeNmcAddress } from "./nmc";
+import { decodeNmcAddress, encodeNmcAddress } from "./nmc.js";
 
 describe.each([
   {

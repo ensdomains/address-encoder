@@ -2,7 +2,7 @@ import { bench, group, run } from "mitata";
 
 import { formatsByName } from "@ensdomains/address-encoder";
 import { hexToBytes } from "@noble/hashes/utils";
-import { decodeXemAddress, encodeXemAddress } from "./xem";
+import { decodeXemAddress, encodeXemAddress } from "./xem.js";
 
 const xemOld = formatsByName["XEM"];
 

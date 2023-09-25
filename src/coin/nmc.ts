@@ -1,5 +1,5 @@
-import { Coin } from "../types";
-import { base58Decode, base58Encode } from "../utils/base58";
+import type { Coin } from "../types.js";
+import { base58Decode, base58Encode } from "../utils/base58.js";
 
 const name = "nmc";
 const coinType = 7;

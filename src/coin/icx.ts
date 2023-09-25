@@ -1,9 +1,9 @@
 import { concatBytes } from "@noble/hashes/utils";
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   bytesToHexWithoutPrefix,
   hexWithoutPrefixToBytes,
-} from "../utils/bytes";
+} from "../utils/bytes.js";
 
 const name = "icx";
 const coinType = 74;

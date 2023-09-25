@@ -1,5 +1,5 @@
-import { Coin } from "../types";
-import { base10ToBytes, bytesToBase10 } from "../utils/bytes";
+import type { Coin } from "../types.js";
+import { base10ToBytes, bytesToBase10 } from "../utils/bytes.js";
 
 const name = "lsk";
 const coinType = 134;

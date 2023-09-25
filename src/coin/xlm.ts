@@ -1,8 +1,8 @@
 import { concatBytes } from "@noble/hashes/utils";
 import { equals } from "uint8arrays";
-import { Coin } from "../types";
-import { base32Decode, base32Encode } from "../utils/base32";
-import { hexWithoutPrefixToBytes } from "../utils/bytes";
+import type { Coin } from "../types.js";
+import { base32Decode, base32Encode } from "../utils/base32.js";
+import { hexWithoutPrefixToBytes } from "../utils/bytes.js";
 
 const name = "xlm";
 const coinType = 148;

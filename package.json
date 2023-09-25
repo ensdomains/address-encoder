@@ -1,17 +1,78 @@
 {
-  "name": "address-encoder",
-  "module": "src/index.ts",
+  "name": "@ensdomains/address-encoder",
+  "version": "1.0.0-alpha.0",
+  "description": "Encodes and decodes address formats for various cryptocurrencies",
   "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "typings": "./dist/types/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/cjs/index.js"
+    },
+    "./async": {
+      "types": "./dist/types/async.d.ts",
+      "import": "./dist/esm/async.js",
+      "default": "./dist/cjs/async.js"
+    },
+    "./coins": {
+      "types": "./dist/types/coins.d.ts",
+      "import": "./dist/esm/coins.js",
+      "default": "./dist/cjs/coins.js"
+    },
+    "./coders": {
+      "types": "./dist/types/coders.d.ts",
+      "import": "./dist/esm/coders.js",
+      "default": "./dist/cjs/coders.js"
+    },
+    "./utils": {
+      "types": "./dist/types/utils/index.d.ts",
+      "import": "./dist/esm/utils/index.js",
+      "default": "./dist/cjs/utils/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "async": [
+        "./dist/types/async.d.ts"
+      ],
+      "coins": [
+        "./dist/types/coins.d.ts"
+      ],
+      "coders": [
+        "./dist/types/coders.d.ts"
+      ],
+      "utils": [
+        "./dist/types/utils/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "!src/**/*.test.ts",
+    "!src/**/*.bench.ts",
+    "!**/*.tsbuildinfo"
+  ],
+  "repository": "git@github.com:ensdomains/address-encoder.git",
+  "license": "MIT",
   "scripts": {
+    "clean": "rm -rf ./dist && rm -rf ./tsconfig.build.tsbuildinfo",
+    "build:cjs": "tsc --project tsconfig.build.json --module commonjs --outDir ./dist/cjs --removeComments --verbatimModuleSyntax false && echo > ./dist/cjs/package.json '{\"type\":\"commonjs\"}'",
+    "build:esm": "tsc --project tsconfig.build.json --module es2022 --outDir ./dist/esm && echo > ./dist/esm/package.json '{\"type\":\"module\",\"sideEffects\":false}'",
+    "build:types": "tsc --project tsconfig.build.json --module esnext --declarationDir ./dist/types --emitDeclarationOnly --declaration --declarationMap",
+    "build": "bun run clean && bun run build:cjs && bun run build:esm && bun run build:types",
     "generateCoin": "bun ./scripts/generateCoin.ts"
   },
   "devDependencies": {
-    "@ensdomains/address-encoder": "^0.2.22",
     "bun-types": "latest",
-    "mitata": "^0.1.6"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
+    "mitata": "^0.1.6",
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "@noble/curves": "^1.2.0",

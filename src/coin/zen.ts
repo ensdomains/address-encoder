@@ -1,6 +1,6 @@
 import { equals } from "uint8arrays/equals";
-import { Coin } from "../types";
-import { base58Decode, base58Encode } from "../utils/base58";
+import type { Coin } from "../types.js";
+import { base58Decode, base58Encode } from "../utils/base58.js";
 
 const name = "zen";
 const coinType = 121;

@@ -1,10 +1,10 @@
 import { concatBytes } from "@noble/hashes/utils";
-import { Coin } from "../types";
-import { createBase58WithCheckDecoder } from "../utils/base58";
+import type { Coin } from "../types.js";
+import { createBase58WithCheckDecoder } from "../utils/base58.js";
 import {
   decodeBchAddressToTypeAndHash,
   encodeBchAddressWithVersion,
-} from "../utils/bch";
+} from "../utils/bch.js";
 
 const name = "bch";
 const coinType = 145;

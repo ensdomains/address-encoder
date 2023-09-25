@@ -1,8 +1,8 @@
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   createBech32SegwitDecoder,
   createBech32SegwitEncoder,
-} from "../utils/bech32";
+} from "../utils/bech32.js";
 
 const name = "btm";
 const coinType = 153;

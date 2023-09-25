@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeIrisAddress, encodeIrisAddress } from "./iris";
+import { decodeIrisAddress, encodeIrisAddress } from "./iris.js";
 
 describe.each([
   {

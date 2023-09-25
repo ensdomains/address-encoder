@@ -1,11 +1,11 @@
 import { blake2b } from "@noble/hashes/blake2b";
 import { concatBytes } from "@noble/hashes/utils";
 import { equals } from "uint8arrays";
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   bytesToHexWithoutPrefix,
   hexWithoutPrefixToBytes,
-} from "../utils/bytes";
+} from "../utils/bytes.js";
 
 const name = "sc";
 const coinType = 1991;

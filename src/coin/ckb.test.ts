@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeCkbAddress, encodeCkbAddress } from "./ckb";
+import { decodeCkbAddress, encodeCkbAddress } from "./ckb.js";
 
 describe.each([
   {

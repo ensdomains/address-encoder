@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { getCoderByCoinNameAsync, getCoderByCoinTypeAsync } from "./async";
+import { getCoderByCoinNameAsync, getCoderByCoinTypeAsync } from "./async.js";
 
 test("coin name", async () => {
   const coder = await getCoderByCoinNameAsync("btc");

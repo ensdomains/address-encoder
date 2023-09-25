@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodePoaLegacyAddress, encodePoaLegacyAddress } from "./poaLegacy";
+import { decodePoaLegacyAddress, encodePoaLegacyAddress } from "./poaLegacy.js";
 
 describe.each([
   {

@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeOntAddress, encodeOntAddress } from "./ont";
+import { decodeOntAddress, encodeOntAddress } from "./ont.js";
 
 describe.each([
   {

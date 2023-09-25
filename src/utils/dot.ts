@@ -1,7 +1,7 @@
 import { blake2b } from "@noble/hashes/blake2b";
 import { concatBytes } from "@noble/hashes/utils";
 import { equals } from "uint8arrays";
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "./base58";
+import { base58DecodeNoCheck, base58EncodeNoCheck } from "./base58.js";
 
 const prefixStringBytes = new Uint8Array([
   0x53, 0x53, 0x35, 0x38, 0x50, 0x52, 0x45,

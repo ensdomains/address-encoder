@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeElaAddress, encodeElaAddress } from "./ela";
+import { decodeElaAddress, encodeElaAddress } from "./ela.js";
 
 describe.each([
   {

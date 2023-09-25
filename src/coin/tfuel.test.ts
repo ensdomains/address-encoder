@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeTfuelAddress, encodeTfuelAddress } from "./tfuel";
+import { decodeTfuelAddress, encodeTfuelAddress } from "./tfuel.js";
 
 describe.each([
   {

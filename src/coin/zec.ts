@@ -1,5 +1,5 @@
-import { Coin } from "../types";
-import { createZcashDecoder, createZcashEncoder } from "../utils/zcash";
+import type { Coin } from "../types.js";
+import { createZcashDecoder, createZcashEncoder } from "../utils/zcash.js";
 
 const name = "zec";
 const coinType = 133;

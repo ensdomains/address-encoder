@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodePpcAddress, encodePpcAddress } from "./ppc";
+import { decodePpcAddress, encodePpcAddress } from "./ppc.js";
 
 describe.each([
   {

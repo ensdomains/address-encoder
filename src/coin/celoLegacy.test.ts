@@ -1,6 +1,9 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeCeloLegacyAddress, encodeCeloLegacyAddress } from "./celoLegacy";
+import {
+  decodeCeloLegacyAddress,
+  encodeCeloLegacyAddress,
+} from "./celoLegacy.js";
 
 describe.each([
   {

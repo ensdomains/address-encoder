@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeEgldAddress, encodeEgldAddress } from "./egld";
+import { decodeEgldAddress, encodeEgldAddress } from "./egld.js";
 
 describe.each([
   {

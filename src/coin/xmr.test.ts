@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeXmrAddress, encodeXmrAddress } from "./xmr";
+import { decodeXmrAddress, encodeXmrAddress } from "./xmr.js";
 
 describe.each([
   {

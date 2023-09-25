@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeIotxAddress, encodeIotxAddress } from "./iotx";
+import { decodeIotxAddress, encodeIotxAddress } from "./iotx.js";
 
 describe.each([
   {

@@ -1,7 +1,7 @@
 import { secp256k1 } from "@noble/curves/secp256k1";
 import { ripemd160 } from "@noble/hashes/ripemd160";
 import { utils } from "@scure/base";
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "./base58";
+import { base58DecodeNoCheck, base58EncodeNoCheck } from "./base58.js";
 
 const eosChecksum = utils.checksum(4, ripemd160);
 

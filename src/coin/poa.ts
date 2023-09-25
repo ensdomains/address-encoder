@@ -1,8 +1,8 @@
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   createHexChecksummedDecoder,
   createHexChecksummedEncoder,
-} from "../utils/hex";
+} from "../utils/hex.js";
 
 const name = "poa";
 const evmChainId = 99;

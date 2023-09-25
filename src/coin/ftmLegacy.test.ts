@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeFtmLegacyAddress, encodeFtmLegacyAddress } from "./ftmLegacy";
+import { decodeFtmLegacyAddress, encodeFtmLegacyAddress } from "./ftmLegacy.js";
 
 describe.each([
   {

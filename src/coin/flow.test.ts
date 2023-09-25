@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeFlowAddress, encodeFlowAddress } from "./flow";
+import { decodeFlowAddress, encodeFlowAddress } from "./flow.js";
 
 describe.each([{ text: "0xf233dcee88fe0abe", hex: "f233dcee88fe0abe" }])(
   "flow address",

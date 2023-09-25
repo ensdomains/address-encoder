@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeMrxAddress, encodeMrxAddress } from "./mrx";
+import { decodeMrxAddress, encodeMrxAddress } from "./mrx.js";
 
 describe.each([
   {

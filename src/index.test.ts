@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { getCoderByCoinName, getCoderByCoinType } from "./index";
+import { getCoderByCoinName, getCoderByCoinType } from "./index.js";
 
 test("coin name", () => {
   const coder = getCoderByCoinName("btc");

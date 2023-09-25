@@ -1,7 +1,7 @@
 import { keccak_256 } from "@noble/hashes/sha3";
-import { Coin } from "../types";
-import { base32Decode, base32Encode } from "../utils/base32";
-import { bytesToHexWithoutPrefix } from "../utils/bytes";
+import type { Coin } from "../types.js";
+import { base32Decode, base32Encode } from "../utils/base32.js";
+import { bytesToHexWithoutPrefix } from "../utils/bytes.js";
 
 const name = "xem";
 const coinType = 43;

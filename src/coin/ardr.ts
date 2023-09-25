@@ -1,4 +1,4 @@
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 
 const name = "ardr";
 const coinType = 16754;

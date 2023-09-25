@@ -1,6 +1,6 @@
-import { Coin } from "../types";
-import { bytesToString, stringToBytes } from "../utils/bytes";
-import { validateNearAddress } from "../utils/near";
+import type { Coin } from "../types.js";
+import { bytesToString, stringToBytes } from "../utils/bytes.js";
+import { validateNearAddress } from "../utils/near.js";
 
 const name = "near";
 const coinType = 397;

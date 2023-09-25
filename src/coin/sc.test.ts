@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeScAddress, encodeScAddress } from "./sc";
+import { decodeScAddress, encodeScAddress } from "./sc.js";
 
 describe.each([
   {

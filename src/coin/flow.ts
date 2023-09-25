@@ -1,6 +1,6 @@
-import { Coin } from "../types";
-import { bytesToHex, hexWithoutPrefixToBytes } from "../utils/bytes";
-import { validateFlowAddress } from "../utils/flow";
+import type { Coin } from "../types.js";
+import { bytesToHex, hexWithoutPrefixToBytes } from "../utils/bytes.js";
+import { validateFlowAddress } from "../utils/flow.js";
 
 const name = "flow";
 const coinType = 539;

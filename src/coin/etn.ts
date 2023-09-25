@@ -1,8 +1,8 @@
 import { keccak_256 } from "@noble/hashes/sha3";
 import { concatBytes } from "@noble/hashes/utils";
 import { utils } from "@scure/base";
-import { Coin } from "../types";
-import { decodeXmrAddress, encodeXmrAddress } from "./xmr";
+import type { Coin } from "../types.js";
+import { decodeXmrAddress, encodeXmrAddress } from "./xmr.js";
 
 const name = "etn";
 const coinType = 415;

@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeSolAddress, encodeSolAddress } from "./sol";
+import { decodeSolAddress, encodeSolAddress } from "./sol.js";
 
 describe.each([
   // The address reportetd by Trust Wallet team that it is having problem.

@@ -1,5 +1,5 @@
-import { Coin } from "../types";
-import { decodeXmrAddress, encodeXmrAddress } from "./xmr";
+import type { Coin } from "../types.js";
+import { decodeXmrAddress, encodeXmrAddress } from "./xmr.js";
 
 const name = "xhv";
 const coinType = 535;

@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeAibAddress, encodeAibAddress } from "./aib";
+import { decodeAibAddress, encodeAibAddress } from "./aib.js";
 
 describe.each([
   {

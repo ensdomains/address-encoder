@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeSteemAddress, encodeSteemAddress } from "./steem";
+import { decodeSteemAddress, encodeSteemAddress } from "./steem.js";
 
 describe.each([
   {

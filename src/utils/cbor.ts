@@ -335,7 +335,7 @@ export function cborEncode<T = any>(value: T): ArrayBuffer {
     return dataView;
   }
 
-  function commitWrite(...args: any[]) {
+  function commitWrite(..._args: any[]) {
     offset += lastLength;
   }
 

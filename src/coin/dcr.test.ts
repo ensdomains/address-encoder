@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeDcrAddress, encodeDcrAddress } from "./dcr";
+import { decodeDcrAddress, encodeDcrAddress } from "./dcr.js";
 
 describe.each([
   {

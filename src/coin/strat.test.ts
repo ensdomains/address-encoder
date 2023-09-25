@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeStratAddress, encodeStratAddress } from "./strat";
+import { decodeStratAddress, encodeStratAddress } from "./strat.js";
 
 describe.each([
   {

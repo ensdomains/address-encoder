@@ -1,5 +1,5 @@
-import { Coin } from "../types";
-import { base64Decode, base64Encode } from "../utils/base64";
+import type { Coin } from "../types.js";
+import { base64Decode, base64Encode } from "../utils/base64.js";
 
 const name = "ar";
 const coinType = 472;

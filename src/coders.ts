@@ -1,167 +1,173 @@
-export { decodeAbbcAddress, encodeAbbcAddress } from "./coin/abbc";
-export { decodeAdaAddress, encodeAdaAddress } from "./coin/ada";
-export { decodeAeAddress, encodeAeAddress } from "./coin/ae";
-export { decodeAibAddress, encodeAibAddress } from "./coin/aib";
-export { decodeAionAddress, encodeAionAddress } from "./coin/aion";
-export { decodeAlgoAddress, encodeAlgoAddress } from "./coin/algo";
-export { decodeArAddress, encodeArAddress } from "./coin/ar";
-export { decodeArb1Address, encodeArb1Address } from "./coin/arb1";
-export { decodeArdrAddress, encodeArdrAddress } from "./coin/ardr";
-export { decodeArkAddress, encodeArkAddress } from "./coin/ark";
-export { decodeAtomAddress, encodeAtomAddress } from "./coin/atom";
-export { decodeAvaxAddress, encodeAvaxAddress } from "./coin/avax";
-export { decodeAvaxcAddress, encodeAvaxcAddress } from "./coin/avaxc";
-export { decodeBcdAddress, encodeBcdAddress } from "./coin/bcd";
-export { decodeBchAddress, encodeBchAddress } from "./coin/bch";
-export { decodeBcnAddress, encodeBcnAddress } from "./coin/bcn";
-export { decodeBdxAddress, encodeBdxAddress } from "./coin/bdx";
-export { decodeBnbAddress, encodeBnbAddress } from "./coin/bnb";
-export { decodeBpsAddress, encodeBpsAddress } from "./coin/bps";
-export { decodeBscAddress, encodeBscAddress } from "./coin/bsc";
-export { decodeBsvAddress, encodeBsvAddress } from "./coin/bsv";
-export { decodeBtcAddress, encodeBtcAddress } from "./coin/btc";
-export { decodeBtgAddress, encodeBtgAddress } from "./coin/btg";
-export { decodeBtmAddress, encodeBtmAddress } from "./coin/btm";
-export { decodeBtsAddress, encodeBtsAddress } from "./coin/bts";
-export { decodeCcaAddress, encodeCcaAddress } from "./coin/cca";
-export { decodeCcxxAddress, encodeCcxxAddress } from "./coin/ccxx";
-export { decodeCeloAddress, encodeCeloAddress } from "./coin/celo";
+export { decodeAbbcAddress, encodeAbbcAddress } from "./coin/abbc.js";
+export { decodeAdaAddress, encodeAdaAddress } from "./coin/ada.js";
+export { decodeAeAddress, encodeAeAddress } from "./coin/ae.js";
+export { decodeAibAddress, encodeAibAddress } from "./coin/aib.js";
+export { decodeAionAddress, encodeAionAddress } from "./coin/aion.js";
+export { decodeAlgoAddress, encodeAlgoAddress } from "./coin/algo.js";
+export { decodeArAddress, encodeArAddress } from "./coin/ar.js";
+export { decodeArb1Address, encodeArb1Address } from "./coin/arb1.js";
+export { decodeArdrAddress, encodeArdrAddress } from "./coin/ardr.js";
+export { decodeArkAddress, encodeArkAddress } from "./coin/ark.js";
+export { decodeAtomAddress, encodeAtomAddress } from "./coin/atom.js";
+export { decodeAvaxAddress, encodeAvaxAddress } from "./coin/avax.js";
+export { decodeAvaxcAddress, encodeAvaxcAddress } from "./coin/avaxc.js";
+export { decodeBcdAddress, encodeBcdAddress } from "./coin/bcd.js";
+export { decodeBchAddress, encodeBchAddress } from "./coin/bch.js";
+export { decodeBcnAddress, encodeBcnAddress } from "./coin/bcn.js";
+export { decodeBdxAddress, encodeBdxAddress } from "./coin/bdx.js";
+export { decodeBnbAddress, encodeBnbAddress } from "./coin/bnb.js";
+export { decodeBpsAddress, encodeBpsAddress } from "./coin/bps.js";
+export { decodeBscAddress, encodeBscAddress } from "./coin/bsc.js";
+export { decodeBsvAddress, encodeBsvAddress } from "./coin/bsv.js";
+export { decodeBtcAddress, encodeBtcAddress } from "./coin/btc.js";
+export { decodeBtgAddress, encodeBtgAddress } from "./coin/btg.js";
+export { decodeBtmAddress, encodeBtmAddress } from "./coin/btm.js";
+export { decodeBtsAddress, encodeBtsAddress } from "./coin/bts.js";
+export { decodeCcaAddress, encodeCcaAddress } from "./coin/cca.js";
+export { decodeCcxxAddress, encodeCcxxAddress } from "./coin/ccxx.js";
+export { decodeCeloAddress, encodeCeloAddress } from "./coin/celo.js";
 export {
   decodeCeloLegacyAddress,
   encodeCeloLegacyAddress,
-} from "./coin/celoLegacy";
-export { decodeCkbAddress, encodeCkbAddress } from "./coin/ckb";
-export { decodeCloAddress, encodeCloAddress } from "./coin/clo";
+} from "./coin/celoLegacy.js";
+export { decodeCkbAddress, encodeCkbAddress } from "./coin/ckb.js";
+export { decodeCloAddress, encodeCloAddress } from "./coin/clo.js";
 export {
   decodeCloLegacyAddress,
   encodeCloLegacyAddress,
-} from "./coin/cloLegacy";
-export { decodeCroAddress, encodeCroAddress } from "./coin/cro";
-export { decodeDashAddress, encodeDashAddress } from "./coin/dash";
-export { decodeDcrAddress, encodeDcrAddress } from "./coin/dcr";
-export { decodeDgbAddress, encodeDgbAddress } from "./coin/dgb";
-export { decodeDiviAddress, encodeDiviAddress } from "./coin/divi";
-export { decodeDogeAddress, encodeDogeAddress } from "./coin/doge";
-export { decodeDotAddress, encodeDotAddress } from "./coin/dot";
-export { decodeEgldAddress, encodeEgldAddress } from "./coin/egld";
-export { decodeElaAddress, encodeElaAddress } from "./coin/ela";
-export { decodeEosAddress, encodeEosAddress } from "./coin/eos";
-export { decodeEtcAddress, encodeEtcAddress } from "./coin/etc";
+} from "./coin/cloLegacy.js";
+export { decodeCroAddress, encodeCroAddress } from "./coin/cro.js";
+export { decodeDashAddress, encodeDashAddress } from "./coin/dash.js";
+export { decodeDcrAddress, encodeDcrAddress } from "./coin/dcr.js";
+export { decodeDgbAddress, encodeDgbAddress } from "./coin/dgb.js";
+export { decodeDiviAddress, encodeDiviAddress } from "./coin/divi.js";
+export { decodeDogeAddress, encodeDogeAddress } from "./coin/doge.js";
+export { decodeDotAddress, encodeDotAddress } from "./coin/dot.js";
+export { decodeEgldAddress, encodeEgldAddress } from "./coin/egld.js";
+export { decodeElaAddress, encodeElaAddress } from "./coin/ela.js";
+export { decodeEosAddress, encodeEosAddress } from "./coin/eos.js";
+export { decodeEtcAddress, encodeEtcAddress } from "./coin/etc.js";
 export {
   decodeEtcLegacyAddress,
   encodeEtcLegacyAddress,
-} from "./coin/etcLegacy";
-export { decodeEthAddress, encodeEthAddress } from "./coin/eth";
-export { decodeEtnAddress, encodeEtnAddress } from "./coin/etn";
-export { decodeEwtAddress, encodeEwtAddress } from "./coin/ewt";
+} from "./coin/etcLegacy.js";
+export { decodeEthAddress, encodeEthAddress } from "./coin/eth.js";
+export { decodeEtnAddress, encodeEtnAddress } from "./coin/etn.js";
+export { decodeEwtAddress, encodeEwtAddress } from "./coin/ewt.js";
 export {
   decodeEwtLegacyAddress,
   encodeEwtLegacyAddress,
-} from "./coin/ewtLegacy";
-export { decodeFilAddress, encodeFilAddress } from "./coin/fil";
-export { decodeFioAddress, encodeFioAddress } from "./coin/fio";
-export { decodeFiroAddress, encodeFiroAddress } from "./coin/firo";
-export { decodeFlowAddress, encodeFlowAddress } from "./coin/flow";
-export { decodeFtmAddress, encodeFtmAddress } from "./coin/ftm";
+} from "./coin/ewtLegacy.js";
+export { decodeFilAddress, encodeFilAddress } from "./coin/fil.js";
+export { decodeFioAddress, encodeFioAddress } from "./coin/fio.js";
+export { decodeFiroAddress, encodeFiroAddress } from "./coin/firo.js";
+export { decodeFlowAddress, encodeFlowAddress } from "./coin/flow.js";
+export { decodeFtmAddress, encodeFtmAddress } from "./coin/ftm.js";
 export {
   decodeFtmLegacyAddress,
   encodeFtmLegacyAddress,
-} from "./coin/ftmLegacy";
-export { decodeGnoAddress, encodeGnoAddress } from "./coin/gno";
+} from "./coin/ftmLegacy.js";
+export { decodeGnoAddress, encodeGnoAddress } from "./coin/gno.js";
 export {
   decodeGnoLegacyAddress,
   encodeGnoLegacyAddress,
-} from "./coin/gnoLegacy";
-export { decodeGoAddress, encodeGoAddress } from "./coin/go";
-export { decodeGoLegacyAddress, encodeGoLegacyAddress } from "./coin/goLegacy";
-export { decodeGrinAddress, encodeGrinAddress } from "./coin/grin";
-export { decodeGxcAddress, encodeGxcAddress } from "./coin/gxc";
-export { decodeHbarAddress, encodeHbarAddress } from "./coin/hbar";
-export { decodeHiveAddress, encodeHiveAddress } from "./coin/hive";
-export { decodeHnsAddress, encodeHnsAddress } from "./coin/hns";
-export { decodeHntAddress, encodeHntAddress } from "./coin/hnt";
-export { decodeIcxAddress, encodeIcxAddress } from "./coin/icx";
-export { decodeIostAddress, encodeIostAddress } from "./coin/iost";
-export { decodeIotaAddress, encodeIotaAddress } from "./coin/iota";
-export { decodeIotxAddress, encodeIotxAddress } from "./coin/iotx";
-export { decodeIrisAddress, encodeIrisAddress } from "./coin/iris";
-export { decodeKavaAddress, encodeKavaAddress } from "./coin/kava";
-export { decodeKmdAddress, encodeKmdAddress } from "./coin/kmd";
-export { decodeKsmAddress, encodeKsmAddress } from "./coin/ksm";
-export { decodeLccAddress, encodeLccAddress } from "./coin/lcc";
-export { decodeLrgAddress, encodeLrgAddress } from "./coin/lrg";
-export { decodeLskAddress, encodeLskAddress } from "./coin/lsk";
-export { decodeLtcAddress, encodeLtcAddress } from "./coin/ltc";
-export { decodeLunaAddress, encodeLunaAddress } from "./coin/luna";
-export { decodeMaticAddress, encodeMaticAddress } from "./coin/matic";
-export { decodeMonaAddress, encodeMonaAddress } from "./coin/mona";
-export { decodeMrxAddress, encodeMrxAddress } from "./coin/mrx";
-export { decodeNanoAddress, encodeNanoAddress } from "./coin/nano";
-export { decodeNasAddress, encodeNasAddress } from "./coin/nas";
-export { decodeNearAddress, encodeNearAddress } from "./coin/near";
-export { decodeNeoAddress, encodeNeoAddress } from "./coin/neo";
-export { decodeNimAddress, encodeNimAddress } from "./coin/nim";
-export { decodeNmcAddress, encodeNmcAddress } from "./coin/nmc";
-export { decodeNostrAddress, encodeNostrAddress } from "./coin/nostr";
-export { decodeNrgAddress, encodeNrgAddress } from "./coin/nrg";
+} from "./coin/gnoLegacy.js";
+export { decodeGoAddress, encodeGoAddress } from "./coin/go.js";
+export {
+  decodeGoLegacyAddress,
+  encodeGoLegacyAddress,
+} from "./coin/goLegacy.js";
+export { decodeGrinAddress, encodeGrinAddress } from "./coin/grin.js";
+export { decodeGxcAddress, encodeGxcAddress } from "./coin/gxc.js";
+export { decodeHbarAddress, encodeHbarAddress } from "./coin/hbar.js";
+export { decodeHiveAddress, encodeHiveAddress } from "./coin/hive.js";
+export { decodeHnsAddress, encodeHnsAddress } from "./coin/hns.js";
+export { decodeHntAddress, encodeHntAddress } from "./coin/hnt.js";
+export { decodeIcxAddress, encodeIcxAddress } from "./coin/icx.js";
+export { decodeIostAddress, encodeIostAddress } from "./coin/iost.js";
+export { decodeIotaAddress, encodeIotaAddress } from "./coin/iota.js";
+export { decodeIotxAddress, encodeIotxAddress } from "./coin/iotx.js";
+export { decodeIrisAddress, encodeIrisAddress } from "./coin/iris.js";
+export { decodeKavaAddress, encodeKavaAddress } from "./coin/kava.js";
+export { decodeKmdAddress, encodeKmdAddress } from "./coin/kmd.js";
+export { decodeKsmAddress, encodeKsmAddress } from "./coin/ksm.js";
+export { decodeLccAddress, encodeLccAddress } from "./coin/lcc.js";
+export { decodeLrgAddress, encodeLrgAddress } from "./coin/lrg.js";
+export { decodeLskAddress, encodeLskAddress } from "./coin/lsk.js";
+export { decodeLtcAddress, encodeLtcAddress } from "./coin/ltc.js";
+export { decodeLunaAddress, encodeLunaAddress } from "./coin/luna.js";
+export { decodeMaticAddress, encodeMaticAddress } from "./coin/matic.js";
+export { decodeMonaAddress, encodeMonaAddress } from "./coin/mona.js";
+export { decodeMrxAddress, encodeMrxAddress } from "./coin/mrx.js";
+export { decodeNanoAddress, encodeNanoAddress } from "./coin/nano.js";
+export { decodeNasAddress, encodeNasAddress } from "./coin/nas.js";
+export { decodeNearAddress, encodeNearAddress } from "./coin/near.js";
+export { decodeNeoAddress, encodeNeoAddress } from "./coin/neo.js";
+export { decodeNimAddress, encodeNimAddress } from "./coin/nim.js";
+export { decodeNmcAddress, encodeNmcAddress } from "./coin/nmc.js";
+export { decodeNostrAddress, encodeNostrAddress } from "./coin/nostr.js";
+export { decodeNrgAddress, encodeNrgAddress } from "./coin/nrg.js";
 export {
   decodeNrgLegacyAddress,
   encodeNrgLegacyAddress,
-} from "./coin/nrgLegacy";
-export { decodeNulsAddress, encodeNulsAddress } from "./coin/nuls";
-export { decodeOneAddress, encodeOneAddress } from "./coin/one";
-export { decodeOntAddress, encodeOntAddress } from "./coin/ont";
-export { decodeOpAddress, encodeOpAddress } from "./coin/op";
-export { decodePoaAddress, encodePoaAddress } from "./coin/poa";
+} from "./coin/nrgLegacy.js";
+export { decodeNulsAddress, encodeNulsAddress } from "./coin/nuls.js";
+export { decodeOneAddress, encodeOneAddress } from "./coin/one.js";
+export { decodeOntAddress, encodeOntAddress } from "./coin/ont.js";
+export { decodeOpAddress, encodeOpAddress } from "./coin/op.js";
+export { decodePoaAddress, encodePoaAddress } from "./coin/poa.js";
 export {
   decodePoaLegacyAddress,
   encodePoaLegacyAddress,
-} from "./coin/poaLegacy";
-export { decodePpcAddress, encodePpcAddress } from "./coin/ppc";
-export { decodeQtumAddress, encodeQtumAddress } from "./coin/qtum";
-export { decodeRddAddress, encodeRddAddress } from "./coin/rdd";
-export { decodeRskAddress, encodeRskAddress } from "./coin/rsk";
-export { decodeRuneAddress, encodeRuneAddress } from "./coin/rune";
-export { decodeRvnAddress, encodeRvnAddress } from "./coin/rvn";
-export { decodeScAddress, encodeScAddress } from "./coin/sc";
-export { decodeSeroAddress, encodeSeroAddress } from "./coin/sero";
-export { decodeSolAddress, encodeSolAddress } from "./coin/sol";
-export { decodeSrmAddress, encodeSrmAddress } from "./coin/srm";
-export { decodeSteemAddress, encodeSteemAddress } from "./coin/steem";
-export { decodeStratAddress, encodeStratAddress } from "./coin/strat";
-export { decodeStrkAddress, encodeStrkAddress } from "./coin/strk";
-export { decodeStxAddress, encodeStxAddress } from "./coin/stx";
-export { decodeSysAddress, encodeSysAddress } from "./coin/sys";
-export { decodeTfuelAddress, encodeTfuelAddress } from "./coin/tfuel";
-export { decodeThetaAddress, encodeThetaAddress } from "./coin/theta";
+} from "./coin/poaLegacy.js";
+export { decodePpcAddress, encodePpcAddress } from "./coin/ppc.js";
+export { decodeQtumAddress, encodeQtumAddress } from "./coin/qtum.js";
+export { decodeRddAddress, encodeRddAddress } from "./coin/rdd.js";
+export { decodeRskAddress, encodeRskAddress } from "./coin/rsk.js";
+export { decodeRuneAddress, encodeRuneAddress } from "./coin/rune.js";
+export { decodeRvnAddress, encodeRvnAddress } from "./coin/rvn.js";
+export { decodeScAddress, encodeScAddress } from "./coin/sc.js";
+export { decodeSeroAddress, encodeSeroAddress } from "./coin/sero.js";
+export { decodeSolAddress, encodeSolAddress } from "./coin/sol.js";
+export { decodeSrmAddress, encodeSrmAddress } from "./coin/srm.js";
+export { decodeSteemAddress, encodeSteemAddress } from "./coin/steem.js";
+export { decodeStratAddress, encodeStratAddress } from "./coin/strat.js";
+export { decodeStrkAddress, encodeStrkAddress } from "./coin/strk.js";
+export { decodeStxAddress, encodeStxAddress } from "./coin/stx.js";
+export { decodeSysAddress, encodeSysAddress } from "./coin/sys.js";
+export { decodeTfuelAddress, encodeTfuelAddress } from "./coin/tfuel.js";
+export { decodeThetaAddress, encodeThetaAddress } from "./coin/theta.js";
 export {
   decodeThetaLegacyAddress,
   encodeThetaLegacyAddress,
-} from "./coin/thetaLegacy";
-export { decodeTomoAddress, encodeTomoAddress } from "./coin/tomo";
+} from "./coin/thetaLegacy.js";
+export { decodeTomoAddress, encodeTomoAddress } from "./coin/tomo.js";
 export {
   decodeTomoLegacyAddress,
   encodeTomoLegacyAddress,
-} from "./coin/tomoLegacy";
-export { decodeTrxAddress, encodeTrxAddress } from "./coin/trx";
-export { decodeTtAddress, encodeTtAddress } from "./coin/tt";
-export { decodeTtLegacyAddress, encodeTtLegacyAddress } from "./coin/ttLegacy";
-export { decodeVetAddress, encodeVetAddress } from "./coin/vet";
-export { decodeViaAddress, encodeViaAddress } from "./coin/via";
-export { decodeVlxAddress, encodeVlxAddress } from "./coin/vlx";
-export { decodeVsysAddress, encodeVsysAddress } from "./coin/vsys";
-export { decodeWanAddress, encodeWanAddress } from "./coin/wan";
-export { decodeWavesAddress, encodeWavesAddress } from "./coin/waves";
-export { decodeWiccAddress, encodeWiccAddress } from "./coin/wicc";
-export { decodeXchAddress, encodeXchAddress } from "./coin/xch";
-export { decodeXemAddress, encodeXemAddress } from "./coin/xem";
-export { decodeXhvAddress, encodeXhvAddress } from "./coin/xhv";
-export { decodeXlmAddress, encodeXlmAddress } from "./coin/xlm";
-export { decodeXmrAddress, encodeXmrAddress } from "./coin/xmr";
-export { decodeXrpAddress, encodeXrpAddress } from "./coin/xrp";
-export { decodeXtzAddress, encodeXtzAddress } from "./coin/xtz";
-export { decodeXvgAddress, encodeXvgAddress } from "./coin/xvg";
-export { decodeZecAddress, encodeZecAddress } from "./coin/zec";
-export { decodeZelAddress, encodeZelAddress } from "./coin/zel";
-export { decodeZenAddress, encodeZenAddress } from "./coin/zen";
-export { decodeZilAddress, encodeZilAddress } from "./coin/zil";
+} from "./coin/tomoLegacy.js";
+export { decodeTrxAddress, encodeTrxAddress } from "./coin/trx.js";
+export { decodeTtAddress, encodeTtAddress } from "./coin/tt.js";
+export {
+  decodeTtLegacyAddress,
+  encodeTtLegacyAddress,
+} from "./coin/ttLegacy.js";
+export { decodeVetAddress, encodeVetAddress } from "./coin/vet.js";
+export { decodeViaAddress, encodeViaAddress } from "./coin/via.js";
+export { decodeVlxAddress, encodeVlxAddress } from "./coin/vlx.js";
+export { decodeVsysAddress, encodeVsysAddress } from "./coin/vsys.js";
+export { decodeWanAddress, encodeWanAddress } from "./coin/wan.js";
+export { decodeWavesAddress, encodeWavesAddress } from "./coin/waves.js";
+export { decodeWiccAddress, encodeWiccAddress } from "./coin/wicc.js";
+export { decodeXchAddress, encodeXchAddress } from "./coin/xch.js";
+export { decodeXemAddress, encodeXemAddress } from "./coin/xem.js";
+export { decodeXhvAddress, encodeXhvAddress } from "./coin/xhv.js";
+export { decodeXlmAddress, encodeXlmAddress } from "./coin/xlm.js";
+export { decodeXmrAddress, encodeXmrAddress } from "./coin/xmr.js";
+export { decodeXrpAddress, encodeXrpAddress } from "./coin/xrp.js";
+export { decodeXtzAddress, encodeXtzAddress } from "./coin/xtz.js";
+export { decodeXvgAddress, encodeXvgAddress } from "./coin/xvg.js";
+export { decodeZecAddress, encodeZecAddress } from "./coin/zec.js";
+export { decodeZelAddress, encodeZelAddress } from "./coin/zel.js";
+export { decodeZenAddress, encodeZenAddress } from "./coin/zen.js";
+export { decodeZilAddress, encodeZilAddress } from "./coin/zil.js";

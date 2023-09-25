@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeGnoLegacyAddress, encodeGnoLegacyAddress } from "./gnoLegacy";
+import { decodeGnoLegacyAddress, encodeGnoLegacyAddress } from "./gnoLegacy.js";
 
 describe.each([
   {

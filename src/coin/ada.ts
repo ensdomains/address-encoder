@@ -1,6 +1,6 @@
-import { Coin } from "../types";
-import { createBech32Decoder, createBech32Encoder } from "../utils/bech32";
-import { byronDecode, byronEncode } from "../utils/byron";
+import type { Coin } from "../types.js";
+import { createBech32Decoder, createBech32Encoder } from "../utils/bech32.js";
+import { byronDecode, byronEncode } from "../utils/byron.js";
 
 const name = "ada";
 const coinType = 1815;

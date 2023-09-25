@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeSrmAddress, encodeSrmAddress } from "./srm";
+import { decodeSrmAddress, encodeSrmAddress } from "./srm.js";
 
 describe.each([
   {

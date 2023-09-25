@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeNasAddress, encodeNasAddress } from "./nas";
+import { decodeNasAddress, encodeNasAddress } from "./nas.js";
 
 describe.each([
   {

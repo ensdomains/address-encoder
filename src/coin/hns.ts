@@ -1,5 +1,5 @@
 import { bech32 } from "bech32";
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 
 const name = "hns";
 const coinType = 5353;

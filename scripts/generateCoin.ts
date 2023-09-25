@@ -1,6 +1,11 @@
 import * as fs from "fs";
 import * as readline from "readline";
-import { evmChainIdToCoinType } from "../src/utils/evm";
+
+const SLIP44_MSB = 0x80000000;
+const evmChainIdToCoinType = (chainId: number) => {
+  if (chainId >= SLIP44_MSB) throw new Error("Invalid chainId");
+  return (SLIP44_MSB | chainId) >>> 0;
+};
 
 const rl = readline.createInterface({
   input: process.stdin,

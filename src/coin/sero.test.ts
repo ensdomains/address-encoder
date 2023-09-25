@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeSeroAddress, encodeSeroAddress } from "./sero";
+import { decodeSeroAddress, encodeSeroAddress } from "./sero.js";
 
 describe.each([
   {

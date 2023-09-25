@@ -1,10 +1,10 @@
 import { blake2b } from "@noble/hashes/blake2b";
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   base32Decode,
   base32Encode,
   createBase32Options,
-} from "../utils/base32";
+} from "../utils/base32.js";
 
 const name = "nano";
 const coinType = 165;

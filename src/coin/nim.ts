@@ -1,9 +1,9 @@
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   base32Decode,
   base32Encode,
   createBase32Options,
-} from "../utils/base32";
+} from "../utils/base32.js";
 
 const name = "nim";
 const coinType = 242;

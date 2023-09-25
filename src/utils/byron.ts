@@ -1,6 +1,6 @@
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "./base58";
-import { TaggedValue, cborDecode, cborEncode } from "./cbor";
-import { crc32 } from "./crc32";
+import { base58DecodeNoCheck, base58EncodeNoCheck } from "./base58.js";
+import { TaggedValue, cborDecode, cborEncode } from "./cbor.js";
+import { crc32 } from "./crc32.js";
 
 export const byronEncode = (source: Uint8Array): string => {
   const checksum = crc32(source);

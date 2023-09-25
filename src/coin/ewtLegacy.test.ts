@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeEwtLegacyAddress, encodeEwtLegacyAddress } from "./ewtLegacy";
+import { decodeEwtLegacyAddress, encodeEwtLegacyAddress } from "./ewtLegacy.js";
 
 describe.each([
   {

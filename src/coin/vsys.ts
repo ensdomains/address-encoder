@@ -1,8 +1,8 @@
 import { blake2b } from "@noble/hashes/blake2b";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { equals } from "uint8arrays";
-import { Coin } from "../types";
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
+import type { Coin } from "../types.js";
+import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58.js";
 
 const name = "vsys";
 const coinType = 360;

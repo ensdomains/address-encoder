@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeRddAddress, encodeRddAddress } from "./rdd";
+import { decodeRddAddress, encodeRddAddress } from "./rdd.js";
 
 describe.each([
   {

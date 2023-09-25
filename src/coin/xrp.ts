@@ -1,10 +1,10 @@
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   base58Checksum,
   base58DecodeNoCheckUnsafe,
   base58EncodeNoCheck,
   createBase58Options,
-} from "../utils/base58";
+} from "../utils/base58.js";
 
 const name = "xrp";
 const coinType = 144;

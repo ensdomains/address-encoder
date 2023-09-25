@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeDiviAddress, encodeDiviAddress } from "./divi";
+import { decodeDiviAddress, encodeDiviAddress } from "./divi.js";
 
 describe.each([
   {

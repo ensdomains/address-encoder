@@ -1,6 +1,6 @@
 import { concatBytes } from "@noble/hashes/utils";
-import { Coin } from "../types";
-import { createBech32Decoder, createBech32Encoder } from "../utils/bech32";
+import type { Coin } from "../types.js";
+import { createBech32Decoder, createBech32Encoder } from "../utils/bech32.js";
 
 const name = "iota";
 const coinType = 4218;

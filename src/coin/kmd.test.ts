@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeKmdAddress, encodeKmdAddress } from "./kmd";
+import { decodeKmdAddress, encodeKmdAddress } from "./kmd.js";
 
 describe.each([
   {

@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeThetaAddress, encodeThetaAddress } from "./theta";
+import { decodeThetaAddress, encodeThetaAddress } from "./theta.js";
 
 describe.each([
   {

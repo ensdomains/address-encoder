@@ -1,12 +1,12 @@
 import { sha256 } from "@noble/hashes/sha256";
 import { concatBytes } from "@noble/hashes/utils";
 import { equals } from "uint8arrays";
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   base32Decode,
   base32Encode,
   crockfordBase32Options,
-} from "../utils/base32";
+} from "../utils/base32.js";
 
 const name = "stx";
 const coinType = 5757;

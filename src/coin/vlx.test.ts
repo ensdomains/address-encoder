@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeVlxAddress, encodeVlxAddress } from "./vlx";
+import { decodeVlxAddress, encodeVlxAddress } from "./vlx.js";
 
 describe.each([
   {

@@ -1,6 +1,6 @@
 import { concatBytes } from "@noble/hashes/utils";
-import { Coin } from "../types";
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58";
+import type { Coin } from "../types.js";
+import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58.js";
 
 const name = "nuls";
 const coinType = 8964;

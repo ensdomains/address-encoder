@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeLskAddress, encodeLskAddress } from "./lsk";
+import { decodeLskAddress, encodeLskAddress } from "./lsk.js";
 
 describe.each([
   { text: "5506432865724830000L", hex: "4c6ac7845d109130" },

@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeZilAddress, encodeZilAddress } from "./zil";
+import { decodeZilAddress, encodeZilAddress } from "./zil.js";
 
 describe.each([
   {

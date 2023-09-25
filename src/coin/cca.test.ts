@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeCcaAddress, encodeCcaAddress } from "./cca";
+import { decodeCcaAddress, encodeCcaAddress } from "./cca.js";
 
 describe.each([
   {

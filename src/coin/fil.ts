@@ -1,13 +1,13 @@
 import { blake2b } from "@noble/hashes/blake2b";
 import { concatBytes } from "@noble/hashes/utils";
 import { equals } from "uint8arrays";
-import { Coin } from "../types";
+import type { Coin } from "../types.js";
 import {
   base32Decode,
   base32Encode,
   unpaddedBase32Options,
-} from "../utils/base32";
-import { decodeLeb128, encodeLeb128 } from "../utils/leb128";
+} from "../utils/base32.js";
+import { decodeLeb128, encodeLeb128 } from "../utils/leb128.js";
 
 const name = "fil";
 const coinType = 461;
