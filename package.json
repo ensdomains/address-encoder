@@ -68,8 +68,7 @@
     "build:esm": "tsc --project tsconfig.build.json --module es2022 --outDir ./dist/esm && echo > ./dist/esm/package.json '{\"type\":\"module\",\"sideEffects\":false}'",
     "build:types": "tsc --project tsconfig.build.json --module esnext --declarationDir ./dist/types --emitDeclarationOnly --declaration --declarationMap",
     "build": "bun run clean && bun run build:cjs && bun run build:esm && bun run build:types",
-    "prepublish": "bun run build",
-    "prepublishOnly": "bun ./scripts/prepublishOnly.ts"
+    "generatePublishStructure": "bun ./scripts/prepublishOnly.ts"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.2",
