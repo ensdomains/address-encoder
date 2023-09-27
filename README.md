@@ -2,6 +2,14 @@
 
 A cryptocurrency address encoder/decoder in TypeScript
 
+Text-format addresses are decoded into their native binary representations, and vice-versa. In the case of Bitcoin-derived chains, this means their scriptPubKey; for Ethereum-derived chains this is their hash.
+
+This library was written for use with [EIP 2304](https://eips.ethereum.org/EIPS/eip-2304), but may be useful for anyone looking for a general purpose cryptocurrency address codec.
+
+EVM compatible chains are either specified using SLIP44 coinType or `0x80000000 | chainId` where 0x80000000 is msb (most significant bit) reserved at SLIP44 and no coin types exist in that range. This is to avoid number colision with th existing coin types.
+
+Please read [the specification page for the more detail](https://docs.ens.domains/ens-improvement-proposals/ensip-11-evmchain-address-resolution#specification)
+
 ## Installation
 
 ```bash
