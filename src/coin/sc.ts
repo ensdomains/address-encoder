@@ -1,6 +1,6 @@
+import { equalBytes } from "@noble/curves/abstract/utils";
 import { blake2b } from "@noble/hashes/blake2b";
 import { concatBytes } from "@noble/hashes/utils";
-import { equals } from "uint8arrays";
 import type { Coin } from "../types.js";
 import {
   bytesToHexWithoutPrefix,
@@ -28,7 +28,7 @@ export const decodeScAddress = (source: string): Uint8Array => {
   const checksum = decoded.slice(-checksumLength);
   const newChecksum = scChecksum(payload);
 
-  if (!equals(checksum, newChecksum))
+  if (!equalBytes(checksum, newChecksum))
     throw new Error("Unrecognised address format");
 
   return payload;

@@ -1,4 +1,4 @@
-import { equals } from "uint8arrays/equals";
+import { equalBytes } from "@noble/curves/abstract/utils";
 import type { Coin } from "../types.js";
 import { base58Decode, base58Encode } from "../utils/base58.js";
 
@@ -15,7 +15,7 @@ const validPrefixes = [
 
 export const encodeZenAddress = (source: Uint8Array): string => {
   const prefix = source.slice(0, 2);
-  if (!validPrefixes.some((x) => equals(x, prefix)))
+  if (!validPrefixes.some((x) => equalBytes(x, prefix)))
     throw new Error("Invalid prefix");
 
   return base58Encode(source);
@@ -24,7 +24,7 @@ export const decodeZenAddress = (source: string): Uint8Array => {
   const decoded = base58Decode(source);
   const prefix = decoded.slice(0, 2);
 
-  if (!validPrefixes.some((x) => equals(x, prefix)))
+  if (!validPrefixes.some((x) => equalBytes(x, prefix)))
     throw new Error("Invalid prefix");
 
   return decoded;

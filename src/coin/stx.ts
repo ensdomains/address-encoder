@@ -1,6 +1,6 @@
+import { equalBytes } from "@noble/curves/abstract/utils";
 import { sha256 } from "@noble/hashes/sha256";
 import { concatBytes } from "@noble/hashes/utils";
-import { equals } from "uint8arrays";
 import type { Coin } from "../types.js";
 import {
   base32Decode,
@@ -29,10 +29,12 @@ export const encodeStxAddress = (source: Uint8Array): string => {
   let version: string;
   let encoded: string;
 
-  if (equals(checksum, stxChecksum(concatBytes(p2pkhVersion, hash160)))) {
+  if (equalBytes(checksum, stxChecksum(concatBytes(p2pkhVersion, hash160)))) {
     version = "P";
     encoded = base32Encode(source, crockfordBase32Options);
-  } else if (equals(checksum, stxChecksum(concatBytes(p2shVersion, hash160)))) {
+  } else if (
+    equalBytes(checksum, stxChecksum(concatBytes(p2shVersion, hash160)))
+  ) {
     version = "M";
     encoded = base32Encode(source, crockfordBase32Options);
   } else throw new Error("Unrecognised address format");
@@ -56,7 +58,7 @@ export const decodeStxAddress = (source: string): Uint8Array => {
   const checksum = payload.slice(-checkumLength);
   const newChecksum = stxChecksum(concatBytes(versionBytes, decoded));
 
-  if (!equals(checksum, newChecksum))
+  if (!equalBytes(checksum, newChecksum))
     throw new Error("Unrecognised address format");
 
   return payload;

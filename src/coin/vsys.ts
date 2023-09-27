@@ -1,6 +1,6 @@
+import { equalBytes } from "@noble/curves/abstract/utils";
 import { blake2b } from "@noble/hashes/blake2b";
 import { keccak_256 } from "@noble/hashes/sha3";
-import { equals } from "uint8arrays";
 import type { Coin } from "../types.js";
 import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58.js";
 
@@ -15,7 +15,7 @@ const vsysChecksum = (source: Uint8Array): boolean => {
   const newChecksum = keccak_256(
     blake2b(source.slice(0, -4), { dkLen: 32 })
   ).slice(0, 4);
-  if (!equals(checksum, newChecksum)) return false;
+  if (!equalBytes(checksum, newChecksum)) return false;
   return true;
 };
 

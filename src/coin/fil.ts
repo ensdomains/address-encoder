@@ -1,6 +1,6 @@
+import { equalBytes } from "@noble/curves/abstract/utils";
 import { blake2b } from "@noble/hashes/blake2b";
 import { concatBytes } from "@noble/hashes/utils";
-import { equals } from "uint8arrays";
 import type { Coin } from "../types.js";
 import {
   base32Decode,
@@ -65,7 +65,7 @@ export const decodeFilAddress = (source: string): Uint8Array => {
   const decoded = concatBytes(protocolByte, payload);
 
   const newChecksum = filChecksum(decoded);
-  if (!equals(checksum, newChecksum))
+  if (!equalBytes(checksum, newChecksum))
     throw new Error("Unrecognised address format");
 
   return decoded;

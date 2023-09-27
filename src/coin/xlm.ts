@@ -1,5 +1,5 @@
+import { equalBytes } from "@noble/curves/abstract/utils";
 import { concatBytes } from "@noble/hashes/utils";
-import { equals } from "uint8arrays";
 import type { Coin } from "../types.js";
 import { base32Decode, base32Encode } from "../utils/base32.js";
 import { hexWithoutPrefixToBytes } from "../utils/bytes.js";
@@ -48,7 +48,7 @@ export const decodeXlmAddress = (source: string): Uint8Array => {
     throw new Error("Unrecognised address format");
 
   const newChecksum = xlmChecksum(payload);
-  if (!equals(checksum, newChecksum))
+  if (!equalBytes(checksum, newChecksum))
     throw new Error("Unrecognised address format");
 
   return output;

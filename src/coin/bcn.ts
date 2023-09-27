@@ -1,7 +1,7 @@
+import { equalBytes } from "@noble/curves/abstract/utils";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { concatBytes } from "@noble/hashes/utils";
 import { utils } from "@scure/base";
-import { equals } from "uint8arrays";
 import type { Coin } from "../types.js";
 import { decodeXmrAddress, encodeXmrAddress } from "./xmr.js";
 
@@ -21,8 +21,8 @@ export const decodeBcnAddress = (source: string): Uint8Array => {
 
   if (
     decoded.length < 68 ||
-    (!equals(tag, new Uint8Array([0x06])) &&
-      !equals(tag, new Uint8Array([0xce, 0xf6, 0x22])))
+    (!equalBytes(tag, new Uint8Array([0x06])) &&
+      !equalBytes(tag, new Uint8Array([0xce, 0xf6, 0x22])))
   )
     throw new Error("Unrecognised address format");
 

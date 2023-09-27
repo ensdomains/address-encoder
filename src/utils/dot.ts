@@ -1,6 +1,6 @@
+import { equalBytes } from "@noble/curves/abstract/utils";
 import { blake2b } from "@noble/hashes/blake2b";
 import { concatBytes } from "@noble/hashes/utils";
-import { equals } from "uint8arrays";
 import { base58DecodeNoCheck, base58EncodeNoCheck } from "./base58.js";
 
 const prefixStringBytes = new Uint8Array([
@@ -27,7 +27,7 @@ export const createDotAddressDecoder =
 
     const checksum = decoded.slice(33, 35);
     const newChecksum = dotChecksum(decoded.slice(0, 33));
-    if (!equals(checksum, newChecksum))
+    if (!equalBytes(checksum, newChecksum))
       throw new Error("Unrecognized address format");
 
     return decoded.slice(1, 33);
