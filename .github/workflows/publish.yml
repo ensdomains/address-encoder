@@ -31,10 +31,7 @@ jobs:
           git config --local user.name 'github-actions[bot]'
 
       - name: Bump version to ${{ github.event.release.tag_name }}
-        run: |
-          npm version ${{ github.event.release.tag_name }}
-          git add .
-          git commit -m "${{ github.event.release.tag_name }}"
+        run: npm version ${{ github.event.release.tag_name }}
 
       - name: Build
         run: bun run build
