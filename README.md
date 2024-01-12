@@ -1,4 +1,4 @@
-# address-encoder
+ # address-encoder
 
 This typescript library encodes and decodes address formats for various cryptocurrencies.
 
