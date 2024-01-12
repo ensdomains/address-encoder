@@ -1,4 +1,4 @@
-import { bech32 } from "bech32";
+import { bech32 } from "@scure/base";
 import type { Coin } from "../types.js";
 
 const name = "hns";
