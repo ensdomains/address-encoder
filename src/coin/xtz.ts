@@ -1,6 +1,6 @@
 import { concatBytes } from "@noble/hashes/utils";
 import type { Coin } from "../types.js";
-import { base58Decode, base58Encode } from "../utils/base58.js";
+import { base58CheckDecode, base58CheckEncode } from "../utils/base58.js";
 
 const name = "xtz";
 const coinType = 1729;
@@ -22,10 +22,10 @@ export const encodeXtzAddress = (source: Uint8Array): string => {
     else if (source[1] === 0x02)
       prefix = new Uint8Array([0x06, 0xa1, 0xa4]); // prefix tz3 equal 06a1a4
     else throw new Error("Unrecognised address format");
-    return base58Encode(concatBytes(prefix, source.slice(2)));
+    return base58CheckEncode(concatBytes(prefix, source.slice(2)));
   }
   if (version === 1) {
-    return base58Encode(
+    return base58CheckEncode(
       concatBytes(
         new Uint8Array([0x02, 0x5a, 0x79]) /* prefix KT1 equal 025a79 */,
         source.slice(1, 21)
@@ -35,7 +35,7 @@ export const encodeXtzAddress = (source: Uint8Array): string => {
   throw new Error("Unrecognised address format");
 };
 export const decodeXtzAddress = (source: string): Uint8Array => {
-  const decoded = base58Decode(source).slice(3);
+  const decoded = base58CheckDecode(source).slice(3);
 
   const prefix = source.slice(0, 3);
   if (prefix === "tz1")

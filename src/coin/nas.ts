@@ -1,7 +1,10 @@
 import { sha3_256 } from "@noble/hashes/sha3";
 import { utils } from "@scure/base";
 import type { Coin } from "../types.js";
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58.js";
+import {
+  base58UncheckedDecode,
+  base58UncheckedEncode,
+} from "../utils/base58.js";
 
 const name = "nas";
 const coinType = 2718;
@@ -10,10 +13,10 @@ const nasChecksum = utils.checksum(4, sha3_256);
 
 export const encodeNasAddress = (source: Uint8Array): string => {
   const checksummed = nasChecksum.encode(source);
-  return base58EncodeNoCheck(checksummed);
+  return base58UncheckedEncode(checksummed);
 };
 export const decodeNasAddress = (source: string): Uint8Array => {
-  const decoded = base58DecodeNoCheck(source);
+  const decoded = base58UncheckedDecode(source);
 
   if (
     decoded.length !== 26 ||

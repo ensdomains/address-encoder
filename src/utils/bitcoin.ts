@@ -1,6 +1,6 @@
 import {
-  createBase58WithCheckDecoder,
-  createBase58WithCheckEncoder,
+  createBase58VersionedDecoder,
+  createBase58VersionedEncoder,
   type Base58CheckVersion,
 } from "./base58.js";
 import {
@@ -20,7 +20,7 @@ export const createBitcoinDecoder = ({
   p2shVersions,
 }: BitcoinCoderParameters) => {
   const decodeBech32 = createBech32SegwitDecoder(hrp);
-  const decodeBase58 = createBase58WithCheckDecoder(
+  const decodeBase58 = createBase58VersionedDecoder(
     p2pkhVersions,
     p2shVersions
   );
@@ -38,7 +38,7 @@ export const createBitcoinEncoder = ({
   p2shVersions,
 }: BitcoinCoderParameters) => {
   const encodeBech32 = createBech32SegwitEncoder(hrp);
-  const encodeBase58 = createBase58WithCheckEncoder(
+  const encodeBase58 = createBase58VersionedEncoder(
     p2pkhVersions[0],
     p2shVersions[0]
   );

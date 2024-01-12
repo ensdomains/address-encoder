@@ -1,4 +1,4 @@
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "./base58.js";
+import { base58UncheckedDecode, base58UncheckedEncode } from "./base58.js";
 import { TaggedValue, cborDecode, cborEncode } from "./cbor.js";
 import { crc32 } from "./crc32.js";
 
@@ -8,7 +8,7 @@ export const byronEncode = (source: Uint8Array): string => {
 
   const cborEncodedAddress = cborEncode([taggedValue, checksum]);
 
-  const address = base58EncodeNoCheck(new Uint8Array(cborEncodedAddress));
+  const address = base58UncheckedEncode(new Uint8Array(cborEncodedAddress));
 
   if (!address.startsWith("Ae2") && !address.startsWith("Ddz"))
     throw new Error("Unrecognised address format");
@@ -17,7 +17,7 @@ export const byronEncode = (source: Uint8Array): string => {
 };
 
 export const byronDecode = (source: string): Uint8Array => {
-  const bytes = base58DecodeNoCheck(source);
+  const bytes = base58UncheckedDecode(source);
 
   const cborDecoded = cborDecode(bytes.buffer);
 

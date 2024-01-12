@@ -1,16 +1,8 @@
+import { utils } from "@scure/base";
 import type { Coin } from "../types.js";
-import {
-  base32Decode,
-  base32Encode,
-  createBase32Options,
-} from "../utils/base32.js";
 
 const name = "nim";
 const coinType = 242;
-
-const nimBase32Options = createBase32Options({
-  alphabet: "0123456789ABCDEFGHJKLMNPQRSTUVXY",
-});
 
 const CCODE = "NQ";
 
@@ -41,8 +33,15 @@ const nimChecksum = (source: string): string => {
   return ("00" + (98 - ibanCheck(source + CCODE + "00"))).slice(-2);
 };
 
+const base32Nim = utils.chain(
+  utils.radix2(5),
+  utils.alphabet("0123456789ABCDEFGHJKLMNPQRSTUVXY"),
+  utils.padding(5),
+  utils.join("")
+);
+
 export const encodeNimAddress = (source: Uint8Array): string => {
-  const base32Part = base32Encode(source, nimBase32Options);
+  const base32Part = base32Nim.encode(source);
   const checksummed = nimChecksum(base32Part);
   return `${CCODE}${checksummed}${base32Part}`.replace(/.{4}/g, "$& ").trim();
 };
@@ -56,7 +55,7 @@ export const decodeNimAddress = (source: string): Uint8Array => {
   if (checksum !== nimChecksum(base32Part))
     throw new Error("Unrecognised address format");
 
-  return base32Decode(base32Part, nimBase32Options);
+  return base32Nim.decode(base32Part);
 };
 
 export const nim = {

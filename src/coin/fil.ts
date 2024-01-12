@@ -2,11 +2,7 @@ import { equalBytes } from "@noble/curves/abstract/utils";
 import { blake2b } from "@noble/hashes/blake2b";
 import { concatBytes } from "@noble/hashes/utils";
 import type { Coin } from "../types.js";
-import {
-  base32Decode,
-  base32Encode,
-  unpaddedBase32Options,
-} from "../utils/base32.js";
+import { base32UnpaddedDecode, base32UnpaddedEncode } from "../utils/base32.js";
 import { decodeLeb128, encodeLeb128 } from "../utils/leb128.js";
 
 const name = "fil";
@@ -41,7 +37,7 @@ export const encodeFilAddress = (source: Uint8Array): string => {
   }
   const checksum = blake2b(source, { dkLen: 4 });
   const bytes = concatBytes(payload, checksum);
-  const decoded = base32Encode(bytes, unpaddedBase32Options).toLowerCase();
+  const decoded = base32UnpaddedEncode(bytes).toLowerCase();
   return `f${protocol}${decoded}`;
 };
 export const decodeFilAddress = (source: string): Uint8Array => {
@@ -56,10 +52,7 @@ export const decodeFilAddress = (source: string): Uint8Array => {
     return concatBytes(protocolByte, encodeLeb128(BigInt(encoded)));
   }
 
-  const payloadWithChecksum = base32Decode(
-    encoded.toUpperCase(),
-    unpaddedBase32Options
-  );
+  const payloadWithChecksum = base32UnpaddedDecode(encoded.toUpperCase());
   const payload = payloadWithChecksum.slice(0, -4);
   const checksum = payloadWithChecksum.slice(-4);
   const decoded = concatBytes(protocolByte, payload);

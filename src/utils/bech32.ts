@@ -1,5 +1,7 @@
 import { concatBytes } from "@noble/hashes/utils";
-import { bech32, bech32m, type BechLib } from "bech32";
+import { bech32, bech32m } from "@scure/base";
+
+type BechLib = typeof bech32 | typeof bech32m;
 
 type Bech32Parameters = {
   bechLib: BechLib;

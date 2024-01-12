@@ -1,25 +1,19 @@
 export {
+  base32CrockfordNormalise,
   base32Decode,
   base32Encode,
-  createBase32Options,
-  crockfordBase32Options,
-  unpaddedBase32Options,
-  type Base32Options,
+  base32UnpaddedDecode,
+  base32UnpaddedEncode,
 } from "./base32.js";
 export {
-  base58Checksum,
-  base58Decode,
-  base58DecodeNoCheck,
-  base58DecodeNoCheckUnsafe,
-  base58Encode,
-  base58EncodeNoCheck,
-  createBase58Options,
-  createBase58WithCheckDecoder,
-  createBase58WithCheckEncoder,
+  base58CheckDecode,
+  base58CheckEncode,
+  base58UncheckedDecode,
+  base58UncheckedEncode,
+  createBase58VersionedDecoder,
+  createBase58VersionedEncoder,
   type Base58CheckVersion,
-  type Base58Options,
 } from "./base58.js";
-export { base64Decode, base64Encode } from "./base64.js";
 export {
   decodeBchAddressToTypeAndHash,
   encodeBchAddressWithVersion,

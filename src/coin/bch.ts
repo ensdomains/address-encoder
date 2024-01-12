@@ -1,6 +1,6 @@
 import { concatBytes } from "@noble/hashes/utils";
 import type { Coin } from "../types.js";
-import { createBase58WithCheckDecoder } from "../utils/base58.js";
+import { createBase58VersionedDecoder } from "../utils/base58.js";
 import {
   decodeBchAddressToTypeAndHash,
   encodeBchAddressWithVersion,
@@ -12,7 +12,7 @@ const coinType = 145;
 const p2pkhVersions = [new Uint8Array([0x00])];
 const p2shVersions = [new Uint8Array([0x05])];
 
-const bchBase58Decode = createBase58WithCheckDecoder(
+const bchBase58Decode = createBase58VersionedDecoder(
   p2pkhVersions,
   p2shVersions
 );

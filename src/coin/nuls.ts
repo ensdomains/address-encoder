@@ -1,6 +1,9 @@
 import { concatBytes } from "@noble/hashes/utils";
 import type { Coin } from "../types.js";
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58.js";
+import {
+  base58UncheckedDecode,
+  base58UncheckedEncode,
+} from "../utils/base58.js";
 
 const name = "nuls";
 const coinType = 8964;
@@ -38,11 +41,11 @@ export const encodeNulsAddress = (source: Uint8Array): string => {
       new Uint8Array([0xff & (chainId >> 0)]),
       new Uint8Array([0xff & (chainId >> 8)])
     );
-    prefix = base58EncodeNoCheck(chainIdBytes).toUpperCase();
+    prefix = base58UncheckedEncode(chainIdBytes).toUpperCase();
   }
 
   return (
-    prefix + prefixReference[prefix.length - 1] + base58EncodeNoCheck(payload)
+    prefix + prefixReference[prefix.length - 1] + base58UncheckedEncode(payload)
   );
 };
 export const decodeNulsAddress = (source: string): Uint8Array => {
@@ -51,7 +54,7 @@ export const decodeNulsAddress = (source: string): Uint8Array => {
   else if (source.startsWith("tNULS")) sourceWithoutPrefix = source.slice(6);
   else sourceWithoutPrefix = decodePrefix(source);
 
-  const payload = base58DecodeNoCheck(sourceWithoutPrefix);
+  const payload = base58UncheckedDecode(sourceWithoutPrefix);
 
   let xor = 0x00;
   for (let i = 0; i < payload.length - 1; i++) {

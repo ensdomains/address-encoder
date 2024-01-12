@@ -1,16 +1,16 @@
 import { concatBytes } from "@noble/hashes/utils";
 import type { Coin } from "../types.js";
-import { base58Decode, base58Encode } from "../utils/base58.js";
+import { base58CheckDecode, base58CheckEncode } from "../utils/base58.js";
 
 const name = "hnt";
 const coinType = 904;
 
 export const encodeHntAddress = (source: Uint8Array): string => {
   const sourceWithVersion = concatBytes(new Uint8Array([0x00]), source);
-  return base58Encode(sourceWithVersion);
+  return base58CheckEncode(sourceWithVersion);
 };
 export const decodeHntAddress = (source: string): Uint8Array => {
-  const decoded = base58Decode(source);
+  const decoded = base58CheckDecode(source);
 
   const version = decoded[0];
   if (version !== 0) throw new Error("Unrecognised address format");

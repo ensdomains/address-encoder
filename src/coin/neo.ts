@@ -1,11 +1,11 @@
 import type { Coin } from "../types.js";
-import { base58Decode, base58Encode } from "../utils/base58.js";
+import { base58CheckDecode, base58CheckEncode } from "../utils/base58.js";
 
 const name = "neo";
 const coinType = 239;
 
-export const encodeNeoAddress = base58Encode;
-export const decodeNeoAddress = base58Decode;
+export const encodeNeoAddress = base58CheckEncode;
+export const decodeNeoAddress = base58CheckDecode;
 
 export const neo = {
   name,

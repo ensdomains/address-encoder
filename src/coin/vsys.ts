@@ -2,7 +2,10 @@ import { equalBytes } from "@noble/curves/abstract/utils";
 import { blake2b } from "@noble/hashes/blake2b";
 import { keccak_256 } from "@noble/hashes/sha3";
 import type { Coin } from "../types.js";
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58.js";
+import {
+  base58UncheckedDecode,
+  base58UncheckedEncode,
+} from "../utils/base58.js";
 
 const name = "vsys";
 const coinType = 360;
@@ -21,13 +24,13 @@ const vsysChecksum = (source: Uint8Array): boolean => {
 
 export const encodeVsysAddress = (source: Uint8Array): string => {
   if (!vsysChecksum(source)) throw new Error("Unrecognised address format");
-  return base58EncodeNoCheck(source);
+  return base58UncheckedEncode(source);
 };
 export const decodeVsysAddress = (source: string): Uint8Array => {
   const encoded = source.startsWith("address:") ? source.slice(8) : source;
   if (encoded.length > 36) throw new Error("Unrecognised address format");
 
-  const decoded = base58DecodeNoCheck(encoded);
+  const decoded = base58UncheckedDecode(encoded);
   if (!vsysChecksum(decoded)) throw new Error("Unrecognised address format");
 
   return decoded;

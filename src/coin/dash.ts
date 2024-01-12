@@ -1,7 +1,7 @@
 import type { Coin } from "../types.js";
 import {
-  createBase58WithCheckDecoder,
-  createBase58WithCheckEncoder,
+  createBase58VersionedDecoder,
+  createBase58VersionedEncoder,
 } from "../utils/base58.js";
 
 const name = "dash";
@@ -10,11 +10,11 @@ const coinType = 5;
 const p2pkhVersions = [new Uint8Array([0x4c])];
 const p2shVersions = [new Uint8Array([0x10])];
 
-export const encodeDashAddress = createBase58WithCheckEncoder(
+export const encodeDashAddress = createBase58VersionedEncoder(
   p2pkhVersions[0],
   p2shVersions[0]
 );
-export const decodeDashAddress = createBase58WithCheckDecoder(
+export const decodeDashAddress = createBase58VersionedDecoder(
   p2pkhVersions,
   p2shVersions
 );

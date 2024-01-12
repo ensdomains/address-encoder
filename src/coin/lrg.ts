@@ -1,7 +1,7 @@
 import type { Coin } from "../types.js";
 import {
-  createBase58WithCheckDecoder,
-  createBase58WithCheckEncoder,
+  createBase58VersionedDecoder,
+  createBase58VersionedEncoder,
 } from "../utils/base58.js";
 
 const name = "lrg";
@@ -10,11 +10,11 @@ const coinType = 568;
 const p2pkhVersions = [new Uint8Array([0x1e])];
 const p2shVersions = [new Uint8Array([0x0d])];
 
-export const encodeLrgAddress = createBase58WithCheckEncoder(
+export const encodeLrgAddress = createBase58VersionedEncoder(
   p2pkhVersions[0],
   p2shVersions[0]
 );
-export const decodeLrgAddress = createBase58WithCheckDecoder(
+export const decodeLrgAddress = createBase58VersionedDecoder(
   p2pkhVersions,
   p2shVersions
 );

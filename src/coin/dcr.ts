@@ -1,11 +1,14 @@
 import type { Coin } from "../types.js";
-import { base58DecodeNoCheck, base58EncodeNoCheck } from "../utils/base58.js";
+import {
+  base58UncheckedDecode,
+  base58UncheckedEncode,
+} from "../utils/base58.js";
 
 const name = "dcr";
 const coinType = 42;
 
-export const encodeDcrAddress = base58EncodeNoCheck;
-export const decodeDcrAddress = base58DecodeNoCheck;
+export const encodeDcrAddress = base58UncheckedEncode;
+export const decodeDcrAddress = base58UncheckedDecode;
 
 export const dcr = {
   name,
