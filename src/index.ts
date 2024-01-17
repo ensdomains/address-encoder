@@ -1,51 +1,74 @@
 import * as formats from "./coins.js";
-import { coinTypeMap } from "./consts/coinTypeMap.js";
+import { coinNameToTypeMap, coinTypeToNameMap } from "./consts/coinTypeMap.js";
 import type {
   Coin,
   CoinName,
   CoinType,
-  CoinTypeInvertedReference,
   DecoderFunction,
   EncoderFunction,
-  Formats,
+  EvmCoinName,
+  EvmCoinType,
+  GetCoderByCoinName,
+  GetCoderByCoinType,
 } from "./types.js";
+import { SLIP44_MSB, coinTypeToEvmChainId } from "./utils/evm.js";
 
 export type {
   Coin,
   CoinName,
   CoinType,
-  CoinTypeInvertedReference,
   DecoderFunction,
   EncoderFunction,
-  Formats,
+  EvmCoinName,
+  EvmCoinType,
 };
 
 export const getCoderByCoinName = <
-  TCoinName extends CoinName | string = string
+  TCoinName extends CoinName | string = CoinName | string
 >(
   name: TCoinName
-): TCoinName extends CoinName ? Formats[TCoinName] : Coin => {
+): GetCoderByCoinName<TCoinName> => {
   const format = formats[name as keyof typeof formats];
   if (!format) {
-    throw new Error(`Unsupported coin: ${name}`);
+    // EVM coin
+    const coinType = coinNameToTypeMap[name as EvmCoinName];
+    if (!coinType) throw new Error(`Unsupported coin: ${name}`);
+
+    const evmChainId = coinTypeToEvmChainId(coinType);
+    const ethFormat = formats["eth"];
+    return {
+      name: name as EvmCoinName,
+      coinType,
+      evmChainId,
+      encode: ethFormat.encode,
+      decode: ethFormat.decode,
+    } as GetCoderByCoinName<TCoinName>;
   }
-  return format as TCoinName extends CoinName ? Formats[TCoinName] : Coin;
+  return format as GetCoderByCoinName<TCoinName>;
 };
 
 export const getCoderByCoinType = <
-  TCoinType extends CoinType | number = number
+  TCoinType extends CoinType | number = CoinType | number
 >(
   coinType: TCoinType
-): TCoinType extends CoinType ? CoinTypeInvertedReference[TCoinType] : Coin => {
-  const name = coinTypeMap[String(coinType) as keyof typeof coinTypeMap];
+): GetCoderByCoinType<TCoinType> => {
+  const name =
+    coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap];
   if (!name) {
     throw new Error(`Unsupported coin type: ${coinType}`);
   }
-  const format = formats[name];
-  if (!format) {
-    throw new Error(`Unsupported coin type: ${coinType}`);
+  if (coinType >= SLIP44_MSB) {
+    // EVM coin
+    const evmChainId = coinTypeToEvmChainId(coinType);
+    const ethFormat = formats["eth"];
+    return {
+      name,
+      coinType: coinType as EvmCoinType,
+      evmChainId,
+      encode: ethFormat.encode,
+      decode: ethFormat.decode,
+    } as GetCoderByCoinType<TCoinType>;
   }
-  return format as TCoinType extends CoinType
-    ? CoinTypeInvertedReference[TCoinType]
-    : Coin;
+  const format = formats[name as keyof typeof formats];
+  return format as GetCoderByCoinType<TCoinType>;
 };

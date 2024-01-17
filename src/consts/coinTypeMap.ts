@@ -1,4 +1,6 @@
-export const coinTypeMap = Object.freeze({
+import type { ParseInt } from "../types.js";
+
+export const coinTypeToNameMap = Object.freeze({
   "0": "btc",
   "2": "ltc",
   "3": "doge",
@@ -118,22 +120,31 @@ export const coinTypeMap = Object.freeze({
   "99999": "wicc",
   "5718350": "wan",
   "5741564": "waves",
-  "2147483658": "op",
-  "2147483673": "cro",
-  "2147483704": "bsc",
-  "2147483708": "go",
-  "2147483709": "etc",
-  "2147483736": "tomo",
-  "2147483747": "poa",
-  "2147483748": "gno",
-  "2147483756": "tt",
-  "2147483785": "matic",
-  "2147483894": "ewt",
-  "2147483898": "ftm",
-  "2147484009": "theta",
-  "2147484468": "clo",
-  "2147523445": "nrg",
-  "2147525809": "arb1",
-  "2147525868": "celo",
-  "2147526762": "avaxc",
+  // EVM Coin Types
+  "2147483658": "op", // Chain ID: 10
+  "2147483673": "cro", // Chain ID: 25
+  "2147483704": "bsc", // Chain ID: 56
+  "2147483708": "go", // Chain ID: 60
+  "2147483709": "etc", // Chain ID: 61
+  "2147483736": "tomo", // Chain ID: 88
+  "2147483747": "poa", // Chain ID: 99
+  "2147483748": "gno", // Chain ID: 100
+  "2147483756": "tt", // Chain ID: 108
+  "2147483785": "matic", // Chain ID: 137
+  "2147483894": "ewt", // Chain ID: 246
+  "2147483898": "ftm", // Chain ID: 250
+  "2147484009": "theta", // Chain ID: 361
+  "2147484468": "clo", // Chain ID: 820
+  "2147523445": "nrg", // Chain ID: 39797
+  "2147525809": "arb1", // Chain ID: 42161
+  "2147525868": "celo", // Chain ID: 42220
+  "2147526762": "avaxc", // Chain ID: 43114
 } as const);
+
+export const coinNameToTypeMap = Object.freeze(
+  Object.fromEntries(
+    Object.entries(coinTypeToNameMap).map(([k, v]) => [v, parseInt(k)])
+  ) as {
+    readonly [key in keyof typeof coinTypeToNameMap as (typeof coinTypeToNameMap)[key]]: ParseInt<key>;
+  }
+);
