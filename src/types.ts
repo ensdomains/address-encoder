@@ -1,5 +1,5 @@
 import type { Subtract } from "ts-arithmetic";
-import * as formats from "./coins.js";
+import type * as formats from "./coins.js";
 import type {
   coinNameToTypeMap,
   evmCoinNameToTypeMap,
