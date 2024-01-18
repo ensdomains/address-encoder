@@ -1,7 +1,7 @@
 import { equalBytes } from "@noble/curves/abstract/utils";
 import { blake2b } from "@noble/hashes/blake2b";
 import { keccak_256 } from "@noble/hashes/sha3";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import {
   base58UncheckedDecode,
   base58UncheckedEncode,
@@ -41,4 +41,4 @@ export const vsys = {
   coinType,
   encode: encodeVsysAddress,
   decode: decodeVsysAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

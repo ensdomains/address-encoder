@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import {
   base58UncheckedDecode,
   base58UncheckedEncode,
@@ -15,4 +15,4 @@ export const sol = {
   coinType,
   encode: encodeSolAddress,
   decode: decodeSolAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

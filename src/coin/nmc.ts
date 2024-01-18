@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base58CheckDecode, base58CheckEncode } from "../utils/base58.js";
 
 const name = "nmc";
@@ -12,4 +12,4 @@ export const nmc = {
   coinType,
   encode: encodeNmcAddress,
   decode: decodeNmcAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

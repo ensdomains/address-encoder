@@ -2,7 +2,7 @@ import { equalBytes } from "@noble/curves/abstract/utils";
 import { sha256 } from "@noble/hashes/sha256";
 import { concatBytes } from "@noble/hashes/utils";
 import { utils, type Coder } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base32CrockfordNormalise } from "../utils/base32.js";
 
 const name = "stx";
@@ -104,4 +104,4 @@ export const stx = {
   coinType,
   encode: encodeStxAddress,
   decode: decodeStxAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

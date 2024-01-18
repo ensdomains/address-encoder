@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base10ToBytes, bytesToBase10 } from "../utils/bytes.js";
 
 const name = "lsk";
@@ -22,4 +22,4 @@ export const lsk = {
   coinType,
   encode: encodeLskAddress,
   decode: decodeLskAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

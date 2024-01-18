@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { bytesToHex, hexWithoutPrefixToBytes } from "../utils/bytes.js";
 
 const name = "aion";
@@ -22,4 +22,4 @@ export const aion = {
   coinType,
   encode: encodeAionAddress,
   decode: decodeAionAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

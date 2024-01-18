@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeZelAddress, encodeZelAddress } from "./zel.js";
+import { decodeFluxAddress, encodeFluxAddress } from "./flux.js";
 
 describe.each([
   {
@@ -13,9 +13,9 @@ describe.each([
   },
 ])("zel address", ({ text, hex }) => {
   test(`encode: ${text}`, () => {
-    expect(encodeZelAddress(hexToBytes(hex))).toEqual(text);
+    expect(encodeFluxAddress(hexToBytes(hex))).toEqual(text);
   });
   test(`decode: ${text}`, () => {
-    expect(decodeZelAddress(text)).toEqual(hexToBytes(hex));
+    expect(decodeFluxAddress(text)).toEqual(hexToBytes(hex));
   });
 });

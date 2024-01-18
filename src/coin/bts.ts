@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { createEosDecoder, createEosEncoder } from "../utils/eosio.js";
 
 const name = "bts";
@@ -14,4 +14,4 @@ export const bts = {
   coinType,
   encode: encodeBtsAddress,
   decode: decodeBtsAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

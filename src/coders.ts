@@ -54,6 +54,7 @@ export { decodeFilAddress, encodeFilAddress } from "./coin/fil.js";
 export { decodeFioAddress, encodeFioAddress } from "./coin/fio.js";
 export { decodeFiroAddress, encodeFiroAddress } from "./coin/firo.js";
 export { decodeFlowAddress, encodeFlowAddress } from "./coin/flow.js";
+export { decodeFluxAddress, encodeFluxAddress } from "./coin/flux.js";
 export {
   decodeFtmLegacyAddress,
   encodeFtmLegacyAddress,
@@ -107,8 +108,8 @@ export {
 } from "./coin/poaLegacy.js";
 export { decodePpcAddress, encodePpcAddress } from "./coin/ppc.js";
 export { decodeQtumAddress, encodeQtumAddress } from "./coin/qtum.js";
+export { decodeRbtcAddress, encodeRbtcAddress } from "./coin/rbtc.js";
 export { decodeRddAddress, encodeRddAddress } from "./coin/rdd.js";
-export { decodeRskAddress, encodeRskAddress } from "./coin/rsk.js";
 export { decodeRuneAddress, encodeRuneAddress } from "./coin/rune.js";
 export { decodeRvnAddress, encodeRvnAddress } from "./coin/rvn.js";
 export { decodeScAddress, encodeScAddress } from "./coin/sc.js";
@@ -137,6 +138,10 @@ export {
 export { decodeVetAddress, encodeVetAddress } from "./coin/vet.js";
 export { decodeViaAddress, encodeViaAddress } from "./coin/via.js";
 export { decodeVlxAddress, encodeVlxAddress } from "./coin/vlx.js";
+export {
+  decodeVlxLegacyAddress,
+  encodeVlxLegacyAddress,
+} from "./coin/vlxLegacy.js";
 export { decodeVsysAddress, encodeVsysAddress } from "./coin/vsys.js";
 export { decodeWanAddress, encodeWanAddress } from "./coin/wan.js";
 export { decodeWavesAddress, encodeWavesAddress } from "./coin/waves.js";
@@ -150,6 +155,5 @@ export { decodeXrpAddress, encodeXrpAddress } from "./coin/xrp.js";
 export { decodeXtzAddress, encodeXtzAddress } from "./coin/xtz.js";
 export { decodeXvgAddress, encodeXvgAddress } from "./coin/xvg.js";
 export { decodeZecAddress, encodeZecAddress } from "./coin/zec.js";
-export { decodeZelAddress, encodeZelAddress } from "./coin/zel.js";
 export { decodeZenAddress, encodeZenAddress } from "./coin/zen.js";
 export { decodeZilAddress, encodeZilAddress } from "./coin/zil.js";

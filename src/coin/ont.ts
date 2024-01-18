@@ -1,5 +1,5 @@
 import { concatBytes } from "@noble/hashes/utils";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base58CheckDecode, base58CheckEncode } from "../utils/base58.js";
 
 const name = "ont";
@@ -23,4 +23,4 @@ export const ont = {
   coinType,
   encode: encodeOntAddress,
   decode: decodeOntAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

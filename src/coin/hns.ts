@@ -1,5 +1,5 @@
 import { bech32 } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 
 const name = "hns";
 const coinType = 5353;
@@ -31,4 +31,4 @@ export const hns = {
   coinType,
   encode: encodeHnsAddress,
   decode: decodeHnsAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

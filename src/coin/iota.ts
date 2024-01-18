@@ -1,5 +1,5 @@
 import { concatBytes } from "@noble/hashes/utils";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32.js";
 
 const name = "iota";
@@ -24,4 +24,4 @@ export const iota = {
   coinType,
   encode: encodeIotaAddress,
   decode: decodeIotaAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

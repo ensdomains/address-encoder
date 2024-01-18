@@ -1,7 +1,7 @@
 import { blake2b } from "@noble/hashes/blake2b";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { utils } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import {
   base58UncheckedDecode,
   base58UncheckedEncode,
@@ -34,4 +34,4 @@ export const waves = {
   coinType,
   encode: encodeWavesAddress,
   decode: decodeWavesAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

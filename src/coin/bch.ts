@@ -1,5 +1,5 @@
 import { concatBytes } from "@noble/hashes/utils";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { createBase58VersionedDecoder } from "../utils/base58.js";
 import {
   decodeBchAddressToTypeAndHash,
@@ -63,4 +63,4 @@ export const bch = {
   coinType,
   encode: encodeBchAddress,
   decode: decodeBchAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

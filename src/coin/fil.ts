@@ -1,7 +1,7 @@
 import { equalBytes } from "@noble/curves/abstract/utils";
 import { blake2b } from "@noble/hashes/blake2b";
 import { concatBytes } from "@noble/hashes/utils";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base32UnpaddedDecode, base32UnpaddedEncode } from "../utils/base32.js";
 import { decodeLeb128, encodeLeb128 } from "../utils/leb128.js";
 
@@ -69,4 +69,4 @@ export const fil = {
   coinType,
   encode: encodeFilAddress,
   decode: decodeFilAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

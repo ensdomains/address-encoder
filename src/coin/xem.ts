@@ -1,5 +1,5 @@
 import { keccak_256 } from "@noble/hashes/sha3";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base32Decode, base32Encode } from "../utils/base32.js";
 import { bytesToHexWithoutPrefix } from "../utils/bytes.js";
 
@@ -30,4 +30,4 @@ export const xem = {
   coinType,
   encode: encodeXemAddress,
   decode: decodeXemAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

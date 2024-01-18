@@ -1,6 +1,6 @@
 import { blake2b } from "@noble/hashes/blake2b";
 import { utils, type Coder } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 
 const name = "nano";
 const coinType = 165;
@@ -69,4 +69,4 @@ export const nano = {
   coinType,
   encode: encodeNanoAddress,
   decode: decodeNanoAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

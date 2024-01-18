@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import {
   createDotAddressDecoder,
   createDotAddressEncoder,
@@ -17,4 +17,4 @@ export const ksm = {
   coinType,
   encode: encodeKsmAddress,
   decode: decodeKsmAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;
