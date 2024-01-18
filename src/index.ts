@@ -1,6 +1,14 @@
 import * as formats from "./coins.js";
-import { coinNameToTypeMap } from "./consts/coinNameToTypeMap.js";
-import { coinTypeToNameMap } from "./consts/coinTypeToNameMap.js";
+import {
+  coinNameToTypeMap,
+  evmCoinNameToTypeMap,
+  nonEvmCoinNameToTypeMap,
+} from "./consts/coinNameToTypeMap.js";
+import {
+  coinTypeToNameMap,
+  evmCoinTypeToNameMap,
+  nonEvmCoinTypeToNameMap,
+} from "./consts/coinTypeToNameMap.js";
 import type {
   Coin,
   CoinName,
@@ -22,6 +30,15 @@ export type {
   EncoderFunction,
   EvmCoinName,
   EvmCoinType,
+};
+
+export {
+  coinNameToTypeMap,
+  coinTypeToNameMap,
+  evmCoinNameToTypeMap,
+  evmCoinTypeToNameMap,
+  nonEvmCoinNameToTypeMap,
+  nonEvmCoinTypeToNameMap,
 };
 
 export const getCoderByCoinName = <
