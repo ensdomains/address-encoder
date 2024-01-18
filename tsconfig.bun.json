@@ -4,6 +4,7 @@
   "compilerOptions": {
     "composite": true,
     "module": "NodeNext",
+    "resolveJsonModule": true,
     "types": ["bun-types"]
   }
 }

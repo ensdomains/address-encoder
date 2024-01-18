@@ -1,5 +1,6 @@
 import { eth } from "./coins.js";
-import { coinNameToTypeMap, coinTypeToNameMap } from "./consts/coinTypeMap.js";
+import { coinNameToTypeMap } from "./consts/coinNameToTypeMap.js";
+import { coinTypeToNameMap } from "./consts/coinTypeToNameMap.js";
 import type {
   CoinName,
   CoinType,
@@ -42,10 +43,12 @@ export const getCoderByCoinTypeAsync = async <
 >(
   coinType: TCoinType
 ): Promise<GetCoderByCoinType<TCoinType>> => {
-  const name =
+  const names =
     coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap];
 
-  if (!name) throw new Error(`Unsupported coin type: ${coinType}`);
+  if (!names) throw new Error(`Unsupported coin type: ${coinType}`);
+
+  const [name] = names;
 
   if (coinType >= SLIP44_MSB) {
     // EVM coin

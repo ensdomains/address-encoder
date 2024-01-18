@@ -1,14 +1,17 @@
-import type { Lt, Subtract } from "ts-arithmetic";
+import type { Subtract } from "ts-arithmetic";
 import * as formats from "./coins.js";
-import { coinNameToTypeMap } from "./consts/coinTypeMap.js";
+import type {
+  coinNameToTypeMap,
+  evmCoinNameToTypeMap,
+  nonEvmCoinNameToTypeMap,
+} from "./consts/coinNameToTypeMap.js";
+import type { coinTypeToNameMap } from "./consts/coinTypeToNameMap.js";
 import type { SLIP44_MSB } from "./utils/evm.js";
 
 export type Formats = typeof formats;
 
 export type CoinNameToTypeMap = typeof coinNameToTypeMap;
-export type CoinTypeToNameMap = {
-  [key in keyof CoinNameToTypeMap as CoinNameToTypeMap[key]]: key;
-};
+export type CoinTypeToNameMap = typeof coinTypeToNameMap;
 
 export type CoinName = keyof CoinNameToTypeMap;
 export type CoinType = CoinNameToTypeMap[CoinName];
@@ -17,7 +20,7 @@ type NonEvmCoinTypeToFormat = {
 };
 export type CoinTypeToFormatMap = {
   [key in CoinType]: key extends EvmCoinType
-    ? Prettify<GetEvmCoin<CoinTypeToNameMap[key]>>
+    ? Prettify<GetEvmCoin<CoinTypeToNameMap[`${key}`][0]>>
     : key extends keyof NonEvmCoinTypeToFormat
     ? NonEvmCoinTypeToFormat[key]
     : never;
@@ -26,11 +29,7 @@ export type CoinNameToFormatMap = {
   [key in CoinName]: CoinTypeToFormatMap[CoinNameToTypeMap[key]];
 };
 
-type EvmCoinMap = {
-  [key in CoinName as Lt<CoinNameToTypeMap[key], typeof SLIP44_MSB> extends 0
-    ? key
-    : never]: CoinNameToTypeMap[key];
-};
+export type EvmCoinMap = typeof evmCoinNameToTypeMap;
 export type EvmCoinName = keyof EvmCoinMap;
 export type EvmCoinType = EvmCoinMap[EvmCoinName];
 export type EvmChainId = Subtract<EvmCoinType, typeof SLIP44_MSB>;
@@ -61,6 +60,13 @@ export type CoinCoder = {
 };
 
 export type Coin = CoinParameters & CoinCoder;
+
+export type CheckedCoin = {
+  [key in keyof typeof nonEvmCoinNameToTypeMap]: {
+    name: key;
+    coinType: (typeof nonEvmCoinNameToTypeMap)[key];
+  } & CoinCoder;
+}[keyof typeof nonEvmCoinNameToTypeMap];
 
 export type GetCoderByCoinName<TCoinName extends CoinName | string> =
   TCoinName extends CoinName ? CoinNameToFormatMap[TCoinName] : Coin;
