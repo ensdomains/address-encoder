@@ -1,4 +1,6 @@
 export const evmCoinTypeToNameMap = Object.freeze({
+  /* Chain ID: 0 */
+  "2147483648": ["metis", "1088"],
   /* Chain ID: 10 */
   "2147483658": ["op", "Optimism"],
   /* Chain ID: 25 */
@@ -19,14 +21,24 @@ export const evmCoinTypeToNameMap = Object.freeze({
   "2147483756": ["tt", "ThunderCore"],
   /* Chain ID: 137 */
   "2147483785": ["matic", "Polygon"],
+  /* Chain ID: 169 */
+  "2147483817": ["manta", "Manta Pacific"],
   /* Chain ID: 246 */
   "2147483894": ["ewt", "Energy Web"],
   /* Chain ID: 250 */
   "2147483898": ["ftm", "Fantom Opera"],
+  /* Chain ID: 288 */
+  "2147483936": ["boba", "Boba"],
+  /* Chain ID: 324 */
+  "2147483972": ["zksync", "zkSync"],
   /* Chain ID: 361 */
   "2147484009": ["theta", "Theta"],
   /* Chain ID: 820 */
   "2147484468": ["clo", "Callisto"],
+  /* Chain ID: 5000 */
+  "2147488648": ["mantle", "Mantle"],
+  /* Chain ID: 8453 */
+  "2147492101": ["base", "Base"],
   /* Chain ID: 39797 */
   "2147523445": ["nrg", "Energi"],
   /* Chain ID: 42161 */
@@ -35,6 +47,12 @@ export const evmCoinTypeToNameMap = Object.freeze({
   "2147525868": ["celo", "Celo"],
   /* Chain ID: 43114 */
   "2147526762": ["avaxc", "Avalanche C-Chain"],
+  /* Chain ID: 59144 */
+  "2147542792": ["linea", "Linea"],
+  /* Chain ID: 534352 */
+  "2148018000": ["scr", "Scroll"],
+  /* Chain ID: 7777777 */
+  "2155261425": ["zora", "Zora"],
 } as const);
 
 export const nonEvmCoinTypeToNameMap = Object.freeze({
