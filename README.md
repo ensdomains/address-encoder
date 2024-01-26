@@ -27,6 +27,9 @@ const data = formatsByName['BTC'].decoder('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa');
 console.log(data.toString('hex')); // 76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac
 const addr = formatsByCoinType[0].encoder(data);
 console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+
+// If converting a hex string, use Buffer, and strip the 0x from the string
+let decodedAddress = formatsByCoinType[0].encoder(Buffer.from("76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac", 'hex'));
 ```
 
 ## Supported cryptocurrencies
