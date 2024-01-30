@@ -34,6 +34,27 @@ const encodedAddress = btcCoder.encode(decodedAddress);
 // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 ```
 
+### Hex String Encoding
+
+If the data you are encoding is a hex string rather than `Uint8Array`, you can use the included `hexToBytes()` to convert it to the correct type.
+
+```ts
+import { getCoderByCoinName } from "@ensdomains/address-encoder";
+import { hexToBytes } from "@ensdomains/address-encoder/utils";
+
+const btcCoder = getCoderByCoinName("btc");
+
+// Convert hex encoded data to bytes
+const dataAsBytes = hexToBytes(
+  "0x76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac"
+);
+// Uint8Array(25) [ 118, 169, 20, 98, 233, 7, 177, 92, 191, 39, 213, 66, 83, 153, 235, 246, 240, 251, 80, 235, 184, 143, 24, 136, 172 ]
+
+// Pass bytes to encoder
+const encodedAddress = btcCoder.encode(decodedAddress);
+// 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+```
+
 ## Supported Cryptocurrencies
 
 To view all the supported cryptocurrencies of this library, see [here](https://github.com/ensdomains/address-encoder/blob/master/docs/supported-cryptocurrencies.md).
