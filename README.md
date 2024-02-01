@@ -66,7 +66,7 @@ To view all the supported cryptocurrencies of this library, see [here](https://g
 ```ts
 import { getCoderByCoinNameAsync } from "@ensdomains/address-encoder/async";
 
-const btcCoder = await getCoderByCoinName("btc");
+const btcCoder = await getCoderByCoinNameAsync("btc");
 ```
 
 ### Individual Coin Imports
