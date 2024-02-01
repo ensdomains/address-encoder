@@ -18,11 +18,6 @@ describe.each([
     text: "CNR8RPMxjY28VsPA6KFq3B8PUdZnrTSC5HSFwKPBR29Z",
     hex: "a8ed08e3e8fe204de45e7295cc1ad53db096621b878f8c546e5c09f5e48f70b4",
   },
-  // The old test case (same as TRON and NMC), only keep it for reference purpose.
-  {
-    text: "TUrMmF9Gd4rzrXsQ34ui3Wou94E7HFuJQh",
-    hex: "41cf1ecacaf90a04bb0297f9991ae1262d0a3399e13d6d96c2",
-  },
 ])("sol address", ({ text, hex }) => {
   test(`encode: ${text}`, () => {
     expect(encodeSolAddress(hexToBytes(hex))).toEqual(text);
@@ -30,4 +25,18 @@ describe.each([
   test(`decode: ${text}`, () => {
     expect(decodeSolAddress(text)).toEqual(hexToBytes(hex));
   });
+});
+
+test("SOL decoding - incorrect length", () => {
+  expect(() =>
+    decodeSolAddress("CNR8RPMxjY28VsPA6KFq3B8PUdZnrTSC5HSFwKPBR2")
+  ).toThrow("Unrecognised address format");
+});
+
+test("SOL encoding - incorrect length", () => {
+  expect(() =>
+    encodeSolAddress(
+      hexToBytes("a8ed08e3e8fe204de45e7295cc1ad53db096621b878f8c546e5c09f5e48f")
+    )
+  ).toThrow("Unrecognised address format");
 });

@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import {
   createHexChecksummedDecoder,
   createHexChecksummedEncoder,
@@ -15,4 +15,4 @@ export const gnoLegacy = {
   coinType,
   encode: encodeGnoLegacyAddress,
   decode: decodeGnoLegacyAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

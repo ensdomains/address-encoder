@@ -1,6 +1,6 @@
 import { hexToBytes } from "@noble/hashes/utils";
 import { describe, expect, test } from "bun:test";
-import { decodeRskAddress, encodeRskAddress } from "./rsk.js";
+import { decodeRbtcAddress, encodeRbtcAddress } from "./rbtc.js";
 
 describe.each([
   {
@@ -9,9 +9,9 @@ describe.each([
   },
 ])("rsk address", ({ text, hex }) => {
   test(`encode: ${text}`, () => {
-    expect(encodeRskAddress(hexToBytes(hex))).toEqual(text);
+    expect(encodeRbtcAddress(hexToBytes(hex))).toEqual(text);
   });
   test(`decode: ${text}`, () => {
-    expect(decodeRskAddress(text)).toEqual(hexToBytes(hex));
+    expect(decodeRbtcAddress(text)).toEqual(hexToBytes(hex));
   });
 });

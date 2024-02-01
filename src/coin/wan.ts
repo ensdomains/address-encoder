@@ -1,5 +1,5 @@
 import { keccak_256 } from "@noble/hashes/sha3";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import {
   bytesToHexWithoutPrefix,
   hexToBytes,
@@ -51,4 +51,4 @@ export const wan = {
   coinType,
   encode: encodeWanAddress,
   decode: decodeWanAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

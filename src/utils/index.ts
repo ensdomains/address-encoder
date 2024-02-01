@@ -32,6 +32,7 @@ export {
   type BitcoinCoderParameters,
 } from "./bitcoin.js";
 export { byronDecode, byronEncode } from "./byron.js";
+export { bytesToHex, hexToBytes } from "./bytes.js";
 export { SimpleValue, TaggedValue, cborDecode, cborEncode } from "./cbor.js";
 export { crc32 } from "./crc32.js";
 export { createDotAddressDecoder, createDotAddressEncoder } from "./dot.js";

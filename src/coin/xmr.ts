@@ -1,5 +1,5 @@
 import { base58xmr } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 
 const name = "xmr";
 const coinType = 128;
@@ -12,4 +12,4 @@ export const xmr = {
   coinType,
   encode: encodeXmrAddress,
   decode: decodeXmrAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

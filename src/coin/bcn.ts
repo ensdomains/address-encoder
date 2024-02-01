@@ -2,7 +2,7 @@ import { equalBytes } from "@noble/curves/abstract/utils";
 import { keccak_256 } from "@noble/hashes/sha3";
 import { concatBytes } from "@noble/hashes/utils";
 import { utils } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { decodeXmrAddress, encodeXmrAddress } from "./xmr.js";
 
 const name = "bcn";
@@ -34,4 +34,4 @@ export const bcn = {
   coinType,
   encode: encodeBcnAddress,
   decode: decodeBcnAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

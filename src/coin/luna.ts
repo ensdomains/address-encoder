@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32.js";
 
 const name = "luna";
@@ -14,4 +14,4 @@ export const luna = {
   coinType,
   encode: encodeLunaAddress,
   decode: decodeLunaAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

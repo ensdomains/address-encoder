@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { bytesToString, stringToBytes } from "../utils/bytes.js";
 import { validateNearAddress } from "../utils/near.js";
 
@@ -22,4 +22,4 @@ export const near = {
   coinType,
   encode: encodeNearAddress,
   decode: decodeNearAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

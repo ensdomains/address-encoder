@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base58CheckDecode, base58CheckEncode } from "../utils/base58.js";
 
 const name = "ark";
@@ -16,4 +16,4 @@ export const ark = {
   coinType,
   encode: encodeArkAddress,
   decode: decodeArkAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

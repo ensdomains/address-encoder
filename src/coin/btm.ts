@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import {
   createBech32SegwitDecoder,
   createBech32SegwitEncoder,
@@ -17,4 +17,4 @@ export const btm = {
   coinType,
   encode: encodeBtmAddress,
   decode: decodeBtmAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

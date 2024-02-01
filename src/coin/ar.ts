@@ -1,5 +1,5 @@
 import { base64urlnopad } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 
 const name = "ar";
 const coinType = 472;
@@ -12,4 +12,4 @@ export const ar = {
   coinType,
   encode: encodeArAddress,
   decode: decodeArAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

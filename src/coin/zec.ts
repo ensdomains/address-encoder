@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { createZcashDecoder, createZcashEncoder } from "../utils/zcash.js";
 
 const name = "zec";
@@ -24,4 +24,4 @@ export const zec = {
   coinType,
   encode: encodeZecAddress,
   decode: decodeZecAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

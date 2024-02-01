@@ -1,6 +1,6 @@
 import { equalBytes } from "@noble/curves/abstract/utils";
 import { concatBytes } from "@noble/hashes/utils";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base32Decode, base32Encode } from "../utils/base32.js";
 import { hexWithoutPrefixToBytes } from "../utils/bytes.js";
 
@@ -59,4 +59,4 @@ export const xlm = {
   coinType,
   encode: encodeXlmAddress,
   decode: decodeXlmAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

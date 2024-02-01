@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { bytesToHex, hexWithoutPrefixToBytes } from "../utils/bytes.js";
 import { validateFlowAddress } from "../utils/flow.js";
 
@@ -30,4 +30,4 @@ export const flow = {
   coinType,
   encode: encodeFlowAddress,
   decode: decodeFlowAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

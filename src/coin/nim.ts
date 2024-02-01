@@ -1,5 +1,5 @@
 import { utils } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 
 const name = "nim";
 const coinType = 242;
@@ -63,4 +63,4 @@ export const nim = {
   coinType,
   encode: encodeNimAddress,
   decode: decodeNimAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

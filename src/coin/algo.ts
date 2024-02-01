@@ -1,6 +1,6 @@
 import { sha512_256 } from "@noble/hashes/sha512";
 import { utils } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { base32UnpaddedDecode, base32UnpaddedEncode } from "../utils/base32.js";
 
 const name = "algo";
@@ -25,4 +25,4 @@ export const algo = {
   coinType,
   encode: encodeAlgoAddress,
   decode: decodeAlgoAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

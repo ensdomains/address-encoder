@@ -1,6 +1,6 @@
 import { sha256 } from "@noble/hashes/sha256";
 import { base58xrp, utils } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 
 const name = "xrp";
 const coinType = 144;
@@ -18,4 +18,4 @@ export const xrp = {
   coinType,
   encode: encodeXrpAddress,
   decode: decodeXrpAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

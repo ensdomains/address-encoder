@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 
 const name = "ardr";
 const coinType = 16754;
@@ -87,4 +87,4 @@ export const ardr = {
   coinType,
   encode: encodeArdrAddress,
   decode: decodeArdrAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

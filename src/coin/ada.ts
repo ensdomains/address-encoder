@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { createBech32Decoder, createBech32Encoder } from "../utils/bech32.js";
 import { byronDecode, byronEncode } from "../utils/byron.js";
 
@@ -30,4 +30,4 @@ export const ada = {
   coinType,
   encode: encodeAdaAddress,
   decode: decodeAdaAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

@@ -1,4 +1,4 @@
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { decodeXmrAddress, encodeXmrAddress } from "./xmr.js";
 
 const name = "xhv";
@@ -12,4 +12,4 @@ export const xhv = {
   coinType,
   encode: encodeXhvAddress,
   decode: decodeXhvAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;

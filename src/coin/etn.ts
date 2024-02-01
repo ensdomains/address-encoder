@@ -1,7 +1,7 @@
 import { keccak_256 } from "@noble/hashes/sha3";
 import { concatBytes } from "@noble/hashes/utils";
 import { utils } from "@scure/base";
-import type { Coin } from "../types.js";
+import type { CheckedCoin } from "../types.js";
 import { decodeXmrAddress, encodeXmrAddress } from "./xmr.js";
 
 const name = "etn";
@@ -31,4 +31,4 @@ export const etn = {
   coinType,
   encode: encodeEtnAddress,
   decode: decodeEtnAddress,
-} as const satisfies Coin;
+} as const satisfies CheckedCoin;
