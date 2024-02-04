@@ -90,6 +90,10 @@ const decodedAddress = decodeBtcAddress("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa");
 const encodedAddress = encodeBtcAddress(decodedAddress);
 ```
 
+### EVM Chains
+
+There are a variety of EVM chains supported, however none of them (except for ETH) are exported from `coins` or `coders`. If you want to individually import for an EVM chain, you can just use the `eth` import as a replacement.
+
 ## Contribution Guide
 
 To add a coin to this library, or if you're interested in contributing in any other way, read the [contribution guide](https://github.com/ensdomains/address-encoder/blob/master/docs/contribution-guide.md) before submitting a PR.
