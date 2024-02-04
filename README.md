@@ -51,7 +51,7 @@ const dataAsBytes = hexToBytes(
 // Uint8Array(25) [ 118, 169, 20, 98, 233, 7, 177, 92, 191, 39, 213, 66, 83, 153, 235, 246, 240, 251, 80, 235, 184, 143, 24, 136, 172 ]
 
 // Pass bytes to encoder
-const encodedAddress = btcCoder.encode(decodedAddress);
+const encodedAddress = btcCoder.encode(dataAsBytes);
 // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 ```
 
