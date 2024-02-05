@@ -1,5 +1,9 @@
 name: Publish
 
+permissions:
+  contents: write
+  deployments: write
+
 on:
   release:
     types: [published]
