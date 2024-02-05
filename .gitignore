@@ -1,4 +1,6 @@
-node_modules
-lib
+/node_modules
+/dist
 .DS_Store
 *.swp
+/old
+*.tsbuildinfo

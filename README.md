@@ -1,6 +1,6 @@
-# address-encoder
+# @ensdomains/address-encoder
 
-This typescript library encodes and decodes address formats for various cryptocurrencies.
+A cryptocurrency address encoder/decoder in TypeScript
 
 Text-format addresses are decoded into their native binary representations, and vice-versa. In the case of Bitcoin-derived chains, this means their scriptPubKey; for Ethereum-derived chains this is their hash.
 
@@ -12,179 +12,88 @@ Please read [the specification page for the more detail](https://docs.ens.domain
 
 ## Installation
 
-### Using NPM
-
-```
-npm install --save @ensdomains/address-encoder
+```bash
+bun add @ensdomains/address-encoder
 ```
 
-## Usage
+## Getting Started
 
+```ts
+// Import coder getter
+import { getCoderByCoinName } from "@ensdomains/address-encoder";
+
+// Get the coder for the address you want to encode/decode
+const btcCoder = getCoderByCoinName("btc");
+
+// Decode the address
+const decodedAddress = btcCoder.decode("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa");
+// Uint8Array(25) [ 118, 169, 20, 98, 233, 7, 177, 92, 191, 39, 213, 66, 83, 153, 235, 246, 240, 251, 80, 235, 184, 143, 24, 136, 172 ]
+
+// Encode the address
+const encodedAddress = btcCoder.encode(decodedAddress);
+// 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 ```
-import { formatsByName, formatsByCoinType } from '@ensdomains/address-encoder';
 
-const data = formatsByName['BTC'].decoder('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa');
-console.log(data.toString('hex')); // 76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac
-const addr = formatsByCoinType[0].encoder(data);
-console.log(addr); // 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+### Hex String Encoding
+
+If the data you are encoding is a hex string rather than `Uint8Array`, you can use the included `hexToBytes()` to convert it to the correct type.
+
+```ts
+import { getCoderByCoinName } from "@ensdomains/address-encoder";
+import { hexToBytes } from "@ensdomains/address-encoder/utils";
+
+const btcCoder = getCoderByCoinName("btc");
+
+// Convert hex encoded data to bytes
+const dataAsBytes = hexToBytes(
+  "0x76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac"
+);
+// Uint8Array(25) [ 118, 169, 20, 98, 233, 7, 177, 92, 191, 39, 213, 66, 83, 153, 235, 246, 240, 251, 80, 235, 184, 143, 24, 136, 172 ]
+
+// Pass bytes to encoder
+const encodedAddress = btcCoder.encode(dataAsBytes);
+// 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
 ```
 
-## Supported cryptocurrencies
+## Supported Cryptocurrencies
 
-This library currently supports the following cryptocurrencies and address formats (ordered alphabetically):
+To view all the supported cryptocurrencies of this library, see [here](https://github.com/ensdomains/address-encoder/blob/master/docs/supported-cryptocurrencies.md).
 
-- ABBC (base58 + ripemd160-checksum)
-- ADA (base58, no check + crc32-checksum and bech32)
-- AE (base58check)
-- AIB (base58check P2PKH and P2SH)
-- AION (hex)
-- ALGO (checksummed-base32)
-- AR (base64url)
-- ARB1 (checksummed-hex)
-- ARDR
-- ARK (base58check)
-- ATOM (bech32)
-- AVAX (bech32)
-- AVAXC (checksummed-hex)
-- BCD (base58check P2PKH and P2SH, and bech32 segwit)
-- BCH (base58check and cashAddr; decodes to cashAddr)
-- BCN (base58xmr)
-- BDX (base58xmr)
-- BNB (bech32)
-- BPS (base58check P2PKH and P2SH)
-- BSC (checksummed-hex)
-- BSV (base58check)
-- BTC (base58check P2PKH and P2SH, and bech32 segwit)
-- BTG (base58check P2PKH and P2SH, and bech32 segwit)
-- BTM (bech32 segwit)
-- BTS (base58 + ripemd160-checksum)
-- CCA (base58check P2PKH and P2SH)
-- CCXX (base58check P2PKH and P2SH, and bech32 segwit)
-- CELO (checksummed-hex)
-- CKB (bech32)
-- CLO (checksummed-hex)
-- CRO (checksummed-hex)
-- DASH (base58check P2PKH and P2SH)
-- DCR (base58, no check)
-- DGB (base58check P2PKH and P2SH, and bech32 segwit)
-- DIVI (base58check P2PKH and P2SH)
-- DOGE (base58check P2PKH and P2SH)
-- DOT (ss58)
-- EGLD (bech32)
-- ELA (base58)
-- EOS (base58 + ripemd160-checksum)
-- ETC (checksummed-hex)
-- ETH (checksummed-hex)
-- ETN (base58xmr)
-- EWT (checksummed-hex)
-- FIL (base10 + leb128 and base32 + blake2b checksum)
-- FIO (base58 + ripemd160-checksum)
-- FIRO (base58check P2PKH and P2SH)
-- FLOW (hex)
-- FTM (checksummed-hex)
-- GNO (checksummed-hex)
-- GO (checksummed-hex)
-- GRIN (base58check)
-- GRS (base58check P2PKH and P2SH, and bech32 segwit)
-- GXC (base58 + ripemd160-checksum)
-- HBAR
-- HIVE (base58 + ripemd160-checksum)
-- HNS
-- HNT (base58check)
-- ICX
-- IOST (base58, no check)
-- IOTA (iotaBech32)
-- IOTX (bech32)
-- IRIS (bech32)
-- KAVA (bech32)
-- KMD (base58check)
-- KSM (ss58)
-- LCC (base58check P2PKH and P2SH, and bech32 segwit)
-- LRG (base58check P2PKH and P2SH)
-- LSK (hex with suffix)
-- LTC (base58check P2PHK and P2SH, and bech32 segwit)
-- LUNA (bech32)
-- MATIC (checksummed-hex)
-- MONA (base58check P2PKH and P2SH, and bech32 segwit)
-- MRX (base58check)
-- NANO (nano-base32)
-- NAS(base58 + sha3-256-checksum)
-- NEAR
-- NEM(XEM) (base32)
-- NEO (base58check)
-- NMC (base58check)
-- NRG (checksummed-hex)
-- NULS (base58)
-- ONE (bech32)
-- ONT (base58check)
-- OP (checksummed-hex)
-- POA (checksummed-hex)
-- PPC (base58check P2PKH and P2SH)
-- QTUM (base58check)
-- RDD (base58check P2PKH and P2SH)
-- RSK (checksummed-hex)
-- RUNE (bech32)
-- RVN (base58check P2PKH and P2SH)
-- SC (blake2b checksum)
-- SERO (base58, no check)
-- SOL (base58, no check)
-- SRM (base58, no check)
-- STEEM (base58 + ripemd160-checksum)
-- STRAT (base58check P2PKH and P2SH)
-- STRK (keccak256-checksumed-hex)
-- STX (crockford base32 P2PKH and P2SH + ripemd160-checksum)
-- SYS (base58check P2PKH and P2SH, and bech32 segwit)
-- TFUEL (checksummed-hex)
-- THETA (base58check)
-- TOMO (checksummed-hex)
-- TRX (base58check)
-- TT (checksummed-hex)
-- VET (checksummed-hex)
-- VIA (base58check P2PKH and P2SH)
-- VLX (base58, no check)
-- VSYS
-- WAN (checksummed-hex)
-- WAVES (base58)
-- WICC (base58check P2PKH and P2SH)
-- XCH (bech32m)
-- XHV (base58xmr)
-- XLM (ed25519 public key)
-- XMR (base58xmr)
-- XRP (base58check-ripple)
-- Nostr (bech32)
-- XTZ (base58check)
-- XVG (base58check P2PKH and P2SH)
-- ZEC (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
-- ZEL (transparent addresses: base58check P2PKH and P2SH, and Sapling shielded payment addresses: bech32; doesn't support Sprout shielded payment addresses)
-- ZEN (base58 check)
-- ZIL (bech32)
+## Additional Functionality
 
-## Development guide
+### Async Coder Getter
 
-We welcome PRs to add additional chains and address types.
+```ts
+import { getCoderByCoinNameAsync } from "@ensdomains/address-encoder/async";
 
-The hardest part of adding new cointype is to find out the address format of each coin. [Many coins derived from and share the same attributes as Bitcoin, Ethereum, and other popular blockchains](https://github.com/satoshilabs/slips/pull/1024/files). In that case, adding these coins can be as easy as a few lines of code. However, if the address format is unique and no js libraries available (or existing library file size too big), then you may have to port the encoding/verification from other languages into js by yourself, which could become time-consuming with lots of effort.
+const btcCoder = await getCoderByCoinNameAsync("btc");
+```
 
-In either case, please follow the following guides and best practices.
+### Individual Coin Imports
 
-## Reference where the address format is specified.
+```ts
+import { btc } from "@ensdomains/address-encoder/coins";
 
-When we review your pull request, we conduct the following checks.
+const decodedAddress = btc.decode("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa");
+const encodedAddress = btc.encode(decodedAddress);
+```
 
-- The cointype correctly came from [SLIP 44 ](https://github.com/satoshilabs/slips/blob/master/slip-0044.md) (unless you add EVM chains). If you don't find your coin in the list, raise PR to add it ([example](https://github.com/satoshilabs/slips/pull/1024))
-- Check coin address from block explorer and compare that the test addresses are in a similar format
-- Read the reference code to see the pull request matches with the specification.
+### Individual Coder Function Imports
 
-Please make sure that you include all the reference information so that we don't have to spend hours googling the relevant info which you must have done already.
+```ts
+import {
+  decodeBtcAddress,
+  encodeBtcAddress,
+} from "@ensdomains/address-encoder/coders";
 
-## Reuse existing functions where necessary.
+const decodedAddress = decodeBtcAddress("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa");
+const encodedAddress = encodeBtcAddress(decodedAddress);
+```
 
-If there are reusable components, please reuse the function rather than duplicating the similar code.
+### EVM Chains
 
-## Avoid requiring big encoding/encryption library.
+There are a variety of EVM chains supported, however none of them (except for ETH) are exported from `coins` or `coders`. If you want to individually import for an EVM chain, you can just use the `eth` import as a replacement.
 
-This library will be used in many mobile wallets where size bloat impacts the performance of the wallet. If your solution simply imports existing libraries, it may
+## Contribution Guide
 
-## Validate address format, not just encode/decode
-
-Some specifications simply use base58 encoding without specific checksum. However, if there are any extra address format (such as address prefix or address length) exists, please also add that check so that we can prevent users from adding wrong coin address.
+To add a coin to this library, or if you're interested in contributing in any other way, read the [contribution guide](https://github.com/ensdomains/address-encoder/blob/master/docs/contribution-guide.md) before submitting a PR.

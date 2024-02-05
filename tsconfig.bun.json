@@ -1,0 +1,10 @@
+{
+  // This configuration is used for local development and type checking of configuration and script files that are not part of the build.
+  "include": ["scripts", "src/**/*.test.ts"],
+  "compilerOptions": {
+    "composite": true,
+    "module": "NodeNext",
+    "resolveJsonModule": true,
+    "types": ["bun-types"]
+  }
+}

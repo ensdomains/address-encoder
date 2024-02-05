@@ -1,14 +1,7 @@
 {
-  "compilerOptions": {
-    "target": "ES2015",
-    "module": "ES2015",
-    "declaration": true,
-    "outDir": "./lib",
-    "strict": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "allowJs": true
-  },
+  // This configuration is used for local development and type checking.
+  "extends": "./tsconfig.base.json",
   "include": ["src"],
-  "exclude": ["node_modules", "**/__tests__/*"]
+  "exclude": [],
+  "references": [{ "path": "./tsconfig.bun.json" }]
 }
