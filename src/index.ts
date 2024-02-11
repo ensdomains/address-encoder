@@ -70,15 +70,12 @@ export const getCoderByCoinType = <
 >(
   coinType: TCoinType
 ): GetCoderByCoinType<TCoinType> => {
-  const names =
-    coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap];
-  if (!names) {
-    throw new Error(`Unsupported coin type: ${coinType}`);
-  }
-  const [name] = names;
+  const names = coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap];
+  // https://docs.ens.domains/ens-improvement-proposals/ensip-11-evmchain-address-resolution
   if (coinType >= SLIP44_MSB) {
     // EVM coin
     const evmChainId = coinTypeToEvmChainId(coinType);
+    const name = names ? names[0] : `Chain(${evmChainId})`; // name is derivable
     const ethFormat = formats["eth"];
     return {
       name,
@@ -87,7 +84,12 @@ export const getCoderByCoinType = <
       encode: ethFormat.encode,
       decode: ethFormat.decode,
     } as GetCoderByCoinType<TCoinType>;
+  } else {
+    if (!names) {
+      throw new Error(`Unsupported coin type: ${coinType}`);
+    }
+    const [name] = names;
+    const format = formats[name as keyof typeof formats];
+    return format as GetCoderByCoinType<TCoinType>;
   }
-  const format = formats[name as keyof typeof formats];
-  return format as GetCoderByCoinType<TCoinType>;
 };
