@@ -1,7 +1,19 @@
-import type { Add, Lt, Subtract } from "ts-arithmetic";
+import type { Add, GtOrEq, Lt, Subtract } from "ts-arithmetic";
 import type { EvmChainId, EvmCoinType } from "../types.js";
 
 export const SLIP44_MSB = 0x80000000;
+
+export const isEvmCoinType = <
+  TCoinType extends EvmCoinType | number = EvmCoinType | number
+>(
+  coinType: TCoinType
+) =>
+  ((coinType & SLIP44_MSB) !== 0) as GtOrEq<
+    TCoinType,
+    typeof SLIP44_MSB
+  > extends 1
+    ? true
+    : false;
 
 type EvmChainIdToCoinType<
   TChainId extends EvmChainId | number = EvmChainId | number

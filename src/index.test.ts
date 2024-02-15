@@ -44,6 +44,16 @@ test("evm coin type", () => {
   expect(coder.decode).toBeFunction();
 });
 
+test("unknown evm coin type", () => {
+  const coder = getCoderByCoinType(2147483659);
+  expect(coder.coinType).toBe(2147483659);
+  expect(coder.name).toBe("Unknown Chain (11)");
+  expect(coder.evmChainId).toBe(11);
+  expect(coder.isUnknownChain).toBeTrue();
+  expect(coder.encode).toBeFunction();
+  expect(coder.decode).toBeFunction();
+});
+
 const nonEvmCoinNames = Object.keys(nonEvmCoinNameToTypeMap);
 const evmCoinNames = Object.keys(evmCoinNameToTypeMap);
 

@@ -1,4 +1,4 @@
-import type { Subtract } from "ts-arithmetic";
+import type { GtOrEq, Subtract } from "ts-arithmetic";
 import type * as formats from "./coins.js";
 import type {
   coinNameToTypeMap,
@@ -20,7 +20,7 @@ type NonEvmCoinTypeToFormat = {
 };
 export type CoinTypeToFormatMap = {
   [key in CoinType]: key extends EvmCoinType
-    ? Prettify<GetEvmCoin<CoinTypeToNameMap[`${key}`][0]>>
+    ? Prettify<GetEvmCoin<key>>
     : key extends keyof NonEvmCoinTypeToFormat
     ? NonEvmCoinTypeToFormat[key]
     : never;
@@ -35,12 +35,16 @@ export type EvmCoinType = EvmCoinMap[EvmCoinName];
 export type EvmChainId = Subtract<EvmCoinType, typeof SLIP44_MSB>;
 
 export type GetEvmCoin<
-  TEvmName extends EvmCoinName,
-  TCoinType extends CoinNameToTypeMap[TEvmName] = CoinNameToTypeMap[TEvmName]
+  TCoinType extends number,
+  TChainId extends number = Subtract<TCoinType, typeof SLIP44_MSB>,
+  TCoinName extends string = TCoinType extends EvmCoinType
+    ? CoinTypeToNameMap[`${TCoinType}`][0]
+    : `Unknown Chain (${TChainId})`
 > = {
-  name: TEvmName;
+  name: TCoinName;
   coinType: TCoinType;
-  evmChainId: Subtract<TCoinType, typeof SLIP44_MSB>;
+  evmChainId: TChainId;
+  isUnknownChain: TCoinType extends EvmCoinType ? false : true;
   encode: EncoderFunction;
   decode: DecoderFunction;
 };
@@ -52,6 +56,7 @@ export type CoinParameters = {
   name: string;
   coinType: number;
   evmChainId?: number;
+  isUnknownChain?: boolean;
 };
 
 export type CoinCoder = {
@@ -72,7 +77,11 @@ export type GetCoderByCoinName<TCoinName extends CoinName | string> =
   TCoinName extends CoinName ? CoinNameToFormatMap[TCoinName] : Coin;
 
 export type GetCoderByCoinType<TCoinType extends CoinType | number> =
-  TCoinType extends CoinType ? CoinTypeToFormatMap[TCoinType] : Coin;
+  TCoinType extends CoinType
+    ? CoinTypeToFormatMap[TCoinType]
+    : GtOrEq<TCoinType, typeof SLIP44_MSB> extends 1
+    ? Prettify<GetEvmCoin<TCoinType>>
+    : Coin;
 
 export type ParseInt<T> = T extends `${infer N extends number}` ? N : never;
 

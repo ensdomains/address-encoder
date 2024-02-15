@@ -66,21 +66,24 @@ export const getCoderByCoinName = <
 };
 
 export const getCoderByCoinType = <
-  TCoinType extends CoinType | number = CoinType | number
+  const TCoinType extends CoinType | number = CoinType | number
 >(
   coinType: TCoinType
 ): GetCoderByCoinType<TCoinType> => {
-  const names = coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap];
+  const names =
+    coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap];
   // https://docs.ens.domains/ens-improvement-proposals/ensip-11-evmchain-address-resolution
   if (coinType >= SLIP44_MSB) {
     // EVM coin
     const evmChainId = coinTypeToEvmChainId(coinType);
-    const name = names ? names[0] : `Chain(${evmChainId})`; // name is derivable
+    const isUnknownChain = !names;
+    const name = isUnknownChain ? `Unknown Chain (${evmChainId})` : names[0]; // name is derivable
     const ethFormat = formats["eth"];
     return {
       name,
       coinType: coinType as EvmCoinType,
       evmChainId,
+      isUnknownChain,
       encode: ethFormat.encode,
       decode: ethFormat.decode,
     } as GetCoderByCoinType<TCoinType>;
