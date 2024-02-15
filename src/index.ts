@@ -66,7 +66,7 @@ export const getCoderByCoinName = <
 };
 
 export const getCoderByCoinType = <
-  const TCoinType extends CoinType | number = CoinType | number
+  TCoinType extends CoinType | number = CoinType | number
 >(
   coinType: TCoinType
 ): GetCoderByCoinType<TCoinType> => {
