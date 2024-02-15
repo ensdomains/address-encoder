@@ -31,6 +31,7 @@ test("evm coin name", () => {
   expect(coder.coinType).toBe(2147483658);
   expect(coder.name).toBe("op");
   expect(coder.evmChainId).toBe(10);
+  expect("isUnknownChain" in coder).toBeFalse();
   expect(coder.encode).toBeFunction();
   expect(coder.decode).toBeFunction();
 });
@@ -40,6 +41,17 @@ test("evm coin type", () => {
   expect(coder.coinType).toBe(2147483658);
   expect(coder.name).toBe("op");
   expect(coder.evmChainId).toBe(10);
+  expect(coder.isUnknownChain).toBeFalse();
+  expect(coder.encode).toBeFunction();
+  expect(coder.decode).toBeFunction();
+});
+
+test("unknown evm coin type", () => {
+  const coder = getCoderByCoinType(2147483659);
+  expect(coder.coinType).toBe(2147483659);
+  expect(coder.name).toBe("Unknown Chain (11)");
+  expect(coder.evmChainId).toBe(11);
+  expect(coder.isUnknownChain).toBeTrue();
   expect(coder.encode).toBeFunction();
   expect(coder.decode).toBeFunction();
 });

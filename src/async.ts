@@ -46,24 +46,24 @@ export const getCoderByCoinTypeAsync = async <
   const names =
     coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap];
 
-  if (!names) throw new Error(`Unsupported coin type: ${coinType}`);
-
-  const [name] = names;
-
   if (coinType >= SLIP44_MSB) {
     // EVM coin
     const evmChainId = coinTypeToEvmChainId(coinType);
+    const isUnknownChain = !names;
+    const name = isUnknownChain ? `Unknown Chain (${evmChainId})` : names[0];
     return {
       name,
       coinType: coinType as EvmCoinType,
       evmChainId,
+      isUnknownChain,
       encode: eth.encode,
       decode: eth.decode,
     } as GetCoderByCoinType<TCoinType>;
   }
+
+  if (!names) throw new Error(`Unsupported coin type: ${coinType}`);
+  const [name] = names;
   const mod = await import(`./coin/${name}`);
-
   if (!mod) throw new Error(`Failed to load coin: ${name}`);
-
   return mod[name];
 };

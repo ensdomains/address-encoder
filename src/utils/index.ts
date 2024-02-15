@@ -41,6 +41,7 @@ export {
   SLIP44_MSB,
   coinTypeToEvmChainId,
   evmChainIdToCoinType,
+  isEvmCoinType,
 } from "./evm.js";
 export { validateFlowAddress } from "./flow.js";
 export { decodeLeb128, encodeLeb128 } from "./leb128.js";

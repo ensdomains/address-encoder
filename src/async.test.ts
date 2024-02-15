@@ -27,6 +27,7 @@ test("evm coin name", async () => {
   expect(coder.coinType).toBe(2147483658);
   expect(coder.name).toBe("op");
   expect(coder.evmChainId).toBe(10);
+  expect("isUnknownChain" in coder).toBeFalse();
 });
 
 test("evm coin type", async () => {
@@ -34,6 +35,15 @@ test("evm coin type", async () => {
   expect(coder.coinType).toBe(2147483658);
   expect(coder.name).toBe("op");
   expect(coder.evmChainId).toBe(10);
+  expect(coder.isUnknownChain).toBeFalse();
+});
+
+test("unknown evm coin type", async () => {
+  const coder = await getCoderByCoinTypeAsync(2147483659);
+  expect(coder.coinType).toBe(2147483659);
+  expect(coder.name).toBe("Unknown Chain (11)");
+  expect(coder.evmChainId).toBe(11);
+  expect(coder.isUnknownChain).toBeTrue();
 });
 
 const nonEvmCoinNames = Object.keys(nonEvmCoinNameToTypeMap);
