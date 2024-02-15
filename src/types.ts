@@ -26,7 +26,9 @@ export type CoinTypeToFormatMap = {
     : never;
 };
 export type CoinNameToFormatMap = {
-  [key in CoinName]: CoinTypeToFormatMap[CoinNameToTypeMap[key]];
+  [key in CoinName]: Prettify<
+    Omit<CoinTypeToFormatMap[CoinNameToTypeMap[key]], "isUnknownChain">
+  >;
 };
 
 export type EvmCoinMap = typeof evmCoinNameToTypeMap;
