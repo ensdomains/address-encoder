@@ -12,11 +12,11 @@ describe.each([
     hex: "a9145ece0cadddc415b1980f001785947120acdb36fc87",
   },
   {
-    text: "btg1zw508d6qejxtdg4y5r3zarvaryv2eet8g",
+    text: "btg1zw508d6qejxtdg4y5r3zarvaryvl9f8z2",
     hex: "5210751e76e8199196d454941c45d1b3a323",
   },
   {
-    text: "btg1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kc36v4c",
+    text: "btg1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kdd2qs6",
     hex: "5128751e76e8199196d454941c45d1b3a323f1433bd6751e76e8199196d454941c45d1b3a323f1433bd6",
   },
 ])("btg address", ({ text, hex }) => {
