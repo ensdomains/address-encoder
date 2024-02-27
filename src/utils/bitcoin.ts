@@ -6,7 +6,6 @@ import {
 import {
   createBech32SegwitDecoder,
   createBech32SegwitEncoder,
-  createBech32mTaprootDecoder,
 } from "./bech32.js";
 
 export type BitcoinCoderParameters = {
@@ -21,18 +20,13 @@ export const createBitcoinDecoder = ({
   p2shVersions,
 }: BitcoinCoderParameters) => {
   const decodeBech32 = createBech32SegwitDecoder(hrp);
-  const decodeBech32m = createBech32mTaprootDecoder(hrp);
   const decodeBase58 = createBase58VersionedDecoder(
     p2pkhVersions,
     p2shVersions
   );
   return (source: string): Uint8Array => {
     if (source.toLowerCase().startsWith(hrp + "1")) {
-      try {
-        return decodeBech32(source);
-      } catch (error) {
-        return decodeBech32m(source);
-      }
+      return decodeBech32(source);
     }
     return decodeBase58(source);
   };

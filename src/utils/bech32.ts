@@ -56,33 +56,23 @@ export const createBech32SegwitEncoder =
 export const createBech32SegwitDecoder =
   (hrp: string) =>
   (source: string): Uint8Array => {
-    const { prefix, words } = bech32.decode(source);
-    if (prefix !== hrp) {
-      throw Error("Unexpected human-readable part in bech32 encoded address");
-    }
+    const decodedObj =
+      bech32.decodeUnsafe(source) || bech32m.decodeUnsafe(source);
+
+    if (!decodedObj) throw new Error("Unrecognised address format");
+    const { prefix, words } = decodedObj;
+
+    if (prefix !== hrp)
+      throw new Error(
+        "Unexpected human-readable part in bech32 encoded address"
+      );
+
     const script = bech32.fromWords(words.slice(1));
     let version = words[0];
     if (version > 0) {
       version += 0x50;
     }
-    return concatBytes(
-      new Uint8Array([version, script.length]),
-      new Uint8Array(script)
-    );
-  };
 
-export const createBech32mTaprootDecoder =
-  (hrp: string) =>
-  (source: string): Uint8Array => {
-    const { prefix, words } = bech32m.decode(source);
-    if (prefix !== hrp) {
-      throw Error("Unexpected human-readable part in bech32 encoded address");
-    }
-    const script = bech32m.fromWords(words.slice(1));
-    let version = words[0];
-    if (version > 0) {
-      version += 0x50;
-    }
     return concatBytes(
       new Uint8Array([version, script.length]),
       new Uint8Array(script)
