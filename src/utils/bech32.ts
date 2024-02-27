@@ -20,7 +20,9 @@ const createInternalBech32Decoder =
   (source: string): Uint8Array => {
     const { prefix, words } = bechLib.decode(source, limit);
     if (prefix !== hrp) {
-      throw Error("Unexpected human-readable part in bech32 encoded address");
+      throw new Error(
+        "Unexpected human-readable part in bech32 encoded address"
+      );
     }
     return new Uint8Array(bechLib.fromWords(words));
   };
@@ -42,7 +44,7 @@ export const createBech32SegwitEncoder =
     if (version >= 0x51 && version <= 0x60) {
       version -= 0x50;
     } else if (version !== 0x00) {
-      throw Error("Unrecognised address format");
+      throw new Error("Unrecognised address format");
     }
     let words: number[] = [];
     if (version > 0 && version < 17) {

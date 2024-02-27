@@ -17,7 +17,7 @@ const decodePrefix = (source: string): string => {
       return source.slice(i + 1);
     }
   }
-  throw Error("Unrecognised address format");
+  throw new Error("Unrecognised address format");
 };
 
 export const encodeNulsAddress = (source: Uint8Array): string => {

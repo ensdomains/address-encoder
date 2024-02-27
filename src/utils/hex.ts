@@ -55,7 +55,7 @@ export const createHexChecksummedEncoder =
 export const createHexChecksummedDecoder =
   (chainId?: number) => (source: string) => {
     if (!isValidChecksumAddress(source, chainId)) {
-      throw Error("Unrecognised address format");
+      throw new Error("Unrecognised address format");
     }
     return hexToBytes(source as Hex);
   };
