@@ -22,7 +22,7 @@ export const createBase58VersionedEncoder =
         source[source.length - 2] !== 0x88 ||
         source[source.length - 1] !== 0xac
       ) {
-        throw Error("Unrecognised address format");
+        throw new Error("Unrecognised address format");
       }
       return base58CheckEncode(
         concatBytes(p2pkhVersion, source.slice(3, 3 + source[2]))
@@ -32,14 +32,14 @@ export const createBase58VersionedEncoder =
     // P2SH: OP_HASH160 <scriptHash> OP_EQUAL
     if (source[0] === 0xa9) {
       if (source[source.length - 1] !== 0x87) {
-        throw Error("Unrecognised address format");
+        throw new Error("Unrecognised address format");
       }
       return base58CheckEncode(
         concatBytes(p2shVersion, source.slice(2, 2 + source[1]))
       );
     }
 
-    throw Error("Unrecognised address format");
+    throw new Error("Unrecognised address format");
   };
 
 export const createBase58VersionedDecoder =
@@ -65,5 +65,5 @@ export const createBase58VersionedDecoder =
         addr.slice(p2shVersions[0].length),
         new Uint8Array([0x87])
       );
-    throw Error("Unrecognised address format");
+    throw new Error("Unrecognised address format");
   };

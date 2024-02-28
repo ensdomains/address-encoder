@@ -12,7 +12,7 @@ describe.each([
     hex: "a9146449f568c9cd2378138f2636e1567112a184a9e887",
   },
   {
-    text: "mona1zw508d6qejxtdg4y5r3zarvaryvhm3vz7",
+    text: "mona1zw508d6qejxtdg4y5r3zarvaryvz8pq8u",
     hex: "5210751e76e8199196d454941c45d1b3a323",
   },
 ])("mona address", ({ text, hex }) => {

@@ -17,7 +17,8 @@ export const createEosEncoder =
 export const createEosDecoder =
   (prefix: string) =>
   (source: string): Uint8Array => {
-    if (!source.startsWith(prefix)) throw Error("Unrecognised address format");
+    if (!source.startsWith(prefix))
+      throw new Error("Unrecognised address format");
     const prefixStripped = source.slice(prefix.length);
     const decoded = base58UncheckedDecode(prefixStripped);
     const checksummed = eosChecksum.decode(decoded);
