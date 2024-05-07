@@ -45,7 +45,17 @@ export function isValidChecksumAddress(
   address: string,
   chainId?: number
 ): boolean {
-  return isAddress(address) && checksumAddress(address, chainId) === address;
+  if (!isAddress(address)) return false;
+
+  if (address === checksumAddress(address, chainId)) return true;
+
+  const prefixlessAddress = stripHexPrefix(address);
+  // all lowercase
+  if (prefixlessAddress.toLowerCase() === prefixlessAddress) return true;
+  // all uppercase
+  if (prefixlessAddress.toUpperCase() === prefixlessAddress) return true;
+
+  return false;
 }
 
 export const createHexChecksummedEncoder =
