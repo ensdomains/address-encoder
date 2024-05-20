@@ -44,6 +44,15 @@ export {
   isEvmCoinType,
 } from "./evm.js";
 export { validateFlowAddress } from "./flow.js";
+export {
+  checksumAddress,
+  createHexChecksummedDecoder,
+  createHexChecksummedEncoder,
+  isAddress,
+  isValidChecksumAddress,
+  rawChecksumAddress,
+  stripHexPrefix,
+} from "./hex.js";
 export { decodeLeb128, encodeLeb128 } from "./leb128.js";
 export { validateNearAddress } from "./near.js";
 export { createZcashDecoder, createZcashEncoder } from "./zcash.js";
