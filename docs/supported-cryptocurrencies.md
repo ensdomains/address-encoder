@@ -6,6 +6,7 @@ The following EVM chains are supported:
 
 | Chain ID | Name   | Full Name         | Coin Type  |
 | -------- | ------ | ----------------- | ---------- |
+| 0        | default| Default           | 2147483648 |
 | 10       | op     | Optimism          | 2147483658 |
 | 25       | cro    | Cronos            | 2147483673 |
 | 56       | bsc    | BNB Smart Chain   | 2147483704 |
