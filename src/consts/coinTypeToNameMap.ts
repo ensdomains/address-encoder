@@ -1,4 +1,6 @@
 export const evmCoinTypeToNameMap = Object.freeze({
+  /* Chain ID: 0 */
+  "2147483648": ["default", "Default"],
   /* Chain ID: 10 */
   "2147483658": ["op", "Optimism"],
   /* Chain ID: 25 */
