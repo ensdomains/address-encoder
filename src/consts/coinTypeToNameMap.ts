@@ -141,6 +141,7 @@ export const nonEvmCoinTypeToNameMap = Object.freeze({
   "592": ["grin", "Grin"],
   "700": ["gnoLegacy", "[LEGACY] Gnosis"],
   "714": ["bnb", "BNB"],
+  "784": ["sui", "Sui"],
   "818": ["vet", "VeChain"],
   "820": ["cloLegacy", "[LEGACY] Callisto"],
   "825": ["hive", "Hive"],

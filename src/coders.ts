@@ -120,6 +120,7 @@ export { decodeSteemAddress, encodeSteemAddress } from "./coin/steem.js";
 export { decodeStratAddress, encodeStratAddress } from "./coin/strat.js";
 export { decodeStrkAddress, encodeStrkAddress } from "./coin/strk.js";
 export { decodeStxAddress, encodeStxAddress } from "./coin/stx.js";
+export { decodeSuiAddress, encodeSuiAddress } from "./coin/sui.js";
 export { decodeSysAddress, encodeSysAddress } from "./coin/sys.js";
 export { decodeTfuelAddress, encodeTfuelAddress } from "./coin/tfuel.js";
 export {

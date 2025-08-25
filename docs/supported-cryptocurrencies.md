@@ -138,6 +138,7 @@ The following coins are supported:
 | 589       | tfuel | Theta Fuel          | checksummed-hex                                                    |
 | 592       | grin  | Grin                | base58check                                                        |
 | 714       | bnb   | BNB                 | bech32                                                             |
+| 784       | sui   | Sui                 | hex                                                                |
 | 818       | vet   | VeChain             | checksummed-hex                                                    |
 | 825       | hive  | Hive                | base58 + ripemd160-checksum                                        |
 | 888       | neo   | NEO                 | base58check                                                        |

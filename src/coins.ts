@@ -93,6 +93,7 @@ export { steem } from "./coin/steem.js";
 export { strat } from "./coin/strat.js";
 export { strk } from "./coin/strk.js";
 export { stx } from "./coin/stx.js";
+export { sui } from "./coin/sui.js";
 export { sys } from "./coin/sys.js";
 export { tfuel } from "./coin/tfuel.js";
 export { thetaLegacy } from "./coin/thetaLegacy.js";
