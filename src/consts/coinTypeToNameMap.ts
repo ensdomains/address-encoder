@@ -20,7 +20,7 @@ export const evmCoinTypeToNameMap = Object.freeze({
   /* Chain ID: 108 */
   "2147483756": ["tt", "ThunderCore"],
   /* Chain ID: 137 */
-  "2147483785": ["matic", "Polygon"],
+  "2147483785": ["pol", "Polygon"],
   /* Chain ID: 169 */
   "2147483817": ["manta", "Manta Pacific"],
   /* Chain ID: 246 */
