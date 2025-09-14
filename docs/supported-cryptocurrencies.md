@@ -16,7 +16,7 @@ The following EVM chains are supported:
 | 99       | poa    | POA               | 2147483747 |
 | 100      | gno    | Gnosis            | 2147483748 |
 | 108      | tt     | ThunderCore       | 2147483756 |
-| 137      | pol  | Polygon           | 2147483785 |
+| 137      | pol    |  Polygon          | 2147483785 |
 | 169      | manta  | Manta Pacific     | 2147483817 |
 | 246      | ewt    | Energy Web        | 2147483894 |
 | 250      | ftm    | Fantom Opera      | 2147483898 |
