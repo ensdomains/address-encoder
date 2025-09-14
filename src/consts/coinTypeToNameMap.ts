@@ -49,6 +49,8 @@ export const evmCoinTypeToNameMap = Object.freeze({
   "2147525868": ["celo", "Celo"],
   /* Chain ID: 43114 */
   "2147526762": ["avaxc", "Avalanche C-Chain"],
+  /* Chain ID: 47763 */
+  "2147531411": ["neox", "Neo X"],
   /* Chain ID: 59144 */
   "2147542792": ["linea", "Linea"],
   /* Chain ID: 534352 */

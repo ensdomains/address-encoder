@@ -31,6 +31,7 @@ The following EVM chains are supported:
 | 42161    | arb1   | Arbitrum One      | 2147525809 |
 | 42220    | celo   | Celo              | 2147525868 |
 | 43114    | avaxc  | Avalanche C-Chain | 2147526762 |
+| 47763    | neo    | Neo x             | 2147531411 |
 | 59144    | linea  | Linea             | 2147542792 |
 | 534352   | scr    | Scroll            | 2148018000 |
 | 7777777  | zora   | Zora              | 2155261425 |
