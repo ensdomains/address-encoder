@@ -12,7 +12,7 @@ export const encodeHnsAddress = (source: Uint8Array): string => {
   return bech32.encode(hrp, [versionBytes[0], ...bech32.toWords(source)]);
 };
 export const decodeHnsAddress = (source: string): Uint8Array => {
-  const { prefix, words } = bech32.decode(source);
+  const { prefix, words } = bech32.decode(source as `${string}1${string}`);
 
   if (prefix !== hrp) throw new Error("Unrecognised address format");
 
