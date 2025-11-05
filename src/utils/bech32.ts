@@ -18,10 +18,13 @@ const createInternalBech32Encoder =
 const createInternalBech32Decoder =
   ({ bechLib, hrp, limit }: Bech32Parameters) =>
   (source: string): Uint8Array => {
-    const { prefix, words } = bechLib.decode(source, limit);
+    const { prefix, words } = bechLib.decode(
+      source as `${string}1${string}`,
+      limit,
+    );
     if (prefix !== hrp) {
       throw new Error(
-        "Unexpected human-readable part in bech32 encoded address"
+        "Unexpected human-readable part in bech32 encoded address",
       );
     }
     return new Uint8Array(bechLib.fromWords(words));
@@ -66,7 +69,7 @@ export const createBech32SegwitDecoder =
 
     if (prefix !== hrp)
       throw new Error(
-        "Unexpected human-readable part in bech32 encoded address"
+        "Unexpected human-readable part in bech32 encoded address",
       );
 
     const script = bech32.fromWords(words.slice(1));
@@ -77,6 +80,6 @@ export const createBech32SegwitDecoder =
 
     return concatBytes(
       new Uint8Array([version, script.length]),
-      new Uint8Array(script)
+      new Uint8Array(script),
     );
   };

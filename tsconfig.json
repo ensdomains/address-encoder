@@ -3,5 +3,5 @@
   "extends": "./tsconfig.base.json",
   "include": ["src"],
   "exclude": [],
-  "references": [{ "path": "./tsconfig.bun.json" }]
+  "references": [{ "path": "./tsconfig.base.json" }]
 }
