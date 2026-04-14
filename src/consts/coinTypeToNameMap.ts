@@ -101,6 +101,7 @@ export const nonEvmCoinTypeToNameMap = Object.freeze({
   "204": ["bcn", "Bytecoin"],
   "235": ["fio", "FIO"],
   "236": ["bsv", "BitcoinSV"],
+  "238": ["qrl", "Quantum Resistant Ledger"],
   "242": ["nim", "Nimiq"],
   "246": ["ewtLegacy", "[LEGACY] Energy Web"],
   "283": ["algo", "Algorand"],

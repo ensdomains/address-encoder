@@ -107,6 +107,7 @@ export {
   encodePoaLegacyAddress,
 } from "./coin/poaLegacy.js";
 export { decodePpcAddress, encodePpcAddress } from "./coin/ppc.js";
+export { decodeQrlAddress, encodeQrlAddress } from "./coin/qrl.js";
 export { decodeQtumAddress, encodeQtumAddress } from "./coin/qtum.js";
 export { decodeRbtcAddress, encodeRbtcAddress } from "./coin/rbtc.js";
 export { decodeRddAddress, encodeRddAddress } from "./coin/rdd.js";

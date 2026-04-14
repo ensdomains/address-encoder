@@ -80,6 +80,7 @@ export { one } from "./coin/one.js";
 export { ont } from "./coin/ont.js";
 export { poaLegacy } from "./coin/poaLegacy.js";
 export { ppc } from "./coin/ppc.js";
+export { qrl } from "./coin/qrl.js";
 export { qtum } from "./coin/qtum.js";
 export { rbtc } from "./coin/rbtc.js";
 export { rdd } from "./coin/rdd.js";
