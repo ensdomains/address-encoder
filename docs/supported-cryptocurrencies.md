@@ -4,36 +4,38 @@
 
 The following EVM chains are supported:
 
-| Chain ID | Name   | Full Name         | Coin Type  |
-| -------- | ------ | ----------------- | ---------- |
-| 0        | default| Default           | 2147483648 |
-| 10       | op     | Optimism          | 2147483658 |
-| 25       | cro    | Cronos            | 2147483673 |
-| 56       | bsc    | BNB Smart Chain   | 2147483704 |
-| 60       | go     | GoChain           | 2147483708 |
-| 61       | etc    | Ethereum Classic  | 2147483709 |
-| 88       | tomo   | TomoChain         | 2147483736 |
-| 99       | poa    | POA               | 2147483747 |
-| 100      | gno    | Gnosis            | 2147483748 |
-| 108      | tt     | ThunderCore       | 2147483756 |
-| 137      | matic  | Polygon           | 2147483785 |
-| 169      | manta  | Manta Pacific     | 2147483817 |
-| 246      | ewt    | Energy Web        | 2147483894 |
-| 250      | ftm    | Fantom Opera      | 2147483898 |
-| 288      | boba   | Boba              | 2147483936 |
-| 324      | zksync | zkSync            | 2147483972 |
-| 361      | theta  | Theta             | 2147484009 |
-| 820      | clo    | Callisto          | 2147484468 |
-| 1088     | metis  | Metis             | 2147484736 |
-| 5000     | mantle | Mantle            | 2147488648 |
-| 8453     | base   | Base              | 2147492101 |
-| 39797    | nrg    | Energi            | 2147523445 |
-| 42161    | arb1   | Arbitrum One      | 2147525809 |
-| 42220    | celo   | Celo              | 2147525868 |
-| 43114    | avaxc  | Avalanche C-Chain | 2147526762 |
-| 59144    | linea  | Linea             | 2147542792 |
-| 534352   | scr    | Scroll            | 2148018000 |
-| 7777777  | zora   | Zora              | 2155261425 |
+| Chain ID | Name     | Full Name         | Coin Type  |
+| -------- | -------- | ----------------- | ---------- |
+| 0        | default  | Default           | 2147483648 |
+| 10       | op       | Optimism          | 2147483658 |
+| 25       | cro      | Cronos            | 2147483673 |
+| 56       | bsc      | BNB Smart Chain   | 2147483704 |
+| 60       | go       | GoChain           | 2147483708 |
+| 61       | etc      | Ethereum Classic  | 2147483709 |
+| 88       | tomo     | TomoChain         | 2147483736 |
+| 99       | poa      | POA               | 2147483747 |
+| 100      | gno      | Gnosis            | 2147483748 |
+| 108      | tt       | ThunderCore       | 2147483756 |
+| 137      | matic    | Polygon           | 2147483785 |
+| 143      | mon      | Monad             | 2147483791 |
+| 169      | manta    | Manta Pacific     | 2147483817 |
+| 246      | ewt      | Energy Web        | 2147483894 |
+| 250      | ftm      | Fantom Opera      | 2147483898 |
+| 288      | boba     | Boba              | 2147483936 |
+| 324      | zksync   | zkSync            | 2147483972 |
+| 361      | theta    | Theta             | 2147484009 |
+| 820      | clo      | Callisto          | 2147484468 |
+| 999      | hyperevm | HyperEVM          | 2147484647 |
+| 1088     | metis    | Metis             | 2147484736 |
+| 5000     | mantle   | Mantle            | 2147488648 |
+| 8453     | base     | Base              | 2147492101 |
+| 39797    | nrg      | Energi            | 2147523445 |
+| 42161    | arb1     | Arbitrum One      | 2147525809 |
+| 42220    | celo     | Celo              | 2147525868 |
+| 43114    | avaxc    | Avalanche C-Chain | 2147526762 |
+| 59144    | linea    | Linea             | 2147542792 |
+| 534352   | scr      | Scroll            | 2148018000 |
+| 7777777  | zora     | Zora              | 2155261425 |
 
 ### Legacy Coins
 
