@@ -21,6 +21,8 @@ export const evmCoinTypeToNameMap = Object.freeze({
   "2147483756": ["tt", "ThunderCore"],
   /* Chain ID: 137 */
   "2147483785": ["matic", "Polygon"],
+  /* Chain ID: 143 */
+  "2147483791": ["mon", "Monad"],
   /* Chain ID: 169 */
   "2147483817": ["manta", "Manta Pacific"],
   /* Chain ID: 246 */
@@ -35,6 +37,8 @@ export const evmCoinTypeToNameMap = Object.freeze({
   "2147484009": ["theta", "Theta"],
   /* Chain ID: 820 */
   "2147484468": ["clo", "Callisto"],
+  /* Chain ID: 999 */
+  "2147484647": ["hyperevm", "HyperEVM"],
   /* Chain ID: 1088 */
   "2147484736": ["metis", "Metis"],
   /* Chain ID: 5000 */
