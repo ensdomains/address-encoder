@@ -21,6 +21,9 @@ describe("evmChainIdToCoinType()", () => {
   test("chainId too large", () => {
     expect(() => evmChainIdToCoinType(2147483648)).toThrow("Invalid chainId");
   });
+  test("negative chainId", () => {
+    expect(() => evmChainIdToCoinType(-1)).toThrow("Invalid chainId");
+  });
 });
 
 describe("coinTypeToEvmChainId()", () => {
