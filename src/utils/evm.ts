@@ -26,7 +26,7 @@ export const evmChainIdToCoinType = <
 >(
   chainId: TChainId
 ): EvmChainIdToCoinType<TChainId> => {
-  if (chainId >= SLIP44_MSB) throw new Error("Invalid chainId");
+  if (chainId < 0 || chainId >= SLIP44_MSB) throw new Error("Invalid chainId");
   return ((SLIP44_MSB | chainId) >>> 0) as EvmChainIdToCoinType<TChainId>;
 };
 
