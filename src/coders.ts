@@ -136,6 +136,7 @@ export {
   decodeTtLegacyAddress,
   encodeTtLegacyAddress,
 } from "./coin/ttLegacy.js";
+export { decodeVaraAddress, encodeVaraAddress } from "./coin/vara.js";
 export { decodeVetAddress, encodeVetAddress } from "./coin/vet.js";
 export { decodeViaAddress, encodeViaAddress } from "./coin/via.js";
 export { decodeVlxAddress, encodeVlxAddress } from "./coin/vlx.js";

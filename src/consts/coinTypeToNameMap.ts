@@ -148,6 +148,7 @@ export const nonEvmCoinTypeToNameMap = Object.freeze({
   "888": ["neo", "NEO"],
   "889": ["tomoLegacy", "[LEGACY] TomoChain"],
   "904": ["hnt", "Helium"],
+  "913": ["vara", "Vara Network"],
   "931": ["rune", "THORChain"],
   "999": ["bcd", "Bitcoin Diamond"],
   "1001": ["ttLegacy", "[LEGACY] ThunderCore"],
