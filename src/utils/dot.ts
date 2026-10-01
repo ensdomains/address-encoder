@@ -10,8 +10,6 @@ const prefixStringBytes = new Uint8Array([
 const dotChecksum = (sourceWithTypePrefix: Uint8Array): Uint8Array =>
   blake2b(concatBytes(prefixStringBytes, sourceWithTypePrefix)).slice(0, 2);
 
-// SS58 network identifiers 0-63 are encoded as a single byte, 64-16383 as two bytes.
-// https://docs.substrate.io/reference/address-formats/
 const encodeSs58TypePrefix = (type: number): Uint8Array => {
   if (!Number.isInteger(type) || type < 0 || type > 16383)
     throw new Error("Invalid SS58 network identifier");

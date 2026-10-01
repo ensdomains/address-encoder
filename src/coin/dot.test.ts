@@ -17,7 +17,6 @@ describe.each([
 });
 
 test("dot address: rejects trailing bytes after checksum", () => {
-  // valid address for 0xd6596f…2a6b with 0xdead appended to the payload
   expect(() =>
     decodeDotAddress("12dQGTZViQwSYhgT6bUvDGcqb4w7GfrDLE8xkn4kXJyqwn4JzPv")
   ).toThrow("Unrecognized address format");
