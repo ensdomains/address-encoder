@@ -100,6 +100,7 @@ export { thetaLegacy } from "./coin/thetaLegacy.js";
 export { tomoLegacy } from "./coin/tomoLegacy.js";
 export { trx } from "./coin/trx.js";
 export { ttLegacy } from "./coin/ttLegacy.js";
+export { vara } from "./coin/vara.js";
 export { vet } from "./coin/vet.js";
 export { via } from "./coin/via.js";
 export { vlx } from "./coin/vlx.js";

@@ -15,3 +15,9 @@ describe.each([
     expect(decodeDotAddress(text)).toEqual(hexToBytes(hex));
   });
 });
+
+test("dot address: rejects trailing bytes after checksum", () => {
+  expect(() =>
+    decodeDotAddress("12dQGTZViQwSYhgT6bUvDGcqb4w7GfrDLE8xkn4kXJyqwn4JzPv")
+  ).toThrow("Unrecognized address format");
+});

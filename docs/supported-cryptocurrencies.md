@@ -143,6 +143,7 @@ The following coins are supported:
 | 825       | hive  | Hive                | base58 + ripemd160-checksum                                        |
 | 888       | neo   | NEO                 | base58check                                                        |
 | 904       | hnt   | Helium              | base58check                                                        |
+| 913       | vara  | Vara Network        | ss58                                                               |
 | 931       | rune  | THORChain           | bech32                                                             |
 | 999       | bcd   | Bitcoin Diamond     | base58check P2PKH and P2SH, and bech32 segwit                      |
 | 1023      | one   | HARMONY-ONE         | bech32                                                             |

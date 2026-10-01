@@ -10,25 +10,40 @@ const prefixStringBytes = new Uint8Array([
 const dotChecksum = (sourceWithTypePrefix: Uint8Array): Uint8Array =>
   blake2b(concatBytes(prefixStringBytes, sourceWithTypePrefix)).slice(0, 2);
 
-export const createDotAddressEncoder =
-  (type: number) =>
-  (source: Uint8Array): string => {
-    const typePrefix = new Uint8Array([type]);
+const encodeSs58TypePrefix = (type: number): Uint8Array => {
+  if (!Number.isInteger(type) || type < 0 || type > 16383)
+    throw new Error("Invalid SS58 network identifier");
+  if (type < 64) return new Uint8Array([type]);
+  return new Uint8Array([
+    ((type & 0b1111_1100) >> 2) | 0b0100_0000,
+    (type >> 8) | ((type & 0b0000_0011) << 6),
+  ]);
+};
+
+export const createDotAddressEncoder = (type: number) => {
+  const typePrefix = encodeSs58TypePrefix(type);
+  return (source: Uint8Array): string => {
     const sourceWithTypePrefix = concatBytes(typePrefix, source);
     const checksum = dotChecksum(sourceWithTypePrefix);
     return base58UncheckedEncode(concatBytes(sourceWithTypePrefix, checksum));
   };
+};
 
-export const createDotAddressDecoder =
-  (type: number) =>
-  (source: string): Uint8Array => {
+export const createDotAddressDecoder = (type: number) => {
+  const typePrefix = encodeSs58TypePrefix(type);
+  const prefixLength = typePrefix.length;
+  return (source: string): Uint8Array => {
     const decoded = base58UncheckedDecode(source);
-    if (decoded[0] !== type) throw new Error("Unrecognized address format");
+    if (decoded.length !== prefixLength + 34)
+      throw new Error("Unrecognized address format");
+    if (!equalBytes(decoded.slice(0, prefixLength), typePrefix))
+      throw new Error("Unrecognized address format");
 
-    const checksum = decoded.slice(33, 35);
-    const newChecksum = dotChecksum(decoded.slice(0, 33));
+    const checksum = decoded.slice(prefixLength + 32);
+    const newChecksum = dotChecksum(decoded.slice(0, prefixLength + 32));
     if (!equalBytes(checksum, newChecksum))
       throw new Error("Unrecognized address format");
 
-    return decoded.slice(1, 33);
+    return decoded.slice(prefixLength, prefixLength + 32);
   };
+};
