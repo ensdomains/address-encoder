@@ -59,12 +59,23 @@ export function cborDecode<T = any>(data: ArrayBuffer | SharedArrayBuffer): T {
     return new SimpleValue(value);
   };
 
+  function ensureAvailable(length: number) {
+    if (
+      !Number.isSafeInteger(length) ||
+      length < 0 ||
+      length > data.byteLength - offset
+    ) {
+      throw new Error("Truncated CBOR input");
+    }
+  }
+
   function commitRead(length: number, value: any) {
     offset += length;
     return value;
   }
 
   function readArrayBuffer(length: number) {
+    ensureAvailable(length);
     return commitRead(length, new Uint8Array(data, offset, length));
   }
 
@@ -93,18 +104,23 @@ export function cborDecode<T = any>(data: ArrayBuffer | SharedArrayBuffer): T {
   }
 
   function readFloat32(): number {
+    ensureAvailable(4);
     return commitRead(4, dataView.getFloat32(offset));
   }
   function readFloat64(): number {
+    ensureAvailable(8);
     return commitRead(8, dataView.getFloat64(offset));
   }
   function readUint8(): number {
+    ensureAvailable(1);
     return commitRead(1, ta[offset]);
   }
   function readUint16(): number {
+    ensureAvailable(2);
     return commitRead(2, dataView.getUint16(offset));
   }
   function readUint32(): number {
+    ensureAvailable(4);
     return commitRead(4, dataView.getUint32(offset));
   }
   function readUint64(): number {
@@ -112,6 +128,7 @@ export function cborDecode<T = any>(data: ArrayBuffer | SharedArrayBuffer): T {
   }
 
   function readBreak(): boolean {
+    ensureAvailable(1);
     if (ta[offset] !== 0xff) {
       return false;
     }
@@ -152,25 +169,28 @@ export function cborDecode<T = any>(data: ArrayBuffer | SharedArrayBuffer): T {
   }
 
   function appendUtf16Data(utf16data: number[], length: number) {
-    for (let i = 0; i < length; ++i) {
+    ensureAvailable(length);
+    const end = offset + length;
+    function readContinuation() {
+      if (offset >= end) throw new Error("Truncated CBOR text string");
+      return readUint8() & 0x3f;
+    }
+    while (offset < end) {
       let value = readUint8();
       if (value & 0x80) {
         if (value < 0xe0) {
-          value = ((value & 0x1f) << 6) | (readUint8() & 0x3f);
-          length -= 1;
+          value = ((value & 0x1f) << 6) | readContinuation();
         } else if (value < 0xf0) {
           value =
             ((value & 0x0f) << 12) |
-            ((readUint8() & 0x3f) << 6) |
-            (readUint8() & 0x3f);
-          length -= 2;
+            (readContinuation() << 6) |
+            readContinuation();
         } else {
           value =
             ((value & 0x0f) << 18) |
-            ((readUint8() & 0x3f) << 12) |
-            ((readUint8() & 0x3f) << 6) |
-            (readUint8() & 0x3f);
-          length -= 3;
+            (readContinuation() << 12) |
+            (readContinuation() << 6) |
+            readContinuation();
         }
       }
 
@@ -221,6 +241,7 @@ export function cborDecode<T = any>(data: ArrayBuffer | SharedArrayBuffer): T {
           while (length >= 0) {
             fullArrayLength += length;
             elements.push(readArrayBuffer(length));
+            length = readIndefiniteStringLength(majorType);
           }
 
           const fullArray = new Uint8Array(fullArrayLength);
@@ -241,6 +262,7 @@ export function cborDecode<T = any>(data: ArrayBuffer | SharedArrayBuffer): T {
           length = readIndefiniteStringLength(majorType);
           while (length >= 0) {
             appendUtf16Data(utf16data, length);
+            length = readIndefiniteStringLength(majorType);
           }
         } else {
           appendUtf16Data(utf16data, length);
@@ -263,6 +285,8 @@ export function cborDecode<T = any>(data: ArrayBuffer | SharedArrayBuffer): T {
             retArray.push(decodeItem());
           }
         } else {
+          // Every element requires at least one byte. Check before allocating.
+          ensureAvailable(length);
           retArray = new Array(length);
           for (i = 0; i < length; ++i) {
             retArray[i] = decodeItem();
@@ -272,6 +296,7 @@ export function cborDecode<T = any>(data: ArrayBuffer | SharedArrayBuffer): T {
         return retArray;
       case 5:
         const retObject: any = {};
+        if (length >= 0) ensureAvailable(length * 2);
         for (i = 0; i < length || (length < 0 && !readBreak()); ++i) {
           const key = decodeItem();
           retObject[key] = decodeItem();
