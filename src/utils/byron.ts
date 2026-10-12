@@ -1,34 +1,46 @@
-import { base58UncheckedDecode, base58UncheckedEncode } from "./base58.js";
-import { TaggedValue, cborDecode, cborEncode } from "./cbor.js";
-import { crc32 } from "./crc32.js";
+import { decode, encode, Tagged } from 'cborg'
+import { base58UncheckedDecode, base58UncheckedEncode } from './base58.js'
+import { crc32 } from './crc32.js'
+
+// Byron addresses are CBOR `[#6.24(address bytes), crc32(address bytes)]`
+const ADDRESS_TAG = 24
 
 export const byronEncode = (source: Uint8Array): string => {
-  const checksum = crc32(source);
-  const taggedValue = new TaggedValue(source.buffer, 24);
+  const checksum = crc32(source)
 
-  const cborEncodedAddress = cborEncode([taggedValue, checksum]);
+  const cborEncodedAddress = encode([new Tagged(ADDRESS_TAG, source), checksum])
 
-  const address = base58UncheckedEncode(new Uint8Array(cborEncodedAddress));
+  const address = base58UncheckedEncode(cborEncodedAddress)
 
-  if (!address.startsWith("Ae2") && !address.startsWith("Ddz"))
-    throw new Error("Unrecognised address format");
+  if (!address.startsWith('Ae2') && !address.startsWith('Ddz'))
+    throw new Error('Unrecognised address format')
 
-  return address;
-};
+  return address
+}
 
 export const byronDecode = (source: string): Uint8Array => {
-  const bytes = base58UncheckedDecode(source);
+  const bytes = base58UncheckedDecode(source)
 
-  const cborDecoded = cborDecode(bytes.buffer);
+  let cborDecoded: unknown
+  try {
+    cborDecoded = decode(bytes, { tags: Tagged.preserve(ADDRESS_TAG) })
+  } catch {
+    throw new Error('Unrecognised address format')
+  }
 
-  const taggedAddress = cborDecoded[0];
-  if (taggedAddress === undefined)
-    throw new Error("Unrecognised address format");
+  if (!Array.isArray(cborDecoded) || cborDecoded.length !== 2)
+    throw new Error('Unrecognised address format')
 
-  const checksum = cborDecoded[1];
-  const newChecksum = crc32(taggedAddress.value);
+  const [taggedAddress, checksum] = cborDecoded
+  if (
+    !(taggedAddress instanceof Tagged) ||
+    !(taggedAddress.value instanceof Uint8Array)
+  )
+    throw new Error('Unrecognised address format')
 
-  if (checksum !== newChecksum) throw new Error("Unrecognised address format");
+  const newChecksum = crc32(taggedAddress.value)
 
-  return taggedAddress.value;
-};
+  if (checksum !== newChecksum) throw new Error('Unrecognised address format')
+
+  return taggedAddress.value
+}

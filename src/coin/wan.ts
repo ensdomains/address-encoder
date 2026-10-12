@@ -1,54 +1,49 @@
-import { keccak_256 } from "@noble/hashes/sha3";
-import type { CheckedCoin } from "../types.js";
-import {
-  bytesToHexWithoutPrefix,
-  hexToBytes,
-  stringToBytes,
-  type Hex,
-} from "../utils/bytes.js";
-import { isAddress } from "../utils/hex.js";
+import { keccak_256 } from '@noble/hashes/sha3'
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
+import type { CheckedCoin } from '../types.js'
+import { stringToBytes } from '../utils/bytes.js'
+import { isAddress, stripHexPrefix } from '../utils/hex.js'
 
-const name = "wan";
-const coinType = 5718350;
+const name = 'wan'
+const coinType = 5718350
 
 const wanChecksum = (addressBytes: Uint8Array): string => {
-  const addressStr = bytesToHexWithoutPrefix(addressBytes);
-  const address = addressStr.split("");
+  const addressStr = bytesToHex(addressBytes)
+  const address = addressStr.split('')
   // hash of string representation of hex address
   // this is intentional
-  const hash = keccak_256(stringToBytes(addressStr));
+  const hash = keccak_256(stringToBytes(addressStr))
 
-  let hashByte: number;
+  let hashByte: number
   for (let i = 0; i < 40; i++) {
-    hashByte = hash[Math.floor(i / 2)];
+    hashByte = hash[Math.floor(i / 2)]
 
-    if (i % 2 === 0) hashByte = hashByte >> 4;
-    else hashByte &= 0xf;
+    if (i % 2 === 0) hashByte = hashByte >> 4
+    else hashByte &= 0xf
 
-    if (address[i] > "9" && hashByte <= 7)
-      address[i] = address[i].toUpperCase();
+    if (address[i] > '9' && hashByte <= 7) address[i] = address[i].toUpperCase()
   }
 
-  return `0x${address.join("")}`;
-};
+  return `0x${address.join('')}`
+}
 
 export const encodeWanAddress = (source: Uint8Array): string => {
-  return wanChecksum(source);
-};
+  return wanChecksum(source)
+}
 export const decodeWanAddress = (source: string): Uint8Array => {
-  if (!isAddress(source)) throw new Error("Unrecognised address format");
+  if (!isAddress(source)) throw new Error('Unrecognised address format')
 
-  const bytes = hexToBytes(source as Hex);
+  const bytes = hexToBytes(stripHexPrefix(source))
 
   if (wanChecksum(bytes) !== source)
-    throw new Error("Unrecognised address format");
+    throw new Error('Unrecognised address format')
 
-  return bytes;
-};
+  return bytes
+}
 
 export const wan = {
   name,
   coinType,
   encode: encodeWanAddress,
   decode: decodeWanAddress,
-} as const satisfies CheckedCoin;
+} as const satisfies CheckedCoin

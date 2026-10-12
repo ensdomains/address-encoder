@@ -36,17 +36,17 @@ const encodedAddress = btcCoder.encode(decodedAddress);
 
 ### Hex String Encoding
 
-If the data you are encoding is a hex string rather than `Uint8Array`, you can use the included `hexToBytes()` to convert it to the correct type.
+If the data you are encoding is a hex string rather than `Uint8Array`, you can use `hexToBytes()` from [`@noble/hashes`](https://github.com/paulmillr/noble-hashes) to convert it to the correct type. It expects the hex string without the `0x` prefix.
 
 ```ts
 import { getCoderByCoinName } from "@ensdomains/address-encoder";
-import { hexToBytes } from "@ensdomains/address-encoder/utils";
+import { hexToBytes } from "@noble/hashes/utils.js";
 
 const btcCoder = getCoderByCoinName("btc");
 
 // Convert hex encoded data to bytes
 const dataAsBytes = hexToBytes(
-  "0x76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac"
+  "76a91462e907b15cbf27d5425399ebf6f0fb50ebb88f1888ac"
 );
 // Uint8Array(25) [ 118, 169, 20, 98, 233, 7, 177, 92, 191, 39, 213, 66, 83, 153, 235, 246, 240, 251, 80, 235, 184, 143, 24, 136, 172 ]
 

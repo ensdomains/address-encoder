@@ -1,20 +1,20 @@
-import { hexToBytes } from "@noble/hashes/utils";
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from 'bun:test'
+import { hexToBytes } from '@noble/hashes/utils'
 import {
   decodeCeloLegacyAddress,
   encodeCeloLegacyAddress,
-} from "./celoLegacy.js";
+} from './celoLegacy.js'
 
 describe.each([
   {
-    text: "0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275",
-    hex: "67316300f17f063085ca8bca4bd3f7a5a3c66275",
+    text: '0x67316300f17f063085Ca8bCa4bd3f7a5a3C66275',
+    hex: '67316300f17f063085ca8bca4bd3f7a5a3c66275',
   },
-])("celoLegacy address", ({ text, hex }) => {
+])('celoLegacy address', ({ text, hex }) => {
   test(`encode: ${text}`, () => {
-    expect(encodeCeloLegacyAddress(hexToBytes(hex))).toEqual(text);
-  });
+    expect(encodeCeloLegacyAddress(hexToBytes(hex))).toEqual(text)
+  })
   test(`decode: ${text}`, () => {
-    expect(decodeCeloLegacyAddress(text)).toEqual(hexToBytes(hex));
-  });
-});
+    expect(decodeCeloLegacyAddress(text)).toEqual(hexToBytes(hex))
+  })
+})

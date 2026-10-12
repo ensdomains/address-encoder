@@ -1,18 +1,18 @@
-import type { CheckedCoin } from "../types.js";
+import type { CheckedCoin } from '../types.js'
 import {
   createHexChecksummedDecoder,
   createHexChecksummedEncoder,
-} from "../utils/hex.js";
+} from '../utils/hex.js'
 
-const name = "thetaLegacy";
-const coinType = 500;
+const name = 'thetaLegacy'
+const coinType = 500
 
-export const encodeThetaLegacyAddress = createHexChecksummedEncoder();
-export const decodeThetaLegacyAddress = createHexChecksummedDecoder();
+export const encodeThetaLegacyAddress = createHexChecksummedEncoder()
+export const decodeThetaLegacyAddress = createHexChecksummedDecoder()
 
 export const thetaLegacy = {
   name,
   coinType,
   encode: encodeThetaLegacyAddress,
   decode: decodeThetaLegacyAddress,
-} as const satisfies CheckedCoin;
+} as const satisfies CheckedCoin

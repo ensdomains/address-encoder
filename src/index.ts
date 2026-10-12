@@ -1,14 +1,14 @@
-import * as formats from "./coins.js";
+import * as formats from './coins.js'
 import {
   coinNameToTypeMap,
   evmCoinNameToTypeMap,
   nonEvmCoinNameToTypeMap,
-} from "./consts/coinNameToTypeMap.js";
+} from './consts/coinNameToTypeMap.js'
 import {
   coinTypeToNameMap,
   evmCoinTypeToNameMap,
   nonEvmCoinTypeToNameMap,
-} from "./consts/coinTypeToNameMap.js";
+} from './consts/coinTypeToNameMap.js'
 import type {
   Coin,
   CoinName,
@@ -19,8 +19,8 @@ import type {
   EvmCoinType,
   GetCoderByCoinName,
   GetCoderByCoinType,
-} from "./types.js";
-import { SLIP44_MSB, coinTypeToEvmChainId } from "./utils/evm.js";
+} from './types.js'
+import { coinTypeToEvmChainId, SLIP44_MSB } from './utils/evm.js'
 
 export type {
   Coin,
@@ -30,7 +30,7 @@ export type {
   EncoderFunction,
   EvmCoinName,
   EvmCoinType,
-};
+}
 
 export {
   coinNameToTypeMap,
@@ -39,47 +39,48 @@ export {
   evmCoinTypeToNameMap,
   nonEvmCoinNameToTypeMap,
   nonEvmCoinTypeToNameMap,
-};
+}
 
 export const getCoderByCoinName = <
-  TCoinName extends CoinName | string = CoinName | string
+  TCoinName extends CoinName | string = CoinName | string,
 >(
-  name: TCoinName
+  name: TCoinName,
 ): GetCoderByCoinName<TCoinName> => {
-  const format = formats[name as keyof typeof formats];
+  // biome-ignore lint/performance/noDynamicNamespaceImportAccess: coins are looked up by name at runtime
+  const format = formats[name as keyof typeof formats]
   if (!format) {
     // EVM coin
-    const coinType = coinNameToTypeMap[name as EvmCoinName];
-    if (!coinType) throw new Error(`Unsupported coin: ${name}`);
+    const coinType = coinNameToTypeMap[name as EvmCoinName]
+    if (!coinType) throw new Error(`Unsupported coin: ${name}`)
 
-    const evmChainId = coinTypeToEvmChainId(coinType);
-    const ethFormat = formats["eth"];
+    const evmChainId = coinTypeToEvmChainId(coinType)
+    const ethFormat = formats.eth
     return {
       name: name as EvmCoinName,
       coinType,
       evmChainId,
       encode: ethFormat.encode,
       decode: ethFormat.decode,
-    } as GetCoderByCoinName<TCoinName>;
+    } as GetCoderByCoinName<TCoinName>
   }
-  return format as GetCoderByCoinName<TCoinName>;
-};
+  return format as GetCoderByCoinName<TCoinName>
+}
 
 export const getCoderByCoinType = <
-  TCoinType extends CoinType | number = CoinType | number
+  TCoinType extends CoinType | number = CoinType | number,
 >(
-  coinType: TCoinType
+  coinType: TCoinType,
 ): GetCoderByCoinType<TCoinType> => {
   const names =
-    coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap];
+    coinTypeToNameMap[String(coinType) as keyof typeof coinTypeToNameMap]
   // https://docs.ens.domains/ens-improvement-proposals/ensip-11-evmchain-address-resolution
 
   if (coinType >= SLIP44_MSB) {
     // EVM coin
-    const evmChainId = coinTypeToEvmChainId(coinType);
-    const isUnknownChain = !names;
-    const name = isUnknownChain ? `Unknown Chain (${evmChainId})` : names[0]; // name is derivable
-    const ethFormat = formats["eth"];
+    const evmChainId = coinTypeToEvmChainId(coinType)
+    const isUnknownChain = !names
+    const name = isUnknownChain ? `Unknown Chain (${evmChainId})` : names[0] // name is derivable
+    const ethFormat = formats.eth
     return {
       name,
       coinType: coinType as EvmCoinType,
@@ -87,13 +88,14 @@ export const getCoderByCoinType = <
       isUnknownChain,
       encode: ethFormat.encode,
       decode: ethFormat.decode,
-    } as GetCoderByCoinType<TCoinType>;
+    } as GetCoderByCoinType<TCoinType>
   }
 
   if (!names) {
-    throw new Error(`Unsupported coin type: ${coinType}`);
+    throw new Error(`Unsupported coin type: ${coinType}`)
   }
-  const [name] = names;
-  const format = formats[name as keyof typeof formats];
-  return format as GetCoderByCoinType<TCoinType>;
-};
+  const [name] = names
+  // biome-ignore lint/performance/noDynamicNamespaceImportAccess: coins are looked up by name at runtime
+  const format = formats[name as keyof typeof formats]
+  return format as GetCoderByCoinType<TCoinType>
+}

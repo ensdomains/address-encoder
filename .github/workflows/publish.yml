@@ -40,9 +40,6 @@ jobs:
       - name: Build
         run: bun run build
 
-      - name: Generate Publish Structure
-        run: bun run generatePublishStructure
-
       - name: Publish
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

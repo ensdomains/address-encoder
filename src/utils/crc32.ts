@@ -47,26 +47,25 @@ const crc32LookupTable = [
   3401237130, 1404277552, 615818150, 3134207493, 3453421203, 1423857449,
   601450431, 3009837614, 3294710456, 1567103746, 711928724, 3020668471,
   3272380065, 1510334235, 755167117,
-];
+]
 
 const toUint32 = (num: number): number => {
   if (num >= 0) {
-    return num;
+    return num
   }
-  const a = new Uint32Array(1);
-  a[0] = num;
-  return a[0];
-};
+  const a = new Uint32Array(1)
+  a[0] = num
+  return a[0]
+}
 
 export const crc32 = (input: Uint8Array): number => {
-  let crc = 0xffffffff;
+  let crc = 0xffffffff
   for (const byte of input) {
-    const tableIndex = (crc ^ byte) & 0xff;
-    const tableVal = crc32LookupTable?.[tableIndex];
-    if (tableVal === undefined)
-      throw new Error("tableIndex out of range 0-255");
-    crc = (crc >>> 8) ^ tableVal;
+    const tableIndex = (crc ^ byte) & 0xff
+    const tableVal = crc32LookupTable?.[tableIndex]
+    if (tableVal === undefined) throw new Error('tableIndex out of range 0-255')
+    crc = (crc >>> 8) ^ tableVal
   }
 
-  return toUint32(crc ^ 0xffffffff);
-};
+  return toUint32(crc ^ 0xffffffff)
+}
