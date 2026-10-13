@@ -34,7 +34,10 @@
     "!src/**/*.bench.ts",
     "!**/*.tsbuildinfo"
   ],
-  "repository": "git@github.com:ensdomains/address-encoder.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ensdomains/address-encoder.git"
+  },
   "license": "MIT",
   "scripts": {
     "generateCoin": "bun ./scripts/generateCoin.ts",
