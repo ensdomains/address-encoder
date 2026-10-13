@@ -6,7 +6,7 @@
 //
 // n is the size of the code words in bits,
 // which is also the size of the account addresses in bits.
-const linearCodeN = 64;
+const linearCodeN = 64
 
 // Columns of the parity-check matrix H of the [64,45]-code used for Flow addresses.
 // H is a (n x p) matrix with coefficients in GF(2n, each column is converted into
@@ -77,16 +77,17 @@ const parityCheckMatrixColumns: bigint[] = [
   0x002d9n,
   0x001c7n,
   0x0003fn,
-];
+]
 
 export function validateFlowAddress(address: bigint): boolean {
   // Multiply the code word GF(2)-vector by the parity-check matrix
-  let parity = 0n;
+  let parity = 0n
+  let remaining = address
   for (let i = 0; i < linearCodeN; i++) {
-    if ((address & 1n) === 1n) {
-      parity = parity ^ parityCheckMatrixColumns[i];
+    if ((remaining & 1n) === 1n) {
+      parity = parity ^ parityCheckMatrixColumns[i]
     }
-    address = address >> 1n;
+    remaining = remaining >> 1n
   }
-  return parity === 0n && address === 0n;
+  return parity === 0n && remaining === 0n
 }

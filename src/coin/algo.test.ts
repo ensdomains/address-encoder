@@ -1,21 +1,21 @@
-import { hexToBytes } from "@noble/hashes/utils";
-import { describe, expect, test } from "bun:test";
-import { decodeAlgoAddress, encodeAlgoAddress } from "./algo.js";
+import { describe, expect, test } from 'bun:test'
+import { hexToBytes } from '@noble/hashes/utils'
+import { decodeAlgoAddress, encodeAlgoAddress } from './algo.js'
 
 describe.each([
   {
-    text: "7777777777777777777777777777777777777777777777777774MSJUVU",
-    hex: "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    text: '7777777777777777777777777777777777777777777777777774MSJUVU',
+    hex: 'ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff',
   },
   {
-    text: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
-    hex: "0000000000000000000000000000000000000000000000000000000000000000",
+    text: 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ',
+    hex: '0000000000000000000000000000000000000000000000000000000000000000',
   },
-])("algo address", ({ text, hex }) => {
+])('algo address', ({ text, hex }) => {
   test(`encode: ${text}`, () => {
-    expect(encodeAlgoAddress(hexToBytes(hex))).toEqual(text);
-  });
+    expect(encodeAlgoAddress(hexToBytes(hex))).toEqual(text)
+  })
   test(`decode: ${text}`, () => {
-    expect(decodeAlgoAddress(text)).toEqual(hexToBytes(hex));
-  });
-});
+    expect(decodeAlgoAddress(text)).toEqual(hexToBytes(hex))
+  })
+})

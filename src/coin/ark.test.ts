@@ -1,17 +1,17 @@
-import { hexToBytes } from "@noble/hashes/utils";
-import { describe, expect, test } from "bun:test";
-import { decodeArkAddress, encodeArkAddress } from "./ark.js";
+import { describe, expect, test } from 'bun:test'
+import { hexToBytes } from '@noble/hashes/utils'
+import { decodeArkAddress, encodeArkAddress } from './ark.js'
 
 describe.each([
   {
-    text: "AKkCgA5To85YSAgJgxUw8dKJsHkCzsu2dy",
-    hex: "172b8f8e3490db00c6cc0dda2d2b9626e681500e29",
+    text: 'AKkCgA5To85YSAgJgxUw8dKJsHkCzsu2dy',
+    hex: '172b8f8e3490db00c6cc0dda2d2b9626e681500e29',
   },
-])("ark address", ({ text, hex }) => {
+])('ark address', ({ text, hex }) => {
   test(`encode: ${text}`, () => {
-    expect(encodeArkAddress(hexToBytes(hex))).toEqual(text);
-  });
+    expect(encodeArkAddress(hexToBytes(hex))).toEqual(text)
+  })
   test(`decode: ${text}`, () => {
-    expect(decodeArkAddress(text)).toEqual(hexToBytes(hex));
-  });
-});
+    expect(decodeArkAddress(text)).toEqual(hexToBytes(hex))
+  })
+})
