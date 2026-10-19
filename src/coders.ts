@@ -39,7 +39,6 @@ export { decodeDogeAddress, encodeDogeAddress } from './coin/doge.js'
 export { decodeDotAddress, encodeDotAddress } from './coin/dot.js'
 export { decodeEgldAddress, encodeEgldAddress } from './coin/egld.js'
 export { decodeElaAddress, encodeElaAddress } from './coin/ela.js'
-export { decodeEosAddress, encodeEosAddress } from './coin/eos.js'
 export {
   decodeEtcLegacyAddress,
   encodeEtcLegacyAddress,

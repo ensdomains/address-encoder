@@ -97,7 +97,6 @@ The following coins are supported:
 | 165       | nano  | Nano                | nano-base32                                                        |
 | 175       | rvn   | Ravencoin           | base58check P2PKH and P2SH                                         |
 | 192       | lcc   | LitecoinCash        | base58check P2PKH and P2SH, and bech32 segwit                      |
-| 194       | eos   | EOS                 | base58 + ripemd160-checksum                                        |
 | 195       | trx   | Tron                | base58check                                                        |
 | 204       | bcn   | Bytecoin            | base58xmr                                                          |
 | 235       | fio   | FIO                 | base58 + ripemd160-checksum                                        |
