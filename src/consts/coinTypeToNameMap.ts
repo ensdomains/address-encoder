@@ -96,7 +96,6 @@ export const nonEvmCoinTypeToNameMap = Object.freeze({
   '175': ['rvn', 'Ravencoin'],
   '178': ['poaLegacy', '[LEGACY] POA'],
   '192': ['lcc', 'LitecoinCash'],
-  '194': ['eos', 'EOS'],
   '195': ['trx', 'Tron'],
   '204': ['bcn', 'Bytecoin'],
   '235': ['fio', 'FIO'],
