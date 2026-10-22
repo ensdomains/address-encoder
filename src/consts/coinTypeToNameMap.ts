@@ -19,8 +19,14 @@ export const evmCoinTypeToNameMap = Object.freeze({
   '2147483748': ['gno', 'Gnosis'],
   /* Chain ID: 108 */
   '2147483756': ['tt', 'ThunderCore'],
+  /* Chain ID: 130 */
+  '2147483778': ['unichain', 'Unichain'],
   /* Chain ID: 137 */
   '2147483785': ['matic', 'Polygon'],
+  /* Chain ID: 143 */
+  '2147483791': ['monad', 'Monad'],
+  /* Chain ID: 146 */
+  '2147483794': ['sonic', 'Sonic'],
   /* Chain ID: 169 */
   '2147483817': ['manta', 'Manta Pacific'],
   /* Chain ID: 246 */
@@ -33,24 +39,52 @@ export const evmCoinTypeToNameMap = Object.freeze({
   '2147483972': ['zksync', 'zkSync'],
   /* Chain ID: 361 */
   '2147484009': ['theta', 'Theta'],
+  /* Chain ID: 480 */
+  '2147484128': ['worldchain', 'World Chain'],
   /* Chain ID: 820 */
   '2147484468': ['clo', 'Callisto'],
+  /* Chain ID: 999 */
+  '2147484647': ['hyperevm', 'HyperEVM'],
   /* Chain ID: 1088 */
   '2147484736': ['metis', 'Metis'],
+  /* Chain ID: 1135 */
+  '2147484783': ['lisk', 'Lisk'],
+  /* Chain ID: 1868 */
+  '2147485516': ['soneium', 'Soneium'],
+  /* Chain ID: 2020 */
+  '2147485668': ['ronin', 'Ronin'],
+  /* Chain ID: 2741 */
+  '2147486389': ['abstract', 'Abstract'],
+  /* Chain ID: 4217 */
+  '2147487865': ['tempo', 'Tempo'],
+  /* Chain ID: 4663 */
+  '2147488311': ['robinhood', 'Robinhood Chain'],
   /* Chain ID: 5000 */
   '2147488648': ['mantle', 'Mantle'],
+  /* Chain ID: 5042 */
+  '2147488690': ['arc', 'Arc'],
   /* Chain ID: 8453 */
   '2147492101': ['base', 'Base'],
+  /* Chain ID: 9745 */
+  '2147493393': ['plasma', 'Plasma'],
   /* Chain ID: 39797 */
   '2147523445': ['nrg', 'Energi'],
   /* Chain ID: 42161 */
   '2147525809': ['arb1', 'Arbitrum One'],
+  /* Chain ID: 42170 */
+  '2147525818': ['arbnova', 'Arbitrum Nova'],
   /* Chain ID: 42220 */
   '2147525868': ['celo', 'Celo'],
   /* Chain ID: 43114 */
   '2147526762': ['avaxc', 'Avalanche C-Chain'],
+  /* Chain ID: 57073 */
+  '2147540721': ['ink', 'Ink'],
   /* Chain ID: 59144 */
   '2147542792': ['linea', 'Linea'],
+  /* Chain ID: 80094 */
+  '2147563742': ['berachain', 'Berachain'],
+  /* Chain ID: 167000 */
+  '2147650648': ['taiko', 'Taiko'],
   /* Chain ID: 534352 */
   '2148018000': ['scr', 'Scroll'],
   /* Chain ID: 7777777 */
