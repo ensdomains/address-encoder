@@ -54,3 +54,12 @@ export {
 export { decodeLeb128, encodeLeb128 } from './leb128.js'
 export { validateNearAddress } from './near.js'
 export { createZcashDecoder, createZcashEncoder } from './zcash.js'
+export {
+  createZcashTexDecoder,
+  createZcashTexEncoder,
+  createZcashUnifiedDecoder,
+  createZcashUnifiedEncoder,
+  f4Jumble,
+  f4JumbleInverse,
+  isZcashUnifiedPayload,
+} from './zcashUnified.js'
