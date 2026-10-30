@@ -1,0 +1,84 @@
+import { describe, expect, test } from 'bun:test'
+import { bytesToHex, hexToBytes } from '@noble/hashes/utils'
+import { decodeZecAddress } from '../coin/zec.js'
+import { f4Jumble, f4JumbleInverse } from './zcashUnified.js'
+
+// zcash-test-vectors f4jumble.json (MIT OR Apache-2.0)
+describe.each([
+  {
+    // 48 bytes
+    normal:
+      '5d7a8f739a2d9e945b0ce152a8049e294c4d6e66b164939daffa2ef6ee6921481cdd86b3cc4318d9614fc820905d042b',
+    jumbled:
+      '0304d029141b995da5387c125970673504d6c764d91ea6c082123770c7139ccd88ee27368cd0c0921a0444c8e5858d22',
+  },
+  {
+    // 64 bytes
+    normal:
+      'b1ef9ca3f24988c7b3534201cfb1cd8dbf69b8250c18ef41294ca97993db546c1fe01f7e9c8e36d6a5e29d4e30a73594bf5098421c69378af1e40f64e125946f',
+    jumbled:
+      '5271fa3321f3adbcfb075196883d542b438ec6339176537daf859841fe6a56222bff76d1662b5509a9e1079e446eeedd2e683c31aae3ee1851d7954328526be1',
+  },
+  {
+    // 128 bytes
+    normal:
+      '62c2fa7b2fecbcb64b6968912a6381ce3dc166d56a1d62f5a8d7551db5fd9313e8c7203d996af7d477083756d59af80d06a745f44ab023752cb5b406ed8985e18130ab33362697b0e4e4c763ccb8f676495c222f7fba1e31defa3d5a57efc2e1e9b01a035587d5fb1a38e01d94903d3c3e0ad3360c1d3710acd20b183e31d49f',
+    jumbled:
+      '498cf1b1ba6f4577effe64151d67469adc30acc325e326207e7d78487085b4162669f82f02f9774c0cc26ae6e1a76f1e266c6a9a8a2f4ffe8d2d676b1ed71cc47195a3f19208998f7d8cdfc0b74d2a96364d733a62b4273c77d9828aa1fa061588a7c4c88dd3d3dde02239557acfaad35c55854f4541e1a1b3bc8c17076e7316',
+  },
+  {
+    // 129 bytes
+    normal:
+      '25c9a138f49b1a537edcf04be34a9851a7af9db6990ed83dd64af3597c04323ea51b0052ad8084a8b9da948d320dadd64f5431e61ddf658d24ae67c22c8d1309131fc00fe7f235734276d38d47f1e191e00c7a1d48af046827591e9733a97fa6b679f3dc601d008285edcbdae69ce8fc1be4aac00ff2711ebd931de518856878f7',
+    jumbled:
+      '7508a3a146714f229db91b543e240633ed57853f6451c9db6d64c6e86af1b88b28704f608582c53c51ce7d5b8548827a971d2b98d41b7f6258655902440cd66ee11e84dbfac7d2a43696fd0468810a3d9637c3fa58e7d2d341ef250fa09b9fb71a78a41d389370138a55ea58fcde779d714a04e0d30e61dc2d8be0da61cd684509',
+  },
+  {
+    // 192 bytes
+    normal:
+      '3476f21a482ec9378365c8f7393c94e2885315eb4671098b79535e790fe53e29fef2b3766697ac32b4f473f468a008e72389fc03880d780cb07fcfaabe3f1a84b27db59a4a153d882d2b2103596555ed9494c6ac893c49723833ec8926c1039586a7afcf4a0d9c731e985d99589c8bb838e8aaf745533ed9e8ae3a1cd074a51a20da8aba18d1dbebbc862ded42435e92476930d069896cff30eb414f727b89e001afa2fb8dc3436d75a4a6f26572504b192232ecb9f0c02411e52596bc5e9045',
+    jumbled:
+      '5139912fe8b95492c12731995a0f4478dbeb81ec36653a21bc80d673f3c6a0feef70b6c566f9d34bb726c098648382d105afb19b2b8486b73cbd47a17a0d2d1fd593b14bb9826c5d114b850c6f0cf3083a6f61e38e42713a37ef7997ebd2b376c8a410d797b3932e5a6e39e726b2894ce79604b4ae3c00acaea3be2c1dfe697fa644755102cf9ad78794d0594585494fe38ab56fa6ef3271a68a33481015adf3944c115311421a7dc3ce73ef2abf47e18a6aca7f9dd25a85ce8dbd6f1ad89c8d',
+  },
+  {
+    // 193 bytes
+    normal:
+      '7e745939ffedbd12863ce71a02af117d417adb3d15cc54dcb1fce467500c6b8fb86b12b56da9c382857deecc40a98d5f2935395ee4762dd21afdbb5d47fa9a6dd984d567db2857b927b7fae2db587105415d4642789d38f50b8dbcc129cab3d17d19f3355bcf73cecb8cb8a5da01307152f13936a270572670dc82d39026c6cb4cd4b0f7f5aa2a4f5a5341ec5dd715406f2fdd2afa733f5f641c8c21862a1bafce2609d9eecfa158cfb5cd79f88008e315dc7d8388e76c1782fd2795d18a763624',
+    jumbled:
+      '1a52585e652da6ea46994954905cb79f55fca58171a4d7f773a57d23ed9ddec0c745ef0f4588fa7b2b68d69cdd25e5eb0e08c20523a3957171f1730ab0636faee75da2dc9e89562f0653d4e9422179286ae8305f01371f47ab16eed692c3895ce2fd655e4b19651c35d83c81894f687055b581114440646508e39a49b0d5a99004560af7367cc2738344d4e797a995ed66df72228e3d3746674337104700144c73b6db27d238c9e1770662feb0957d5028b5086f3839aacf275022dd7e7e983b6d',
+  },
+])('f4jumble', ({ normal, jumbled }) => {
+  test(`jumble: ${normal.length / 2} bytes`, () => {
+    expect(bytesToHex(f4Jumble(hexToBytes(normal)))).toEqual(jumbled)
+  })
+  test(`unjumble: ${normal.length / 2} bytes`, () => {
+    expect(bytesToHex(f4JumbleInverse(hexToBytes(jumbled)))).toEqual(normal)
+  })
+})
+
+describe('f4jumble length limits', () => {
+  test('rejects input shorter than 38 bytes', () => {
+    expect(() => f4Jumble(new Uint8Array(37))).toThrow()
+  })
+  test('accepts input of 38 bytes', () => {
+    const source = new Uint8Array(38)
+    expect(f4JumbleInverse(f4Jumble(source))).toEqual(source)
+  })
+})
+
+test('unified address payload is the jumbled raw encoding with HRP padding', () => {
+  // zcash-test-vectors unified_address.json #3: P2PKH + Sapling + Orchard
+  const decoded = decodeZecAddress(
+    'u1pg2aaph7jp8rpf6yhsza25722sg5fcn3vaca6ze27hqjw7jvvhhuxkpcg0ge9xh6drsgdkda8qjq5chpehkcpxf87rnjryjqwymdheptpvnljqqrjqzjwkc2ma6hcq666kgwfytxwac8eyex6ndgr6ezte66706e3vaqrd25dzvzkc69kw0jgywtd0cmq52q5lkw6uh7hyvzjse8ksx',
+  )
+  const expected =
+    // typecode 0x00, length 20, P2PKH
+    '0014cad268758c5e71493066446b98e71df9d1d6a5ca' +
+    // typecode 0x02, length 43, Sapling
+    '022b9f6e0bf90a18fc0b9b83ae9f23ad4358648638482b5def8975635b66fd8a708335f9235a3186ec0f033f84' +
+    // typecode 0x03, length 43, Orchard
+    '032bcecbe5e689a453a3fe10ccf7617e6c1fb382819d7fc9200a1f42092ac84a30378f8c1fb90dff71a6d5042d' +
+    // padding: "u" and 15 zero bytes
+    '75000000000000000000000000000000'
+  expect(bytesToHex(f4JumbleInverse(decoded))).toEqual(expected)
+})
