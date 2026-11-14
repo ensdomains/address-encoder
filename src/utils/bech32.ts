@@ -61,8 +61,8 @@ export const createBech32SegwitEncoder =
 export const createBech32SegwitDecoder =
   (hrp: string) =>
   (source: string): Uint8Array => {
-    const decodedObj =
-      bech32.decodeUnsafe(source) || bech32m.decodeUnsafe(source)
+    const bech32Decoded = bech32.decodeUnsafe(source)
+    const decodedObj = bech32Decoded || bech32m.decodeUnsafe(source)
 
     if (!decodedObj) throw new Error('Unrecognised address format')
     const { prefix, words } = decodedObj
@@ -72,7 +72,18 @@ export const createBech32SegwitDecoder =
         'Unexpected human-readable part in bech32 encoded address',
       )
 
+    // BIP-173 / BIP-350: version 0 uses bech32, versions 1-16 use bech32m
+    if (words.length === 0) throw new Error('Missing witness version')
+    if (words[0] > 16) throw new Error('Invalid witness version')
+    if ((words[0] === 0) !== Boolean(bech32Decoded))
+      throw new Error('Invalid checksum variant for witness version')
+
     const script = bech32.fromWords(words.slice(1))
+    if (script.length < 2 || script.length > 40)
+      throw new Error('Invalid witness program length')
+    if (words[0] === 0 && script.length !== 20 && script.length !== 32)
+      throw new Error('Invalid witness program length for witness version 0')
+
     let version = words[0]
     if (version > 0) {
       version += 0x50
