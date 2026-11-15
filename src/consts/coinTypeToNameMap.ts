@@ -87,6 +87,8 @@ export const evmCoinTypeToNameMap = Object.freeze({
   '2148018000': ['scr', 'Scroll'],
   /* Chain ID: 7777777 */
   '2155261425': ['zora', 'Zora'],
+  /* Chain ID: 42069000 */
+  '2189552648': ['bb84', 'BB84'],
 } as const)
 
 export const nonEvmCoinTypeToNameMap = Object.freeze({
