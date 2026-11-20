@@ -15,8 +15,9 @@ const strkChecksum = (source: Uint8Array): string => {
   const sourceLeadingZeroIndex = source.findIndex((byte) => byte !== 0x00)
   const leadingZeroStripped =
     sourceLeadingZeroIndex > 0 ? source.slice(sourceLeadingZeroIndex) : source
-  const hash = new Uint8Array(32)
-  hash.set(keccak_256(leadingZeroStripped), sourceLeadingZeroIndex)
+  // starknet.js hashes the address without its leading zero bytes and aligns
+  // the hash with the start of the address, whatever the number of zero bytes
+  const hash = keccak_256(leadingZeroStripped)
   return rawChecksumAddress({ address: chars, hash, length: 64 })
 }
 
